@@ -1,4 +1,8 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('nome_do_banco', 'root', 'usbw', {dialect: 'mysql', host: 'localhost'});
+//nome do banco, nome do usuário, senha, tipo de banco, host.
+const sequelize = new Sequelize('instrutoriacase', 'root', 'usbw', {
+    dialect: 'mysql',
+    host: 'localhost'
+});
 
 module.exports = sequelize;
