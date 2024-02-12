@@ -1,44 +1,47 @@
-const { DataTypes } = require('sequelize');
-const db = require("../database/Connection");
+// models/instrutor.js
 
-//construindo o model equivalente a tabela instrutores
-const Instrutor = db.define("Instrutor", {
-    matricula:{
+const { DataTypes, Model } = require('sequelize');
+
+class Instrutor extends Model {}
+
+Instrutor.init({
+    matricula: {
         type: DataTypes.BIGINT.UNSIGNED,
         primaryKey: true,
         autoIncrement: true
     },
-    nome:{
-        type: DataTypes.STRING,
-        allowNull: false //Não é permitido campo nulo
-    },
-    email:{
+    nome: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    unidade:{
+    email: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    area:{
+    unidade: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    horasMinimas:{
-        type: DataTypes.TIME,
+    area: {
+        type: DataTypes.STRING,
         allowNull: false
     },
-    // pode ter campos sem dados, já que vai sendo alimentado posteriormente
-    // por padrão possui 0 horas
-    horasTrabalhadas:{
+    horasMinimas: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: false
+    },
+    horasTrabalhadas: {
         type: DataTypes.TIME,
         defaultValue: '00:00'
     },
-    bancoHoras:{
+    bancoHoras: {
         type: DataTypes.TIME,
         defaultValue: '00:00'
-    }, 
+    }
+}, {
+    sequelize,
+    modelName: 'Instrutor',
+    timestamps: true
 });
-
 
 module.exports = Instrutor;

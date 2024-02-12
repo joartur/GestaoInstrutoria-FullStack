@@ -1,25 +1,31 @@
-const { DataTypes } = require('sequelize');
-const db = require("../database/Connection");
+// models/coordenadorArea.js
 
-const CoordenadorArea = db.define("CoordenadorArea", {
-    matricula:{
+const { DataTypes, Model } = require('sequelize');
+
+class CoordenadorArea extends Model {}
+
+CoordenadorArea.init({
+    matricula: {
         type: DataTypes.BIGINT.UNSIGNED,
         primaryKey: true,
         autoIncrement: true
     },
-    nome:{
+    nome: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    email:{
+    email: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    area:{
+    area: {
         type: DataTypes.STRING,
         allowNull: false
     }
+}, {
+    sequelize: db,
+    modelName: 'CoordenadorArea',
+    timestamps: true // Se não precisar de timestamps, pode desativá-los aqui
 });
-
 
 module.exports = CoordenadorArea;

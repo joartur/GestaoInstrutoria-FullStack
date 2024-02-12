@@ -1,9 +1,12 @@
-const { DataTypes } = require('sequelize');
-const db = require("../database/Connection");
-import Servico from './Servico';
-import Instrutor from './Instrutor';
+// models/registro.js
 
-const Registro = db.define("Registro", {
+const { DataTypes, Model } = require('sequelize');
+const Servico = require('./Servico'); // Importando o modelo de Serviço
+const Instrutor = require('./Instrutor'); // Importando o modelo de Instrutor
+
+class Registro extends Model {}
+
+Registro.init({
     id: {
         type: DataTypes.BIGINT.UNSIGNED,
         primaryKey: true,
@@ -41,21 +44,22 @@ const Registro = db.define("Registro", {
     justificativa: {
         type: DataTypes.TEXT,
         allowNull: true // Pode ser nulo, dependendo da situação
-    },
+    }
 }, {
+    sequelize: db,
+    modelName: 'Registro',
     timestamps: true // Adiciona automaticamente createdAt e updatedAt
 });
 
-// Defina a associação com a tabela de Servico
+// Definindo as associações com os modelos de Serviço e Instrutor
 Registro.belongsTo(Servico, {
-    foreignKey: 'servicoId', // Nome do campo na tabela Registro que faz referência à chave primária de Servico
-    allowNull: false // Certifique-se de que um registro sempre esteja associado a um serviço
+    foreignKey: 'servicoId',
+    allowNull: false
 });
 
-// Defina a associação com a tabela de Instrutor
 Registro.belongsTo(Instrutor, {
-    foreignKey: 'instrutorId', // Nome do campo na tabela Registro que faz referência à chave primária de Instrutor
-    allowNull: false // Certifique-se de que um registro sempre esteja associado a um instrutor
+    foreignKey: 'instrutorId',
+    allowNull: false
 });
 
-module.exports= Registro;
+module.exports = Registro;

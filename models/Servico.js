@@ -1,17 +1,23 @@
-const { DataTypes } = require('sequelize');
-const db = require("../database/Connection");
+// models/servico.js
 
-const Servico = db.define("Servico", {
-    id:{
+const { DataTypes, Model } = require('sequelize');
+
+class Servico extends Model {}
+
+Servico.init({
+    id: {
         type: DataTypes.BIGINT.UNSIGNED,
         primaryKey: true,
         autoIncrement: true
     },
-    nome:{
+    nome: {
         type: DataTypes.STRING,
         allowNull: false
     }
+}, {
+    sequelize: db,
+    modelName: 'Servico',
+    timestamps: true 
 });
-
 
 module.exports = Servico;

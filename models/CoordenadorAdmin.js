@@ -1,21 +1,27 @@
-const { DataTypes } = require('sequelize');
-const db = require("../database/Connection");
+// models/coordenadorAdmin.js
 
-const CoordenadorAdmin = db.define("CoordenadorAdmin", {
-    matricula:{
+const { DataTypes, Model } = require('sequelize');
+
+class CoordenadorAdmin extends Model {}
+
+CoordenadorAdmin.init({
+    matricula: {
         type: DataTypes.BIGINT.UNSIGNED,
         primaryKey: true,
         autoIncrement: true
     },
-    nome:{
+    nome: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    email:{
+    email: {
         type: DataTypes.STRING,
         allowNull: false
     }
+}, {
+    sequelize: db,
+    modelName: 'CoordenadorAdmin',
+    timestamps: true // Timestamps ativados
 });
-
 
 module.exports = CoordenadorAdmin;
