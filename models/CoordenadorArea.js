@@ -6,7 +6,7 @@ class CoordenadorArea extends Model {}
 
 CoordenadorArea.init({
     matricula: {
-        type: DataTypes.BIGINT.UNSIGNED,
+        type: DataTypes.STRING,
         primaryKey: true,
         autoIncrement: true
     },
@@ -16,7 +16,8 @@ CoordenadorArea.init({
     },
     email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true 
     },
     area: {
         type: DataTypes.STRING,

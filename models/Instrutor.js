@@ -6,7 +6,7 @@ class Instrutor extends Model {}
 
 Instrutor.init({
     matricula: {
-        type: DataTypes.BIGINT.UNSIGNED,
+        type: DataTypes.STRING,
         primaryKey: true,
         autoIncrement: true
     },
@@ -16,7 +16,8 @@ Instrutor.init({
     },
     email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true 
     },
     unidade: {
         type: DataTypes.STRING,

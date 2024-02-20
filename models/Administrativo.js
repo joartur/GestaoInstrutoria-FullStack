@@ -2,11 +2,11 @@
 
 const { DataTypes, Model } = require('sequelize');
 
-class CoordenadorAdmin extends Model {}
+class Administrativo extends Model {}
 
-CoordenadorAdmin.init({
+Administrativo.init({
     matricula: {
-        type: DataTypes.BIGINT.UNSIGNED,
+        type: DataTypes.STRING,
         primaryKey: true,
         autoIncrement: true
     },
@@ -16,12 +16,13 @@ CoordenadorAdmin.init({
     },
     email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true 
     }
 }, {
     sequelize: db,
-    modelName: 'CoordenadorAdmin',
+    modelName: 'Administrativo',
     timestamps: true // Timestamps ativados
 });
 
-module.exports = CoordenadorAdmin;
+module.exports = Administrativo;

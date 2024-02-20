@@ -4,47 +4,50 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert('Instrutors', [
       {
-        nome: 'João',
-        email: 'joao@example.com',
-        unidade: 'Unidade A',
-        area: 'Área X',
-        horasMinimas: 40,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        nome: 'Maria',
-        email: 'maria@example.com',
-        unidade: 'Unidade B',
-        area: 'Área Y',
-        horasMinimas: 30,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
+        matricula: '123456',
         nome: 'João Silva',
-        email: 'joao@example.com',
-        unidade: 'Unidade A',
-        area: 'Área W',
-        horasMinimas: 20,
+        email: 'joao.silva@example.com',
+        unidade: 'Unidade Alecrim',
+        area: 'Estética',
+        horasMinimas: '20:00:00',
+        horasTrabalhadas: '06:00:00',
+        saldoHoras: '02:00:00',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        nome: 'Maria Oliveira',
-        email: 'maria@example.com',
-        unidade: 'Unidade B',
-        area: 'Área Y',
-        horasMinimas: 20,
+        matricula: '789012',
+        nome: 'Maria Souza',
+        email: 'maria.souza@example.com',
+        unidade: 'Unidade Alecrim',
+        area: 'Gastronomia',
+        horasMinimas: '30:00:00',
+        horasTrabalhadas: '08:00:00',
+        saldoHoras: '00:00:00',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        nome: 'Pedro Santos',
-        email: 'pedro@example.com',
-        unidade: 'Unidade C',
-        area: 'Área X',
-        horasMinimas: 30,
+        matricula: '345678',
+        nome: 'Carlos Oliveira',
+        email: 'carlos.oliveira@example.com',
+        unidade: 'Unidade Centro',
+        area: 'Tecnologia',
+        horasMinimas: '10:00:00',
+        horasTrabalhadas: '09:00:00',
+        saldoHoras: '00:00:00',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        matricula: '901234',
+        nome: 'Ana Santos',
+        email: 'ana.santos@example.com',
+        unidade: 'Unidade Barreira Roxa',
+        area: 'Turismo',
+        horasMinimas: '05:00:00',
+        horasTrabalhadas: '07:00:00',
+        saldoHoras: '00:00:00',
         createdAt: new Date(),
         updatedAt: new Date()
       }

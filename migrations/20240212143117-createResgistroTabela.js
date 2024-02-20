@@ -4,70 +4,84 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Registros', {
       id: {
-        type: Sequelize.BIGINT.UNSIGNED,
+        allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
-        autoIncrement: true
+        type: Sequelize.BIGINT.UNSIGNED
       },
       dataServico: {
-        type: Sequelize.DATEONLY,
-        allowNull: false
+        allowNull: false,
+        type: Sequelize.DATEONLY
       },
       horaInicio: {
-        type: Sequelize.TIME,
-        allowNull: false
+        allowNull: false,
+        type: Sequelize.TIME
       },
       horaFinal: {
-        type: Sequelize.TIME,
-        allowNull: false
+        allowNull: false,
+        type: Sequelize.TIME
       },
       total: {
-        type: Sequelize.TIME,
-        allowNull: false
+        allowNull: false,
+        type: Sequelize.TIME
       },
       titulo: {
-        type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        type: Sequelize.STRING
       },
       descricao: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        allowNull: false,
+        type: Sequelize.TEXT
       },
       situacao: {
+        allowNull: false,
         type: Sequelize.ENUM('Em análise', 'Validado', 'Rejeitado', 'Parcialmente Validado'),
-        defaultValue: 'Em análise',
-        allowNull: false
+        defaultValue: 'Em análise'
       },
       justificativa: {
         type: Sequelize.TEXT,
-        allowNull: true // Pode ser nulo, dependendo da situação
+        allowNull: true
       },
       servicoId: {
-        type: Sequelize.BIGINT.UNSIGNED,
+        type: Sequelize.STRING,
         allowNull: false,
         references: {
           model: 'Servicos',
           key: 'id'
-        }
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       instrutorId: {
-        type: Sequelize.BIGINT.UNSIGNED,
+        type: Sequelize.STRING,
         allowNull: false,
         references: {
-          model: 'Instrutors',
-          key: 'matricula'
-        }
+          model: 'Instrutores',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+      },
+      coordenadorId: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        references: {
+          model: 'CoordenadoresArea',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        type: Sequelize.DATE
       },
       updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
   },
-
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Registros');
   }

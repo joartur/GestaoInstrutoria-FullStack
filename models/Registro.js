@@ -62,4 +62,9 @@ Registro.belongsTo(Instrutor, {
     allowNull: false
 });
 
+Registro.belongsTo(CoordenadorArea, {
+    foreignKey: 'coordenadorId',
+    allowNull: false
+});
+
 module.exports = Registro;
