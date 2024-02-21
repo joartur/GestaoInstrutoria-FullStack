@@ -19,7 +19,7 @@ Para executar este projeto em sua máquina local, siga as etapas abaixo:
 
 2. Acesse o diretório do projeto:
 
-        cd ./GestaoInstrutoriaBack
+        cd .\GestaoInstrutoriaBack
 
 3. Instale as dependências do projeto:
 
