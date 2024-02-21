@@ -30,7 +30,7 @@ Para executar este projeto em sua máquina local, siga as etapas abaixo:
 1. Abra o arquivo `config/config.js` e atualize as informações de conexão com o banco de dados de acordo com a sua configuração.
 
 2. Certifique-se de que o banco de dados especificado no arquivo de configuração já existe.
-	Se não existir, você pode criá-lo manualmente ou usar o comando Sequelize CLI:`sequelize db:create`.
+	Se não existir, você pode criá-lo manualmente ou usar o comando Sequelize CLI:`npx sequelize db:create`.
 
 ### Migrations e Seeds
 
