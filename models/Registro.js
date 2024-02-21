@@ -1,19 +1,16 @@
-// models/registro.js
-
 const { DataTypes, Model } = require('sequelize');
-const Servico = require('./Servico'); // Importando o modelo de Serviço
-const Instrutor = require('./Instrutor'); // Importando o modelo de Instrutor
+const sequelize = require('./index'); // Certifique-se de importar sua instância do sequelize corretamente
 
 class Registro extends Model {}
 
 Registro.init({
     id: {
-        type: DataTypes.BIGINT.UNSIGNED,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
     dataServico: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
         allowNull: false
     },
     horaInicio: {
@@ -36,35 +33,51 @@ Registro.init({
         type: DataTypes.TEXT,
         allowNull: false
     },
-    situacao: {
-        type: DataTypes.ENUM('Em análise', 'Validado', 'Rejeitado', 'Parcialmente Validado'),
-        defaultValue: 'Em análise',
+    status: {
+        type: DataTypes.ENUM('Em Análise', 'Validado', 'Recusado', 'Parcialmente Validado'),
+        defaultValue: 'Em Análise',
         allowNull: false
     },
     justificativa: {
         type: DataTypes.TEXT,
         allowNull: true // Pode ser nulo, dependendo da situação
+    },
+    dataCriacao: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    dataAtualizacao: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
+    },
+    FKinstrutor: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        references: {
+            model: 'Instrutor',
+            key: 'matricula'
+        }
+    },
+    FKservico: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'Servico',
+            key: 'id'
+        }
+    },
+    FKcoordenador: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        references: {
+            model: 'CoordenadorArea',
+            key: 'matricula'
+        }
     }
 }, {
-    sequelize: db,
+    sequelize,
     modelName: 'Registro',
     timestamps: true // Adiciona automaticamente createdAt e updatedAt
-});
-
-// Definindo as associações com os modelos de Serviço e Instrutor
-Registro.belongsTo(Servico, {
-    foreignKey: 'servicoId',
-    allowNull: false
-});
-
-Registro.belongsTo(Instrutor, {
-    foreignKey: 'instrutorId',
-    allowNull: false
-});
-
-Registro.belongsTo(CoordenadorArea, {
-    foreignKey: 'coordenadorId',
-    allowNull: false
 });
 
 module.exports = Registro;

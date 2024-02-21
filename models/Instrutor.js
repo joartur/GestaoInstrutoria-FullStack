@@ -1,14 +1,12 @@
-// models/instrutor.js
-
 const { DataTypes, Model } = require('sequelize');
+const sequelize = require('./index'); // Certifique-se de importar sua instância do sequelize corretamente
 
 class Instrutor extends Model {}
 
 Instrutor.init({
-    matricula: {
+    matricula:{        
         type: DataTypes.STRING,
         primaryKey: true,
-        autoIncrement: true
     },
     nome: {
         type: DataTypes.STRING,
@@ -28,16 +26,16 @@ Instrutor.init({
         allowNull: false
     },
     horasMinimas: {
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.TIME,
         allowNull: false
     },
     horasTrabalhadas: {
         type: DataTypes.TIME,
-        defaultValue: '00:00'
+        defaultValue: '00:00:00'
     },
-    bancoHoras: {
+    saldoHoras: {
         type: DataTypes.TIME,
-        defaultValue: '00:00'
+        defaultValue: '00:00:00'
     }
 }, {
     sequelize,

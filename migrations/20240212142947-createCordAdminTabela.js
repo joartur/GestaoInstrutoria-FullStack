@@ -2,33 +2,32 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Administrativos', {
+    await queryInterface.createTable('administrativos', {
       matricula: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        primaryKey: true
       },
       nome: {
-        allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       email: {
+        type: Sequelize.STRING,
         allowNull: false,
-        unique: true, // Define o atributo como único
-        type: Sequelize.STRING
+        unique: true 
       },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false
       },
       updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false
       }
     });
   },
+
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Administrativos');
+    await queryInterface.dropTable('administrativos');
   }
 };

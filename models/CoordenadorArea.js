@@ -1,6 +1,5 @@
-// models/coordenadorArea.js
-
 const { DataTypes, Model } = require('sequelize');
+const sequelize = require('./index'); // Certifique-se de importar sua instância do sequelize corretamente
 
 class CoordenadorArea extends Model {}
 
@@ -8,7 +7,6 @@ CoordenadorArea.init({
     matricula: {
         type: DataTypes.STRING,
         primaryKey: true,
-        autoIncrement: true
     },
     nome: {
         type: DataTypes.STRING,
@@ -24,7 +22,7 @@ CoordenadorArea.init({
         allowNull: false
     }
 }, {
-    sequelize: db,
+    sequelize,
     modelName: 'CoordenadorArea',
     timestamps: true // Se não precisar de timestamps, pode desativá-los aqui
 });

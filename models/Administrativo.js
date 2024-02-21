@@ -1,6 +1,5 @@
-// models/coordenadorAdmin.js
-
 const { DataTypes, Model } = require('sequelize');
+const sequelize = require('./index'); // Certifique-se de importar sua instância do sequelize corretamente
 
 class Administrativo extends Model {}
 
@@ -8,7 +7,6 @@ Administrativo.init({
     matricula: {
         type: DataTypes.STRING,
         primaryKey: true,
-        autoIncrement: true
     },
     nome: {
         type: DataTypes.STRING,
@@ -20,9 +18,9 @@ Administrativo.init({
         unique: true 
     }
 }, {
-    sequelize: db,
+    sequelize,
     modelName: 'Administrativo',
-    timestamps: true // Timestamps ativados
+    timestamps: true // Se não precisar de timestamps, pode desativá-los aqui
 });
 
 module.exports = Administrativo;

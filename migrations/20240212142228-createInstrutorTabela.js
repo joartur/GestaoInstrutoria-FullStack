@@ -2,55 +2,52 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Instrutores', {
+    await queryInterface.createTable('instrutores', {
       matricula: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        primaryKey: true
       },
       nome: {
-        allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       email: {
+        type: Sequelize.STRING,
         allowNull: false,
-        unique: true, // Define o atributo como único
-        type: Sequelize.STRING
+        unique: true 
       },
       unidade: {
-        allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       area: {
-        allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       horasMinimas: {
-        allowNull: false,
-        type: Sequelize.INTEGER.UNSIGNED
+        type: Sequelize.TIME,
+        allowNull: false
       },
       horasTrabalhadas: {
-        allowNull: false,
         type: Sequelize.TIME,
-        defaultValue: '00:00'
+        defaultValue: '00:00:00'
       },
-      bancoHoras: {
-        allowNull: false,
+      saldoHoras: {
         type: Sequelize.TIME,
-        defaultValue: '00:00'
+        defaultValue: '00:00:00'
       },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false
       },
       updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false
       }
     });
   },
+
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Instrutores');
+    await queryInterface.dropTable('instrutores');
   }
 };

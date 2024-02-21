@@ -2,87 +2,82 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Registros', {
+    await queryInterface.createTable('registrosEducacionais', {
       id: {
-        allowNull: false,
-        autoIncrement: true,
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        type: Sequelize.BIGINT.UNSIGNED
+        autoIncrement: true
       },
       dataServico: {
-        allowNull: false,
-        type: Sequelize.DATEONLY
+        type: Sequelize.DATEONLY,
+        allowNull: false
       },
       horaInicio: {
-        allowNull: false,
-        type: Sequelize.TIME
+        type: Sequelize.TIME,
+        allowNull: false
       },
       horaFinal: {
-        allowNull: false,
-        type: Sequelize.TIME
+        type: Sequelize.TIME,
+        allowNull: false
       },
       total: {
-        allowNull: false,
-        type: Sequelize.TIME
+        type: Sequelize.TIME,
+        allowNull: false
       },
       titulo: {
-        allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       descricao: {
-        allowNull: false,
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull: false
       },
-      situacao: {
-        allowNull: false,
-        type: Sequelize.ENUM('Em análise', 'Validado', 'Rejeitado', 'Parcialmente Validado'),
-        defaultValue: 'Em análise'
+      status: {
+        type: Sequelize.ENUM('Em Análise', 'Validado', 'Recusado', 'Parcialmente Validado'),
+        defaultValue: 'Em Análise',
+        allowNull: false
       },
       justificativa: {
         type: Sequelize.TEXT,
-        allowNull: true
+        allowNull: true // Pode ser nulo, dependendo da situação
       },
-      servicoId: {
+      dataCriacao: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+      dataAtualizacao: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+      },
+      FKinstrutor: {
         type: Sequelize.STRING,
         allowNull: false,
         references: {
-          model: 'Servicos',
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+            model: 'instrutores',
+            key: 'matricula'
+        }
       },
-      instrutorId: {
-        type: Sequelize.STRING,
+      FKservico: {
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Instrutores',
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+            model: 'servicosEducacionais',
+            key: 'id'
+        }
       },
-      coordenadorId: {
+      FKcoordenador: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
         references: {
-          model: 'CoordenadoresArea',
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+            model: 'coordenadoresArea',
+            key: 'matricula'
+        }
       }
     });
   },
+
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Registros');
+    await queryInterface.dropTable('registrosEducacionais');
   }
 };
