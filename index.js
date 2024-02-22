@@ -1,5 +1,5 @@
 const sequelize = require('./database/connection.js');
-const router = require('./routes/servicoRoutes');
+const servicoRouter = require('./routes/servicoRoutes');
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -9,7 +9,7 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use('/servico', router);
+app.use('/servico', servicoRouter);
 
 
 // Inicialização do Sequelize
@@ -51,26 +51,3 @@ async function listarTabelas() {
 }
 
 listarTabelas();
-
-
-// (async () => {
-//     const Instrutor = require('./models/instrutor.js');
- 
-//     try {
-//         const resultadoCreate = await Instrutor.create({
-//           matricula: '345678',
-//           nome: 'Carlos Oliveira',
-//           email: 'carlos.oliveira@example.com',
-//           unidade: 'Unidade Centro',
-//           area: 'Tecnologia',
-//           horasMinimas: '10:00:00',
-//           horasTrabalhadas: '09:00:00',
-//           saldoHoras: '00:00:00',
-//           createdAt: new Date(),
-//           updatedAt: new Date()
-//         })
-//         console.log(resultadoCreate);
-//     } catch (error) {
-//         console.log(error);
-//     }
-// })();
