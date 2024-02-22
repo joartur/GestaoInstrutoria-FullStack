@@ -5,5 +5,9 @@ const router = express.Router();
 
 router.use(override('_method'));
 
+// rota get da page home do instrutor
+router.get('/:matricula')
+
+//rota post para criar um novo registro do instrutor
 
 module.exports = router;
