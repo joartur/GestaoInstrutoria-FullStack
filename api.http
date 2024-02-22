@@ -1,0 +1,16 @@
+###
+GET http://localhost:3000
+
+###
+POST http://localhost:3000/servico/adicionar
+Content-Type: application/json
+
+{
+    "nome": "A"
+}
+
+###
+GET http://localhost:3000/servico/listar
+
+###
+DELETE http://localhost:3000/servico/deletar/1

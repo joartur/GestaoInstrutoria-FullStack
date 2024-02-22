@@ -1,14 +1,16 @@
+const sequelize = require('./database/connection.js');
+const router = require('./routes/servicoRoutes');
 const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = 3000;
 
-const sequelize = require('./database/connection.js');
-
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use('/servico', router);
+
 
 // Inicialização do Sequelize
 sequelize.authenticate()
