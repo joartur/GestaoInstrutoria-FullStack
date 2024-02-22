@@ -6,11 +6,14 @@ POST http://localhost:3000/servico/adicionar
 Content-Type: application/json
 
 {
-    "nome": "A"
+    "nome": "D"
 }
 
 ###
 GET http://localhost:3000/servico/listar
 
 ###
-DELETE http://localhost:3000/servico/deletar/1
+DELETE http://localhost:3000/servico/deletar/6
+
+###
+GET http://localhost:3000/servico/buscar/4

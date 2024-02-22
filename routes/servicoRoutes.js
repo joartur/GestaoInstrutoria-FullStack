@@ -15,6 +15,11 @@ router.get('/listar', (req, res) => {
     servicoController.listar(req, res);
 });
 
+// Rota GET para buscar um serviço
+router.get('/buscar/:id', (req, res) => {
+    servicoController.buscar(req, res);
+});
+
 // Rota DELETE para deletar serviços
 router.delete('/deletar/:id', (req, res) => {
     servicoController.deletar(req, res);
