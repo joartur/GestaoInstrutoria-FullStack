@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('registrosEducacionais',[
+    return queryInterface.bulkInsert('Registros',[
         {
           dataServico: '2024-02-17',
           horaInicio: '08:00:00',
@@ -129,6 +129,6 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     // Remover todos os registros inseridos
-    return queryInterface.bulkDelete('registrosEducacionais', null, {});
+    return queryInterface.bulkDelete('Registros', null, {});
   }
 };

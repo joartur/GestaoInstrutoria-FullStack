@@ -2,10 +2,12 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('instrutores', {
+    await queryInterface.createTable('Instrutors', {
       matricula: {
         type: Sequelize.STRING,
-        primaryKey: true
+        primaryKey: true,
+        allowNull: false,
+        unique: true
       },
       nome: {
         type: Sequelize.STRING,
@@ -14,7 +16,7 @@ module.exports = {
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true 
+        unique: true
       },
       unidade: {
         type: Sequelize.STRING,
@@ -37,17 +39,17 @@ module.exports = {
         defaultValue: '00:00:00'
       },
       createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        type: Sequelize.DATE
       },
       updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('instrutores');
+    await queryInterface.dropTable('Instrutors');
   }
 };

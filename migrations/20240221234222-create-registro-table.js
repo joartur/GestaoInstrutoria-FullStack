@@ -2,14 +2,15 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('registrosEducacionais', {
+    await queryInterface.createTable('Registros', {
       id: {
-        type: Sequelize.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
-        autoIncrement: true
+        type: Sequelize.INTEGER
       },
       dataServico: {
-        type: Sequelize.DATEONLY,
+        type: Sequelize.DATE,
         allowNull: false
       },
       horaInicio: {
@@ -39,7 +40,7 @@ module.exports = {
       },
       justificativa: {
         type: Sequelize.TEXT,
-        allowNull: true // Pode ser nulo, dependendo da situação
+        allowNull: true
       },
       dataCriacao: {
         type: Sequelize.DATE,
@@ -47,37 +48,44 @@ module.exports = {
       },
       dataAtualizacao: {
         type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.NOW
       },
       FKinstrutor: {
         type: Sequelize.STRING,
         allowNull: false,
         references: {
-            model: 'instrutores',
-            key: 'matricula'
+          model: 'Instrutors',
+          key: 'matricula'
         }
       },
       FKservico: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-            model: 'servicosEducacionais',
-            key: 'id'
+          model: 'Servicos',
+          key: 'id'
         }
       },
       FKcoordenador: {
         type: Sequelize.STRING,
         allowNull: true,
         references: {
-            model: 'coordenadoresArea',
-            key: 'matricula'
+          model: 'CoordenadorAreas',
+          key: 'matricula'
         }
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('registrosEducacionais');
+    await queryInterface.dropTable('Registros');
   }
 };

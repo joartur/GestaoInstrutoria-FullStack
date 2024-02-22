@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require('sequelize');
-const sequelize = require('./index'); // Certifique-se de importar sua instância do sequelize corretamente
+const sequelize = require('../database/connection'); // Certifique-se de importar sua instância do sequelize corretamente
 
 class Instrutor extends Model {}
 
@@ -15,7 +15,10 @@ Instrutor.init({
     email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true 
+        unique: true,
+        validate:{
+            isEmail: true,
+        }
     },
     unidade: {
         type: DataTypes.STRING,

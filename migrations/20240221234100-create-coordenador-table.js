@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('coordenadoresArea', {
+    await queryInterface.createTable('CoordenadorAreas', {
       matricula: {
         type: Sequelize.STRING,
         primaryKey: true
@@ -14,24 +14,24 @@ module.exports = {
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true 
+        unique: true
       },
       area: {
         type: Sequelize.STRING,
         allowNull: false
       },
       createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        type: Sequelize.DATE
       },
       updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('coordenadoresArea');
+    await queryInterface.dropTable('CoordenadorAreas');
   }
 };
