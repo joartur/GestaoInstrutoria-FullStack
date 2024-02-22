@@ -38,40 +38,7 @@ Para executar este projeto em sua máquina local, siga as etapas abaixo:
 	NODE_ENV=<TIPO DE DESENVOLVIMENTO>
 	```
 
- 2. Renomeie o arquivo `config.json` para `config.js` e altere o seu conteúdo para que fique como abaixo:
-	```
-	require('dotenv').config();
-	module.exports = {
-	    development: {
-	        username: process.env.DB_USER,
-	        password: process.env.DB_PWD,
-	        database: process.env.DB_NAME,
-	        host: process.env.DB_HOST,
-	        port: process.env.DB_PORT,
-	        dialect: process.env.DB_DIALECT,
-	        logging: true
-	    },
-	    test: {
-	        username: process.env.DB_USER,
-	        password: process.env.DB_PWD,
-	        database: process.env.DB_NAME,
-	        host: process.env.DB_HOST,
-	        port: process.env.DB_PORT,
-	        dialect: process.env.DB_DIALECT,
-	        logging: true
-	    },
-	    production: {
-	        username: process.env.DB_USER,
-	        password: process.env.DB_PWD,
-	        database: process.env.DB_NAME,
-	        host: process.env.DB_HOST,
-	        port: process.env.DB_PORT,
-	        dialect: process.env.DB_DIALECT,
-	        logging: false
-	    }
-	```
-
-3. Certifique-se de que o banco de dados especificado no arquivo de configuração já existe.
+2. Certifique-se de que o banco de dados especificado no arquivo de configuração já existe.
 	Se não existir, você pode criá-lo manualmente ou usar o comando Sequelize CLI:`npx sequelize-cli db:create`.
 
 ### Migrations e Seeds
