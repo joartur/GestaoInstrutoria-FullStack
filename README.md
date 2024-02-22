@@ -47,7 +47,7 @@ Para executar este projeto em sua máquina local, siga as etapas abaixo:
 
         npx sequelize-cli db:migrate
 
-2. Se desejar, você pode popular as tabelas com dados de exemplo usando sementes:
+	1.1. Se desejar, você pode popular as tabelas com dados de exemplo usando sementes:
 
         npx sequelize-cli db:seed:all
 
