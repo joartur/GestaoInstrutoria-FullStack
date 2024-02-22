@@ -15,4 +15,9 @@ router.get('/listar', (req, res) => {
     servicoController.listar(req, res);
 });
 
+// Rota DELETE para deletar serviços
+router.delete('/deletar/:id', (req, res) => {
+    servicoController.deletar(req, res);
+});
+
 module.exports = router;
