@@ -9,5 +9,8 @@ router.use(override('_method'));
 router.get('/:matricula')
 
 //rota post para criar um novo registro do instrutor
+router.post('/adicionarRegistro/:matricula',(req, res) => {
+    instrutorController.cadRegistro(req, res);
+})
 
 module.exports = router;

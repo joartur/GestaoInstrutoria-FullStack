@@ -42,14 +42,6 @@ Registro.init({
         type: DataTypes.TEXT,
         allowNull: true // Pode ser nulo, dependendo da situação
     },
-    dataCriacao: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    dataAtualizacao: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
-    },
     FKinstrutor: {
         type: DataTypes.STRING,
         allowNull: false,

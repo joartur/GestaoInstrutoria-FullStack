@@ -17,3 +17,17 @@ DELETE http://localhost:3000/servico/deletar/6
 
 ###
 GET http://localhost:3000/servico/buscar/4
+
+# rotas de instrutor
+###
+POST http://localhost:3000/instrutor/adicionarRegistro/123456
+Content-Type: application/json
+
+{
+    "dataServico": "2024-02-10",
+    "horaInicio": "07:00:00",
+    "horaFinal": "11:00:00",
+    "titulo": "1º consulta com com o zé boné",
+    "descricao": "consulta ao zé boné de design e tals",
+    "FKservico": "1"
+}
