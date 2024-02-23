@@ -36,4 +36,20 @@ Content-Type: application/json
 GET http://localhost:3000/instrutor/listarRegistros/123456
 
 ###
-GET http://localhost:3000/instrutor/visualizarRegistro/123456/12
+GET http://localhost:3000/instrutor/visualizarRegistro/123456/1
+
+###
+PUT http://localhost:3000/instrutor/editarRegistro/123456/1
+Content-Type: application/json
+
+{
+    "dataServico": "2024-02-13",
+    "horaInicio": "07:00:00",
+    "horaFinal": "10:00:00",
+    "titulo": "1º consulta com o zé boné",
+    "descricao": "consulta de desing e tals",
+    "FKservico": "1"
+}
+
+###
+DELETE http://localhost:3000/instrutor/excluirRegistro/123456/2

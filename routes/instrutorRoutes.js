@@ -28,5 +28,10 @@ router.put('/editarRegistro/:matriculaI/:registroId',(req, res)=>{
     instrutorController.editarRegistro(req, res);
 })
 
+//rota para exclusão de um registr
+router.delete('/excluirRegistro/:matriculaI/:registroId',(req, res)=>{
+    instrutorController.excluirRegistro(req, res);
+})
+
 
 module.exports = router;
