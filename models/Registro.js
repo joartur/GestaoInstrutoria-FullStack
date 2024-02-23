@@ -10,7 +10,7 @@ Registro.init({
         autoIncrement: true
     },
     dataServico: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false
     },
     horaInicio: {
@@ -22,7 +22,7 @@ Registro.init({
         allowNull: false
     },
     total: {
-        type: DataTypes.TIME,
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     titulo: {

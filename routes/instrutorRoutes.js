@@ -10,7 +10,7 @@ router.get('/:matricula')
 
 //rota post para criar um novo registro do instrutor
 router.post('/adicionarRegistro/:matriculaI',(req, res) => {
-    instrutorController.cadastarRegistro(req, res);
+    instrutorController.cadastrarRegistro(req, res);
 })
 
 //rota para a lista de todos os registro
