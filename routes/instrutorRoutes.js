@@ -9,8 +9,24 @@ router.use(override('_method'));
 router.get('/:matricula')
 
 //rota post para criar um novo registro do instrutor
-router.post('/adicionarRegistro/:matricula',(req, res) => {
-    instrutorController.cadRegistro(req, res);
+router.post('/adicionarRegistro/:matriculaI',(req, res) => {
+    instrutorController.cadastarRegistro(req, res);
 })
+
+//rota para a lista de todos os registro
+router.get('/listarRegistros/:matriculaI',(req, res) => {
+    instrutorController.listarRegistros(req, res);
+})
+
+//rota para visualização de um registro
+router.get('/visualizarRegistro/:matriculaI/:registroId',(req, res) => {
+    instrutorController.visualizarRegistro(req, res);
+})
+
+//rota para ediçao de informações
+router.put('/editarRegistro/:matriculaI/:registroId',(req, res)=>{
+    instrutorController.editarRegistro(req, res);
+})
+
 
 module.exports = router;

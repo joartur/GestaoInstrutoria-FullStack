@@ -24,10 +24,16 @@ POST http://localhost:3000/instrutor/adicionarRegistro/123456
 Content-Type: application/json
 
 {
-    "dataServico": "2024-02-10",
+    "dataServico": "2024-02-11",
     "horaInicio": "07:00:00",
     "horaFinal": "11:00:00",
-    "titulo": "1º consulta com com o zé boné",
-    "descricao": "consulta ao zé boné de design e tals",
+    "titulo": "1º consulta com o zé boné",
+    "descricao": "consulta de desing e tals",
     "FKservico": "1"
 }
+
+###
+GET http://localhost:3000/instrutor/listarRegistros/123456
+
+###
+GET http://localhost:3000/instrutor/visualizarRegistro/123456/12
