@@ -1,5 +1,6 @@
 const sequelize = require('./database/connection.js');
 const servicoRouter = require('./routes/servicoRoutes');
+const coordAreaRouter = require('./routes/coordAreaRoutes')
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -10,6 +11,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/servico', servicoRouter);
+app.use('/coordArea', coordAreaRouter)
 
 
 // Inicialização do Sequelize

@@ -10,7 +10,7 @@ Registro.init({
         autoIncrement: true
     },
     dataServico: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false
     },
     horaInicio: {
@@ -22,7 +22,7 @@ Registro.init({
         allowNull: false
     },
     total: {
-        type: DataTypes.TIME,
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     titulo: {
@@ -41,14 +41,6 @@ Registro.init({
     justificativa: {
         type: DataTypes.TEXT,
         allowNull: true // Pode ser nulo, dependendo da situação
-    },
-    dataCriacao: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    dataAtualizacao: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW
     },
     FKinstrutor: {
         type: DataTypes.STRING,
