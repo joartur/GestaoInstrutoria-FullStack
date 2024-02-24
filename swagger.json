@@ -10,9 +10,16 @@
       "url": "http://localhost:3000"
     }
   ],
+  "tags": [
+    {
+      "name": "Instrutor",
+      "description": "Operações relacionadas ao instrutor"
+    }
+  ],
   "paths": {
     "/instrutor/{matriculaI}": {
       "get": {
+        "tags": ["Instrutor"],
         "summary": "Obter informações  do instrutor",
         "parameters": [
           {
@@ -47,6 +54,7 @@
     },
     "/instrutor/perfil/{matriculaI}": {
       "get": {
+        "tags": ["Instrutor"],
         "summary": "Obter os dados do perfil do instrutor",
         "parameters": [
           {
@@ -81,6 +89,7 @@
     },
     "/instrutor/registros/{matriculaI}": {
       "get": {
+        "tags": ["Instrutor"],
         "summary": "Obter os dados de registros associados ao instrutor",
         "parameters": [
           {
@@ -115,6 +124,7 @@
     },
     "/instrutor/registro/{matriculaI}": {
       "post":{
+        "tags": ["Instrutor"],
         "summary": "Criar um novo registro de serviço educacional do instrutor",
         "parameters": [
           {
@@ -152,6 +162,7 @@
     },
     "/instrutor/registro/{matriculaI}/{registroId}": {
       "get": {
+        "tags": ["Instrutor"],
           "summary": "Obter os dados de um registro associado ao instrutor",
           "parameters": [
             {
@@ -193,6 +204,7 @@
           }
       },
       "put": {
+        "tags": ["Instrutor"],
         "summary": "Atualizar um registro de serviço educacional do instrutor",
         "parameters": [
           {
@@ -241,6 +253,7 @@
         }
       },
       "delete": {
+        "tags": ["Instrutor"],
         "summary": "Excluir um registro do instrutor",
         "parameters": [
           {
