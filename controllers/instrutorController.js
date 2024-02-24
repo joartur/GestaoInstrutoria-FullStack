@@ -1,4 +1,6 @@
 const Registro = require("../models/Registro");
+const Instrutor = require("../models/Instrutor");
+const { Op, literal } = require('sequelize');
 
 const instrutorController = {
     cadastrarRegistro: async (req, res) => {
@@ -6,7 +8,6 @@ const instrutorController = {
             const { dataServico, horaInicio, horaFinal, titulo, descricao, FKservico } = req.body;
             const FKinstrutor = req.params.matriculaI;
             
-            // Verifica se já existe algum registro para o instrutor na mesma data
             const sobreposicaoHoras = await conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio);
 
             if (sobreposicaoHoras) {
@@ -15,7 +16,7 @@ const instrutorController = {
 
             const total = calcularDiferencaHoras(horaInicio, horaFinal);
             
-            const registro = await Registro.create({
+            await Registro.create({
                 dataServico,
                 horaInicio,
                 horaFinal,
@@ -36,9 +37,7 @@ const instrutorController = {
         try {
             const { matriculaI, registroId } = req.params;
 
-            const registro = await Registro.findOne({
-                where: { FKinstrutor: matriculaI, id: registroId }
-            });
+            const registro = await buscarRegistro(matriculaI, registroId);
 
             if (!registro) {
                 return res.status(404).json({ error: "Registro não encontrado" });
@@ -105,11 +104,108 @@ const instrutorController = {
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
+    },
+  
+    home: async (req, res) => {
+        try {
+            const { matriculaI } = req.params;
+
+            const registrosRecentes = await buscarRegistrosRecentes(matriculaI);
+
+            const datasServico = await buscarDatasServico(matriculaI);
+
+            const horasServicos = await calcularHorasServicos(matriculaI);
+
+            const saldoHoras = await buscarSaldoHoras(matriculaI);
+
+            const response = {
+                registrosRecentes,
+                datasServico,
+                horasServicos,
+                saldoHoras
+            };
+
+            res.status(200).json(response);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+
+    perfil: async (req, res) => {
+        try {
+            const { matriculaI } = req.params;
+
+            const instrutor = await buscarInstrutor(matriculaI);
+
+            res.status(200).json(instrutor);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
+};
+
+async function buscarRegistro(matriculaI, registroId) {
+    return await Registro.findOne({
+        where: { FKinstrutor: matriculaI, id: registroId }
+    });
+}
+
+async function buscarRegistrosRecentes(matriculaI) {
+    return await Registro.findAll({
+        order: [['updatedAt', 'DESC']],
+        limit: 3
+    });
+}
+
+async function buscarDatasServico(matriculaI) {
+    const dataAtual = new Date();
+    const anoAtual = dataAtual.getFullYear();
+    const mesAtual = dataAtual.getMonth() + 1; 
+
+    return await Registro.findAll({
+        attributes: [
+            [literal('DISTINCT dataServico'), 'dataServico']
+        ],
+        where: {
+            FKinstrutor: matriculaI,
+            [Op.and]: [
+                literal(`YEAR(dataServico) = ${anoAtual}`),
+                literal(`MONTH(dataServico) = ${mesAtual}`)
+            ]
+        }
+    });
+}
+
+async function calcularHorasServicos(matriculaI) {
+    return await Registro.sum('total', {
+        where: {
+            FKinstrutor: matriculaI
+        }
+    });
+}
+
+async function buscarSaldoHoras(matriculaI) {
+    const instrutor = await Instrutor.findOne({
+        attributes: ['horasTrabalhadas', 'saldoHoras'],
+        where: {
+            matricula: matriculaI
+        }
+    });
+
+    return instrutor.saldoHoras;
+}
+
+async function buscarInstrutor(matriculaI){
+    const instrutor = await Instrutor.findOne({
+        attributes: ['nome', 'email', 'unidade', 'area'],
+        where: {
+            matricula: matriculaI
+        }
+    });
+    return instrutor;
 }
 
 function calcularDiferencaHoras(horaInicio, horaFinal) {
-    // Calcula a diferença de tempo em horas
     const horaInicioMs = new Date(`1970-01-01T${horaInicio}`).getTime();
     const horaFinalMs = new Date(`1970-01-01T${horaFinal}`).getTime();
     const diffHours = (horaFinalMs - horaInicioMs) / (1000 * 60 * 60);
@@ -124,16 +220,13 @@ async function conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio
         }
     });
 
-    // Converte os horários de string para objeto Date
     const novoInicio = new Date(`1970-01-01T${horaInicio}`);
     const novoFim = new Date(`1970-01-01T${horaFinal}`);
 
-    // Verifica se há sobreposição de horários com os registros existentes
     const sobreposicao = registrosNoMesmoDia.some(registro => {
         const registroInicio = new Date(`1970-01-01T${registro.horaInicio}`);
         const registroFim = new Date(`1970-01-01T${registro.horaFinal}`);
 
-        // Verifica se o horário de início ou fim do novo registro está dentro do horário do registro existente
         return (
             (novoInicio >= registroInicio && novoInicio < registroFim) ||
             (novoFim > registroInicio && novoFim <= registroFim) ||

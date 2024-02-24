@@ -6,7 +6,14 @@ const router = express.Router();
 router.use(override('_method'));
 
 // rota get da page home do instrutor
-router.get('/:matricula')
+router.get('/:matriculaI',(req, res) => {
+    instrutorController.home(req, res);
+})
+
+// rota get da page home do instrutor
+router.get('/perfil/:matriculaI',(req, res) => {
+    instrutorController.perfil(req, res);
+})
 
 //rota post para criar um novo registro do instrutor
 router.post('/adicionarRegistro/:matriculaI',(req, res) => {

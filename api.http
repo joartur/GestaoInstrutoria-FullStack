@@ -20,12 +20,18 @@ GET http://localhost:3000/servico/buscar/4
 
 # rotas de instrutor
 ###
+GET  http://localhost:3000/instrutor/123456
+
+###
+GET  http://localhost:3000/instrutor/perfil/123456
+
+###
 POST http://localhost:3000/instrutor/adicionarRegistro/123456
 Content-Type: application/json
 
 {
-    "dataServico": "2024-02-12",
-    "horaInicio": "11:00:00",
+    "dataServico": "2024-02-13",
+    "horaInicio": "07:00:00",
     "horaFinal": "12:00:00",
     "titulo": "1º consulta com o zé boné",
     "descricao": "consulta de desing e tals",
@@ -36,10 +42,10 @@ Content-Type: application/json
 GET http://localhost:3000/instrutor/listarRegistros/123456
 
 ###
-GET http://localhost:3000/instrutor/visualizarRegistro/123456/1
+GET http://localhost:3000/instrutor/visualizarRegistro/123456/13
 
 ###
-PUT http://localhost:3000/instrutor/editarRegistro/123456/6
+PUT http://localhost:3000/instrutor/editarRegistro/123456/13
 Content-Type: application/json
 
 {
@@ -52,4 +58,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/instrutor/excluirRegistro/123456/3
+DELETE http://localhost:3000/instrutor/excluirRegistro/123456/14
