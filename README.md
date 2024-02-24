@@ -2,6 +2,10 @@
 
 Este é um projeto desenvolvido usando Sequelize e Node.js.
 
+## Sumário
+- [Configuração do Ambiente](#configuração-do-ambiente)
+- [Acessar a documentação da API](#acessar-a-documentação-da-api)
+
 ## Configuração do Ambiente
 
 Para executar este projeto em sua máquina local, siga as etapas abaixo:
@@ -58,3 +62,17 @@ Com todas as configurações e migrações feitas, você pode iniciar o projeto:
         npm run dev
 
 O servidor será iniciado e estará pronto para uso.
+
+## Acessar a documentação da API
+1. É importante que execute os passos anteriores para uma completa experiência do projeto.
+
+2. Feito isso, inicie o servidor:
+	```
+	npm run dev
+	```
+3. Após isso acesse a url:
+	```
+ 	http://localhost:3000/api-docs/
+	```
+
+ Pronto, agora você pode consultar todas as funcionalidade desenvolvidas até o momento.
