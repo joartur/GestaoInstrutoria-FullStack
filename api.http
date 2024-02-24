@@ -20,42 +20,42 @@ GET http://localhost:3000/servico/buscar/4
 
 # rotas de instrutor
 ###
-GET  http://localhost:3000/instrutor/123456
+GET  http://localhost:3000/instrutor/789012
 
 ###
 GET  http://localhost:3000/instrutor/perfil/123456
 
 ###
-POST http://localhost:3000/instrutor/adicionarRegistro/123456
+POST http://localhost:3000/instrutor/registro/789012
 Content-Type: application/json
 
 {
     "dataServico": "2024-02-13",
-    "horaInicio": "07:00:00",
-    "horaFinal": "12:00:00",
+    "horaInicio": "14:00:00",
+    "horaFinal": "19:00:00",
     "titulo": "1º consulta com o zé boné",
     "descricao": "consulta de desing e tals",
     "FKservico": "1"
 }
 
 ###
-GET http://localhost:3000/instrutor/listarRegistros/123456
+GET http://localhost:3000/instrutor/registros/123456
 
 ###
-GET http://localhost:3000/instrutor/visualizarRegistro/123456/13
+GET http://localhost:3000/instrutor/registro/123456/12
 
 ###
-PUT http://localhost:3000/instrutor/editarRegistro/123456/13
+PUT http://localhost:3000/instrutor/registro/123456/13
 Content-Type: application/json
 
 {
     "dataServico": "2024-02-12",
-    "horaInicio": "07:00:00",
-    "horaFinal": "10:00:00",
+    "horaInicio": "06:00:00",
+    "horaFinal": "07:00:00",
     "titulo": "1º consulta com o zé boné",
     "descricao": "consulta de desing e tals",
     "FKservico": "1"
 }
 
 ###
-DELETE http://localhost:3000/instrutor/excluirRegistro/123456/14
+DELETE http://localhost:3000/instrutor/registro/123456/15

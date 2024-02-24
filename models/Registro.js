@@ -1,4 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
+const Servico = require("./Servico");
+const Instrutor = require('./Instrutor');
 const sequelize = require('../database/connection'); // Certifique-se de importar sua instância do sequelize corretamente
 
 class Registro extends Model {}
@@ -71,5 +73,9 @@ Registro.init({
     modelName: 'Registro',
     timestamps: true // Adiciona automaticamente createdAt e updatedAt
 });
+
+Registro.belongsTo(Servico, { foreignKey: 'FKservico' });
+
+Registro.belongsTo(Instrutor, { foreignKey: 'FKinstrutor' });
 
 module.exports = Registro;

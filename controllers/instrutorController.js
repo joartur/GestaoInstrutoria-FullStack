@@ -1,5 +1,7 @@
 const Registro = require("../models/Registro");
 const Instrutor = require("../models/Instrutor");
+const Servico = require("../models/Servico");
+const sequelize = require('../database/connection.js');
 const { Op, literal } = require('sequelize');
 
 const instrutorController = {
@@ -52,9 +54,25 @@ const instrutorController = {
     listarRegistros: async (req, res) => {
         try {
             const { matriculaI } = req.params;
+    
+            const registros = await Registro.findAll({
+                attributes: ['titulo', 'dataServico', 'horaInicio', 'horaFinal', 'status'],
+                include: [{
+                    model: Servico,
+                    attributes: ['nome'],
+                    where: {
+                        id: sequelize.col('Registro.FKservico')
+                    }
+                }],
+                where: {
+                    FKinstrutor: matriculaI
+                }
+            });
 
-            const registros = await Registro.findAll({ where: { FKinstrutor: matriculaI } });
-
+            if (registros.length === 0) {
+                return res.status(404).json({ error: "Registros não encontrados" });
+            }
+    
             res.status(200).json({ msg: "Registros encontrados", data: registros });
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -97,6 +115,12 @@ const instrutorController = {
     excluirRegistro: async (req, res) => {
         try {
             const { matriculaI, registroId } = req.params;
+            
+            const registro = await buscarRegistro(matriculaI, registroId);
+
+            if (!registro) {
+                return res.status(404).json({ error: "Registro não encontrado" });
+            }
 
             await Registro.destroy({ where: { FKinstrutor: matriculaI, id: registroId } });
 
@@ -146,12 +170,32 @@ const instrutorController = {
 
 async function buscarRegistro(matriculaI, registroId) {
     return await Registro.findOne({
+        include: [{
+            model: Servico,
+            attributes: ['nome'],
+            where: {
+                id: sequelize.col('Registro.FKservico')
+            }
+        }],
+        attributes: {
+            exclude: ['FKservico'] // Exclui o campo FKservico do resultado
+        },
         where: { FKinstrutor: matriculaI, id: registroId }
     });
+    
 }
 
 async function buscarRegistrosRecentes(matriculaI) {
     return await Registro.findAll({
+        attributes: ['id', 'titulo', 'status'],
+        include: [{
+            model: Servico,
+            attributes: ['nome'],
+            where: {
+                id: sequelize.col('Registro.FKservico')
+            }
+        }],
+        where: { FKinstrutor: matriculaI },
         order: [['updatedAt', 'DESC']],
         limit: 3
     });

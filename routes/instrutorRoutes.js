@@ -15,28 +15,28 @@ router.get('/perfil/:matriculaI',(req, res) => {
     instrutorController.perfil(req, res);
 })
 
-//rota post para criar um novo registro do instrutor
-router.post('/adicionarRegistro/:matriculaI',(req, res) => {
-    instrutorController.cadastrarRegistro(req, res);
-})
-
 //rota para a lista de todos os registro
-router.get('/listarRegistros/:matriculaI',(req, res) => {
+router.get('/registros/:matriculaI',(req, res) => {
     instrutorController.listarRegistros(req, res);
 })
 
+//rota post para criar um novo registro do instrutor
+router.post('/registro/:matriculaI',(req, res) => {
+    instrutorController.cadastrarRegistro(req, res);
+})
+
 //rota para visualização de um registro
-router.get('/visualizarRegistro/:matriculaI/:registroId',(req, res) => {
+router.get('/registro/:matriculaI/:registroId',(req, res) => {
     instrutorController.visualizarRegistro(req, res);
 })
 
 //rota para ediçao de informações
-router.put('/editarRegistro/:matriculaI/:registroId',(req, res)=>{
+router.put('/registro/:matriculaI/:registroId',(req, res)=>{
     instrutorController.editarRegistro(req, res);
 })
 
-//rota para exclusão de um registr
-router.delete('/excluirRegistro/:matriculaI/:registroId',(req, res)=>{
+//rota para exclusão de um registro
+router.delete('/registro/:matriculaI/:registroId',(req, res)=>{
     instrutorController.excluirRegistro(req, res);
 })
 
