@@ -30,7 +30,7 @@ POST http://localhost:3000/instrutor/registro/789012
 Content-Type: application/json
 
 {
-    "dataServico": "2024-02-13",
+    "dataServico": "2024-03-01",
     "horaInicio": "14:00:00",
     "horaFinal": "19:00:00",
     "titulo": "1º consulta com o zé boné",
@@ -39,17 +39,17 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/instrutor/registros/123456
+GET http://localhost:3000/instrutor/registros/789012
 
 ###
-GET http://localhost:3000/instrutor/registro/123456/12
+GET http://localhost:3000/instrutor/registro/123456/2
 
 ###
-PUT http://localhost:3000/instrutor/registro/123456/13
+PUT http://localhost:3000/instrutor/registro/789012/1
 Content-Type: application/json
 
 {
-    "dataServico": "2024-02-12",
+    "dataServico": "2024-02-29",
     "horaInicio": "06:00:00",
     "horaFinal": "07:00:00",
     "titulo": "1º consulta com o zé boné",
@@ -58,4 +58,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/instrutor/registro/123456/15
+DELETE http://localhost:3000/instrutor/registro/789012/4

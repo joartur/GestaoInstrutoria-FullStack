@@ -9,6 +9,12 @@ const instrutorController = {
         try {
             const { dataServico, horaInicio, horaFinal, titulo, descricao, FKservico } = req.body;
             const FKinstrutor = req.params.matriculaI;
+
+            const periodoData = await conferirData(dataServico);
+
+            if (!periodoData) {
+                return res.status(400).json({ error: "Não é permitido cadastrar registros para datas futuras" });
+            }
             
             const sobreposicaoHoras = await conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio);
 
@@ -56,7 +62,7 @@ const instrutorController = {
             const { matriculaI } = req.params;
     
             const registros = await Registro.findAll({
-                attributes: ['titulo', 'dataServico', 'horaInicio', 'horaFinal', 'status'],
+                attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'status'],
                 include: [{
                     model: Servico,
                     attributes: ['nome'],
@@ -83,6 +89,12 @@ const instrutorController = {
         try {
             const { matriculaI, registroId } = req.params;
             const { dataServico, horaInicio, horaFinal, titulo, descricao, FKservico } = req.body;
+
+            const periodoData = await conferirData(dataServico);
+
+            if (!periodoData) {
+                return res.status(400).json({ error: "Não é permitido cadastrar registros para datas futuras" });
+            }
 
             const sobreposicaoHoras = await conferirRegistros(dataServico, matriculaI, horaFinal, horaInicio);
 
@@ -167,6 +179,17 @@ const instrutorController = {
         }
     }
 };
+
+async function conferirData(data) {
+    const hoje = new Date()
+    const dataServico = new Date(data)
+    
+    if (dataServico > hoje) {
+        return false
+    } else {
+        return true
+    }
+}
 
 async function buscarRegistro(matriculaI, registroId) {
     return await Registro.findOne({
