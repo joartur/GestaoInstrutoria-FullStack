@@ -15,7 +15,7 @@ router.get('/perfil/:matriculaI',(req, res) => {
     instrutorController.perfil(req, res);
 })
 
-//rota para a lista de todos os registro
+//rota para a lista de todos os registro do instrutor
 router.get('/registros/:matriculaI',(req, res) => {
     instrutorController.listarRegistros(req, res);
 })

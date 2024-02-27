@@ -30,12 +30,12 @@ POST http://localhost:3000/instrutor/registro/789012
 Content-Type: application/json
 
 {
-    "dataServico": "2024-03-01",
-    "horaInicio": "14:00:00",
-    "horaFinal": "19:00:00",
-    "titulo": "1º consulta com o zé boné",
-    "descricao": "consulta de desing e tals",
-    "FKservico": "1"
+    "dataServico": "2024-02-25",
+    "horaInicio": "07:00:00",
+    "horaFinal": "09:00:00",
+    "titulo": "Palestra sobre Veganismo",
+    "descricao": "Se converta ao veganismo!!!",
+    "FKservico": "2"
 }
 
 ###
