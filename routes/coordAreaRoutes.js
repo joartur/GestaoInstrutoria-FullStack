@@ -6,8 +6,8 @@ const router = express.Router();
 router.use(override('_method'));
 
 // Rota GET para buscar um serviço
-router.get('/listarServicos/:matricula', (req, res) => {
-    coordArea.listarServicos(req, res);
+router.get('/listarRegistros/:matricula', (req, res) => {
+    coordArea.listarRegistros(req, res);
 });
 
 router.get('/listarInstrutores', (req, res) => {

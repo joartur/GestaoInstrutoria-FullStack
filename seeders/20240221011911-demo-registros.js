@@ -11,8 +11,7 @@ module.exports = {
           titulo: 'Aula de Matemática',
           descricao: 'Aula de reforço para alunos do ensino médio.',
           FKinstrutor: '123456',
-          FKservico: 1,
-          dataCriacao: new Date()
+          FKservico: 2
         },
         {
           dataServico: '2024-02-18',
@@ -22,8 +21,7 @@ module.exports = {
           titulo: 'Atendimento aos Estudantes',
           descricao: 'Esclarecimento de dúvidas sobre matrículas.',
           FKinstrutor: '789012',
-          FKservico: 2,
-          dataCriacao: new Date()
+          FKservico: 2
         },
         {
           dataServico: '2024-02-19',
@@ -33,8 +31,7 @@ module.exports = {
           titulo: 'Uso do Laboratório de Informática',
           descricao: 'Estudantes realizando práticas de programação.',
           FKinstrutor: '345678',
-          FKservico: 4,
-          dataCriacao: new Date()
+          FKservico: 4
         },
         {
           dataServico: '2024-02-20',
@@ -44,8 +41,7 @@ module.exports = {
           titulo: 'Aula de Química',
           descricao: 'Demonstração de experimentos para alunos do ensino fundamental.',
           FKinstrutor: '901234',
-          FKservico: 3,
-          dataCriacao: new Date()
+          FKservico: 3
         },
         {
           dataServico: '2024-02-21',
@@ -55,8 +51,7 @@ module.exports = {
           titulo: 'Atividade na Biblioteca',
           descricao: 'Sessão de leitura para incentivar o hábito de leitura.',
           FKinstrutor: '123456',
-          FKservico: 1,
-          dataCriacao: new Date()
+          FKservico: 5
         },
         {
           dataServico: '2024-02-22',
@@ -66,8 +61,7 @@ module.exports = {
           titulo: 'Atendimento aos Pais',
           descricao: 'Reunião para discutir o progresso dos alunos.',
           FKinstrutor: '789012',
-          FKservico: 2,
-          dataCriacao: new Date()
+          FKservico: 2
         },
         {
           dataServico: '2024-02-23',
@@ -77,8 +71,7 @@ module.exports = {
           titulo: 'Aula de Física',
           descricao: 'Discussão sobre leis do movimento.',
           FKinstrutor: '345678',
-          FKservico: 3,
-          dataCriacao: new Date()
+          FKservico: 3
         },
         {
           dataServico: '2024-02-24',
@@ -88,8 +81,7 @@ module.exports = {
           titulo: 'Projeto de Ciências',
           descricao: 'Apresentação de projetos científicos dos alunos.',
           FKinstrutor: '901234',
-          FKservico: 3,
-          dataCriacao: new Date()
+          FKservico: 3
         },
         {
           dataServico: '2024-02-25',
@@ -99,8 +91,7 @@ module.exports = {
           titulo: 'Atividade na Cantina',
           descricao: 'Degustação de alimentos saudáveis.',
           FKinstrutor: '123456',
-          FKservico: 4,
-          dataCriacao: new Date()
+          FKservico: 4
         },
         {
           dataServico: '2024-02-26',
@@ -110,8 +101,7 @@ module.exports = {
           titulo: 'Visita ao Museu',
           descricao: 'Estudantes aprendendo sobre história local.',
           FKinstrutor: '789012',
-          FKservico: 3,
-          dataCriacao: new Date()
+          FKservico: 3
         },
         {
           dataServico: '2024-03-10',
@@ -121,8 +111,7 @@ module.exports = {
           titulo: 'Uso do Laboratório de Informática',
           descricao: 'Estudantes realizando práticas de programação.',
           FKinstrutor: '345678',
-          FKservico: 4,
-          dataCriacao: new Date()
+          FKservico: 4
         }
       ]);
   },

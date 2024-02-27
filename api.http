@@ -19,7 +19,7 @@ DELETE http://localhost:3000/servico/deletar/6
 GET http://localhost:3000/servico/buscar/4
 
 ###
-GET http://localhost:3000/coordArea/listarServicos/123456
+GET http://localhost:3000/coordArea/listarRegistros/123456
 
 ###
 GET http://localhost:3000/coordArea/listarInstrutores

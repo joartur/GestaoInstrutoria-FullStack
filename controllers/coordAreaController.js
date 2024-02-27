@@ -10,7 +10,7 @@ const coordAreaController = {
             res.status(500).json({ error: error.message });
         }
     },
-    listarServicos: async (req, res) => {
+    listarRegistros: async (req, res) => {
         try {
             const Registros = await Registro.findAll({ where: { FKinstrutor: req.params.matricula } });
             res.json(Registros)
