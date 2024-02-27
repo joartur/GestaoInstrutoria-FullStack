@@ -23,3 +23,21 @@ GET http://localhost:3000/coordArea/listarRegistros/123456
 
 ###
 GET http://localhost:3000/coordArea/listarInstrutores
+
+###
+PUT http://localhost:3000/coordArea/validarRegistro/5
+Content-Type: application/json
+
+{
+    
+}
+
+
+###
+PUT http://localhost:3000/coordArea/validarParcialmenteRegistro/6
+Content-Type: application/json
+
+{
+    "justificativa": "Deu vontade",
+    "total": "10"
+}

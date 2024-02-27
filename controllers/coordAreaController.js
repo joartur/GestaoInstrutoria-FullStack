@@ -12,8 +12,42 @@ const coordAreaController = {
     },
     listarRegistros: async (req, res) => {
         try {
-            const Registros = await Registro.findAll({ where: { FKinstrutor: req.params.matricula } });
-            res.json(Registros)
+            const registros = await Registro.findAll({ where: { FKinstrutor: req.params.matricula } });
+            res.json(registros)
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+    validarRegistro: async (req, res) => {
+        try {
+            const registros = await Registro.update({
+                status: "Validado"
+            },
+                {
+                    where: {
+                        id: req.params.id,
+                    },
+                }
+            );
+            res.json(registros)
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+    validarParcialmenteRegistro: async (req, res) => {
+        try {
+            const registros = await Registro.update({
+                status: "Parcialmente validado",
+                justificativa: req.body.justificativa,
+                total: req.body.total
+            },
+                {
+                    where: {
+                        id: req.params.id,
+                    },
+                }
+            );
+            res.json(registros)
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
