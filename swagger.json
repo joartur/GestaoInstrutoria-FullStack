@@ -332,6 +332,41 @@
           }
         }
       }
+    },
+    "/instrutor/test/{matriculaI}": {
+      "get": {
+        "tags": ["Instrutor"],
+        "summary": "Obter todos os dados de registros do banco.",
+        "parameters": [
+          {
+            "name": "matriculaI",
+            "in": "path",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Matrícula do instrutor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/listaRegistros"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Registros não encontrados"
+          },
+          "500": {
+            "description": "Indica que um erro interno ocorreu."
+          }
+        }
+      }
     }
   },
   "components": {
@@ -397,6 +432,7 @@
                   "dataServico": { "type": "string", "format": "date" },
                   "horaInicio": { "type": "string", "format": "time" },
                   "horaFinal": { "type": "string", "format": "time" },
+                  "total": { "type": "integer" },
                   "status": { "type": "string" },
                   "Servico": {
                     "type": "object",
@@ -406,7 +442,7 @@
                     "required": ["nome"]
                   }
                 },
-                "required": ["titulo", "dataServico", "horaInicio", "horaFinal", "status", "Servico"]
+                "required": ["titulo", "dataServico", "horaInicio", "horaFinal", "total" ,"status", "Servico"]
               }
             }
           },

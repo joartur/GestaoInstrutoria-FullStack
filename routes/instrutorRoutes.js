@@ -40,5 +40,9 @@ router.delete('/registro/:matriculaI/:registroId',(req, res)=>{
     instrutorController.excluirRegistro(req, res);
 })
 
+//rota para a lista de todos os registro
+router.get('/test/:matriculaI',(req, res) => {
+    instrutorController.test(req, res);
+})
 
 module.exports = router;

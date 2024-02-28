@@ -62,7 +62,7 @@ const instrutorController = {
             const { matriculaI } = req.params;
     
             const registros = await Registro.findAll({
-                attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'status'],
+                attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
                 include: [{
                     model: Servico,
                     attributes: ['nome'],
@@ -73,6 +73,31 @@ const instrutorController = {
                 where: {
                     FKinstrutor: matriculaI
                 }
+            });
+
+            if (registros.length === 0) {
+                return res.status(404).json({ error: "Registros não encontrados" });
+            }
+    
+            res.status(200).json({ msg: "Registros encontrados", data: registros });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+    
+    test: async (req, res) => {
+        try {
+            const { matriculaI } = req.params;
+    
+            const registros = await Registro.findAll({
+                attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
+                include: [{
+                    model: Servico,
+                    attributes: ['nome'],
+                    where: {
+                        id: sequelize.col('Registro.FKservico')
+                    }
+                }],
             });
 
             if (registros.length === 0) {
