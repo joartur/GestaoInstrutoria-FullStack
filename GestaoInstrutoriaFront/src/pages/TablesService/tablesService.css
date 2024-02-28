@@ -1,0 +1,95 @@
+.tableService-container{
+    margin-bottom: 40px;
+}
+
+.search-container{
+    display: flex;
+}
+
+.searchBar-container{
+    flex: 3;
+    margin-right: 30px;
+}
+
+.filters-container{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.filters-container select{
+    margin: 20px 10px 20px 0px;
+}
+
+.pagination-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+    color: #626262;
+    
+}
+
+.pagination-lines{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex: 1;
+}
+
+.paginationInput{
+    border-radius: 12px;
+    height: 40px;
+    width: 40px;
+    border: 1px solid #666666;
+    color: #626262;
+    margin-left: 10px;
+
+    font-size: 16px;
+    text-align: center;
+}
+
+.pagination-pages{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 3;
+}
+
+.pagination-pages p{
+    margin: 0px 20px 0px 20px;
+}
+
+.pagination-pages .arrow{
+    color: var(--main-black);
+    border: 1px solid #626262;
+    padding: 11px 13px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.pagination-pages .arrow:hover{
+    background-color: var(--main-blue);
+    color: var(--white);
+    border: 1px solid var(--main-blue);
+}
+
+
+.notFound-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.notFound-container h1{
+    margin: 0;
+}
+.notFound-container p{
+    font-size: 20px;
+}
+.notFound-container .icon{
+    font-size: 84px;
+    margin-bottom: 25px;
+}

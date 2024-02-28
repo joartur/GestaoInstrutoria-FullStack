@@ -1,0 +1,61 @@
+###
+GET http://localhost:3000
+
+###
+POST http://localhost:3000/servico/adicionar
+Content-Type: application/json
+
+{
+    "nome": "D"
+}
+
+###
+GET http://localhost:3000/servico/listar
+
+###
+DELETE http://localhost:3000/servico/deletar/6
+
+###
+GET http://localhost:3000/servico/buscar/4
+
+# rotas de instrutor
+###
+GET  http://localhost:3000/instrutor/789012
+
+###
+GET  http://localhost:3000/instrutor/perfil/123456
+
+###
+POST http://localhost:3000/instrutor/registro/789012
+Content-Type: application/json
+
+{
+    "dataServico": "2024-03-01",
+    "horaInicio": "14:00:00",
+    "horaFinal": "19:00:00",
+    "titulo": "1º consulta com o zé boné",
+    "descricao": "consulta de desing e tals",
+    "FKservico": "1"
+}
+
+###
+GET http://localhost:3000/instrutor/registros/789012
+
+###
+GET http://localhost:3000/instrutor/registro/123456/2
+
+###
+PUT http://localhost:3000/instrutor/registro/789012/1
+Content-Type: application/json
+
+{
+    "dataServico": "2024-02-29",
+    "horaInicio": "06:00:00",
+    "horaFinal": "07:00:00",
+    "titulo": "1º consulta com o zé boné",
+    "descricao": "consulta de desing e tals",
+    "FKservico": "1"
+}
+
+###
+DELETE http://localhost:3000/instrutor/registro/789012/4

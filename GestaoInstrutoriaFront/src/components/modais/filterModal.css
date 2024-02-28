@@ -1,0 +1,71 @@
+.deleteModal-whrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.deletModal-container{
+    background-color: var(--white);
+    border: 1px solid var(--dark-grey);
+    padding: 20px 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 12px;
+}
+
+.filter-form label{
+    margin-bottom: 8px;
+}
+
+.hour-filter{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.type-filter{
+    display: flex;
+    flex-direction: column;
+}
+
+.dateInput-box{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.order-filter{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.order-filter p{
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.deleteModal-buttons{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.filters-btn{
+    padding: 15px 50px;
+    background-color: var(--main-blue);
+    color: var(--white);
+    font-size: 16px;
+    border-radius: 12px;
+    border: none;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.filters-btn:hover{
+    background-color: var(--dark-blue)
+}

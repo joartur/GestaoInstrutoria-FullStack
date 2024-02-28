@@ -1,0 +1,16 @@
+input[type="date"]{
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--white);
+    padding: 7px 20px;
+    color: var(--dark-grey);
+    font-size: 16px;
+    border: 1px solid var(--dark-grey);
+    outline: none;
+    border-radius: 12px;
+}
+::-webkit-calendar-picker-indicator{
+    background-color: var(--bg-blue);
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 100%;
+}

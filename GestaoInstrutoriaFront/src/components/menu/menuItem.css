@@ -1,0 +1,40 @@
+.menuItem-container{
+    box-sizing: border-box;
+}
+
+.menuItem-container a{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5px 25px;
+    transition: 0.1s;
+}
+
+.menuItem-container a:hover{
+    background-color: #DBE7F0;
+    box-shadow: -3px 0 0 0 #F7941F inset;
+}
+
+.menuItem-container p{
+    margin-left: 20px;
+}
+
+.icon{
+    color: #004A8D;
+    font-size: 20px;  
+    line-height: 35px;
+    text-align: center;
+    
+}
+
+.menu-icon{
+    background-color: #DBE7F0;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+

@@ -1,0 +1,37 @@
+:root{
+    --margin: 20px;
+    --padding: 0px 20px;
+}
+
+.notification-container p{
+    margin-left: 10px;
+}
+
+.notification-container{
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    padding: var(--padding);
+    margin-bottom: var(--margin);
+}
+.analysis{
+    color: var(--main-blue);
+    background-color: var(--bg-blue);
+    border: 1px solid #004A8D;
+}
+.validate{
+    color: var(--main-green);
+    background-color: var(--light-green);
+    border: 1px solid #4AC748;
+}
+
+.partial{
+    color: var(--main-yellow);
+    background-color: var(--light-yellow);
+    border: 1px solid #F2BF38;
+}
+.refused{
+    color: var(--main-red);
+    background-color: var(--light-red);
+    border: 1px solid #F80000;
+}

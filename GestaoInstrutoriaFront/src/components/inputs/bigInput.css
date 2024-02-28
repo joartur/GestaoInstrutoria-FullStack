@@ -1,0 +1,21 @@
+.BigInput{
+    font-size: 16px;
+    width: 100% !important;
+    padding: 15px 20px 100px 20px;
+    border: 1px solid #666666;
+    border-radius: 12px;
+    font-family: 'Open Sans', sans-serif;
+    resize: none;
+}
+
+.search-icon{
+    font-size: 24px;
+    margin-left: 15px;
+    color: var(--dark-grey);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-icon:hover{
+    color: var(--main-blue);
+}
