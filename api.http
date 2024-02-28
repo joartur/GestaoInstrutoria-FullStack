@@ -42,9 +42,6 @@ Content-Type: application/json
 GET http://localhost:3000/instrutor/registros/789012
 
 ###
-GET http://localhost:3000/instrutor/test/789012
-
-###
 GET http://localhost:3000/instrutor/registro/789012/2
 
 ###
@@ -62,3 +59,9 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3000/instrutor/registro/789012/4
+
+###
+GET http://localhost:3000/instrutor/test/789012
+
+###
+GET http://localhost:3000/instrutor/servicos/123456

@@ -367,6 +367,41 @@
           }
         }
       }
+    },
+    "/instrutor/servicos/{matriculaI}": {
+      "get": {
+        "tags": ["Instrutor"],
+        "summary": "Obter todos os dados de registros do banco.",
+        "parameters": [
+          {
+            "name": "matriculaI",
+            "in": "path",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Matrícula do instrutor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/servicos"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Registros não encontrados"
+          },
+          "500": {
+            "description": "Indica que um erro interno ocorreu."
+          }
+        }
+      }
     }
   },
   "components": {
@@ -557,6 +592,23 @@
           "error": {
             "type": "string"
           }
+        }
+      },
+      "servicos": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 1
+            },
+            "nome": {
+              "type": "string",
+              "example":"Consultoria"
+            }
+          },
+          "required": ["id", "nome"]
         }
       }
     }
