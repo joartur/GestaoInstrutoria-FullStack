@@ -206,7 +206,7 @@ const instrutorController = {
     listaAtvs: async (req, res)=> {
         try {
             const servicos = await Servico.findAll({attributes: ['id', 'nome']});
-            res.json(servicos);
+            res.json({servicos});
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

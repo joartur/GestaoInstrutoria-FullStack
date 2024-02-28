@@ -595,20 +595,25 @@
         }
       },
       "servicos": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer",
-              "example": 1
-            },
-            "nome": {
-              "type": "string",
-              "example":"Consultoria"
+        "type": "object",
+        "properties":{
+          "servico":{
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "nome": {
+                  "type": "string",
+                  "example":"Consultoria"
+                }
+              },
+              "required": ["id", "nome"]
             }
-          },
-          "required": ["id", "nome"]
+          }
         }
       }
     }
