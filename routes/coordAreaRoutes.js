@@ -16,12 +16,12 @@ router.get('/listarInstrutores', (req, res) => {
 });
 
 //Rota PUT para validar o resgistro
-router.put('/validarRegistro/:id', (req, res) =>{
+router.put('/validarRegistro/:id/:FKcoordenador', (req, res) =>{
     coordArea.validarRegistro(req, res);
 })
 
 //Rota PUT para validar parcialmente o resgistro
-router.put('/validarParcialmenteRegistro/:id', (req, res) =>{
+router.put('/validarParcialmenteRegistro/:id/:FKcoordenador', (req, res) =>{
     coordArea.validarParcialmenteRegistro(req, res);
 })
 

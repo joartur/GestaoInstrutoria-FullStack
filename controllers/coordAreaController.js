@@ -21,7 +21,8 @@ const coordAreaController = {
     validarRegistro: async (req, res) => {
         try {
             const registros = await Registro.update({
-                status: "Validado"
+                status: "Validado",
+                FKcoordenador: req.params.FKcoordenador
             },
                 {
                     where: {
@@ -39,7 +40,8 @@ const coordAreaController = {
             const registros = await Registro.update({
                 status: "Parcialmente validado",
                 justificativa: req.body.justificativa,
-                total: req.body.total
+                total: req.body.total,
+                FKcoordenador: req.params.FKcoordenador
             },
                 {
                     where: {

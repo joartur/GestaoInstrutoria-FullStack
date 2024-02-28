@@ -25,7 +25,7 @@ GET http://localhost:3000/coordArea/listarRegistros/123456
 GET http://localhost:3000/coordArea/listarInstrutores
 
 ###
-PUT http://localhost:3000/coordArea/validarRegistro/5
+PUT http://localhost:3000/coordArea/validarRegistro/7/4321
 Content-Type: application/json
 
 {
@@ -34,7 +34,7 @@ Content-Type: application/json
 
 
 ###
-PUT http://localhost:3000/coordArea/validarParcialmenteRegistro/6
+PUT http://localhost:3000/coordArea/validarParcialmenteRegistro/8/1234
 Content-Type: application/json
 
 {
