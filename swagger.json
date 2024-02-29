@@ -486,9 +486,9 @@
       "requestRegistro": {
         "type": "object",
         "properties": {
-          "dataServico": { "type": "string", "format": "date", "example": "2024-02-13" },
-          "horaInicio": { "type": "string", "format": "time", "example": "14:00:00" },
-          "horaFinal": { "type": "string", "format": "time", "example": "19:00:00" },
+          "dataServico": { "type": "string", "format": "date", "example": "13-02-2024" },
+          "horaInicio": { "type": "string", "format": "time", "example": "14:00" },
+          "horaFinal": { "type": "string", "format": "time", "example": "19:00" },
           "titulo": { "type": "string", "example": "1º consulta com o zé boné" },
           "descricao": { "type": "string", "example": "consulta de desing e tals" },
           "FKservico": { "type": "string", "example": "1" }

@@ -30,26 +30,26 @@ POST http://localhost:3000/instrutor/registro/123456
 Content-Type: application/json
 
 {
-    "dataServico": "2024-02-25",
-    "horaInicio": "07:00:00",
-    "horaFinal": "09:00:00",
-    "titulo": "Palestra sobre Veganismo",
+    "dataServico": "25-02-2024",
+    "horaInicio": "13:00",
+    "horaFinal": "16:00",
+    "titulo": "Palestra sobre Veganismo, segunda parte",
     "descricao": "Se converta ao veganismo!!!",
     "FKservico": "2"
 }
 
 ###
-GET http://localhost:3000/instrutor/registros/789012
+GET http://localhost:3000/instrutor/registros/123456
 
 ###
 GET http://localhost:3000/instrutor/registro/789012/2
 
 ###
-PUT http://localhost:3000/instrutor/registro/789012/1
+PUT http://localhost:3000/instrutor/registro/123456/7
 Content-Type: application/json
 
 {
-    "dataServico": "2024-02-29",
+    "dataServico": "29-02-2024",
     "horaInicio": "06:00:00",
     "horaFinal": "07:00:00",
     "titulo": "1º consulta com o zé boné",
@@ -58,7 +58,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/instrutor/registro/789012/4
+DELETE http://localhost:3000/instrutor/registro/123456/6
 
 ###
 GET http://localhost:3000/instrutor/test/789012

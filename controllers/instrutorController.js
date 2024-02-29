@@ -9,6 +9,8 @@ const instrutorController = {
         try {
             const { dataServico, horaInicio, horaFinal, titulo, descricao, FKservico } = req.body;
             const FKinstrutor = req.params.matriculaI;
+            
+            const dataFormatada = await formatarDataParaBD(dataServico);
 
             const periodoData = await conferirData(dataServico);
 
@@ -25,7 +27,7 @@ const instrutorController = {
             const total = calcularDiferencaHoras(horaInicio, horaFinal);
             
             await Registro.create({
-                dataServico,
+                dataServico: dataFormatada,
                 horaInicio,
                 horaFinal,
                 total,
@@ -90,7 +92,9 @@ const instrutorController = {
             const { matriculaI, registroId } = req.params;
             const { dataServico, horaInicio, horaFinal, titulo, descricao, FKservico } = req.body;
 
-            const periodoData = await conferirData(dataServico);
+            const dataFormatada = await formatarDataParaBD(dataServico);
+
+            const periodoData = await conferirData(dataFormatada);
 
             if (!periodoData) {
                 return res.status(400).json({ error: "Não é permitido cadastrar registros para datas futuras" });
@@ -105,7 +109,7 @@ const instrutorController = {
             const total = calcularDiferencaHoras(horaInicio, horaFinal);
 
             const [rowsUpdated] = await Registro.update({
-                dataServico,
+                dataServico: dataFormatada,
                 horaInicio,
                 horaFinal,
                 total,
@@ -196,7 +200,7 @@ const instrutorController = {
             if (registros.length === 0) {
                 return res.status(404).json({ error: "Registros não encontrados" });
             }
-    
+
             res.status(200).json({ msg: "Registros encontrados", data: registros });
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -311,6 +315,13 @@ function calcularDiferencaHoras(horaInicio, horaFinal) {
     const diffHours = (horaFinalMs - horaInicioMs) / (1000 * 60 * 60);
     return diffHours;
 }
+
+async function formatarDataParaBD(data) {
+    const partesData = data.split('-'); // Divide a string da data em partes usando o separador "-"
+    const dataFormatada = `${partesData[2]}-${partesData[1]}-${partesData[0]}`; // Formata a data para "YYYY-MM-DD"
+    return dataFormatada;
+}
+
 
 async function conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio) {
     const registrosNoMesmoDia = await Registro.findAll({
