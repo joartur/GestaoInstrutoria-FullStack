@@ -24,7 +24,7 @@ export const DataProvider = ({ children }) => {
     const createEducationalService = async (newServiceData) => {
         try {
           const response = await axios.post('http://localhost:3001/instrutor/registro/123456', newServiceData);
-          setData([...data, response.data]); // Adiciona o novo serviço à lista de serviços
+          setData([...data, response.data]);
           console.log('Novo serviço educacional criado:', response.data);
         } catch (error) {
           console.error('Erro ao criar serviço educacional:', error);

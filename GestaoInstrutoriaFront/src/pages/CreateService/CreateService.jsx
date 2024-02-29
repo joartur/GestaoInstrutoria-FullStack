@@ -9,31 +9,37 @@ import BigInput from '../../components/inputs/BigInput'
 import Button from '../../components/buttons/Button'
 import TimeInput from '../../components/inputs/TimeInput'
 import { useDataContext } from '../../services/DataContext';
+import axios from 'axios';
 import "./createService.css"
 
 function CreateService () {
     const { createEducationalService } = useDataContext();
 
     const [formData, setFormData] = useState({
-        dataServico: '',
-        horaInicio: '',
-        horaFinal: '',
-        titulo: '',
-        descricao: '',
-        FKservico: '0',
-      });
+        
+            dataServico: "",
+            horaInicio: "",
+            horaFinal: "",
+            titulo: "",
+            descricao: "",
+            FKservico: ""
+          
+    });
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevState => ({
-          ...prevState,
-          [name]: value,
-        }));
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+        console.log(formData)
     };
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        createEducationalService(formData);
+        axios.post('http://localhost:3001/instrutor/registro/123456', formData)
+          .then((res) => {
+            console.log('Dados enviados:', res.data);
+          })
+          .catch((err) => {
+            console.error('Erro ao enviar dados:', err);
+          });
     };
 
     return (
@@ -46,36 +52,61 @@ function CreateService () {
                         <hr />
                     </div>
                     <div className="createServiceForm-body">
-                        <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit}>
                         <div>
+                            <label>Data do Serviço:</label>
+                            <input
+                            type="date"
+                            name="dataServico"
+                            value={formData.dataServico}
+                            onChange={handleChange}
+                            />
+                        </div>
                         <div>
-                                <label>Título:</label>
-                                <input type="text" name="titulo" value={formData.titulo} onChange={handleChange} />
-                            </div>
-                                <label>Data do Serviço:</label>
-                                <input type="date" name="dataServico" value={formData.dataServico} onChange={handleChange} />
-                            </div>
-                            <div>
-                                <label>Hora de Início:</label>
-                                <input type="time" name="horaInicio" value={formData.horaInicio} onChange={handleChange} />
-                            </div>
-                            <div>
-                                <label>Hora Final:</label>
-                                <input type="time" name="horaFinal" value={formData.horaFinal} onChange={handleChange} />
-                            </div>
-
-                            <label>Tipo de Serviço:</label>
-                                <select name="tipoServico" value={formData.FKservico} onChange={handleChange}>
-                                <option value="1">Consultoria</option>
-                                <option value="2">Monitoria</option>
-                                <option value="3">Aula</option>
-                            </select>
-                            
-                            <div>
-                                <label>Descrição:</label>
-                                <textarea name="descricao" value={formData.descricao} onChange={handleChange} />
-                            </div>
-                            <button type="submit">Criar Serviço Educacional</button>
+                            <label>Hora de Início:</label>
+                            <input
+                            type="time"
+                            name="horaInicio"
+                            value={formData.horaInicio}
+                            onChange={handleChange}
+                            />
+                        </div>
+                        <div>
+                            <label>Hora Final:</label>
+                            <input
+                            type="time"
+                            name="horaFinal"
+                            value={formData.horaFinal}
+                            onChange={handleChange}
+                            />
+                        </div>
+                        <div>
+                            <label>Título:</label>
+                            <input
+                            type="text"
+                            name="titulo"
+                            value={formData.titulo}
+                            onChange={handleChange}
+                            />
+                        </div>
+                        <div>
+                            <label>Descrição:</label>
+                            <textarea
+                            name="descricao"
+                            value={formData.descricao}
+                            onChange={handleChange}
+                            />
+                        </div>
+                        <div>
+                            <label>FK Serviço:</label>
+                            <input
+                            type="text"
+                            name="FKservico"
+                            value={formData.FKservico}
+                            onChange={handleChange}
+                            />
+                        </div>
+                        <button type="submit">Enviar</button>
                         </form>
                     </div>
                 </div>
@@ -87,6 +118,15 @@ function CreateService () {
 export default CreateService;
 
 /*
+
+<label>Tipo de Serviço: {formData.FKServico}</label>
+                                <select name="FKServico" value={formData.FKServico} onChange={handleChange}>
+                                <option value="">Escolha a atividade </option>
+                                <option value="1">Consultoria</option>
+                                <option value="2">Monitoria</option>
+                                <option value="3">Aula</option>
+                            </select>
+
 <label htmlFor="">Título do Serviço Educacional</label>
                             <TextInput placeholder= "Título do Serviço Educacional Prestado"/>
                             <div className="dateInput-container">
