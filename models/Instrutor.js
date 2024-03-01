@@ -9,11 +9,11 @@ Instrutor.init({
         primaryKey: true,
     },
     nome: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(100),
         allowNull: false
     },
     email: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(80),
         allowNull: false,
         unique: true,
         validate:{
@@ -21,11 +21,11 @@ Instrutor.init({
         }
     },
     unidade: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(50),
         allowNull: false
     },
     area: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(30),
         allowNull: false
     },
     horasMinimas: {
