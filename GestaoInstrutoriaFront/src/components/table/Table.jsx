@@ -7,7 +7,14 @@ import ActionButton from "./ActionButton"
 import "./table.css"
 
 const Table = () => {
-    const { data } = useDataContext();
+    const { data, deleteService } = useDataContext();
+
+    const handleDelete = (id) => {
+        if (window.confirm('Tem certeza que deseja excluir este serviço?')) {
+           deleteService(id);
+        }
+    };
+
     return (
         <div className="table-container">
          
@@ -21,22 +28,22 @@ const Table = () => {
                     <th>Fim</th>
                     <th>Tipo</th>
                     <th>Situação</th>
-                    <th colspan="3">Ações</th>
+                    <th colSpan="3">Ações</th>
                 </tr>
             </thead>
                     <tbody>
                         {data.map(registro => (
-                        <tr>
+                        <tr key={registro.id}>
                             <td><input type="checkbox" name="" id={registro.id} /></td>
-                            <td><Link to="/viewServices">{registro.titulo}</Link></td>
+                            <td><Link to={`/viewServices/${registro.id}`}>{registro.titulo}</Link></td>
                             <td>{registro.dataServico}</td>
                             <td>{registro.horaInicio}</td>
                             <td>{registro.horaFinal}</td>
                             <td>{registro.Servico.nome}</td>
                             <td><TableSituation title={registro.status} /></td>
-                            <td><ActionButton icon={faTrash}/></td>
+                            <td onClick={() => handleDelete(registro.id)}><ActionButton icon={faTrash} /></td>
                             <td><ActionButton icon={faPenToSquare} url="/editService"/></td>
-                            <td><ActionButton icon={faCircleInfo} url="/viewServices"/></td>
+                            <td><ActionButton icon={faCircleInfo} url={`/viewServices/${registro.id}`} /></td>
                         </tr>
                         ))}
                     </tbody>

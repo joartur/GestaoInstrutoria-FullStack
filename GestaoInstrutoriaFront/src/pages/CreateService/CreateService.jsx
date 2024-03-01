@@ -16,14 +16,12 @@ function CreateService () {
     const { createEducationalService } = useDataContext();
 
     const [formData, setFormData] = useState({
-        
             dataServico: "",
             horaInicio: "",
             horaFinal: "",
             titulo: "",
             descricao: "",
             FKservico: ""
-          
     });
 
     const handleChange = (e) => {
@@ -31,16 +29,11 @@ function CreateService () {
         console.log(formData)
     };
     
-    const handleSubmit = (e) => {
+    
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3001/instrutor/registro/123456', formData)
-          .then((res) => {
-            console.log('Dados enviados:', res.data);
-          })
-          .catch((err) => {
-            console.error('Erro ao enviar dados:', err);
-          });
-    };
+        createEducationalService(formData)
+      };
 
     return (
         <Layout>
@@ -53,6 +46,17 @@ function CreateService () {
                     </div>
                     <div className="createServiceForm-body">
                     <form onSubmit={handleSubmit}>
+                    <div>
+                            <label>Título:</label>
+                            <input
+                            type="text"
+                            name="titulo"
+                            className="textInput"
+                            placeholder="Insira o Título do Serviço Educacional"
+                            value={formData.titulo}
+                            onChange={handleChange}
+                            />
+                        </div>
                         <div>
                             <label>Data do Serviço:</label>
                             <input
@@ -81,32 +85,26 @@ function CreateService () {
                             />
                         </div>
                         <div>
-                            <label>Título:</label>
-                            <input
-                            type="text"
-                            name="titulo"
-                            value={formData.titulo}
-                            onChange={handleChange}
-                            />
+                            <label>Tipo de Serviço:</label>
+                                <select name="FKservico" onChange={handleChange}>
+                                <option value="">Escolha a atividade </option>
+                                <option value="1">Consultoria</option>
+                                <option value="2">Monitoria</option>
+                                <option value="3">Aula</option>
+                            </select>
                         </div>
+                        
                         <div>
                             <label>Descrição:</label>
                             <textarea
                             name="descricao"
+                            className="BigInput"
+                            placeholder="Insira a Descrição do Serviço Educacional"
                             value={formData.descricao}
                             onChange={handleChange}
                             />
                         </div>
-                        <div>
-                            <label>FK Serviço:</label>
-                            <input
-                            type="text"
-                            name="FKservico"
-                            value={formData.FKservico}
-                            onChange={handleChange}
-                            />
-                        </div>
-                        <button type="submit">Enviar</button>
+                        <button type="submit" className="main-btn medium">Enviar</button>
                         </form>
                     </div>
                 </div>
@@ -119,13 +117,7 @@ export default CreateService;
 
 /*
 
-<label>Tipo de Serviço: {formData.FKServico}</label>
-                                <select name="FKServico" value={formData.FKServico} onChange={handleChange}>
-                                <option value="">Escolha a atividade </option>
-                                <option value="1">Consultoria</option>
-                                <option value="2">Monitoria</option>
-                                <option value="3">Aula</option>
-                            </select>
+
 
 <label htmlFor="">Título do Serviço Educacional</label>
                             <TextInput placeholder= "Título do Serviço Educacional Prestado"/>

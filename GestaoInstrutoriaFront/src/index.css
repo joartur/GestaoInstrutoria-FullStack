@@ -64,3 +64,35 @@ input:disabled {
   background-color: var(--light-grey);
   cursor: not-allowed;
 }
+
+.main-btn{
+  background-color: var(--main-blue);
+  color: var(--white);
+  font-size: 16px;
+  border-radius: 12px;
+  border: none;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.main-btn:hover{
+  background-color: var(--dark-blue);
+}
+
+.textInput{
+  font-size: 16px;
+  width: 100%;
+  padding: 14px 20px;
+  border: 1px solid #666666;
+  border-radius: 12px;
+}
+
+.BigInput{
+  font-size: 16px;
+  width: 100% !important;
+  padding: 15px 20px 100px 20px;
+  border: 1px solid #666666;
+  border-radius: 12px;
+  font-family: 'Open Sans', sans-serif;
+  resize: none;
+}

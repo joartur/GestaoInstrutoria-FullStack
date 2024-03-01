@@ -5,6 +5,7 @@ const DataContext = createContext();
 export const useDataContext = () => useContext(DataContext);
 
 export const DataProvider = ({ children }) => {
+  
     const [data, setData] = useState([]);
   
     useEffect(() => {
@@ -15,7 +16,7 @@ export const DataProvider = ({ children }) => {
         try {
             const response = await axios.get('http://localhost:3001/instrutor/registros/123456');
             setData(response.data.data);
-            console.log(response.data.data)
+            console.log(response.data.data);
     } catch (error) {
             console.error('Erro ao buscar dados da API:', error);
         }
@@ -31,8 +32,19 @@ export const DataProvider = ({ children }) => {
         }
     };
 
+    const deleteService = async (id) => {
+      try {
+        await axios.delete(`http://localhost:3001/instrutor/registro/123456/${id}`);
+        const updatedData = data.filter(item => item.id !== id);
+        setData(updatedData);
+        console.log('Serviço excluído com sucesso!');
+      } catch (error) {
+        console.error('Erro ao excluir serviço:', error);
+      }
+    };
+
     return (
-        <DataContext.Provider value={{ data, createEducationalService }}>
+        <DataContext.Provider value={{ data, createEducationalService, deleteService }}>
             {children}
         </DataContext.Provider>
         );

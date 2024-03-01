@@ -19,7 +19,7 @@ const App = () => {
       <Route path="/tables" element={<TablesService />} />
       <Route path="/login" element={<Login />} />
       <Route path="/profile" element={<Profile />} />
-      <Route path="/viewServices" element={<ViewServices />} />
+      <Route path="/viewServices/:id" element={<ViewServices />} />
       <Route path="/editService" element={<EditService />} />
       </Routes>
     </Router>
