@@ -10,20 +10,24 @@ const instrutorController = {
             const { dataServico, horaInicio, horaFinal, titulo, descricao, FKservico } = req.body;
             const FKinstrutor = req.params.matriculaI;
             
+            //formatando data recebida do front no formato DD-MM-YYYY
             const dataFormatada = await formatarDataParaBD(dataServico);
 
+            //conferindo se a data corresponde ao período em vigor ou está no futuro
             const periodoData = await conferirData(dataServico);
 
             if (!periodoData) {
                 return res.status(400).json({ error: "Não é permitido cadastrar registros para datas futuras" });
             }
             
-            const sobreposicaoHoras = await conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio);
+            //confere se não existe algum registro com a data e hora igual ou que se sobrepõe, já registrado
+            const sobreposicaoHoras = await conferirRegistros(dataFormatada, FKinstrutor, horaFinal, horaInicio);
 
             if (sobreposicaoHoras) {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data" });
             }
 
+            //calcula o total de horas e retorna um inteiro
             const total = calcularDiferencaHoras(horaInicio, horaFinal);
             
             await Registro.create({
@@ -47,6 +51,7 @@ const instrutorController = {
         try {
             const { matriculaI, registroId } = req.params;
 
+            //busca um registro para ver se ele existe e retorna os dados dele
             const registro = await buscarRegistro(matriculaI, registroId);
 
             if (!registro) {
@@ -67,7 +72,7 @@ const instrutorController = {
                 attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
                 include: [{
                     model: Servico,
-                    attributes: ['nome'],
+                    attributes: ['id','nome'],
                     where: {
                         id: sequelize.col('Registro.FKservico')
                     }
@@ -92,6 +97,12 @@ const instrutorController = {
             const { matriculaI, registroId } = req.params;
             const { dataServico, horaInicio, horaFinal, titulo, descricao, FKservico } = req.body;
 
+            const registro = await buscarRegistro(matriculaI, registroId);
+
+            if (!registro) {
+                return res.status(404).json({ error: "Registro não encontrado" });
+            }
+            
             const dataFormatada = await formatarDataParaBD(dataServico);
 
             const periodoData = await conferirData(dataFormatada);
@@ -100,7 +111,7 @@ const instrutorController = {
                 return res.status(400).json({ error: "Não é permitido cadastrar registros para datas futuras" });
             }
 
-            const sobreposicaoHoras = await conferirRegistros(dataServico, matriculaI, horaFinal, horaInicio);
+            const sobreposicaoHoras = await conferirRegistros(dataFormatada, matriculaI, horaFinal, horaInicio, registroId);
 
             if (sobreposicaoHoras) {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data" });
@@ -150,14 +161,19 @@ const instrutorController = {
         try {
             const { matriculaI } = req.params;
 
+            //busca os tres registros mais recentes
             const registrosRecentes = await buscarRegistrosRecentes(matriculaI);
 
+            //busca as datas de todos os registros do mês vigente
             const datasServico = await buscarDatasServico(matriculaI);
 
+            //busca e calcula as horas totais de serviço educacional
             const horasServicos = await calcularHorasServicos(matriculaI);
 
+            //busca pelo saldo de hora, se houver
             const saldoHoras = await buscarSaldoHoras(matriculaI);
 
+            //organiza o response da rota
             const response = {
                 registrosRecentes,
                 datasServico,
@@ -175,6 +191,7 @@ const instrutorController = {
         try {
             const { matriculaI } = req.params;
 
+            //busca pelo instrutor de acordo com o id
             const instrutor = await buscarInstrutor(matriculaI);
 
             res.status(200).json(instrutor);
@@ -183,6 +200,7 @@ const instrutorController = {
         }
     },
 
+    //rota de teste para o front com todos os registros do banco
     test: async (req, res) => {
         try {
     
@@ -207,6 +225,7 @@ const instrutorController = {
         }
     },
 
+    //rota para renderização da lista de atividades de servico edducacionais
     listaAtvs: async (req, res)=> {
         try {
             const servicos = await Servico.findAll({attributes: ['id', 'nome']});
@@ -232,7 +251,7 @@ async function buscarRegistro(matriculaI, registroId) {
     return await Registro.findOne({
         include: [{
             model: Servico,
-            attributes: ['nome'],
+            attributes: ['id','nome'],
             where: {
                 id: sequelize.col('Registro.FKservico')
             }
@@ -323,12 +342,21 @@ async function formatarDataParaBD(data) {
 }
 
 
-async function conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio) {
+async function conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio, registroEditadoId = null) {
+    const whereClause = {
+        FKinstrutor,
+        dataServico,
+    };
+
+    console.log(registroEditadoId)
+
+    // Se o ID do registro editado estiver disponível, exclua esse registro da consulta
+    if (registroEditadoId) {
+        whereClause.id = { [Op.ne]: registroEditadoId };
+    }
+
     const registrosNoMesmoDia = await Registro.findAll({
-        where: {
-            FKinstrutor,
-            dataServico
-        }
+        where: whereClause
     });
 
     const novoInicio = new Date(`1970-01-01T${horaInicio}`);
@@ -347,5 +375,6 @@ async function conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio
 
     return sobreposicao;
 }
+
 
 module.exports = instrutorController;
