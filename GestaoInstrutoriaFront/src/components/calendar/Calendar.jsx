@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import TableSituation from "../table/TableSituation"
-import ptBR from 'date-fns/locale/pt-BR';
 import 'react-calendar/dist/Calendar.css';
 import './calendar.css';
 import { Link } from 'react-router-dom';

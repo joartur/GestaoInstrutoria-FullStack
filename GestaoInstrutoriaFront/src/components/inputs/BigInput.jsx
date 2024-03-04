@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import "./bigInput.css"
 
 const BigInput = (props) => {

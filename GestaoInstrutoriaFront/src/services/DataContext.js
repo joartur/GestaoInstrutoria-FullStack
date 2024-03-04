@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const DataContext = createContext();
@@ -9,8 +8,10 @@ export const DataProvider = ({ children }) => {
   
     const [data, setData] = useState([]);
     const [instrutorData, setInstrutorData] = useState([])
+    const [instrutorProfile, setInstrutorProfile] = useState([]);
     const [errorMsg, setErrorMsg] = useState([])
     const [serviceCreated, setServiceCreated] = useState(false);
+    const [serviceEdited, setServiceEdited] = useState(false);
   
     useEffect(() => {
     fetchData();
@@ -18,6 +19,10 @@ export const DataProvider = ({ children }) => {
 
     useEffect(() => {
       InstrutorDataFetch();
+    }, []);
+
+    useEffect(() => {
+      InstrutorProfileFetch();
     }, []);
   
 
@@ -39,11 +44,11 @@ export const DataProvider = ({ children }) => {
           setData([...data, response.data]);
           console.log('Novo serviço educacional criado:', response.data);
           fetchData();
+          setErrorMsg([])
         } catch (error) {
           if (error.response) {
             // O servidor retornou um código de status diferente de 2xx
             console.error('Erro na resposta: ', error.response.data);
-            console.error('Código de status: ', error.response.status);
             setErrorMsg(error.response.data)
             setServiceCreated(false);
         } else if (error.request) {
@@ -73,20 +78,24 @@ export const DataProvider = ({ children }) => {
     const editService = async (id, updatedServiceData) => {
       try {
           const response = await axios.put(`http://localhost:3001/instrutor/registro/123456/${id}`, updatedServiceData);
+          setServiceEdited(true);
           console.log('Serviço educacional editado com sucesso:', response.data);
           fetchData();
+          setErrorMsg([])
       } catch (error) {
         if (error.response) {
           // O servidor retornou um código de status diferente de 2xx
+          setServiceEdited(false);
           console.error('Erro na resposta:', error.response.data);
-          console.error('Código de status:', error.response.status);
           setErrorMsg(error.response.data); // Defina a mensagem de erro do servidor
       } else if (error.request) {
           // A requisição foi feita, mas não houve resposta
+          setServiceEdited(false);
           console.error('Erro na requisição:', error.request);
           setErrorMsg('Erro na requisição'); // Defina uma mensagem de erro genérica
       } else {
           // Ocorreu um erro ao configurar a solicitação
+          setServiceEdited(false);
           console.error('Erro:', error.message);
           setErrorMsg('Erro ao configurar a solicitação'); // Defina uma mensagem de erro genérica
       }
@@ -102,9 +111,18 @@ export const DataProvider = ({ children }) => {
   }
   };
 
-    return (
-        <DataContext.Provider value={{ data, instrutorData, serviceCreated, setServiceCreated, createEducationalService, deleteService, editService, errorMsg }}>
-            {children}
-        </DataContext.Provider>
-        );
+  const InstrutorProfileFetch = async () => {
+    try {
+        const response = await axios.get('http://localhost:3001/instrutor/perfil/123456');
+        setInstrutorProfile(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar dados do perfil do instrutor:', error);
+    }
+  };
+
+  return (
+    <DataContext.Provider value={{ data, instrutorData, serviceCreated, serviceEdited, instrutorProfile, setServiceCreated, setServiceEdited, createEducationalService, deleteService, editService, errorMsg }}>
+        {children}
+    </DataContext.Provider>
+  );
 }

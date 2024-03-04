@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
-import ButtonFilter from "../buttons/ButtonFilter"
 import "./confirmationModal.css"
 import { Link } from 'react-router-dom'
 

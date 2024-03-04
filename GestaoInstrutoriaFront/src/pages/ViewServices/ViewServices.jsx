@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import Header from "../../components/header/Header"
 import Layout from "../../components/layout/Layout"
 import BigInput from "../../components/inputs/BigInput"
