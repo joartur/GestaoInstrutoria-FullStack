@@ -17,43 +17,40 @@ const Profile = () => {
                     </div>
                     <div className="profile-body">
                         <form>
-                            <div className="profile-top">
-
+                        <div className="profile-top">
                                 <div className="profile-name">
-                                    <label htmlFor="">Nome Completo</label>
-                                    <TextInput disabled="true"/>
+                                    <label htmlFor="fullName">Nome Completo</label>
+                                    <TextInput id="fullName" name="fullName" disabled={true} />
                                 </div>
 
                                 <div className="profile-office">
-                                    <label htmlFor="">Cargo</label>
-                                    <TextInput disabled="true"/>
+                                    <label htmlFor="position">Cargo</label>
+                                    <TextInput id="position" name="position" disabled={true} />
                                 </div>
 
                                 <div className="profile-area">
-                                    <label htmlFor="">Área</label>
-                                    <TextInput disabled="true"/>
+                                    <label htmlFor="area">Área</label>
+                                    <TextInput id="area" name="area" disabled={true} />
                                 </div>
-                                                                         
-                            </div>   
+                            </div>
 
                             <div className="profile-bottom">
-
                                 <div className="profile-email">
-                                    <label htmlFor="">Email</label>
-                                    <TextInput disabled="true"/>
+                                    <label htmlFor="email">Email</label>
+                                    <TextInput id="email" name="email" disabled={true} />
                                 </div>
 
                                 <div className="profile-unity">
-                                    <label htmlFor="">Unidade</label>
-                                <TextInput disabled="true"/>
+                                    <label htmlFor="unity">Unidade</label>
+                                    <TextInput id="unity" name="unity" disabled={true} />
                                 </div>
-
-                                </div>
+                            </div>
 
                             <div className="profileButtons-container">
-                            <ButtonFilter title="Cancelar" size="medium"/>
-                            <Button title="Salvar" size="medium"/>
+                                <ButtonFilter title="Cancelar" size="medium" />
+                                <Button title="Salvar" size="medium" />
                             </div>
+
 
                         </form>
                     </div>

@@ -6,7 +6,7 @@ const ActionButton = (props) => {
     return (
         <div className='actionButton-container'>
             <Link to={props.url}>
-            <button>
+            <button title={props.legenda}>
             <FontAwesomeIcon icon={props.icon} className="icon"/>
             </button>
             </Link>

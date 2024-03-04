@@ -8,8 +8,7 @@ const Button = (props) => {
         <Link to={props.url} > 
         <button className={`main-btn ${props.size}`} type={props.type}>
                 {props.title}
-                <FontAwesomeIcon icon={props.icon} className="btn-icon"/>
-                </button>
+        </button>
         </Link>
     )
 }

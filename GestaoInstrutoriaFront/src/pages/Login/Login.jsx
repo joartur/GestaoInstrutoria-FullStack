@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from "../../image/logo_senac.png"
 import TextInput from '../../components/inputs/TextInput';
@@ -22,11 +21,11 @@ const Login = () => {
       <form className="login-form">
         <div className="input-group">
           <label htmlFor="email">Email</label>
-          <TextInput placeholder="Seu email"/>
+          <TextInput id="email" name="email" autoComplete="email" placeholder="Seu email"/>
         </div>
         <div className="input-group">
           <label htmlFor="password">Senha</label>
-          <TextInput placeholder="Sua senha"/>
+          <input type="password" id="password" name="password" placeholder="Sua senha" autoComplete="current-password"/>
         </div>
       <Link to="/">
         <button type="button" className="login-button">

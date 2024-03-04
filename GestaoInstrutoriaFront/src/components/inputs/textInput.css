@@ -11,15 +11,3 @@
     border: 1px solid #666666;
     border-radius: 12px;
 }
-
-.search-icon{
-    font-size: 24px;
-    margin-left: 15px;
-    color: var(--dark-grey);
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.search-icon:hover{
-    color: var(--main-blue);
-}

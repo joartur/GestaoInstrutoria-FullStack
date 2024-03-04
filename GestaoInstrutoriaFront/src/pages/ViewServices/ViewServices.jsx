@@ -6,7 +6,6 @@ import Header from "../../components/header/Header"
 import Layout from "../../components/layout/Layout"
 import BigInput from "../../components/inputs/BigInput"
 import TableSituation from "../../components/table/TableSituation"
-import Button from "../../components/buttons/Button"
 import "./viewServices.css"
 
 const ViewServices = () => {
@@ -55,22 +54,22 @@ const ViewServices = () => {
                     <div className="description-info">
                         <h2>Descrição do Serviço Educacional:</h2>
                         <BigInput
-                        value={service.descricao}
-                        disabled="true"
+                        id="description"
+                        name="description"
+                        value={service.descricao || ''}
+                        disabled={true}
                         />
                     </div>
                     <div className="justify-container">
                         <h2>Justificativa do Coordenador:</h2>
                         <div className="justify-info">
                             <BigInput
-                            value={service.justificativa}
-                            disabled="true"
+                            id="justify"
+                            name="justify"
+                            value={service.justificativa || ''}
+                            disabled={true}
                             />
                         </div>
-                    </div>
-                    <div className="profileButtons-container">
-                            <Button title="Editar" size="medium" icon={faPenToSquare} url="/editService"/>
-                            <Button title="Deletar" size="medium" icon={faTrash}/>
                     </div>
                 </div>
             </main>
@@ -87,4 +86,11 @@ export default ViewServices;
                             <div className="justify-date">
                                 <strong>Justificado em: </strong><span>01/02/2024</span>
                             </div>
+                            
+                            //
+
+                            <div className="profileButtons-container">
+                            <Button title="Editar" size="medium" icon={faPenToSquare} url="/editService"/>
+                            <Button title="Deletar" size="medium" icon={faTrash}/>
+                    </div>
 */

@@ -19,10 +19,6 @@
     margin-bottom: 15px;
 }
 
-.createServiceForm-body input, select{
-    margin-bottom: 18px;
-}
-
 .createServiceForm-body .icon{
     margin-right: 8px;
 }
@@ -37,4 +33,10 @@
 
 .createServiceForm-body button{
     margin: 20px 0px 20px 0px;
+}
+
+.error-msg{
+    color: var(--main-red);
+    display: block;
+    margin: 20px 20px 20px 0px;
 }

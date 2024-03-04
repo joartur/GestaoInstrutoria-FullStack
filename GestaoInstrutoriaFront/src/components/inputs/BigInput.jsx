@@ -4,8 +4,7 @@ import "./bigInput.css"
 const BigInput = (props) => {
     return (
         <div className="BigInput-container" >
-        <textarea type="text" placeholder={props.placeholder} value={props.value} disabled={props.disabled} className="BigInput"/>
-        <FontAwesomeIcon icon={props.icon} className="search-icon"/>
+        <textarea type="text" id={props.id} name={props.name} placeholder={props.placeholder} value={props.value} disabled={props.disabled} className="BigInput"/>
         </div>
     )
 }

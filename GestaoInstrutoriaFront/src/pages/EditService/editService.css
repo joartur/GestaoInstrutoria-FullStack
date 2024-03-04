@@ -1,0 +1,15 @@
+.createServiceForm-header-info{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.createServiceForm-header-info h3{
+    margin: 0;
+}
+.createServiceForm-header-info span{
+    margin-left: 8px;
+    font-size: 18px;
+    display: flex;
+}

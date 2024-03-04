@@ -6,8 +6,7 @@ const ButtonFilter = (props) => {
     return (
         <Link to={props.url}>
         <button className={`filter-btn ${props.size}`}>
-                {props.title}
-                <FontAwesomeIcon icon={props.icon} className="btnFilter-icon"/>
+            {props.title}
         </button>
         </Link>
     )

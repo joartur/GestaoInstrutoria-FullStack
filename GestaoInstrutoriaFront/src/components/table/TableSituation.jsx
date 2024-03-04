@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./tableSituation.css"
 
 const TableSituation = (props) => {
@@ -21,9 +22,11 @@ const TableSituation = (props) => {
     }
 
     return (
+        <Link to={props.url}>
         <div className={className}>
             <p>{props.title}</p>
         </div>
+        </Link>
     )
 }
 

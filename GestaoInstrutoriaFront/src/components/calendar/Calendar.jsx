@@ -5,97 +5,75 @@ import ptBR from 'date-fns/locale/pt-BR';
 import 'react-calendar/dist/Calendar.css';
 import './calendar.css';
 import { Link } from 'react-router-dom';
+import { useDataContext } from '../../services/DataContext';
 
 const Calendario = () => {
-  const [date, setDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [messages, setMessages] = useState({});
+    const { data } = useDataContext();
+    const [date, setDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [filteredData, setFilteredData] = useState([]);
 
-  useEffect(() => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    setMessages({
-      [tomorrow.toDateString()]: 'Mensagem de teste',
-    });
-  }, []);
+    const handleDateChange = (newDate) => {
+        setDate(newDate);
+        setSelectedDate(newDate.toLocaleDateString('pt-BR'));
+        filterDataByDate(newDate.toISOString().split('T')[0]);
+    };
 
-  const handleDateChange = (newDate) => {
-    setDate(newDate);
-    setSelectedDate(newDate.toLocaleDateString('pt-BR')); // Formata a data como DD/MM/AAAA
-  };
+    const filterDataByDate = (selectedDate) => {
+        const filtered = data.filter(item => {
+            return item.dataServico === selectedDate; // Filtra os dados com a data selecionada
+        });
+        setFilteredData(filtered);
+    };
 
-  // Defina o domingo como o primeiro dia da semana (0 representa domingo)
-  const weekStart = 0;
+    useEffect(() => {
+        filterDataByDate(new Date().toISOString().split('T')[0]); // Filtra os dados com a data atual ao carregar o componente
+    }, [data]);
 
-  return (
-    <div className="calendario-container">
-      <div className="calendar">
-        <Calendar
-          className="calendar-component"
-          onChange={handleDateChange}
-          value={date}
-          locale={ptBR}
-          firstDayOfWeek={weekStart}
-          formatMonthYear={(locale, currentDate) => `${currentDate.toLocaleDateString(locale, { month: 'long' })} ${currentDate.getFullYear()}`}
-          tileClassName={({ date }) => {
-          const dateString = date.toDateString();
-          return messages[dateString] ? 'has-message' : '';
-          }}
-        />
-      </div>
+    const weekStart = 0;
 
-      <div className="messages">
-        <h3>Registros do dia: {selectedDate}</h3> {/* Exibe a data selecionada */}
-        <table className="custom-table">
-          <thead>
-            <tr>
-              <th>Título</th>
-              <th>Tipo</th>
-              <th>Situação</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="blue-text">
-                <Link to="/viewServices">
-                Reunião com o Zé do Boné
-                </Link>
-                </td>
-              <td>Consultoria</td>
-              <td>
-              <TableSituation title="Em Análise" type="analysis"/>
-              </td>
-            </tr>
+    return (
+        <div className="calendario-container">
+            <div className="calendar">
+                <Calendar
+                    className="calendar-component"
+                    onChange={handleDateChange}
+                    value={date}
+                    locale="pt-BR"
+                    firstDayOfWeek={weekStart}
+                    formatMonthYear={(locale, currentDate) => `${currentDate.toLocaleDateString(locale, { month: 'long' })} ${currentDate.getFullYear()}`}
+                />
+            </div>
 
-            <tr>
-              <td className="blue-text">
-                <Link to="/viewServices">
-                Reunião com o Zé do Boné
-                </Link>
-                </td>
-              <td>Consultoria</td>
-              <td>
-              <TableSituation title="Validado" type="validate"/>
-              </td>
-            </tr>
-
-            <tr>
-              <td className="blue-text">
-                <Link to="/viewServices">
-                Reunião com o Zé do Boné
-                </Link>
-                </td>
-              <td>Consultoria</td>
-              <td>
-              <TableSituation title="Parcialmente Validado" type="partial"/>
-              </td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
+            <div className="messages">
+                <h3>Registros do dia: {selectedDate}</h3> {/* Exibe a data selecionada */}
+                <table className="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Tipo</th>
+                            <th>Situação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredData.map(item => (
+                            <tr key={item.id}>
+                                <td className="blue-text">
+                                    <Link to={`/viewServices/${item.id}`}>
+                                        {item.titulo}
+                                    </Link>
+                                </td>
+                                <td>{item.Servico ? item.Servico.nome : 'N/A'}</td>
+                                <td>
+                                    <TableSituation title={item.status} url={`/viewServices/${item.id}`}/>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
 };
 
 export default Calendario;
