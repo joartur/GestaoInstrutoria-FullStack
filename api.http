@@ -65,3 +65,29 @@ GET http://localhost:3000/instrutor/test/789012
 
 ###
 GET http://localhost:3000/instrutor/servicos/123456
+
+# Rota coordenador
+
+###
+GET http://localhost:3000/coordArea/listarRegistros/123456
+
+###
+GET http://localhost:3000/coordArea/listarInstrutores
+
+###
+PUT http://localhost:3000/coordArea/validarRegistro/7/4321
+Content-Type: application/json
+
+{
+    
+}
+
+
+###
+PUT http://localhost:3000/coordArea/validarParcialmenteRegistro/12/1234
+Content-Type: application/json
+
+{
+    "justificativa": "Deu vontade",
+    "total": "0"
+}
