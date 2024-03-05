@@ -10,6 +10,7 @@ import ButtonFilter from '../../components/buttons/ButtonFilter';
 import Table from '../../components/table/Table';
 
 import "./tablesService.css"
+import FilterModal from '../../components/modais/FilterModal';
 
 const TablesService = () => {
     
@@ -20,10 +21,23 @@ const TablesService = () => {
         setSituacao(event.target.value);
     };
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const openModal = () => {
+        setIsModalOpen(true);
+        console.log(isModalOpen)
+    };
+    const closeModal = () => {
+        setIsModalOpen(false);
+        console.log(isModalOpen)
+    };
+
     return (
         <Layout >
             <Header title="Meus Serviços Educacionais" description="Lista com informações sobre seus serviços educacionais"/>
             <main className="tableService-container">
+                {isModalOpen && (
+                    <FilterModal onClose={closeModal}/>
+                )}
             <div className="search-container">
                 <div className="searchBar-container">
                     <TextInput placeholder="Pesquisar Serviço Educacional Por Título" id="search" name="search" onChange={handleChange}/>
@@ -40,7 +54,7 @@ const TablesService = () => {
                     <option value="">Parcialmente</option>
                     <option value="">Recusado</option>
                 </select>
-                <ButtonFilter title="Filtros" size="medium" icon={faArrowDownShortWide}/>
+                <button title="Filtros" size="medium" onClick={openModal} className="filterOpen-btn">Filtros</button>
             </div>
             
             {data.length > 0 ? (

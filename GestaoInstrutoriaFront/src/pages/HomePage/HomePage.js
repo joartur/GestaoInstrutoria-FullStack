@@ -15,8 +15,8 @@ const HomePage = () => {
         <main>
         <div className="home-container">
               <Box title="Horas Produzidas (SIG)" description="0 Horas" type="box"/>
-              <Box title="Horas de Serviço Educacional" description={instrutorData.horasServicos ? instrutorData.horasServicos : "0 Horas"} type="box"/>
-              <Box title="Total de Horas Cadastradas " description={instrutorData.horasServicos ? instrutorData.horasServicos : "0 Horas"} type="box"/>
+              <Box title="Horas de Serviço Educacional" description={instrutorData.horasServicos ? instrutorData.horasServicos + " Horas" : "0 Horas"} type="box"/>
+              <Box title="Total de Horas Cadastradas " description={instrutorData.horasServicos ? instrutorData.horasServicos + " Horas" : "0 Horas"} type="box"/>
               <Box title="Saldo de Horas" description="0 Horas" type="box"/>
         </div>
         <div>

@@ -5,8 +5,9 @@ import TimeInput from "../inputs/TimeInput"
 
 import "./filterModal.css"
 
-const FilterModal = () => {
+const FilterModal = ({ isOpen, onClose }) => {
     return(
+        <div className="deleteModal-overlay">
         <div className="deleteModal-whrapper">
             <div className="deletModal-container">
                 <h2>Filtrar Serviços Educacionais</h2>
@@ -15,11 +16,19 @@ const FilterModal = () => {
                     <div className="hour-filter">
                         <div className="timeInput-box">
                             <label htmlFor="">Início (Hora)</label>
-                            <TimeInput />
+                            <input
+                                    id="horaInicio"
+                                    name="horaInicio"
+                                    type="time"
+                                />
                         </div>
                         <div className="timeInput-box">
                             <label htmlFor="">Fim (Hora)</label>
-                            <TimeInput />
+                            <input
+                                    id="horaInicio"
+                                    name="horaInicio"
+                                    type="time"
+                                />
                         </div>
                     </div>
 
@@ -33,25 +42,35 @@ const FilterModal = () => {
                     <div className="date-filter">
                         <div className="dateInput-box">
                             <label htmlFor="">Data Inicial</label>
-                            <DateInput />
+                            <input
+                                id="dataServico"
+                                name="dataServico"
+                                type="date"
+                            />
                         </div>
                         <div className="dateInput-box">
                             <label htmlFor="">Data Final</label>
-                            <DateInput />
+                            <input
+                                id="dataServico"
+                                name="dataServico"
+                                type="date"
+                            />
                         </div>
                     </div>
 
                     <div className="order-filter">
-                        <ButtonFilter title="Mais Recentes" size="medium" icon={faArrowUp}/>
+                    <button className="filterOpen-btn">Mais recentes</button>
                         <p></p>
-                        <ButtonFilter title="Mais Antigas" size="medium" icon={faArrowDown}/>
+                        <button className="filterOpen-btn">Mais antigas</button>
                     </div>
 
+                
+                </form>
                 <div className="deleteModal-buttons">
-                <ButtonFilter title="Cancelar" size="medium"/>
+                <button className="filterOpen-btn" onClick={onClose}>Cancelar Filtros</button>
                 <button className="filters-btn">Aplicar Filtros</button>
                 </div>
-                </form>
+                </div>
             </div>
         </div>
     )
