@@ -324,6 +324,9 @@
               }
             }
           },
+          "400": {
+            "description": "Não é permitido excluir registro com status de 'Validado' ou 'Parcialmente Validado'"
+          },
           "404": {
             "description": "Registro não encontrado"
           },
