@@ -41,9 +41,9 @@ NODE_ENV=<TIPO DE DESENVOLVIMENTO(visto no aqrivo config. js)>
 
 `npx sequelize-cli db:migrate`
 
-3.1 Se desejar, você pode popular as tabelas com dados de exemplo usando seeds:
+  3.1 Se desejar, você pode popular as tabelas com dados de exemplo usando seeds:
 
-`npx sequelize-cli db:seed:all`
+  `npx sequelize-cli db:seed:all`
 
 4. Com todas as configurações e migrações feitas, você pode iniciar o projeto:
 
