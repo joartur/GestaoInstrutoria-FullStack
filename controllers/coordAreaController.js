@@ -18,6 +18,16 @@ const coordAreaController = {
             res.status(500).json({ error: error.message });
         }
     },
+    verificaSituacao: async (req, res) => {
+        try {
+            const registros = await Registro.findAll({ where: { FKinstrutor: req.params.matricula } });
+            const emAnalise = registros.some(registro => registro.status === 'Em Análise');
+
+            res.json(emAnalise)
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
     validarRegistro: async (req, res) => {
         try {
             const registros = await Registro.update({

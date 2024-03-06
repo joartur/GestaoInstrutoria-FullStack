@@ -10,6 +10,11 @@ router.get('/listarRegistros/:matricula', (req, res) => {
     coordArea.listarRegistros(req, res);
 });
 
+// Rota GET para saber a situação de determinado instrutor
+router.get('/verificaSituacao/:matricula', (req, res) => {
+    coordArea.verificaSituacao(req, res);
+});
+
 // Rota GET para listar os Instrutores
 router.get('/listarInstrutores', (req, res) => {
     coordArea.listarInstrutores(req, res);

@@ -22,6 +22,9 @@ GET http://localhost:3000/servico/buscar/4
 GET http://localhost:3000/coordArea/listarRegistros/123456
 
 ###
+GET http://localhost:3000/coordArea/verificaSituacao/345678
+
+###
 GET http://localhost:3000/coordArea/listarInstrutores
 
 ###
