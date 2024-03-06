@@ -31,8 +31,8 @@ Content-Type: application/json
 
 {
     "dataServico": "25-02-2024",
-    "horaInicio": "13:00",
-    "horaFinal": "16:00",
+    "horaInicio": "19:00",
+    "horaFinal": "18:00",
     "titulo": "Pabbabrte",
     "descricao": "Se coabayguso!!!",
     "FKservico": "2"
@@ -42,10 +42,10 @@ Content-Type: application/json
 GET http://localhost:3000/instrutor/registros/123456
 
 ###
-GET http://localhost:3000/instrutor/registro/123456/3
+GET http://localhost:3000/instrutor/registro/123456/6
 
 ###
-PUT http://localhost:3000/instrutor/registro/123456/7
+PUT http://localhost:3000/instrutor/registro/123456/6
 Content-Type: application/json
 
 {
