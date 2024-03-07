@@ -1,8 +1,8 @@
 ###
-GET http://localhost:3000
+GET http://localhost:3001
 
 ###
-POST http://localhost:3000/servico/adicionar
+POST http://localhost:3001/servico/adicionar
 Content-Type: application/json
 
 {
@@ -10,23 +10,23 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/servico/listar
+GET http://localhost:3001/servico/listar
 
 ###
-DELETE http://localhost:3000/servico/deletar/6
+DELETE http://localhost:3001/servico/deletar/6
 
 ###
-GET http://localhost:3000/servico/buscar/4
+GET http://localhost:3001/servico/buscar/4
 
 # rotas de instrutor
 ###
-GET  http://localhost:3000/instrutor/789012
+GET  http://localhost:3001/instrutor/789012
 
 ###
-GET  http://localhost:3000/instrutor/perfil/123456
+GET  http://localhost:3001/instrutor/perfil/123456
 
 ###
-POST http://localhost:3000/instrutor/registro/123456
+POST http://localhost:3001/instrutor/registro/123456
 Content-Type: application/json
 
 {
@@ -39,13 +39,13 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/instrutor/registros/123456
+GET http://localhost:3001/instrutor/registros/123456
 
 ###
-GET http://localhost:3000/instrutor/registro/123456/6
+GET http://localhost:3001/instrutor/registro/123456/6
 
 ###
-PUT http://localhost:3000/instrutor/registro/123456/6
+PUT http://localhost:3001/instrutor/registro/123456/6
 Content-Type: application/json
 
 {
@@ -58,10 +58,10 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/instrutor/registro/123456/10
+DELETE http://localhost:3001/instrutor/registro/123456/10
 
 ###
-GET http://localhost:3000/instrutor/test/789012
+GET http://localhost:3001/instrutor/test/789012
 
 ###
-GET http://localhost:3000/instrutor/servicos/123456
+GET http://localhost:3001/instrutor/servicos/123456
