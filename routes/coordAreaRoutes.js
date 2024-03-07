@@ -16,7 +16,7 @@ router.get('/verificaSituacao/:matricula', (req, res) => {
 });
 
 // Rota GET para listar os Instrutores
-router.get('/listarInstrutores', (req, res) => {
+router.get('/listarInstrutores/:area', (req, res) => {
     coordArea.listarInstrutores(req, res);
 });
 

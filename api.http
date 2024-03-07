@@ -25,7 +25,7 @@ GET http://localhost:3000/coordArea/listarRegistros/123456
 GET http://localhost:3000/coordArea/verificaSituacao/345678
 
 ###
-GET http://localhost:3000/coordArea/listarInstrutores
+GET http://localhost:3000/coordArea/listarInstrutores/Tecnologia
 
 ###
 PUT http://localhost:3000/coordArea/validarRegistro/7/4321

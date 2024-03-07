@@ -4,12 +4,13 @@ const Registro = require("../models/Registro.js")
 const coordAreaController = {
     listarInstrutores: async (req, res) => {
         try {
-            const instrutores = await Instrutor.findAll();
+            const instrutores = await Instrutor.findAll({ where: { area: req.params.area}});
             res.json(instrutores);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     },
+
     listarRegistros: async (req, res) => {
         try {
             const registros = await Registro.findAll({ where: { FKinstrutor: req.params.matricula } });
@@ -18,6 +19,7 @@ const coordAreaController = {
             res.status(500).json({ error: error.message });
         }
     },
+
     verificaSituacao: async (req, res) => {
         try {
             const registros = await Registro.findAll({ where: { FKinstrutor: req.params.matricula } });
@@ -28,6 +30,7 @@ const coordAreaController = {
             res.status(500).json({ error: error.message });
         }
     },
+
     validarRegistro: async (req, res) => {
         try {
             const registros = await Registro.update({
@@ -45,6 +48,7 @@ const coordAreaController = {
             res.status(500).json({ error: error.message });
         }
     },
+    
     validarParcialmenteRegistro: async (req, res) => {
         try {
             if (req.body.total > 0) {
