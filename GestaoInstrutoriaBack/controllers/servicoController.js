@@ -13,7 +13,7 @@ const servicoController = {
     },
     listar: async (req, res) => {
         try {
-            const servicos = await Servico.findAll();
+            const servicos = await Servico.findAll({attributes: ['id', 'nome']});
             res.json(servicos);
         } catch (error) {
             res.status(500).json({ error: error.message });

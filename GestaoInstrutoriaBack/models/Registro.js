@@ -1,6 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const Servico = require("./Servico");
 const Instrutor = require('./Instrutor');
+const Coordenador = require('./CoordenadorArea');
 const sequelize = require('../database/connection'); // Certifique-se de importar sua instância do sequelize corretamente
 
 class Registro extends Model {}
@@ -28,7 +29,7 @@ Registro.init({
         allowNull: false
     },
     titulo: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(50),
         allowNull: false
     },
     descricao: {
@@ -77,5 +78,7 @@ Registro.init({
 Registro.belongsTo(Servico, { foreignKey: 'FKservico' });
 
 Registro.belongsTo(Instrutor, { foreignKey: 'FKinstrutor' });
+
+Registro.belongsTo(Coordenador, { foreignKey: 'FKinstrutor' });
 
 module.exports = Registro;
