@@ -2,37 +2,41 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    // Criação dos dados a serem inseridos na tabela
-    const coordenadores = [
+    // Inserção dos dados na tabela
+    await queryInterface.bulkInsert('CoordenadorAreas', [
       {
         matricula: '123456',
         nome: 'Fulano da Silva',
         email: 'fulano@example.com',
-        area: 'Estética'
+        area: 'Estética',
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
-        matricula: '789012',
+        matricula: '019283',
         nome: 'Ciclano Oliveira',
         email: 'ciclano@example.com',
-        area: 'Gastronomia'
+        area: 'Gastronomia',
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
-        matricula: '345678',
+        matricula: '758690',
         nome: 'Maria João Melo',
         email: 'MjM@example.com',
-        area: 'Tecnologia'
+        area: 'Tecnologia',
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
-        matricula: '901234',
+        matricula: '647382',
         nome: 'Lucas Machado Azevedo',
         email: 'lu.Machado@example.com',
-        area: 'Turismo'
-      },
-    
-    ];
-
-    // Inserção dos dados na tabela
-    await queryInterface.bulkInsert('CoordenadorAreas', coordenadores, {});
+        area: 'Turismo',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ]);
   },
 
   down: async (queryInterface, Sequelize) => {

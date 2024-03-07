@@ -37,7 +37,7 @@ const coordAreaController = {
     },
     validarParcialmenteRegistro: async (req, res) => {
         try {
-            if (req.body.total > 0) {
+            if (req.body.total >= 0) {
                 const registros = await Registro.update({
                     status: "Parcialmente validado",
                     justificativa: req.body.justificativa,
@@ -51,8 +51,7 @@ const coordAreaController = {
                     }
                 );
                 res.json(registros)
-            }
-            else {
+            } else {
                 const registros = await Registro.update({
                     status: "Recusado",
                     justificativa: req.body.justificativa,
@@ -64,6 +63,7 @@ const coordAreaController = {
                             id: req.params.id,
                         },
                     });
+                    res.json(registros)
             }
         } catch (error) {
             res.status(500).json({ error: error.message });

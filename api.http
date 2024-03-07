@@ -67,9 +67,8 @@ GET http://localhost:3000/instrutor/test/789012
 GET http://localhost:3000/instrutor/servicos/123456
 
 # Rota coordenador
-
 ###
-GET http://localhost:3000/coordArea/listarRegistros/123456
+GET http://localhost:3000/coordArea/listarRegistros/789012
 
 ###
 GET http://localhost:3000/coordArea/listarInstrutores

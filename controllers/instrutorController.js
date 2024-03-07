@@ -13,18 +13,32 @@ const instrutorController = {
             //formatando data recebida do front no formato DD-MM-YYYY
             const dataFormatada = await formatarDataParaBD(dataServico);
 
+            //validação básica do texto da descrição
+            const validaDesc = await validarDesc(descricao);
+
+            if (!validaDesc) {
+                return res.status(400).json({ error: "Descrição inválida." });
+            }
+
             //conferindo se a data corresponde ao período em vigor ou está no futuro
             const periodoData = await conferirData(dataServico);
 
             if (!periodoData) {
-                return res.status(400).json({ error: "Não é permitido cadastrar registros para datas futuras" });
+                return res.status(400).json({ error: "Não é permitido cadastrar registros para datas futuras." });
             }
+
+            //conferindo se a hora é válida
+            const ordemHora = await conferirHora(horaInicio, horaFinal);
+
+            if (ordemHora){
+                return res.status(400).json({ error: "Registro com horas inválidas." });
+            }            
             
             //confere se não existe algum registro com a data e hora igual ou que se sobrepõe, já registrado
             const sobreposicaoHoras = await conferirRegistros(dataFormatada, FKinstrutor, horaFinal, horaInicio);
 
             if (sobreposicaoHoras) {
-                return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data" });
+                return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
             }
 
             //calcula o total de horas e retorna um inteiro
@@ -41,7 +55,7 @@ const instrutorController = {
                 FKinstrutor
             });
 
-            res.json({ msg: "Registro cadastrado"});
+            res.json({ msg: "Registro cadastrado."});
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -55,10 +69,10 @@ const instrutorController = {
             const registro = await buscarRegistro(matriculaI, registroId);
 
             if (!registro) {
-                return res.status(404).json({ error: "Registro não encontrado" });
+                return res.status(404).json({ error: "Registro não encontrado." });
             }
 
-            res.status(200).json({ msg: "Registro encontrado", data: registro });
+            res.status(200).json({ msg: "Registro encontrado.", data: registro });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -83,10 +97,10 @@ const instrutorController = {
             });
 
             if (registros.length === 0) {
-                return res.status(404).json({ error: "Registros não encontrados" });
+                return res.status(404).json({ error: "Registros não encontrados." });
             }
     
-            res.status(200).json({ msg: "Registros encontrados", data: registros });
+            res.status(200).json({ msg: "Registros encontrados.", data: registros });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -110,16 +124,29 @@ const instrutorController = {
 
             const dataFormatada = await formatarDataParaBD(dataServico);
 
+            //validação básica do texto da descrição
+            const validaDesc = await validarDesc(descricao);
+
+            if (!validaDesc) {
+                return res.status(400).json({ error: "Descrição inválida." });
+            }
+
             const periodoData = await conferirData(dataFormatada);
 
             if (!periodoData) {
                 return res.status(400).json({ error: "Não é permitido editar registros para datas futuras" });
             }
+            
+            const ordemHora = await conferirHora(horaInicio, horaFinal);
+
+            if (ordemHora){
+                return res.status(400).json({ error: "Registro com horas inválidas." });
+            }            
 
             const sobreposicaoHoras = await conferirRegistros(dataFormatada, matriculaI, horaFinal, horaInicio, registroId);
 
             if (sobreposicaoHoras) {
-                return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data" });
+                return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
             }
 
             const total = calcularDiferencaHoras(horaInicio, horaFinal);
@@ -135,10 +162,10 @@ const instrutorController = {
             }, { where: { id: registroId, FKinstrutor: matriculaI } });
 
             if (rowsUpdated === 0) {
-                return res.status(404).json({ error: "Registro não encontrado" });
+                return res.status(404).json({ error: "Registro não encontrado." });
             }
 
-            res.json({ msg: "Registro atualizado com sucesso" });
+            res.json({ msg: "Registro atualizado com sucesso." });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -151,7 +178,7 @@ const instrutorController = {
             const registro = await buscarRegistro(matriculaI, registroId);
 
             if (!registro) {
-                return res.status(404).json({ error: "Registro não encontrado" });
+                return res.status(404).json({ error: "Registro não encontrado." });
             }
             
             //verifica se o registro pode ser editado pelo status
@@ -161,7 +188,7 @@ const instrutorController = {
 
             await Registro.destroy({ where: { FKinstrutor: matriculaI, id: registroId } });
 
-            res.json({ msg: "Registro excluído com sucesso" });
+            res.json({ msg: "Registro excluído com sucesso." });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -226,10 +253,10 @@ const instrutorController = {
             });
 
             if (registros.length === 0) {
-                return res.status(404).json({ error: "Registros não encontrados" });
+                return res.status(404).json({ error: "Registros não encontrados." });
             }
 
-            res.status(200).json({ msg: "Registros encontrados", data: registros });
+            res.status(200).json({ msg: "Registros encontrados.", data: registros });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -312,7 +339,10 @@ async function buscarDatasServico(matriculaI) {
 async function calcularHorasServicos(matriculaI) {
     return await Registro.sum('total', {
         where: {
-            FKinstrutor: matriculaI
+            FKinstrutor: matriculaI,
+            status: {
+                [Op.or]: ["Validado", "Parcialmente validado"]
+            }
         }
     });
 }
@@ -351,14 +381,25 @@ async function formatarDataParaBD(data) {
     return dataFormatada;
 }
 
+async function conferirHora(hrInicio, hrFinal){
+    return ( hrInicio >= hrFinal )
+}
+
+async function validarDesc(desc){
+    /*
+    a expressão regular permite qualquer combinação de letras, números, espaços, vírgulas, pontos e caracteres acentuados, incluindo palavras, frases e números decimais simples, mas evita números independentes com quatro ou mais dígitos consecutivos.
+    */
+    const regex = /^(?!.*\b\d{4,}\b)[a-zA-Z0-9\s.,À-ÖØ-öø-ÿ]+(?: [a-zA-Z0-9\s.,À-ÖØ-öø-ÿ]+)*$/;
+
+    // verifica o tamanho da descrição
+    return (regex.test(desc) && desc.length > 15);
+}
 
 async function conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio, registroEditadoId = null) {
     const whereClause = {
         FKinstrutor,
         dataServico,
     };
-
-    console.log(registroEditadoId)
 
     // Se o ID do registro editado estiver disponível, exclua esse registro da consulta
     if (registroEditadoId) {

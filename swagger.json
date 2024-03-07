@@ -161,12 +161,22 @@
                 "examples": {
                   "registroSobreposto": {
                     "value": {
-                      "error": "Já existe um registro com horário sobreposto para este instrutor nesta data"
+                      "error": "Já existe um registro com horário sobreposto para este instrutor nesta data."
                     }
                   },
                   "dataInvalida": {
                     "value": {
                       "error": "Data inválida. Não é permitido cadastrar registros para datas futuras."
+                    }
+                  },
+                  "HoraInvalida": {
+                    "value": {
+                      "error": "Registro com horas inválidas."
+                    }
+                  },
+                  "DescricaoInvalida": {
+                    "value": {
+                      "error": "Descrição inválida."
                     }
                   }
                 }
@@ -276,6 +286,16 @@
                   "dataInvalida": {
                     "value": {
                       "error": "Data inválida. Não é permitido cadastrar registros para datas futuras."
+                    }
+                  },
+                  "HoraInvalida": {
+                    "value": {
+                      "error": "Registro com horas inválidas."
+                    }
+                  },
+                  "DescricaoInvalida": {
+                    "value": {
+                      "error": "Descrição inválida."
                     }
                   }
                 }
