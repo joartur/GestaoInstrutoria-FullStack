@@ -23,18 +23,18 @@ GET http://localhost:3001/servico/buscar/4
 GET  http://localhost:3001/instrutor/789012
 
 ###
-GET  http://localhost:3001/instrutor/perfil/123456
+GET  http://localhost:3001/instrutor/perfil/789012
 
 ###
 POST http://localhost:3001/instrutor/registro/123456
 Content-Type: application/json
 
 {
-    "dataServico": "25-02-2024",
-    "horaInicio": "13:00",
-    "horaFinal": "16:00",
-    "titulo": "Pabbabrte",
-    "descricao": "Se coabayguso!!!",
+    "dataServico": "2024-03-02",
+    "horaInicio": "07:00",
+    "horaFinal": "11:00",
+    "titulo": "Workshop de Maquiagem",
+    "descricao": "Workshop prático de técnicas de maquiagem.",
     "FKservico": "2"
 }
 
@@ -42,16 +42,16 @@ Content-Type: application/json
 GET http://localhost:3001/instrutor/registros/123456
 
 ###
-GET http://localhost:3001/instrutor/registro/123456/3
+GET http://localhost:3001/instrutor/registro/789012/3
 
 ###
-PUT http://localhost:3001/instrutor/registro/123456/1
+PUT http://localhost:3001/instrutor/registro/789012/3
 Content-Type: application/json
 
 {
     "dataServico": "25-02-2024",
     "horaInicio": "06:00:00",
-    "horaFinal": "07:10:00",
+    "horaFinal": "09:10:00",
     "titulo": "1º consulta com o zé boné",
     "descricao": "consulta de recomendação nutricional",
     "FKservico": "1"

@@ -25,7 +25,7 @@ Registro.init({
         allowNull: false
     },
     total: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.TIME,
         allowNull: false
     },
     titulo: {

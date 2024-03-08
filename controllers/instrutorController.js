@@ -158,7 +158,9 @@ const instrutorController = {
                 total,
                 titulo,
                 descricao,
-                FKservico
+                FKservico,
+                status:"Em Análise",
+                justificativa:""
             }, { where: { id: registroId, FKinstrutor: matriculaI } });
 
             if (rowsUpdated === 0) {
@@ -276,6 +278,7 @@ const instrutorController = {
 async function conferirData(data) {
     const hoje = new Date()
     const dataServico = new Date(data)
+    console.log(dataServico, )
     
     if (dataServico > hoje) {
         return false
@@ -371,7 +374,10 @@ async function buscarInstrutor(matriculaI){
 function calcularDiferencaHoras(horaInicio, horaFinal) {
     const horaInicioMs = new Date(`1970-01-01T${horaInicio}`).getTime();
     const horaFinalMs = new Date(`1970-01-01T${horaFinal}`).getTime();
-    const diffHours = (horaFinalMs - horaInicioMs) / (1000 * 60 * 60);
+    const diffHours = (horaFinalMs - horaInicioMs); //em ms
+    console.log(horaFinalMs, horaInicioMs,diffHours)
+    console.log(new Date(`${diffHours}`))
+
     return diffHours;
 }
 
