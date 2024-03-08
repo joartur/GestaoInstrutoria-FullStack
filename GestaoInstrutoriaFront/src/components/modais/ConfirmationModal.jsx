@@ -12,11 +12,11 @@ const ConfirmationModal = (props) => {
                 <FontAwesomeIcon icon={faCircleCheck} className="confirm-icon"/> 
                 <h2>Aguarde a Confirmação do Cordenador </h2>
                 <div className="deleteModal-buttons">
+                <Link to="/tables">
                 <button className="cancel-btn" onClick={props.onCancel}>
-                    <Link to="/tables">
-                            Visualizar Serviços
-                    </Link>
+                    Visualizar Serviços
                 </button>
+                </Link>
                 <button type="submit" className="confirm-btn" onClick={props.onClick}>Adicionar Mais</button>
                 </div>
                 <p>Aperte "Esc" para Continuar</p>

@@ -6,11 +6,9 @@ import Layout from "../../components/layout/Layout"
 import Header from "../../components/header/Header"
 import TextInput from "../../components/inputs/TextInput"
 import Button from '../../components/buttons/Button';
-import ButtonFilter from '../../components/buttons/ButtonFilter';
 import Table from '../../components/table/Table';
-
-import "./tablesService.css"
 import FilterModal from '../../components/modais/FilterModal';
+import "./tablesService.css"
 
 const TablesService = () => {
     

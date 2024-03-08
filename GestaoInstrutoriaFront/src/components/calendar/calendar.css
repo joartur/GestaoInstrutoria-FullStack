@@ -85,15 +85,23 @@ abbr[title] {
 }
   
 .custom-table th {
-    border: 1px solid var(--dark-grey);
+  border: 1px solid #e5e7eb;
+  background-color: #f9fafb;
     padding: 8px;
 }
   
 .custom-table td {
-    border: 1px solid var(--dark-grey);
-    text-align: left;
+  border: 1px solid #e5e7eb;
+  text-align: left;
 }
 
 .blue-text{
   color: var(--main-blue);
+}
+
+.warning{
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

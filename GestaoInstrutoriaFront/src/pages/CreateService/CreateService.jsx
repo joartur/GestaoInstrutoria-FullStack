@@ -4,7 +4,7 @@ import { faCalendar, faClock } from '@fortawesome/free-solid-svg-icons';
 import Layout from "../../components/layout/Layout";
 import Header from "../../components/header/Header";
 import { useDataContext } from '../../services/DataContext';
-import { useForm } from 'react-hook-form';
+import { useForm, reset } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ConfirmationModal from "../../components/modais/ConfirmationModal";
 import * as yup from 'yup';
@@ -31,12 +31,12 @@ function CreateService () {
         descricao: yup.string().required('A descrição é obrigatória'),
     });
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
 
     const onSubmit = async (data) => {
-        await createEducationalService(data);
+        await createEducationalService(data);   
     };
 
     useEffect(() => {

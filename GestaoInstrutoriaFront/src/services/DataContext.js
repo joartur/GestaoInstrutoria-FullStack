@@ -15,15 +15,15 @@ export const DataProvider = ({ children }) => {
   
     useEffect(() => {
     fetchData();
-    }, []);
+    }, [data]);
 
     useEffect(() => {
       InstrutorDataFetch();
-    }, []);
+    }, [instrutorData]);
 
     useEffect(() => {
       InstrutorProfileFetch();
-    }, []);
+    }, [instrutorProfile]);
   
 
     const fetchData = async () => {
@@ -31,7 +31,6 @@ export const DataProvider = ({ children }) => {
           const response = await axios.get('http://localhost:3001/instrutor/registros/123456');
           const orderedData = response.data.data.slice().reverse();
           setData(orderedData);
-          console.log(response.data.data);
     } catch (error) {
           console.error('Erro ao buscar dados da API:', error);
       }
@@ -43,7 +42,6 @@ export const DataProvider = ({ children }) => {
           setServiceCreated(true);
           setData([...data, response.data]);
           console.log('Novo serviço educacional criado:', response.data);
-          fetchData();
           setErrorMsg([])
         } catch (error) {
           if (error.response) {
@@ -80,7 +78,6 @@ export const DataProvider = ({ children }) => {
           const response = await axios.put(`http://localhost:3001/instrutor/registro/123456/${id}`, updatedServiceData);
           setServiceEdited(true);
           console.log('Serviço educacional editado com sucesso:', response.data);
-          fetchData();
           setErrorMsg([])
       } catch (error) {
         if (error.response) {

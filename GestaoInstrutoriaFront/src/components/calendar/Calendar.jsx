@@ -11,6 +11,7 @@ const Calendario = () => {
     const [date, setDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null);
     const [filteredData, setFilteredData] = useState([]);
+    
 
     const handleDateChange = (newDate) => {
         setDate(newDate);
@@ -55,7 +56,8 @@ const Calendario = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredData.map(item => (
+                    {
+                        filteredData.map(item => (
                             <tr key={item.id}>
                                 <td className="blue-text">
                                     <Link to={`/viewServices/${item.id}`}>
@@ -70,6 +72,9 @@ const Calendario = () => {
                         ))}
                     </tbody>
                 </table>
+                {filteredData.length === 0 && (
+                        <h1 className="warning">Não há nenhum registro para o dia: {selectedDate}</h1>
+                )}
             </div>
         </div>
     );
