@@ -30,4 +30,9 @@ router.put('/validarParcialmenteRegistro/:id/:FKcoordenador', (req, res) =>{
     coordArea.validarParcialmenteRegistro(req, res);
 })
 
+//rota post para criar um novo registro do instrutor
+router.post('/registro/:matricula',(req, res) => {
+    coordArea.cadastrarRegistro(req, res);
+})
+
 module.exports = router;

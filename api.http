@@ -44,3 +44,17 @@ Content-Type: application/json
     "justificativa": "Deu vontade",
     "total": "0"
 }
+
+###
+POST http://localhost:3000/coordArea/registro/1234
+Content-Type: application/json
+
+{
+    "dataServico": "25-02-2024",
+    "horaInicio": "00:00",
+    "horaFinal": "05:00",
+    "titulo": "De eleitor",
+    "descricao": "use sua imaginação",
+    "FKservico": "6",
+    "FKinstrutor": "789012"
+}
