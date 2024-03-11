@@ -14,7 +14,7 @@ import "../EditService/editService.css"
 
 const EditService = () => {
     const { id } = useParams();
-    const { editService, errorMsg, serviceEdited, setServiceEdited } = useDataContext();
+    const { editService, errorMsg, serviceEdited, setServiceEdited, serviceTypes } = useDataContext();
     const [service, setService] = useState(null);
 
     const closeModal = () => {
@@ -43,15 +43,16 @@ const EditService = () => {
                 setValue('dataServico', response.data.data.dataServico);
                 setValue('horaInicio', response.data.data.horaInicio);
                 setValue('horaFinal', response.data.data.horaFinal);
-                setValue('FKservico', ""); //response.data.data.Servico.valor
+                setValue('FKservico', response.data.data.Servico.id);
                 setValue('descricao', response.data.data.descricao);
+                console.log(response.data.data);
             } catch (error) {
                 console.error('Erro ao buscar detalhes do serviço:', error);
             }
         };
 
         fetchServiceDetails();
-    }, [id, setValue]);
+    }, []);
 
     const onSubmit = async (data) => {
         await editService(id, data);
@@ -124,9 +125,11 @@ const EditService = () => {
                             <label htmlFor="FKservico">Tipo de Serviço:</label>
                             <select id="FKservico" name="FKservico" {...register('FKservico')}>
                                 <option value="">Escolha a atividade</option>
-                                <option value="1">Consultoria</option>
-                                <option value="2">Monitoria</option>
-                                <option value="3">Aula</option>
+                                {serviceTypes ? (
+                                    serviceTypes.map(service => (
+                                        <option value={service.id} key={service.id}>{service.nome}</option>
+                                ))
+                                ) : (null)}
                             </select>
                             <span className="error-msg">{errors.FKservico && <>{errors.FKservico.message}</>}</span>
                         </div>

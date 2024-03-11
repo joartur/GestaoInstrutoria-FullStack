@@ -13,11 +13,11 @@ const EditModal = ({ onCancel, onClick }) => {
                 <FontAwesomeIcon icon={faPenToSquare} className="edit-icon" />
                 <h2>Aguarde a Confirmação do Cordenador </h2>
                 <div className="deleteModal-buttons">
-                <button className="cancel-btn" onClick={onCancel}>
                     <Link to="/tables">
+                        <button className="cancel-btn" onClick={onCancel}>
                             Visualizar Serviços
+                        </button>
                     </Link>
-                    </button>
                     <button type="submit" className="edit-btn" onClick={onClick}>Continuar Edição</button>
                 </div>
             </div>

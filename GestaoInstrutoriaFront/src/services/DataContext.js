@@ -9,6 +9,8 @@ export const DataProvider = ({ children }) => {
     const [data, setData] = useState([]);
     const [instrutorData, setInstrutorData] = useState([])
     const [instrutorProfile, setInstrutorProfile] = useState([]);
+    const [serviceTypes, setServiceTypes] = useState([]);
+
     const [errorMsg, setErrorMsg] = useState([])
     const [serviceCreated, setServiceCreated] = useState(false);
     const [serviceEdited, setServiceEdited] = useState(false);
@@ -24,6 +26,10 @@ export const DataProvider = ({ children }) => {
     useEffect(() => {
       InstrutorProfileFetch();
     }, [instrutorProfile]);
+
+    useEffect(() => {
+      serviceTypesFetch();
+    }, [serviceTypes]);
   
 
     const fetchData = async () => {
@@ -117,8 +123,18 @@ export const DataProvider = ({ children }) => {
     }
   };
 
+  const serviceTypesFetch = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/instrutor/servicos/123456');
+      setServiceTypes(response.data.servicos);
+      console.log(serviceTypes)
+    } catch (error) {
+      console.error('Erro ao buscar dados do perfil do instrutor:', error);
+    }
+  }
+
   return (
-    <DataContext.Provider value={{ data, instrutorData, serviceCreated, serviceEdited, instrutorProfile, setServiceCreated, setServiceEdited, createEducationalService, deleteService, editService, errorMsg }}>
+    <DataContext.Provider value={{ data, instrutorData, serviceCreated, serviceEdited, instrutorProfile, serviceTypes, setServiceCreated, setServiceEdited, createEducationalService, deleteService, editService, errorMsg }}>
         {children}
     </DataContext.Provider>
   );

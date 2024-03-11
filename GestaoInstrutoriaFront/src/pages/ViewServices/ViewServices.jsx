@@ -44,6 +44,7 @@ const ViewServices = () => {
                 <div className="serviceInfo-container">
                     <div className="hour-info">
                         <strong>Data: </strong><span>{service.dataServico}</span>
+                        <strong>Tipo de Serviço: </strong><span>{service.Servico.nome}</span>
                     </div>
                     <div className="time-info">
                         <strong>Horário Inincial: </strong><span>{service.horaInicio}</span>

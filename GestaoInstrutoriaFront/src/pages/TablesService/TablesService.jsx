@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass, faArrowDownShortWide, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { useDataContext } from '../../services/DataContext';
 import Layout from "../../components/layout/Layout"
 import Header from "../../components/header/Header"
@@ -12,7 +12,7 @@ import "./tablesService.css"
 
 const TablesService = () => {
     
-    const { data } = useDataContext();
+    const { data, serviceTypes } = useDataContext();
     const [situacao, setSituacao] = useState('');
 
     const handleChange = (event) => {
@@ -45,13 +45,17 @@ const TablesService = () => {
                 </div>
             </div>
             <div className="filters-container">
+
             <select id="filter" name="filter" value={situacao} onChange={handleChange}>
                     <option value="">Todos</option>
-                    <option value="">Em Análise</option>
-                    <option value="">Validado</option>
-                    <option value="">Parcialmente</option>
-                    <option value="">Recusado</option>
-                </select>
+                    {serviceTypes ? (
+                         serviceTypes.map(service => (
+                            <option value={service.id} key={service.id}>{service.nome}</option>
+                    ))
+                    ) : (null)}
+                       
+            </select>
+
                 <button title="Filtros" size="medium" onClick={openModal} className="filterOpen-btn">Filtros</button>
             </div>
             

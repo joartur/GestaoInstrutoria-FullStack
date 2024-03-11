@@ -11,7 +11,7 @@ import * as yup from 'yup';
 import "./createService.css"
 
 function CreateService () {
-    const { createEducationalService, errorMsg, serviceCreated, setServiceCreated } = useDataContext();
+    const { createEducationalService, errorMsg, serviceCreated, setServiceCreated, serviceTypes } = useDataContext();
 
     const closeModal = () => {
         setServiceCreated(false);
@@ -108,9 +108,11 @@ function CreateService () {
                             <label htmlFor="FKservico">Tipo de Serviço:</label>
                             <select id="FKservico" name="FKservico" {...register('FKservico')}>
                                 <option value="">Escolha a atividade</option>
-                                <option value="1">Consultoria</option>
-                                <option value="2">Monitoria</option>
-                                <option value="3">Aula</option>
+                                {serviceTypes ? (
+                                    serviceTypes.map(service => (
+                                        <option value={service.id} key={service.id}>{service.nome}</option>
+                                ))
+                                ) : (null)}
                             </select>
                             <span className="error-msg">{errors.FKservico && <>{errors.FKservico.message}</>}</span>
                         </div>

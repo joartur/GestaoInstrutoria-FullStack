@@ -72,9 +72,7 @@ const Calendario = () => {
                         ))}
                     </tbody>
                 </table>
-                {filteredData.length === 0 && (
-                        <h1 className="warning">Não há nenhum registro para o dia: {selectedDate}</h1>
-                )}
+                
             </div>
         </div>
     );
