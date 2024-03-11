@@ -41,7 +41,7 @@ const instrutorController = {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
             }
 
-            //calcula o total de horas e retorna um inteiro
+            //calcula o total de horas e retorna em time
             const total = calcularDiferencaHoras(horaInicio, horaFinal);
             
             await Registro.create({
@@ -208,6 +208,9 @@ const instrutorController = {
 
             //busca e calcula as horas totais de serviço educacional
             const horasServicos = await calcularHorasServicos(matriculaI);
+            
+            //busca e calcula as horas totais de serviço educacional
+            const horasTrab = await calcularHorasTrab(matriculaI);
 
             //busca pelo saldo de hora, se houver
             const saldoHoras = await buscarSaldoHoras(matriculaI);
@@ -217,6 +220,7 @@ const instrutorController = {
                 registrosRecentes,
                 datasServico,
                 horasServicos,
+                horasTrab,
                 saldoHoras
             };
 
@@ -340,7 +344,7 @@ async function buscarDatasServico(matriculaI) {
 }
 
 async function calcularHorasServicos(matriculaI) {
-    return await Registro.sum('total', {
+    const somaMs = await Registro.sum('total', {
         where: {
             FKinstrutor: matriculaI,
             status: {
@@ -348,11 +352,27 @@ async function calcularHorasServicos(matriculaI) {
             }
         }
     });
+
+    let hora = new Date(somaMs);
+    let horaFormatada = `${hora.getUTCHours().toString().padStart(2, '0')}:${hora.getUTCMinutes().toString().padStart(2, '0')}`;
+    
+    return horaFormatada;
+}
+
+async function calcularHorasTrab(matriculaI) {
+    const instrutor = await Instrutor.findOne({
+        attributes: ['horasTrabalhadas'],
+        where: {
+            matricula: matriculaI
+        }
+    });
+
+    return instrutor.horasTrabalhadas;
 }
 
 async function buscarSaldoHoras(matriculaI) {
     const instrutor = await Instrutor.findOne({
-        attributes: ['horasTrabalhadas', 'saldoHoras'],
+        attributes: ['horasTrabalhadas'],
         where: {
             matricula: matriculaI
         }
@@ -374,11 +394,16 @@ async function buscarInstrutor(matriculaI){
 function calcularDiferencaHoras(horaInicio, horaFinal) {
     const horaInicioMs = new Date(`1970-01-01T${horaInicio}`).getTime();
     const horaFinalMs = new Date(`1970-01-01T${horaFinal}`).getTime();
-    const diffHours = (horaFinalMs - horaInicioMs); //em ms
-    console.log(horaFinalMs, horaInicioMs,diffHours)
-    console.log(new Date(`${diffHours}`))
+    const diffMs = horaFinalMs - horaInicioMs; // Diferença em milissegundos
 
-    return diffHours;
+    // Calcular horas e minutos
+    const diffHoras = Math.floor(diffMs / (1000 * 60 * 60)); // Horas
+    const diffMinutos = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60)); // Minutos
+
+    // Formatando o resultado
+    let horaFormatada = `${diffHoras}:${diffMinutos < 10 ? '0' : ''}${diffMinutos}`;
+
+    return horaFormatada;
 }
 
 async function formatarDataParaBD(data) {
@@ -393,9 +418,10 @@ async function conferirHora(hrInicio, hrFinal){
 
 async function validarDesc(desc){
     /*
-    a expressão regular permite qualquer combinação de letras, números, espaços, vírgulas, pontos e caracteres acentuados, incluindo palavras, frases e números decimais simples, mas evita números independentes com quatro ou mais dígitos consecutivos.
+    a expressão regular permite qualquer combinação de letras, números, espaços, vírgulas, pontos, exclamação, interrogação, hífens
+    e caracteres acentuados, incluindo palavras, frases e números decimais simples, mas evita números independentes com quatro ou mais dígitos consecutivos.
     */
-    const regex = /^(?!.*\b\d{4,}\b)[a-zA-Z0-9\s.,À-ÖØ-öø-ÿ]+(?: [a-zA-Z0-9\s.,À-ÖØ-öø-ÿ]+)*$/;
+   const regex = /^(?!.*\b\d{4,}\b)(?!.*\b[A-Za-z]{20,}\b)[a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\']+(?: [a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\']+)*$/;
 
     // verifica o tamanho da descrição
     return (regex.test(desc) && desc.length > 15);

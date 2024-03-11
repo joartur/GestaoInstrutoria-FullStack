@@ -26,7 +26,7 @@ GET  http://localhost:3001/instrutor/789012
 GET  http://localhost:3001/instrutor/perfil/789012
 
 ###
-POST http://localhost:3001/instrutor/registro/123456
+POST http://localhost:3001/instrutor/registro/789012
 Content-Type: application/json
 
 {
@@ -39,7 +39,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3001/instrutor/registros/123456
+GET http://localhost:3001/instrutor/registros/789012
 
 ###
 GET http://localhost:3001/instrutor/registro/789012/3
@@ -51,7 +51,7 @@ Content-Type: application/json
 {
     "dataServico": "25-02-2024",
     "horaInicio": "06:00:00",
-    "horaFinal": "09:10:00",
+    "horaFinal": "09:30:00",
     "titulo": "1º consulta com o zé boné",
     "descricao": "consulta de recomendação nutricional",
     "FKservico": "1"
@@ -74,7 +74,7 @@ GET http://localhost:3001/coordArea/listarRegistros/789012
 GET http://localhost:3001/coordArea/listarInstrutores
 
 ###
-PUT http://localhost:3001/coordArea/validarRegistro/7/4321
+PUT http://localhost:3001/coordArea/validarRegistro/3/019283
 Content-Type: application/json
 
 {
