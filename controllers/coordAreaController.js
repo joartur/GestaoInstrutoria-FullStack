@@ -1,4 +1,3 @@
-const { where } = require("sequelize");
 const Instrutor = require("../models/Instrutor.js")
 const Registro = require("../models/Registro.js")
 
@@ -79,14 +78,12 @@ const coordAreaController = {
 
 async function calcularHoras(idRegistro) {
     //encontrar o registro validado
-    //encontrar o instrutor que fez o registro
-    //modificar o valor das horas cadastradas (adicionando)
-
     const registro = await Registro.findAll({where: {id:idRegistro}})
 
     registro.forEach(async (reg)=>{
+        //encontrar o instrutor que fez o registro
         const instrutor = await Instrutor.findAll({where: {matricula: reg.FKinstrutor}})
-        
+
         instrutor.forEach(async (ins)=>{
             let hrTrabAtt = calcularHorasTrab(reg.total, ins.horasTrabalhadas);
 
@@ -98,11 +95,11 @@ async function calcularHoras(idRegistro) {
     })
 }
 
+//modificar o valor das horas cadastradas (adicionando)
 function calcularHorasTrab(horaRegis, horaTrab) {
     const horaRegisMS = new Date(`1970-01-01T${horaRegis}`).getTime();
     const horaTrabMs = new Date(`1970-01-01T${horaTrab}`).getTime();
     const somaMs = horaRegisMS + horaTrabMs; // soma das horas em milissegundos
-    console.log(horaRegis, horaTrab, somaMs)
 
     // Calcular horas e minutos
     const somaHoras = Math.floor(somaMs / (1000 * 60 * 60)); // Horas
@@ -113,4 +110,5 @@ function calcularHorasTrab(horaRegis, horaTrab) {
 
     return horaFormatada;
 }
+
 module.exports = coordAreaController;

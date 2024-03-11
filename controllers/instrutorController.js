@@ -246,7 +246,6 @@ const instrutorController = {
     //rota de teste para o front com todos os registros do banco
     test: async (req, res) => {
         try {
-    
             const registros = await Registro.findAll({
                 attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
                 include: [{
@@ -372,7 +371,7 @@ async function calcularHorasTrab(matriculaI) {
 
 async function buscarSaldoHoras(matriculaI) {
     const instrutor = await Instrutor.findOne({
-        attributes: ['horasTrabalhadas'],
+        attributes: ['saldoHoras'],
         where: {
             matricula: matriculaI
         }
@@ -396,13 +395,9 @@ function calcularDiferencaHoras(horaInicio, horaFinal) {
     const horaFinalMs = new Date(`1970-01-01T${horaFinal}`).getTime();
     const diffMs = horaFinalMs - horaInicioMs; // Diferença em milissegundos
 
-    // Calcular horas e minutos
-    const diffHoras = Math.floor(diffMs / (1000 * 60 * 60)); // Horas
-    const diffMinutos = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60)); // Minutos
-
-    // Formatando o resultado
-    let horaFormatada = `${diffHoras}:${diffMinutos < 10 ? '0' : ''}${diffMinutos}`;
-
+    let hora = new Date(diffMs);
+    let horaFormatada = `${hora.getUTCHours().toString().padStart(2, '0')}:${hora.getUTCMinutes().toString().padStart(2, '0')}`;
+    
     return horaFormatada;
 }
 
@@ -458,6 +453,5 @@ async function conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio
 
     return sobreposicao;
 }
-
 
 module.exports = instrutorController;
