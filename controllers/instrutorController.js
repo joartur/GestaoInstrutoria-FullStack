@@ -374,9 +374,10 @@ async function conferirHora(hrInicio, hrFinal){
 
 async function validarDesc(desc){
     /*
-    a expressão regular permite qualquer combinação de letras, números, espaços, vírgulas, pontos e caracteres acentuados, incluindo palavras, frases e números decimais simples, mas evita números independentes com quatro ou mais dígitos consecutivos.
+    a expressão regular permite qualquer combinação de letras, números, espaços, vírgulas, pontos, exclamação, interrogação, hífens
+    e caracteres acentuados, incluindo palavras, frases e números decimais simples, mas evita números independentes com quatro ou mais dígitos consecutivos.
     */
-    const regex = /^(?!.*\b\d{4,}\b)[a-zA-Z0-9\s.,À-ÖØ-öø-ÿ]+(?: [a-zA-Z0-9\s.,À-ÖØ-öø-ÿ]+)*$/;
+   const regex = /^(?!.*\b\d{4,}\b)(?!.*\b[A-Za-z]{20,}\b)[a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\']+(?: [a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\']+)*$/;
 
     // verifica o tamanho da descrição
     return (regex.test(desc) && desc.length > 15);
