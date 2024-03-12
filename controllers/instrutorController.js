@@ -11,7 +11,7 @@ const instrutorController = {
             const FKinstrutor = req.params.matriculaI;
             
             //formatando data recebida do front no formato DD-MM-YYYY
-            const dataFormatada = await formatarDataParaBD(dataServico);
+            // const dataFormatada = await formatarDataParaBD(dataServico);
 
             //validação básica do texto da descrição
             const validaDesc = await validarDesc(descricao);
@@ -117,7 +117,7 @@ const instrutorController = {
                 return res.status(404).json({ error: "Registro não encontrado." });
             }
             
-            const dataFormatada = await formatarDataParaBD(dataServico);
+            // const dataFormatada = await formatarDataParaBD(dataServico);
 
             //validação básica do texto da descrição
             const validaDesc = await validarDesc(descricao);
@@ -362,11 +362,11 @@ function calcularDiferencaHoras(horaInicio, horaFinal) {
     return diffHours;
 }
 
-async function formatarDataParaBD(data) {
-    const partesData = data.split('-'); // Divide a string da data em partes usando o separador "-"
-    const dataFormatada = `${partesData[2]}-${partesData[1]}-${partesData[0]}`; // Formata a data para "YYYY-MM-DD"
-    return dataFormatada;
-}
+// async function formatarDataParaBD(data) {
+//     const partesData = data.split('-'); // Divide a string da data em partes usando o separador "-"
+//     const dataFormatada = `${partesData[2]}-${partesData[1]}-${partesData[0]}`; // Formata a data para "YYYY-MM-DD"
+//     return dataFormatada;
+// }
 
 async function conferirHora(hrInicio, hrFinal){
     return ( hrInicio >= hrFinal )
