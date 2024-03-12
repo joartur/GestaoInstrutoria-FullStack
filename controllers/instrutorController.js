@@ -280,8 +280,8 @@ const instrutorController = {
 
 async function conferirData(data) {
     const hoje = new Date()
-    const dataServico = new Date(data)
-    console.log(dataServico, )
+    const dataServico = new Date(`1970-01-01T${data}`)
+    console.log(dataServico)
     
     if (dataServico > hoje) {
         return false
@@ -404,6 +404,7 @@ function calcularDiferencaHoras(horaInicio, horaFinal) {
 async function formatarDataParaBD(data) {
     const partesData = data.split('-'); // Divide a string da data em partes usando o separador "-"
     const dataFormatada = `${partesData[2]}-${partesData[1]}-${partesData[0]}`; // Formata a data para "YYYY-MM-DD"
+    console.log(dataFormatada, partesData)
     return dataFormatada;
 }
 

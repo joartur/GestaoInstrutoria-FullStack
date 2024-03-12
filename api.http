@@ -30,9 +30,9 @@ POST http://localhost:3001/instrutor/registro/789012
 Content-Type: application/json
 
 {
-    "dataServico": "2024-03-02",
-    "horaInicio": "07:00",
-    "horaFinal": "11:00",
+    "dataServico": "06-03-2024",
+    "horaInicio": "01:00",
+    "horaFinal": "23:00",
     "titulo": "Workshop de Maquiagem",
     "descricao": "Workshop prático de técnicas de maquiagem.",
     "FKservico": "2"
