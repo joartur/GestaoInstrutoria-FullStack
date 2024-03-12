@@ -23,11 +23,18 @@ const ViewServices = () => {
         };
     
         fetchServiceDetails();
-      }, [id]);
+    }, [id]);
 
-      if (!service) {
+    if (!service) {
         return <div>Carregando...</div>;
-      }
+    }
+
+    const [ano, mes, dia] = service.dataServico.split("-");
+    const dataFormatada = `${dia}/${mes}/${ano}`;
+    const [horaInicial, minutoInicial] = service.horaInicio.split(":");
+    const horaInicioFormatada = `${horaInicial}:${minutoInicial}`;
+    const [horaFim, minutoFim] = service.horaFinal.split(":");
+    const horaFinalFormatada = `${horaFim}:${minutoFim}`;
 
     return (
         <Layout>
@@ -43,12 +50,12 @@ const ViewServices = () => {
 
                 <div className="serviceInfo-container">
                     <div className="hour-info">
-                        <strong>Data: </strong><span>{service.dataServico}</span>
+                        <strong>Data: </strong><span>{dataFormatada}</span>
                         <strong>Tipo de Serviço: </strong><span>{service.Servico.nome}</span>
                     </div>
                     <div className="time-info">
-                        <strong>Horário Inincial: </strong><span>{service.horaInicio}</span>
-                        <strong>Horário Final: </strong><span>{service.horaFinal}</span>
+                        <strong>Horário Inincial: </strong><span>{horaInicioFormatada}</span>
+                        <strong>Horário Final: </strong><span>{horaFinalFormatada}</span>
                         <strong>Total de Horas: </strong><span>{service.total} Horas</span>
                     </div>
                     <div className="description-info">

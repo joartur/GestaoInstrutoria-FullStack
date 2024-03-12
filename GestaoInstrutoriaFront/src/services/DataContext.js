@@ -16,20 +16,20 @@ export const DataProvider = ({ children }) => {
     const [serviceEdited, setServiceEdited] = useState(false);
   
     useEffect(() => {
-    fetchData();
-    }, [data]);
+      fetchData();
+    }, []);
 
     useEffect(() => {
       InstrutorDataFetch();
-    }, [instrutorData]);
+    }, []);
 
     useEffect(() => {
       InstrutorProfileFetch();
-    }, [instrutorProfile]);
+    }, []);
 
     useEffect(() => {
       serviceTypesFetch();
-    }, [serviceTypes]);
+    }, []);
   
 
     const fetchData = async () => {
@@ -37,6 +37,9 @@ export const DataProvider = ({ children }) => {
           const response = await axios.get('http://localhost:3001/instrutor/registros/123456');
           const orderedData = response.data.data.slice().reverse();
           setData(orderedData);
+          //Atualiza os dados do instrutor como: Horas Cadastradas. Isso seria uma gambiarra?
+          InstrutorDataFetch();
+          console.log(data)
     } catch (error) {
           console.error('Erro ao buscar dados da API:', error);
       }
@@ -48,7 +51,9 @@ export const DataProvider = ({ children }) => {
           setServiceCreated(true);
           setData([...data, response.data]);
           console.log('Novo serviço educacional criado:', response.data);
-          setErrorMsg([])
+          //Atualiza os dados de serviço.
+          fetchData();
+          setErrorMsg([]);
         } catch (error) {
           if (error.response) {
             // O servidor retornou um código de status diferente de 2xx
@@ -84,6 +89,7 @@ export const DataProvider = ({ children }) => {
           const response = await axios.put(`http://localhost:3001/instrutor/registro/123456/${id}`, updatedServiceData);
           setServiceEdited(true);
           console.log('Serviço educacional editado com sucesso:', response.data);
+          fetchData();
           setErrorMsg([])
       } catch (error) {
         if (error.response) {

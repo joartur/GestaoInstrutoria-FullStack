@@ -22,8 +22,8 @@ const TableSituation = (props) => {
     }
 
     return (
-        <Link to={props.url}>
-        <div className={className}>
+        <Link to={props.url} className="situation-link">
+        <div className={`tableSituation ${className}`}>
             <p>{props.title}</p>
         </div>
         </Link>

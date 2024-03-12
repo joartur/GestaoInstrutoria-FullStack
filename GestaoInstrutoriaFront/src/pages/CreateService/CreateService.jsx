@@ -36,7 +36,8 @@ function CreateService () {
     });
 
     const onSubmit = async (data) => {
-        await createEducationalService(data);   
+        await createEducationalService(data);
+        console.log(data)
     };
 
     useEffect(() => {

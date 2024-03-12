@@ -25,7 +25,7 @@ const Table = () => {
     };
 
     const formattedServices = data.map(service => {
-        const dataServico = moment(service.dataServico).format('MM/DD/YYYY'); //possível gambiarra. Ele exibe os dados de forma correta mas apenas se o resistro for cadastrado, e não atualizado pelo banco de dados.
+        const dataServico = moment(service.dataServico).format('DD/MM/YYYY'); //possível gambiarra. Ele exibe os dados de forma correta mas apenas se o resistro for cadastrado, e não atualizado pelo banco de dados.
         const formattedHoraInicio = formatTime(service.horaInicio);
         const formattedHoraFinal = formatTime(service.horaFinal);
         return {

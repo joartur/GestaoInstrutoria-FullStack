@@ -11,7 +11,7 @@ const instrutorController = {
             const FKinstrutor = req.params.matriculaI;
             
             //formatando data recebida do front no formato DD-MM-YYYY
-            const dataFormatada = await formatarDataParaBD(dataServico);
+            // const dataFormatada = await formatarDataParaBD(dataServico);
 
             //validação básica do texto da descrição
             const validaDesc = await validarDesc(descricao);
@@ -35,7 +35,7 @@ const instrutorController = {
             }            
             
             //confere se não existe algum registro com a data e hora igual ou que se sobrepõe, já registrado
-            const sobreposicaoHoras = await conferirRegistros(dataFormatada, FKinstrutor, horaFinal, horaInicio);
+            const sobreposicaoHoras = await conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio);
 
             if (sobreposicaoHoras) {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
@@ -45,7 +45,7 @@ const instrutorController = {
             const total = calcularDiferencaHoras(horaInicio, horaFinal);
             
             await Registro.create({
-                dataServico: dataFormatada,
+                dataServico: dataServico,
                 horaInicio,
                 horaFinal,
                 total,
@@ -117,7 +117,7 @@ const instrutorController = {
                 return res.status(404).json({ error: "Registro não encontrado." });
             }
             
-            const dataFormatada = await formatarDataParaBD(dataServico);
+            // const dataFormatada = await formatarDataParaBD(dataServico);
 
             //validação básica do texto da descrição
             const validaDesc = await validarDesc(descricao);
@@ -362,11 +362,11 @@ function calcularDiferencaHoras(horaInicio, horaFinal) {
     return diffHours;
 }
 
-async function formatarDataParaBD(data) {
-    const partesData = data.split('-'); // Divide a string da data em partes usando o separador "-"
-    const dataFormatada = `${partesData[2]}-${partesData[1]}-${partesData[0]}`; // Formata a data para "YYYY-MM-DD"
-    return dataFormatada;
-}
+// async function formatarDataParaBD(data) {
+//     const partesData = data.split('-'); // Divide a string da data em partes usando o separador "-"
+//     const dataFormatada = `${partesData[2]}-${partesData[1]}-${partesData[0]}`; // Formata a data para "YYYY-MM-DD"
+//     return dataFormatada;
+// }
 
 async function conferirHora(hrInicio, hrFinal){
     return ( hrInicio >= hrFinal )

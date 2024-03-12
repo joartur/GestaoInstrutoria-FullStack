@@ -8,8 +8,9 @@ import { useDataContext } from '../../services/DataContext';
 
 const Calendario = () => {
     const { data } = useDataContext();
+    const currentDate = new Date();
     const [date, setDate] = useState(new Date());
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(currentDate.toLocaleDateString());
     const [filteredData, setFilteredData] = useState([]);
     
 
