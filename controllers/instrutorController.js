@@ -35,7 +35,7 @@ const instrutorController = {
             }            
             
             //confere se não existe algum registro com a data e hora igual ou que se sobrepõe, já registrado
-            const sobreposicaoHoras = await conferirRegistros(dataFormatada, FKinstrutor, horaFinal, horaInicio);
+            const sobreposicaoHoras = await conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio);
 
             if (sobreposicaoHoras) {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
@@ -45,7 +45,7 @@ const instrutorController = {
             const total = calcularDiferencaHoras(horaInicio, horaFinal);
             
             await Registro.create({
-                dataServico: dataFormatada,
+                dataServico,
                 horaInicio,
                 horaFinal,
                 total,
@@ -138,7 +138,7 @@ const instrutorController = {
                 return res.status(400).json({ error: "Registro com horas inválidas." });
             }            
 
-            const sobreposicaoHoras = await conferirRegistros(dataFormatada, matriculaI, horaFinal, horaInicio, registroId);
+            const sobreposicaoHoras = await conferirRegistros(dataServico, matriculaI, horaFinal, horaInicio, registroId);
 
             if (sobreposicaoHoras) {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
@@ -147,7 +147,7 @@ const instrutorController = {
             const total = calcularDiferencaHoras(horaInicio, horaFinal);
 
             const [rowsUpdated] = await Registro.update({
-                dataServico: dataFormatada,
+                dataServico,
                 horaInicio,
                 horaFinal,
                 total,
