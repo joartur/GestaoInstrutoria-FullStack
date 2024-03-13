@@ -1,11 +1,6 @@
-import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons"
-import ButtonFilter from "../buttons/ButtonFilter"
-import DateInput from "../inputs/DateInput"
-import TimeInput from "../inputs/TimeInput"
-
 import "./filterModal.css"
 
-const FilterModal = ({ isOpen, onClose }) => {
+const FilterModal = ({ onClose }) => {
     return(
         <div className="deleteModal-overlay">
         <div className="deleteModal-whrapper">
@@ -15,7 +10,7 @@ const FilterModal = ({ isOpen, onClose }) => {
 
                     <div className="hour-filter">
                         <div className="timeInput-box">
-                            <label htmlFor="">Início (Hora)</label>
+                            <label htmlFor="">Hora Inicial</label>
                             <input
                                     id="horaInicio"
                                     name="horaInicio"
@@ -23,7 +18,7 @@ const FilterModal = ({ isOpen, onClose }) => {
                                 />
                         </div>
                         <div className="timeInput-box">
-                            <label htmlFor="">Fim (Hora)</label>
+                            <label htmlFor="">Hora Final</label>
                             <input
                                     id="horaInicio"
                                     name="horaInicio"
@@ -59,15 +54,18 @@ const FilterModal = ({ isOpen, onClose }) => {
                     </div>
 
                     <div className="order-filter">
-                    <button className="filterOpen-btn">Mais recentes</button>
-                        <p></p>
-                        <button className="filterOpen-btn">Mais antigas</button>
+                        <label htmlFor="recent">Mais Recentes</label>
+                        <input type="checkbox" name="recent" id="recent" />
+                            <p></p>
+                        <label htmlFor="oldest">Mais Antigas</label>
+                        <input type="checkbox" name="oldest" id="oldest" />
                     </div>
 
                 
                 </form>
                 <div className="deleteModal-buttons">
                 <button className="filterOpen-btn" onClick={onClose}>Cancelar Filtros</button>
+                <p></p>
                 <button className="filters-btn">Aplicar Filtros</button>
                 </div>
                 </div>
