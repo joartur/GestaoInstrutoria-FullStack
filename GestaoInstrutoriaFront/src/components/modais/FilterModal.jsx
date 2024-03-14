@@ -1,6 +1,15 @@
+import React, { useState } from 'react';
+import { useDataContext } from '../../services/DataContext';
 import "./filterModal.css"
 
 const FilterModal = ({ onClose }) => {
+    const { data, serviceTypes } = useDataContext();
+    const [situacao, setSituacao] = useState('');
+
+    const handleChange = (event) => {
+        setSituacao(event.target.value);
+    };
+
     return(
         <div className="deleteModal-overlay">
         <div className="deleteModal-whrapper">
@@ -29,8 +38,14 @@ const FilterModal = ({ onClose }) => {
 
                     <div className="type-filter">
                         <label htmlFor="">Tipo</label>
-                        <select>
-                            <option value="">Escolha o Tipo de Atividade:</option>
+                        <select id="filter" name="filter" value={situacao} onChange={handleChange}>
+                            <option value="">Escolha o tipo de serviço educacional</option>
+                            {serviceTypes ? (
+                                serviceTypes.map(service => (
+                                    <option value={service.id} key={service.id}>{service.nome}</option>
+                            ))
+                            ) : (null)}
+                            
                         </select>
                     </div>
 

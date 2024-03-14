@@ -9,10 +9,11 @@ import Button from '../../components/buttons/Button';
 import Table from '../../components/table/Table';
 import FilterModal from '../../components/modais/FilterModal';
 import "./tablesService.css"
+import Pagination from '../../components/pagination/Pagination';
 
 const TablesService = () => {
     
-    const { data, serviceTypes } = useDataContext();
+    const { data } = useDataContext();
     const [situacao, setSituacao] = useState('');
 
     const handleChange = (event) => {
@@ -47,13 +48,10 @@ const TablesService = () => {
             <div className="filters-container">
 
             <select id="filter" name="filter" value={situacao} onChange={handleChange}>
-                    <option value="">Todos</option>
-                    {serviceTypes ? (
-                         serviceTypes.map(service => (
-                            <option value={service.id} key={service.id}>{service.nome}</option>
-                    ))
-                    ) : (null)}
-                       
+                    <option value="">Todas as Situações</option>
+                    <option value="">Validados</option>
+                    <option value="">Parcialmente Validados</option>
+                    <option value="">Recusados</option>
             </select>
 
                 <button title="Filtros" size="medium" onClick={openModal} className="filterOpen-btn">Filtros</button>
@@ -63,19 +61,7 @@ const TablesService = () => {
                 <div className="tables-container">
                 <Table>
                </Table>
-
-                <div className="pagination-container">
-                <div className="pagination-lines">
-                    <p>Linhas por Página:</p>
-                    <input type="number" className="paginationInput" id="pages" name="pages" value="6" onChange={handleChange}/>
-                </div>
-
-                <div className="pagination-pages">
-                <FontAwesomeIcon icon={faChevronLeft} className="arrow"/>
-                <p>1 de 3</p>
-                <FontAwesomeIcon icon={faChevronRight} className="arrow"/>
-                </div>
-                </div>
+               <Pagination />
                 </div>
             ) : 
                 <div className="notFound-container">
