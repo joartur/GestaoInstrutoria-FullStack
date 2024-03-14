@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { useDataContext } from '../../services/DataContext';
 import Layout from "../../components/layout/Layout"
 import Header from "../../components/header/Header"
@@ -8,8 +8,8 @@ import TextInput from "../../components/inputs/TextInput"
 import Button from '../../components/buttons/Button';
 import Table from '../../components/table/Table';
 import FilterModal from '../../components/modais/FilterModal';
-import "./tablesService.css"
 import Pagination from '../../components/pagination/Pagination';
+import "./tablesService.css"
 
 const TablesService = () => {
     
