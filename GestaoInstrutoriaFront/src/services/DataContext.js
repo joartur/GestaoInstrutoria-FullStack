@@ -6,15 +6,24 @@ export const useDataContext = () => useContext(DataContext);
 
 export const DataProvider = ({ children }) => {
   
-    const [data, setData] = useState([]);
-    const [instrutorData, setInstrutorData] = useState([])
-    const [instrutorProfile, setInstrutorProfile] = useState([]);
-    const [serviceTypes, setServiceTypes] = useState([]);
+    const [data, setData] = useState([]); //Array com os dados de serviço do instrutor
+    const [instrutorData, setInstrutorData] = useState([]) //Array com dados da página inicial
+    const [instrutorProfile, setInstrutorProfile] = useState([]); //Array com dados do instrutor
+    const [serviceTypes, setServiceTypes] = useState([]); //Lista de tipos de serviço educacional
 
-    const [errorMsg, setErrorMsg] = useState([])
-    const [serviceCreated, setServiceCreated] = useState(false);
-    const [serviceEdited, setServiceEdited] = useState(false);
-  
+    const [errorMsg, setErrorMsg] = useState([]) //Mensagens de erro do sistema
+    const [serviceCreated, setServiceCreated] = useState(false); //Serviço foi criado ou não
+    const [serviceEdited, setServiceEdited] = useState(false);//Serviço foi editado ou não
+
+    const [currentPage, setCurrentPage] = useState(1); //Página Atual
+    const [itemsPerPage, setItemsPerPage] = useState(5); // Itens por página
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+
+//chamadas das funções de consumo de api  
     useEffect(() => {
       fetchData();
     }, []);
@@ -31,7 +40,7 @@ export const DataProvider = ({ children }) => {
       serviceTypesFetch();
     }, []);
   
-
+//consume api de serviços educacionais de um instrutor
     const fetchData = async () => {
       try {
           const response = await axios.get('http://localhost:3001/instrutor/registros/123456');
@@ -44,15 +53,19 @@ export const DataProvider = ({ children }) => {
           console.error('Erro ao buscar dados da API:', error);
       }
     };
-  
+
+//consumo de api para criar um registro
     const createEducationalService = async (newServiceData) => {
         try {
           const response = await axios.post('http://localhost:3001/instrutor/registro/123456', newServiceData);
+          //assinala como verdadeiro a criação de um serviço
           setServiceCreated(true);
+          //adiciona o novo registro ao data
           setData([...data, response.data]);
           console.log('Novo serviço educacional criado:', response.data);
           //Atualiza os dados de serviço.
           fetchData();
+          //retira mensagem de erro
           setErrorMsg([]);
         } catch (error) {
           if (error.response) {
@@ -76,6 +89,7 @@ export const DataProvider = ({ children }) => {
     const deleteService = async (id) => {
       try {
         await axios.delete(`http://localhost:3001/instrutor/registro/123456/${id}`);
+        //deleta um serviço e tira ele do array
         const updatedData = data.filter(item => item.id !== id);
         setData(updatedData);
         console.log('Serviço excluído com sucesso!');
@@ -89,6 +103,7 @@ export const DataProvider = ({ children }) => {
           const response = await axios.put(`http://localhost:3001/instrutor/registro/123456/${id}`, updatedServiceData);
           setServiceEdited(true);
           console.log('Serviço educacional editado com sucesso:', response.data);
+          //atualiza os dados exibidos depois de editar com sucesso
           fetchData();
           setErrorMsg([])
       } catch (error) {
@@ -111,6 +126,7 @@ export const DataProvider = ({ children }) => {
       }
     };
 
+//consumo dos dados da página inicial
   const InstrutorDataFetch = async () => {
     try {
       const response = await axios.get('http://localhost:3001/instrutor/123456');
@@ -120,6 +136,7 @@ export const DataProvider = ({ children }) => {
   }
   };
 
+//consumo dos dados do pefil do instrutor
   const InstrutorProfileFetch = async () => {
     try {
         const response = await axios.get('http://localhost:3001/instrutor/perfil/123456');
@@ -129,6 +146,7 @@ export const DataProvider = ({ children }) => {
     }
   };
 
+//consumo dos dados da lista de tipos de serviço
   const serviceTypesFetch = async () => {
     try {
       const response = await axios.get('http://localhost:3001/instrutor/servicos/123456');
@@ -140,7 +158,7 @@ export const DataProvider = ({ children }) => {
   }
 
   return (
-    <DataContext.Provider value={{ data, instrutorData, serviceCreated, serviceEdited, instrutorProfile, serviceTypes, setServiceCreated, setServiceEdited, createEducationalService, deleteService, editService, errorMsg }}>
+    <DataContext.Provider value={{ data, instrutorData, serviceCreated, serviceEdited, instrutorProfile, serviceTypes, setServiceCreated, setServiceEdited, createEducationalService, deleteService, editService, errorMsg, currentItems }}>
         {children}
     </DataContext.Provider>
   );

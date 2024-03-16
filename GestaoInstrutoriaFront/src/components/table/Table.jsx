@@ -5,42 +5,24 @@ import { Link } from 'react-router-dom';
 import TableSituation from "./TableSituation"
 import ActionButton from "./ActionButton"
 import DeleteModal from '../modais/DeleteModal';
-import moment from 'moment';
-import 'moment/locale/pt-br';
 import "./table.css"
 
-const Table = () => {
-    const { data, deleteService } = useDataContext();
+const Table = ({formattedData}) => {
+    const { deleteService } = useDataContext();
 
+    //estado para averiguar se há algum serviço selecionado para deletar
     const [serviceIdToDelete, setServiceIdToDelete] = useState(null);
-
+    //função deletar serviço
     const handleDelete = (id) => {
         setServiceIdToDelete(id);
     };
+    //função modal confirmar para deletar serviço
     const handleConfirmDelete = () => {
         if (serviceIdToDelete) {
           deleteService(serviceIdToDelete);
           setServiceIdToDelete(null);
         }
     };
-
-    const formattedServices = data.map(service => {
-        const dataServico = moment(service.dataServico).format('DD/MM/YYYY'); //possível gambiarra. Ele exibe os dados de forma correta mas apenas se o resistro for cadastrado, e não atualizado pelo banco de dados.
-        const formattedHoraInicio = formatTime(service.horaInicio);
-        const formattedHoraFinal = formatTime(service.horaFinal);
-        return {
-            ...service,
-            dataServico,
-            horaInicio: formattedHoraInicio,
-            horaFinal: formattedHoraFinal
-        };
-        function formatTime(timeString) {
-            const [hour, minute] = timeString.split(":").map(Number);
-            const formattedHour = hour < 10 ? `0${hour}` : hour;
-            const formattedMinute = minute < 10 ? `0${minute}` : minute;
-            return `${formattedHour}:${formattedMinute}`;
-        }
-    });
 
     return (
         <div className="table-container">
@@ -67,8 +49,8 @@ const Table = () => {
                 </tr>
             </thead>
                     <tbody>
-                        { data ? (
-                        formattedServices.map(registro => (
+
+                        {formattedData.map(registro => (
                         <tr key={registro.id}>
                             <td><input type="checkbox" name="checkbox" id={registro.id} /></td>
                             <td><Link to={`/viewServices/${registro.id}`}>{registro.titulo}</Link></td>
@@ -81,8 +63,7 @@ const Table = () => {
                             <td><ActionButton legenda="EDITAR SERVIÇO" icon={faPenToSquare} url={`/editService/${registro.id}`}/></td>
                             <td><ActionButton legenda="VISUALIZAR SERVIÇO" icon={faCircleInfo} url={`/viewServices/${registro.id}`} /></td>
                         </tr>
-                        ))) : 
-                        null
+                        ))
                         }
                     </tbody>
                     </table>

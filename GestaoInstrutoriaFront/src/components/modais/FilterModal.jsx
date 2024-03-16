@@ -3,7 +3,7 @@ import { useDataContext } from '../../services/DataContext';
 import "./filterModal.css"
 
 const FilterModal = ({ onClose }) => {
-    const { data, serviceTypes } = useDataContext();
+    const { serviceTypes } = useDataContext();
     const [situacao, setSituacao] = useState('');
 
     const handleChange = (event) => {
