@@ -38,10 +38,9 @@ const coordAreaController = {
 
             const situacao = situacaoRegistro(registro.status)
 
-            if(situacao === false){
+            if (situacao === false) {
                 return res.status(400).json({ error: "O registro não está em análise." });
             }
-
             const registros = await Registro.update({
                 status: "Validado",
                 FKcoordenador: req.params.FKcoordenador
@@ -64,15 +63,13 @@ const coordAreaController = {
 
             const situacao = situacaoRegistro(registro.status)
 
-            if(situacao === false){
+            if (situacao === false) {
                 return res.status(400).json({ error: "O registro não está em análise." });
             }
-            if (registro.total < req.body.total){
-                return res.status(400).json({ error: "A quantidade de horas foi excedida." });
-            }
-            if (req.body.total > 0) {
+
+            if (registro.total == req.body.total) {
                 const registros = await Registro.update({
-                    status: "Parcialmente validado",
+                    status: "Validado",
                     justificativa: req.body.justificativa,
                     total: req.body.total,
                     FKcoordenador: req.params.FKcoordenador
@@ -84,21 +81,41 @@ const coordAreaController = {
                     }
                 );
                 res.json(registros)
+            } else {
+                if (registro.total < req.body.total) {
+                    return res.status(400).json({ error: "A quantidade de horas foi excedida." });
+                }
+                if (req.body.total > 0) {
+                    const registros = await Registro.update({
+                        status: "Parcialmente validado",
+                        justificativa: req.body.justificativa,
+                        total: req.body.total,
+                        FKcoordenador: req.params.FKcoordenador
+                    },
+                        {
+                            where: {
+                                id: req.params.id,
+                            },
+                        }
+                    );
+                    res.json(registros)
+                }
+                else {
+                    const registros = await Registro.update({
+                        status: "Recusado",
+                        justificativa: req.body.justificativa,
+                        total: req.body.total,
+                        FKcoordenador: req.params.FKcoordenador
+                    },
+                        {
+                            where: {
+                                id: req.params.id,
+                            },
+                        });
+                }
             }
-            else {
-                const registros = await Registro.update({
-                    status: "Recusado",
-                    justificativa: req.body.justificativa,
-                    total: req.body.total,
-                    FKcoordenador: req.params.FKcoordenador
-                },
-                    {
-                        where: {
-                            id: req.params.id,
-                        },
-                    });
-            }
-        } catch (error) {
+        }
+        catch (error) {
             res.status(500).json({ error: error.message });
         }
     },
