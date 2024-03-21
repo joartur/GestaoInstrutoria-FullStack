@@ -1,10 +1,11 @@
+const { status } = require("express/lib/response");
 const Instrutor = require("../models/Instrutor.js")
 const Registro = require("../models/Registro.js")
 
 const coordAreaController = {
     listarInstrutores: async (req, res) => {
         try {
-            const instrutores = await Instrutor.findAll({ where: { area: req.params.area}});
+            const instrutores = await Instrutor.findAll({ where: { area: req.params.area } });
             res.json(instrutores);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -33,6 +34,14 @@ const coordAreaController = {
 
     validarRegistro: async (req, res) => {
         try {
+            const registro = await Registro.findOne({ where: { id: req.params.id } })
+
+            const situacao = situacaoRegistro(registro.status)
+
+            if(situacao === false){
+                return res.status(400).json({ error: "O registro não está em análise." });
+            }
+
             const registros = await Registro.update({
                 status: "Validado",
                 FKcoordenador: req.params.FKcoordenador
@@ -51,6 +60,16 @@ const coordAreaController = {
 
     validarParcialmenteRegistro: async (req, res) => {
         try {
+            const registro = await Registro.findOne({ where: { id: req.params.id } })
+
+            const situacao = situacaoRegistro(registro.status)
+
+            if(situacao === false){
+                return res.status(400).json({ error: "O registro não está em análise." });
+            }
+            if (registro.total < req.body.total){
+                return res.status(400).json({ error: "A quantidade de horas foi excedida." });
+            }
             if (req.body.total > 0) {
                 const registros = await Registro.update({
                     status: "Parcialmente validado",
@@ -89,7 +108,7 @@ const coordAreaController = {
             const { dataServico, horaInicio, horaFinal, titulo, descricao, FKservico } = req.body;
             const FKcoordenador = req.params.matriculaC;
             const FKinstrutor = req.params.matriculaI;
-            
+
             //formatando data recebida do front no formato DD-MM-YYYY
             const dataFormatada = await formatarDataParaBD(dataServico);
 
@@ -110,10 +129,10 @@ const coordAreaController = {
             //conferindo se a hora é válida
             const ordemHora = await conferirHora(horaInicio, horaFinal);
 
-            if (ordemHora){
+            if (ordemHora) {
                 return res.status(400).json({ error: "Registro com horas inválidas." });
-            }            
-            
+            }
+
             //confere se não existe algum registro com a data e hora igual ou que se sobrepõe, já registrado
             const sobreposicaoHoras = await conferirRegistros(dataFormatada, FKinstrutor, horaFinal, horaInicio);
 
@@ -123,7 +142,7 @@ const coordAreaController = {
 
             //calcula o total de horas e retorna um inteiro
             const total = calcularDiferencaHoras(horaInicio, horaFinal);
-            
+
             await Registro.create({
                 dataServico: dataFormatada,
                 horaInicio,
@@ -137,17 +156,31 @@ const coordAreaController = {
                 FKcoordenador
             });
 
-            res.json({ msg: "Registro cadastrado."});
+            res.json({ msg: "Registro cadastrado." });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     }
 }
 
+function situacaoRegistro(status) {
+    try {
+
+        if (status === 'Em Análise') {
+            return true
+        }
+        else {
+            return false
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 async function conferirData(data) {
     const hoje = new Date()
     const dataServico = new Date(data)
-    
+
     if (dataServico > hoje) {
         return false
     } else {
@@ -168,16 +201,16 @@ async function formatarDataParaBD(data) {
     return dataFormatada;
 }
 
-async function conferirHora(hrInicio, hrFinal){
-    return ( hrInicio >= hrFinal )
+async function conferirHora(hrInicio, hrFinal) {
+    return (hrInicio >= hrFinal)
 }
 
-async function validarDesc(desc){
+async function validarDesc(desc) {
     /*
     a expressão regular permite qualquer combinação de letras, números, espaços, vírgulas, pontos e caracteres acentuados, incluindo palavras, frases e números decimais simples, mas evita números independentes com quatro ou mais dígitos consecutivos.
     */
     const regex = /^(?!.*\b\d{4,}\b)(?!.*\b[A-Za-z]{20,}\b)[a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\']+(?: [a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\']+)*$/;
-    
+
     // verifica o tamanho da descrição
     return (regex.test(desc) && desc.length > 15);
 }
