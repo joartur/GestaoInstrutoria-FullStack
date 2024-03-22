@@ -203,7 +203,7 @@ const instrutorController = {
             const { matriculaI } = req.params;
 
             //busca os tres registros mais recentes
-            const registrosRecentes = await buscarRegistrosRecentes(matriculaI);
+            // const registrosRecentes = await buscarRegistrosRecentes(matriculaI);
 
             //busca as datas de todos os registros do mês vigente
             const datasServico = await buscarDatasServico(matriculaI);
@@ -219,7 +219,6 @@ const instrutorController = {
 
             //organiza o response da rota
             const response = {
-                registrosRecentes,
                 datasServico,
                 horasServicos,
                 horasTrab,
@@ -309,21 +308,21 @@ async function buscarRegistro(matriculaI, registroId) {
     
 }
 
-async function buscarRegistrosRecentes(matriculaI) {
-    return await Registro.findAll({
-        attributes: ['id', 'titulo', 'status'],
-        include: [{
-            model: Servico,
-            attributes: ['nome'],
-            where: {
-                id: sequelize.col('Registro.FKservico')
-            }
-        }],
-        where: { FKinstrutor: matriculaI },
-        order: [['updatedAt', 'DESC']],
-        limit: 3
-    });
-}
+// async function buscarRegistrosRecentes(matriculaI) {
+//     return await Registro.findAll({
+//         attributes: ['id', 'titulo', 'status'],
+//         include: [{
+//             model: Servico,
+//             attributes: ['nome'],
+//             where: {
+//                 id: sequelize.col('Registro.FKservico')
+//             }
+//         }],
+//         where: { FKinstrutor: matriculaI },
+//         order: [['updatedAt', 'DESC']],
+//         limit: 3
+//     });
+// }
 
 async function buscarDatasServico(matriculaI) {
     const dataAtual = new Date();
@@ -350,10 +349,14 @@ async function calcularHorasServicos(matriculaI) {
         where: {
             FKinstrutor: matriculaI,
             status: {
-                [Op.or]: ["em análise"]
+                [Op.or]: ["validado"]
             }
         }
     });
+
+    if(somaR == null){
+        return "00:00:00";
+    }
 
     // Convertendo a string para horas, minutos e segundos
     const horas = parseInt(somaR.substring(0, 2)); // Extrai as duas primeiras posições para as horas

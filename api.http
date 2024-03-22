@@ -30,10 +30,10 @@ POST http://localhost:3001/instrutor/registro/789012
 Content-Type: application/json
 
 {
-    "dataServico": "04-03-2024",
+    "dataServico": "22-03-2024",
     "horaInicio": "03:00",
-    "horaFinal": "06:45",
-    "titulo": "Workshop de Gastronomia parte 2",
+    "horaFinal": "20:45",
+    "titulo": "Workshop de Gastronomia parte 1",
     "descricao": "Workshop prático de técnicas de temperagem para a pascoa.",
     "FKservico": "2"
 }
@@ -74,16 +74,15 @@ GET http://localhost:3001/coordArea/listarRegistros/789012
 GET http://localhost:3001/coordArea/listarInstrutores
 
 ###
-PUT http://localhost:3001/coordArea/validarRegistro/6/019283
+PUT http://localhost:3001/coordArea/validarRegistro/3/019283
 Content-Type: application/json
 
 {
     
 }
 
-
 ###
-PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/12/1234
+PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/3/019283
 Content-Type: application/json
 
 {
