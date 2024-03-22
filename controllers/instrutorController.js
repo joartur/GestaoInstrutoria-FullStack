@@ -249,6 +249,43 @@ const instrutorController = {
         }
     },
 
+    filtroRegistros: async(req, res) =>{
+        try{
+            const { matriculaI } = req.params;
+            const { dataInicioFiltro, dataFinalFiltro, horaInicioFiltro, horaFinalFiltro, FKservico, ordenacao } = req.body
+
+            let where = {}
+            let order = []
+
+            // if-else de hora, hora sozinha
+            if(horaInicioFiltro != ""){
+                where['horaInicio'] = horaInicioFiltro
+            }
+
+            console.log(where)
+
+            if (ordenacao) {
+                order.push(["id", ordenacao]);
+            }
+
+            const registros = await Registro.findAll({
+                attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
+                include: [{
+                    model: Servico,
+                    attributes: ['id','nome'],
+                    where: {
+                        id: sequelize.col('Registro.FKservico')
+                    }
+                }],
+                where,
+                order
+            });
+    
+            res.status(200).json({ msg: "Registros encontrados", data: registros });
+        } catch(error){
+            res.status(500).json({ error: error.message })
+        }
+    },
     //rota de teste para o front com todos os registros do banco
     test: async (req, res) => {
         try {
@@ -354,7 +391,7 @@ async function calcularHorasServicos(matriculaI) {
         where: {
             FKinstrutor: matriculaI,
             status: {
-                [Op.or]: ["validado"]
+                [Op.or]: ["validado", "parcialmente validado"]
             }
         }
     });

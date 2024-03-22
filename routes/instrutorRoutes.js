@@ -20,6 +20,11 @@ router.get('/registros/:matriculaI',(req, res) => {
     instrutorController.listarRegistros(req, res);
 })
 
+//rota para a lista de todos os registro do instrutor
+router.post('/registros/:matriculaI',(req, res) => {
+    instrutorController.filtroRegistros(req, res);
+})
+
 //rota post para criar um novo registro do instrutor
 router.post('/registro/:matriculaI',(req, res) => {
     instrutorController.cadastrarRegistro(req, res);

@@ -20,7 +20,7 @@ GET http://localhost:3001/servico/buscar/4
 
 # rotas de instrutor
 ###
-GET  http://localhost:3001/instrutor/789012
+GET  http://localhost:3001/instrutor/123456
 
 ###
 GET  http://localhost:3001/instrutor/perfil/789012
@@ -40,6 +40,19 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3001/instrutor/registros/789012
+
+###
+POST http://localhost:3001/instrutor/registros/789012
+Content-Type: application/json
+
+{
+    "dataInicioFiltro": "2024-03-18",
+    "datafinalFiltro": "2024-03-18",
+    "horaInicioFiltro": "03:00",
+    "horaFinalFiltro": "20:45",
+    "FKservico": "2",
+    "ordenacao": ""
+}
 
 ###
 GET http://localhost:3001/instrutor/registro/789012/3
