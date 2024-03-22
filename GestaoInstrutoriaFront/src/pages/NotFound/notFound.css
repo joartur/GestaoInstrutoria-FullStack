@@ -1,0 +1,48 @@
+.not-found-page {
+    background-color: #FF9800;
+    background-image: radial-gradient(circle at center, #FEE0E0 60%, #FFFFFF 60%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .not-found-page-content {
+    max-width: 100%;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.7);
+  }
+  
+  .error {
+    font-size: 5.5rem;
+    color: red;
+    margin-bottom: 0px;
+  }  
+  
+  .not-found-page p {
+    font-size: 1.2rem;
+    text-align: left;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .not-found-page a {
+    text-decoration: none;
+  }
+
+  .not-found-page img {
+    margin-bottom: -60px;
+  }
+
+  .not-found-page button{
+    padding: 15px 50px;
+    background-color: var(--main-blue);
+    color: #FFFFFF;
+    font-size: 16px;
+    border-radius: 12px;
+    border: none;
+    transition: 0.3s;
+    cursor: pointer;
+  }

@@ -7,6 +7,7 @@ import Login from './pages/Login/Login';
 import Profile from './pages/Profile/Profile';
 import ViewServices from './pages/ViewServices/ViewServices';
 import EditService from './pages/EditService/EditService';
+import NotFound from './pages/NotFound/NotFound';
 import { DataProvider } from './services/DataContext';
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
       <Route path="/profile" element={<Profile />} />
       <Route path="/viewServices/:id" element={<ViewServices />} />
       <Route path="/editService/:id" element={<EditService />} />
+      <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
     </DataProvider>
