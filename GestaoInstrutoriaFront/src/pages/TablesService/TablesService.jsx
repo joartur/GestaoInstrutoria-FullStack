@@ -8,6 +8,7 @@ import Button from '../../components/buttons/Button';
 import Table from '../../components/table/Table';
 import FilterModal from '../../components/modais/FilterModal';
 import Pagination from '../../components/pagination/Pagination';
+import Loading from '../loading/Loading';
 import moment from 'moment';
 import 'moment/locale/pt-br';
 import "./tablesService.css"
@@ -15,6 +16,7 @@ import "./tablesService.css"
 const TablesService = () => {
     
     const { data } = useDataContext();
+
     //formata hora e data dos dados recebeidos da API
     const formattedServices = data.map(service => {
         const dataServico = moment(service.dataServico).format('DD/MM/YYYY');
@@ -87,6 +89,10 @@ const TablesService = () => {
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
+    if (!data) {
+        return <Loading />
+    }
+
     return (
         <Layout >
             <Header title="Meus Serviços Educacionais" description="Lista com informações sobre seus serviços educacionais"/>
@@ -113,6 +119,7 @@ const TablesService = () => {
                 <div className="filters-container">
                     <select id="filter" name="filter" value={situacao} onChange={handleChange}>
                         <option value="">Todas as Situações</option>
+                        <option value="">Em Análises</option>
                         <option value="">Validados</option>
                         <option value="">Parcialmente Validados</option>
                         <option value="">Recusados</option>

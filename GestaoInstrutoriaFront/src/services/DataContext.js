@@ -15,13 +15,6 @@ export const DataProvider = ({ children }) => {
     const [serviceCreated, setServiceCreated] = useState(false); //Serviço foi criado ou não
     const [serviceEdited, setServiceEdited] = useState(false);//Serviço foi editado ou não
 
-    const [currentPage, setCurrentPage] = useState(1); //Página Atual
-    const [itemsPerPage, setItemsPerPage] = useState(5); // Itens por página
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
 
 //chamadas das funções de consumo de api  
     useEffect(() => {
@@ -105,7 +98,7 @@ export const DataProvider = ({ children }) => {
           console.log('Serviço educacional editado com sucesso:', response.data);
           //atualiza os dados exibidos depois de editar com sucesso
           fetchData();
-          setErrorMsg([])
+          setErrorMsg([]);
       } catch (error) {
         if (error.response) {
           // O servidor retornou um código de status diferente de 2xx
@@ -131,6 +124,7 @@ export const DataProvider = ({ children }) => {
     try {
       const response = await axios.get('http://localhost:3001/instrutor/123456');
       setInstrutorData(response.data)
+      console.log(instrutorData)
   } catch (error) {
       console.error('Erro ao buscar dados do instrutor:', error);
   }
@@ -158,7 +152,7 @@ export const DataProvider = ({ children }) => {
   }
 
   return (
-    <DataContext.Provider value={{ data, instrutorData, serviceCreated, serviceEdited, instrutorProfile, serviceTypes, setServiceCreated, setServiceEdited, createEducationalService, deleteService, editService, errorMsg, currentItems }}>
+    <DataContext.Provider value={{ data, instrutorData, serviceCreated, serviceEdited, instrutorProfile, serviceTypes, setServiceCreated, setServiceEdited, createEducationalService, deleteService, editService, errorMsg }}>
         {children}
     </DataContext.Provider>
   );

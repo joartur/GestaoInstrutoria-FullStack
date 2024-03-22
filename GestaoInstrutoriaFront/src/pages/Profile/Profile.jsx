@@ -4,10 +4,16 @@ import Header from "../../components/header/Header"
 import TextInput from "../../components/inputs/TextInput"
 import Layout from "../../components/layout/Layout"
 import { useDataContext } from '../../services/DataContext';
+import Loading from "../loading/Loading"
 import "./profile.css"
 
 const Profile = () => {
     const { instrutorProfile } = useDataContext();
+
+    if (!instrutorProfile) {
+        return <Loading />
+    }
+
     return (
        <Layout>
             <Header title="Dados Cadastrados" description="Visualize seus dados cadastrads"/>

@@ -11,6 +11,7 @@ import EditModal from "../../components/modais/EditModal"
 import * as yup from 'yup';
 import axios from 'axios';
 import "../EditService/editService.css"
+import Loading from '../loading/Loading';
 
 const EditService = () => {
     const { id } = useParams();
@@ -59,7 +60,7 @@ const EditService = () => {
     };
 
     if (!service) {
-        return <div>Carregando...</div>;
+        return <Loading />
     }
 
     return (

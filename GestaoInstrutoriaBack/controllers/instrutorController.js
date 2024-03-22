@@ -9,9 +9,10 @@ const instrutorController = {
         try {
             const { dataServico, horaInicio, horaFinal, titulo, descricao, FKservico } = req.body;
             const FKinstrutor = req.params.matriculaI;
-            
-            //formatando data recebida do front no formato DD-MM-YYYY
-            // const dataFormatada = await formatarDataParaBD(dataServico);
+
+            if(titulo.length > 50){
+                return res.status(400).json({error: "Limite de caracteres para o título foi atingido."})
+            }
 
             //validação básica do texto da descrição
             const validaDesc = await validarDesc(descricao);
@@ -41,7 +42,7 @@ const instrutorController = {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
             }
 
-            //calcula o total de horas e retorna um inteiro
+            //calcula o total de horas e retorna em time
             const total = calcularDiferencaHoras(horaInicio, horaFinal);
             
             await Registro.create({
@@ -111,13 +112,20 @@ const instrutorController = {
             const { matriculaI, registroId } = req.params;
             const { dataServico, horaInicio, horaFinal, titulo, descricao, FKservico } = req.body;
 
+            if(titulo.length > 50){
+                return res.status(400).json({error: "Limite de caracteres para o título foi atingido."})
+            }
+
             const registro = await buscarRegistro(matriculaI, registroId);
 
             if (!registro) {
-                return res.status(404).json({ error: "Registro não encontrado." });
+                return res.status(404).json({ error: "Registro não encontrado" });
             }
             
-            // const dataFormatada = await formatarDataParaBD(dataServico);
+            //verifica se o registro pode ser editado pelo status
+            if (registro.status == "Validado" || registro.status == "Parcialmente Validado"){
+                return res.status(400).json({ error: "Não é permitido editar registro com status de 'Validado' ou 'Parcialmente Validado'" });
+            }
 
             //validação básica do texto da descrição
             const validaDesc = await validarDesc(descricao);
@@ -129,7 +137,7 @@ const instrutorController = {
             const periodoData = await conferirData(dataServico);
 
             if (!periodoData) {
-                return res.status(400).json({ error: "Não é permitido cadastrar registros para datas futuras." });
+                return res.status(400).json({ error: "Não é permitido editar registros para datas futuras" });
             }
             
             const ordemHora = await conferirHora(horaInicio, horaFinal);
@@ -153,7 +161,9 @@ const instrutorController = {
                 total,
                 titulo,
                 descricao,
-                FKservico
+                FKservico,
+                status:"Em Análise",
+                justificativa:""
             }, { where: { id: registroId, FKinstrutor: matriculaI } });
 
             if (rowsUpdated === 0) {
@@ -175,6 +185,11 @@ const instrutorController = {
             if (!registro) {
                 return res.status(404).json({ error: "Registro não encontrado." });
             }
+            
+            //verifica se o registro pode ser editado pelo status
+            if (registro.status == "Validado" || registro.status == "Parcialmente Validado"){
+                return res.status(400).json({ error: "Não é permitido excluir registro com status de 'Validado' ou 'Parcialmente Validado'" });
+            }
 
             await Registro.destroy({ where: { FKinstrutor: matriculaI, id: registroId } });
 
@@ -189,22 +204,25 @@ const instrutorController = {
             const { matriculaI } = req.params;
 
             //busca os tres registros mais recentes
-            const registrosRecentes = await buscarRegistrosRecentes(matriculaI);
+            // const registrosRecentes = await buscarRegistrosRecentes(matriculaI);
 
             //busca as datas de todos os registros do mês vigente
             const datasServico = await buscarDatasServico(matriculaI);
 
             //busca e calcula as horas totais de serviço educacional
             const horasServicos = await calcularHorasServicos(matriculaI);
+            
+            //busca e calcula as horas totais validadas
+            const horasTrab = await calcularHorasTrab(matriculaI);
 
             //busca pelo saldo de hora, se houver
             const saldoHoras = await buscarSaldoHoras(matriculaI);
 
             //organiza o response da rota
             const response = {
-                registrosRecentes,
                 datasServico,
                 horasServicos,
+                horasTrab,
                 saldoHoras
             };
 
@@ -221,6 +239,10 @@ const instrutorController = {
             //busca pelo instrutor de acordo com o id
             const instrutor = await buscarInstrutor(matriculaI);
 
+            if(!instrutor){
+                return res.status(404).json({ error: "Usuário não encontrado." });
+            }
+
             res.status(200).json(instrutor);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -230,7 +252,6 @@ const instrutorController = {
     //rota de teste para o front com todos os registros do banco
     test: async (req, res) => {
         try {
-    
             const registros = await Registro.findAll({
                 attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
                 include: [{
@@ -265,7 +286,8 @@ const instrutorController = {
 
 async function conferirData(data) {
     const hoje = new Date()
-    const dataServico = new Date(data)
+    const dataServico = new Date(`1970-01-01T${data}`)
+    console.log(dataServico)
     
     if (dataServico > hoje) {
         return false
@@ -284,28 +306,28 @@ async function buscarRegistro(matriculaI, registroId) {
             }
         }],
         attributes: {
-            exclude: ['FKservico'] // Exclui o campo FKservico do resultado
+            exclude: ['FKservico'] // Exclaui o campo FKservico do resultado
         },
         where: { FKinstrutor: matriculaI, id: registroId }
     });
     
 }
 
-async function buscarRegistrosRecentes(matriculaI) {
-    return await Registro.findAll({
-        attributes: ['id', 'titulo', 'status'],
-        include: [{
-            model: Servico,
-            attributes: ['nome'],
-            where: {
-                id: sequelize.col('Registro.FKservico')
-            }
-        }],
-        where: { FKinstrutor: matriculaI },
-        order: [['updatedAt', 'DESC']],
-        limit: 3
-    });
-}
+// async function buscarRegistrosRecentes(matriculaI) {
+//     return await Registro.findAll({
+//         attributes: ['id', 'titulo', 'status'],
+//         include: [{
+//             model: Servico,
+//             attributes: ['nome'],
+//             where: {
+//                 id: sequelize.col('Registro.FKservico')
+//             }
+//         }],
+//         where: { FKinstrutor: matriculaI },
+//         order: [['updatedAt', 'DESC']],
+//         limit: 3
+//     });
+// }
 
 async function buscarDatasServico(matriculaI) {
     const dataAtual = new Date();
@@ -327,16 +349,48 @@ async function buscarDatasServico(matriculaI) {
 }
 
 async function calcularHorasServicos(matriculaI) {
-    return await Registro.sum('total', {
+    // retorna uma string com o valor somado ex. '473000' -> 47:30:00
+    const somaR = await Registro.sum('total', {
         where: {
-            FKinstrutor: matriculaI
+            FKinstrutor: matriculaI,
+            status: {
+                [Op.or]: ["validado"]
+            }
         }
     });
+
+    if(somaR == null){
+        return "00:00:00";
+    }
+
+    // Convertendo a string para horas, minutos e segundos
+    const horas = parseInt(somaR.substring(0, 2)); // Extrai as duas primeiras posições para as horas
+    const minutos = parseInt(somaR.substring(2, 4)); // Extrai as duas posições seguintes para os minutos
+    const segundos = parseInt(somaR.substring(4, 6)); // Extrai as duas últimas posições para os segundos
+
+    // Formatando o resultado
+    const horaFormatada = `${horas}:${minutos < 10 ? '0' : ''}${minutos}:${segundos < 10 ? '0' : ''}${segundos}`;
+    // console.log(somaR, horas, minutos, segundos, horaFormatada);
+
+    return horaFormatada;
+}
+
+
+
+async function calcularHorasTrab(matriculaI) {
+    const instrutor = await Instrutor.findOne({
+        attributes: ['horasTrabalhadas'],
+        where: {
+            matricula: matriculaI
+        }
+    });
+
+    return instrutor.horasTrabalhadas;
 }
 
 async function buscarSaldoHoras(matriculaI) {
     const instrutor = await Instrutor.findOne({
-        attributes: ['horasTrabalhadas', 'saldoHoras'],
+        attributes: ['saldoHoras'],
         where: {
             matricula: matriculaI
         }
@@ -358,15 +412,13 @@ async function buscarInstrutor(matriculaI){
 function calcularDiferencaHoras(horaInicio, horaFinal) {
     const horaInicioMs = new Date(`1970-01-01T${horaInicio}`).getTime();
     const horaFinalMs = new Date(`1970-01-01T${horaFinal}`).getTime();
-    const diffHours = (horaFinalMs - horaInicioMs) / (1000 * 60 * 60);
-    return diffHours;
-}
+    const diffMs = horaFinalMs - horaInicioMs; // Diferença em milissegundos
 
-// async function formatarDataParaBD(data) {
-//     const partesData = data.split('-'); // Divide a string da data em partes usando o separador "-"
-//     const dataFormatada = `${partesData[2]}-${partesData[1]}-${partesData[0]}`; // Formata a data para "YYYY-MM-DD"
-//     return dataFormatada;
-// }
+    let hora = new Date(diffMs);
+    let horaFormatada = `${hora.getUTCHours().toString().padStart(2, '0')}:${hora.getUTCMinutes().toString().padStart(2, '0')}`;
+    
+    return horaFormatada;
+}
 
 async function conferirHora(hrInicio, hrFinal){
     return ( hrInicio >= hrFinal )
@@ -388,8 +440,6 @@ async function conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio
         FKinstrutor,
         dataServico,
     };
-
-    console.log(registroEditadoId)
 
     // Se o ID do registro editado estiver disponível, exclua esse registro da consulta
     if (registroEditadoId) {

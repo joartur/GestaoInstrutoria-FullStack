@@ -20,38 +20,38 @@ GET http://localhost:3001/servico/buscar/4
 
 # rotas de instrutor
 ###
-GET  http://localhost:3001/instrutor/789012
+GET  http://localhost:3001/instrutor/123456
 
 ###
-GET  http://localhost:3001/instrutor/perfil/123456
+GET  http://localhost:3001/instrutor/perfil/789012
 
 ###
-POST http://localhost:3001/instrutor/registro/123456
+POST http://localhost:3001/instrutor/registro/789012
 Content-Type: application/json
 
 {
-    "dataServico": "25-02-2024",
-    "horaInicio": "19:00",
-    "horaFinal": "18:00",
-    "titulo": "Pabbabrte",
-    "descricao": "Se coabayguso!!!",
+    "dataServico": "2024-03-18",
+    "horaInicio": "00:00",
+    "horaFinal": "20:45",
+    "titulo": "Worisso tem que ficar grande demais obrigado",
+    "descricao": "Workshop prático de técnicas de temperagem para a pascoa.",
     "FKservico": "2"
 }
 
 ###
-GET http://localhost:3001/instrutor/registros/123456
+GET http://localhost:3001/instrutor/registros/789012
 
 ###
-GET http://localhost:3001/instrutor/registro/123456/6
+GET http://localhost:3001/instrutor/registro/789012/3
 
 ###
-PUT http://localhost:3001/instrutor/registro/123456/6
+PUT http://localhost:3001/instrutor/registro/789012/3
 Content-Type: application/json
 
 {
-    "dataServico": "25-02-2024",
+    "dataServico": "2024-02-27",
     "horaInicio": "06:00:00",
-    "horaFinal": "07:10:00",
+    "horaFinal": "09:30:00",
     "titulo": "1º consulta com o zé boné",
     "descricao": "consulta de recomendação nutricional",
     "FKservico": "1"
@@ -65,3 +65,27 @@ GET http://localhost:3001/instrutor/test/789012
 
 ###
 GET http://localhost:3001/instrutor/servicos/123456
+
+# Rota coordenador
+###
+GET http://localhost:3001/coordArea/listarRegistros/789012
+
+###
+GET http://localhost:3001/coordArea/listarInstrutores
+
+###
+PUT http://localhost:3001/coordArea/validarRegistro/6/019283
+Content-Type: application/json
+
+{
+    
+}
+
+###
+PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/3/019283
+Content-Type: application/json
+
+{
+    "justificativa": "Deu vontade",
+    "total": "0"
+}

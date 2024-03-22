@@ -5,6 +5,7 @@ import Header from "../../components/header/Header"
 import Layout from "../../components/layout/Layout"
 import BigInput from "../../components/inputs/BigInput"
 import TableSituation from "../../components/table/TableSituation"
+import Loading from '../loading/Loading';
 import "./viewServices.css"
 
 const ViewServices = () => {
@@ -16,7 +17,7 @@ const ViewServices = () => {
           try {
             const response = await axios.get(`http://localhost:3001/instrutor/registro/123456/${id}`);
             setService(response.data.data);
-            console.log(response.data.data)
+            console.log(response.data.data);
           } catch (error) {
             console.error('Erro ao buscar detalhes do serviço:', error);
           }
@@ -26,7 +27,7 @@ const ViewServices = () => {
     }, [id]);
 
     if (!service) {
-        return <div>Carregando...</div>;
+        return <Loading />
     }
 
     const [ano, mes, dia] = service.dataServico.split("-");
