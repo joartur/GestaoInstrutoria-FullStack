@@ -68,6 +68,12 @@ const coordAreaController = {
                 return res.status(400).json({ error: "O registro não está em análise." });
             }
 
+            const validaJust = await validarDesc(req.body.justificativa);
+
+            if (!validaJust) {
+                return res.status(400).json({ error: "Justificativa inválida." });
+            }
+
             if (registro.total == req.body.total) {
                 const registros = await Registro.update({
                     status: "Validado",

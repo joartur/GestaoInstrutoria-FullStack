@@ -37,12 +37,12 @@ Content-Type: application/json
 
 
 ###
-PUT http://localhost:3000/coordArea/validarParcialmenteRegistro/54/1234
+PUT http://localhost:3000/coordArea/validarParcialmenteRegistro/58/1234
 Content-Type: application/json
 
 {
-    "justificativa": "Deu vontade",
-    "total": "0"
+    "justificativa": "!!!!!!!!!!!!!!!!!!!!!",
+    "total": "1"
 }
 
 ###
