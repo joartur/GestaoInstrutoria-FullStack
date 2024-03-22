@@ -25,7 +25,7 @@ Registro.init({
         allowNull: false
     },
     total: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.TIME,
         allowNull: false
     },
     titulo: {
@@ -79,6 +79,6 @@ Registro.belongsTo(Servico, { foreignKey: 'FKservico' });
 
 Registro.belongsTo(Instrutor, { foreignKey: 'FKinstrutor' });
 
-Registro.belongsTo(Coordenador, { foreignKey: 'FKinstrutor' });
+Registro.belongsTo(Coordenador, { foreignKey: 'FKcoordenador' });
 
 module.exports = Registro;
