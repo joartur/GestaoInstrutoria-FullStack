@@ -96,19 +96,33 @@ async function calcularHoras(idRegistro) {
 }
 
 //modificar o valor das horas cadastradas (adicionando)
-function calcularHorasTrab(horaRegis, horaTrab) {
-    const horaRegisMS = new Date(`1970-01-01T${horaRegis}`).getTime();
-    const horaTrabMs = new Date(`1970-01-01T${horaTrab}`).getTime();
-    const somaMs = horaRegisMS + horaTrabMs; // soma das horas em milissegundos
+function calcularHorasTrab(horasTrab, horasRegis) {
+    // Dividindo as horas e os minutos da horasTrab
+    const [trabHoras, trabMinutos, trabSegundos] = horasTrab.split(':').map(Number);
+    
+    // Dividindo as horas e os minutos da horasRegis
+    const [regisHoras, regisMinutos, regisSegundos] = horasRegis.split(':').map(Number);
 
-    // Calcular horas e minutos
-    const somaHoras = Math.floor(somaMs / (1000 * 60 * 60)); // Horas
-    const somaMinutos = Math.floor((somaMs % (1000 * 60 * 60)) / (1000 * 60)); // Minutos
+    // Calculando a soma das horas, dos minutos e dos segundos
+    let somaHoras = trabHoras + regisHoras;
+    let somaMinutos = trabMinutos + regisMinutos;
+    let somaSegundos = trabSegundos + regisSegundos;
+
+    // Verificando se há mais de 60 minutos ou 60 segundos, se houver, ajusta as horas e os minutos
+    if (somaSegundos >= 60) {
+        somaMinutos += Math.floor(somaSegundos / 60);
+        somaSegundos %= 60;
+    }
+
+    if (somaMinutos >= 60) {
+        somaHoras += Math.floor(somaMinutos / 60);
+        somaMinutos %= 60;
+    }
 
     // Formatando o resultado
-    let horaFormatada = `${somaHoras}:${somaMinutos < 10 ? '0' : ''}${somaMinutos}`;
-
+    const horaFormatada = `${somaHoras.toString().padStart(2, '0')}:${somaMinutos.toString().padStart(2, '0')}:${somaSegundos.toString().padStart(2, '0')}`;
+    
+    console.log(horaFormatada, somaHoras, somaMinutos, horasRegis, horasTrab);
     return horaFormatada;
 }
-
 module.exports = coordAreaController;

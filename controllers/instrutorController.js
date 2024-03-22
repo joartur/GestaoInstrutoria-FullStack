@@ -3,6 +3,7 @@ const Instrutor = require("../models/Instrutor");
 const Servico = require("../models/Servico");
 const sequelize = require('../database/connection.js');
 const { Op, literal } = require('sequelize');
+const moment = require('moment');
 
 const instrutorController = {
     cadastrarRegistro: async (req, res) => {
@@ -11,7 +12,7 @@ const instrutorController = {
             const FKinstrutor = req.params.matriculaI;
             
             //formatando data recebida do front no formato DD-MM-YYYY
-            const dataFormatada = await formatarDataParaBD(dataServico);
+            const dataForm = moment(dataServico, 'DD-MM-YYYY').format('YYYY-MM-DD');
 
             //validação básica do texto da descrição
             const validaDesc = await validarDesc(descricao);
@@ -35,7 +36,7 @@ const instrutorController = {
             }            
             
             //confere se não existe algum registro com a data e hora igual ou que se sobrepõe, já registrado
-            const sobreposicaoHoras = await conferirRegistros(dataFormatada, FKinstrutor, horaFinal, horaInicio);
+            const sobreposicaoHoras = await conferirRegistros(dataForm, FKinstrutor, horaFinal, horaInicio);
 
             if (sobreposicaoHoras) {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
@@ -45,7 +46,7 @@ const instrutorController = {
             const total = calcularDiferencaHoras(horaInicio, horaFinal);
             
             await Registro.create({
-                dataServico: dataFormatada,
+                dataServico: dataForm,
                 horaInicio,
                 horaFinal,
                 total,
@@ -121,8 +122,9 @@ const instrutorController = {
             if (registro.status == "Validado" || registro.status == "Parcialmente Validado"){
                 return res.status(400).json({ error: "Não é permitido editar registro com status de 'Validado' ou 'Parcialmente Validado'" });
             }
-
-            const dataFormatada = await formatarDataParaBD(dataServico);
+            
+            //formatando data recebida do front no formato DD-MM-YYYY
+            const dataForm = moment(dataServico, 'DD-MM-YYYY').format('YYYY-MM-DD');
 
             //validação básica do texto da descrição
             const validaDesc = await validarDesc(descricao);
@@ -131,7 +133,7 @@ const instrutorController = {
                 return res.status(400).json({ error: "Descrição inválida." });
             }
 
-            const periodoData = await conferirData(dataFormatada);
+            const periodoData = await conferirData(dataForm);
 
             if (!periodoData) {
                 return res.status(400).json({ error: "Não é permitido editar registros para datas futuras" });
@@ -143,7 +145,7 @@ const instrutorController = {
                 return res.status(400).json({ error: "Registro com horas inválidas." });
             }            
 
-            const sobreposicaoHoras = await conferirRegistros(dataFormatada, matriculaI, horaFinal, horaInicio, registroId);
+            const sobreposicaoHoras = await conferirRegistros(dataForm, matriculaI, horaFinal, horaInicio, registroId);
 
             if (sobreposicaoHoras) {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
@@ -152,7 +154,7 @@ const instrutorController = {
             const total = calcularDiferencaHoras(horaInicio, horaFinal);
 
             const [rowsUpdated] = await Registro.update({
-                dataServico: dataFormatada,
+                dataServico: dataForm,
                 horaInicio,
                 horaFinal,
                 total,
@@ -209,7 +211,7 @@ const instrutorController = {
             //busca e calcula as horas totais de serviço educacional
             const horasServicos = await calcularHorasServicos(matriculaI);
             
-            //busca e calcula as horas totais de serviço educacional
+            //busca e calcula as horas totais validadas
             const horasTrab = await calcularHorasTrab(matriculaI);
 
             //busca pelo saldo de hora, se houver
@@ -343,20 +345,29 @@ async function buscarDatasServico(matriculaI) {
 }
 
 async function calcularHorasServicos(matriculaI) {
-    const somaMs = await Registro.sum('total', {
+    // retorna uma string com o valor somado ex. '473000' -> 47:30:00
+    const somaR = await Registro.sum('total', {
         where: {
             FKinstrutor: matriculaI,
             status: {
-                [Op.or]: ["Validado", "Parcialmente validado"]
+                [Op.or]: ["em análise"]
             }
         }
     });
 
-    let hora = new Date(somaMs);
-    let horaFormatada = `${hora.getUTCHours().toString().padStart(2, '0')}:${hora.getUTCMinutes().toString().padStart(2, '0')}`;
-    
+    // Convertendo a string para horas, minutos e segundos
+    const horas = parseInt(somaR.substring(0, 2)); // Extrai as duas primeiras posições para as horas
+    const minutos = parseInt(somaR.substring(2, 4)); // Extrai as duas posições seguintes para os minutos
+    const segundos = parseInt(somaR.substring(4, 6)); // Extrai as duas últimas posições para os segundos
+
+    // Formatando o resultado
+    const horaFormatada = `${horas}:${minutos < 10 ? '0' : ''}${minutos}:${segundos < 10 ? '0' : ''}${segundos}`;
+    // console.log(somaR, horas, minutos, segundos, horaFormatada);
+
     return horaFormatada;
 }
+
+
 
 async function calcularHorasTrab(matriculaI) {
     const instrutor = await Instrutor.findOne({
@@ -399,13 +410,6 @@ function calcularDiferencaHoras(horaInicio, horaFinal) {
     let horaFormatada = `${hora.getUTCHours().toString().padStart(2, '0')}:${hora.getUTCMinutes().toString().padStart(2, '0')}`;
     
     return horaFormatada;
-}
-
-async function formatarDataParaBD(data) {
-    const partesData = data.split('-'); // Divide a string da data em partes usando o separador "-"
-    const dataFormatada = `${partesData[2]}-${partesData[1]}-${partesData[0]}`; // Formata a data para "YYYY-MM-DD"
-    console.log(dataFormatada, partesData)
-    return dataFormatada;
 }
 
 async function conferirHora(hrInicio, hrFinal){
