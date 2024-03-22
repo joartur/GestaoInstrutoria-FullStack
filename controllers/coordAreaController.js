@@ -21,6 +21,7 @@ const coordAreaController = {
         }
     },
 
+    //Caso haja algum registro em andamento, a função irá retornar True; caso contrário, irá retornar False.
     verificaSituacao: async (req, res) => {
         try {
             const registros = await Registro.findAll({ where: { FKinstrutor: req.params.matricula } });
@@ -99,7 +100,7 @@ const coordAreaController = {
                 );
                 res.json(registros)
             }
-            else {
+            else if(req.body.total == 0) {
                 const registros = await Registro.update({
                     status: "Recusado",
                     justificativa: req.body.justificativa,
@@ -111,6 +112,9 @@ const coordAreaController = {
                             id: req.params.id,
                         },
                     });
+            }
+            else {
+                return res.status(400).json({ error: "Erro inesperado." });
             }
 
         }
