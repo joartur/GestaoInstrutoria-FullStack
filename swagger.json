@@ -20,7 +20,7 @@
     "/instrutor/{matriculaI}": {
       "get": {
         "tags": ["Instrutor"],
-        "summary": "Obter informações  do instrutor",
+        "summary": "Obter informações para a página inicial do instrutor",
         "parameters": [
           {
             "name": "matriculaI",
@@ -42,9 +42,6 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "Registro não encontrado"
           },
           "500": {
             "description": "Indica que um erro interno ocorreu."
@@ -90,7 +87,7 @@
     "/instrutor/registros/{matriculaI}": {
       "get": {
         "tags": ["Instrutor"],
-        "summary": "Obter os dados de registros associados ao instrutor",
+        "summary": "Obter a lista de registros associados ao instrutor",
         "parameters": [
           {
             "name": "matriculaI",
@@ -169,14 +166,19 @@
                       "error": "Data inválida. Não é permitido cadastrar registros para datas futuras."
                     }
                   },
-                  "HoraInvalida": {
+                  "horaInvalida": {
                     "value": {
                       "error": "Registro com horas inválidas."
                     }
                   },
-                  "DescricaoInvalida": {
+                  "descricaoInvalida": {
                     "value": {
                       "error": "Descrição inválida."
+                    }
+                  },
+                  "tituloInvalido": {
+                    "value": {
+                      "error": "Limite de caracteres para o título foi atingido."
                     }
                   }
                 }
@@ -192,7 +194,7 @@
     "/instrutor/registro/{matriculaI}/{registroId}": {
       "get": {
         "tags": ["Instrutor"],
-          "summary": "Obter os dados de um registro associado ao instrutor",
+          "summary": "Obter os dados de um registro associado ao instrutor (visualização)",
           "parameters": [
             {
               "name": "matriculaI",
@@ -234,7 +236,7 @@
       },
       "put": {
         "tags": ["Instrutor"],
-        "summary": "Atualizar um registro de serviço educacional do instrutor",
+        "summary": "Atualizar dados de um registro de serviço educacional do instrutor",
         "parameters": [
           {
             "name": "matriculaI",
@@ -280,7 +282,7 @@
                 "examples": {
                   "registroSobreposto": {
                     "value": {
-                      "error": "Já existe um registro com horário sobreposto para este instrutor nesta data"
+                      "error": "Já existe um registro com horário sobreposto para este instrutor nesta data."
                     }
                   },
                   "dataInvalida": {
@@ -288,14 +290,19 @@
                       "error": "Data inválida. Não é permitido cadastrar registros para datas futuras."
                     }
                   },
-                  "HoraInvalida": {
+                  "horaInvalida": {
                     "value": {
                       "error": "Registro com horas inválidas."
                     }
                   },
-                  "DescricaoInvalida": {
+                  "descricaoInvalida": {
                     "value": {
                       "error": "Descrição inválida."
+                    }
+                  },
+                  "tituloInvalido": {
+                    "value": {
+                      "error": "Limite de caracteres para o título foi atingido."
                     }
                   }
                 }
@@ -335,7 +342,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Registro excluído",
+            "description": "Registro excluído com sucesso.",
             "content": {
               "application/json": {
                 "schema": {
@@ -359,7 +366,7 @@
     "/instrutor/test/{matriculaI}": {
       "get": {
         "tags": ["Instrutor"],
-        "summary": "Obter todos os dados de registros do banco.",
+        "summary": "Obter todos os dados de registros educacionais cadastrados do banco.",
         "parameters": [
           {
             "name": "matriculaI",
@@ -394,7 +401,7 @@
     "/instrutor/servicos/{matriculaI}": {
       "get": {
         "tags": ["Instrutor"],
-        "summary": "Obter todos os dados de registros do banco.",
+        "summary": "Obter a lista de serviço educacional do banco.",
         "parameters": [
           {
             "name": "matriculaI",
@@ -432,25 +439,6 @@
       "homeInstrutor": {
         "type": "object",
         "properties": {
-          "registrosRecentes": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "id": { "type": "integer", "example": 6 },
-                "titulo": { "type": "string", "example": "Workshop de Gastronomia" },
-                "status": { "type": "string", "example": "Validado" },
-                "Servico": {
-                  "type": "object",
-                  "properties": {
-                    "nome": { "type": "string", "example": "Palestra" }
-                  },
-                  "required": ["nome"]
-                }
-              },
-              "required": ["id", "titulo", "status", "Servico"]
-            }
-          },
           "datasServico": {
             "type": "array",
             "items": {

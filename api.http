@@ -30,10 +30,10 @@ POST http://localhost:3001/instrutor/registro/789012
 Content-Type: application/json
 
 {
-    "dataServico": "2024-03-21",
-    "horaInicio": "03:00",
+    "dataServico": "2024-03-18",
+    "horaInicio": "00:00",
     "horaFinal": "20:45",
-    "titulo": "Workshop de Gastronomia parte 4",
+    "titulo": "Workshop de Gastronomia parte 4 pois agora isso tem que ficar grande demais obrigado",
     "descricao": "Workshop prático de técnicas de temperagem para a pascoa.",
     "FKservico": "2"
 }

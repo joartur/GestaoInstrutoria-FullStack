@@ -3,13 +3,16 @@ const Instrutor = require("../models/Instrutor");
 const Servico = require("../models/Servico");
 const sequelize = require('../database/connection.js');
 const { Op, literal } = require('sequelize');
-const moment = require('moment');
 
 const instrutorController = {
     cadastrarRegistro: async (req, res) => {
         try {
             const { dataServico, horaInicio, horaFinal, titulo, descricao, FKservico } = req.body;
             const FKinstrutor = req.params.matriculaI;
+
+            if(titulo.length > 50){
+                return res.status(400).json({error: "Limite de caracteres para o título foi atingido."})
+            }
 
             //validação básica do texto da descrição
             const validaDesc = await validarDesc(descricao);
@@ -108,6 +111,10 @@ const instrutorController = {
         try {
             const { matriculaI, registroId } = req.params;
             const { dataServico, horaInicio, horaFinal, titulo, descricao, FKservico } = req.body;
+
+            if(titulo.length > 50){
+                return res.status(400).json({error: "Limite de caracteres para o título foi atingido."})
+            }
 
             const registro = await buscarRegistro(matriculaI, registroId);
 
@@ -231,6 +238,10 @@ const instrutorController = {
 
             //busca pelo instrutor de acordo com o id
             const instrutor = await buscarInstrutor(matriculaI);
+
+            if(!instrutor){
+                return res.status(404).json({ error: "Usuário não encontrado." });
+            }
 
             res.status(200).json(instrutor);
         } catch (error) {
