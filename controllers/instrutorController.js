@@ -254,15 +254,40 @@ const instrutorController = {
             const { matriculaI } = req.params;
             const { dataInicioFiltro, dataFinalFiltro, horaInicioFiltro, horaFinalFiltro, FKservico, ordenacao } = req.body
 
-            let where = {}
             let order = []
+            // Inicialize o objeto where
+            let where = {
+                FKinstrutor: matriculaI
+            };
 
-            // if-else de hora, hora sozinha
-            if(horaInicioFiltro != ""){
-                where['horaInicio'] = horaInicioFiltro
+            // Adicione as condições de filtro para hora
+            if (horaInicioFiltro != "" && horaFinalFiltro != "") {
+                where[Op.and] = [
+                    { horaInicio: { [Op.gte]: horaInicioFiltro } },
+                    { horaFinal: { [Op.lte]: horaFinalFiltro } }
+                ];
+
+            } else if ( horaInicioFiltro != "" && horaFinalFiltro == ""){
+                where['horaInicio'] = { [Op.eq]: [horaInicioFiltro] }
+
+            } else if ( horaInicioFiltro == "" && horaFinalFiltro != ""){
+                where['horaFinal'] = { [Op.eq]: [horaFinalFiltro] }
             }
 
-            console.log(where)
+            // Adicione as condições de filtro para hora
+            if (dataInicioFiltro != "" && dataFinalFiltro != "") {
+                where['dataServico'] = { [Op.between]: [dataInicioFiltro, dataFinalFiltro] }
+
+            } else if ( dataInicioFiltro != "" && dataFinalFiltro == ""){
+                where['dataServico'] = { [Op.eq]: [dataInicioFiltro] }
+
+            } else if ( dataInicioFiltro == "" && dataFinalFiltro != ""){
+                where['dataServico'] = { [Op.eq]: [dataFinalFiltro] }
+            }
+
+            if(FKservico !=""){
+                where['FKservico'] = { [Op.eq]: [FKservico] }
+            }
 
             if (ordenacao) {
                 order.push(["id", ordenacao]);
@@ -281,6 +306,10 @@ const instrutorController = {
                 order
             });
     
+            if (registros.length === 0) {
+                return res.status(404).json({ error: "Registros não encontrados." });
+            }
+            
             res.status(200).json({ msg: "Registros encontrados", data: registros });
         } catch(error){
             res.status(500).json({ error: error.message })

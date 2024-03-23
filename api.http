@@ -46,11 +46,11 @@ POST http://localhost:3001/instrutor/registros/789012
 Content-Type: application/json
 
 {
-    "dataInicioFiltro": "2024-03-18",
-    "datafinalFiltro": "2024-03-18",
-    "horaInicioFiltro": "03:00",
-    "horaFinalFiltro": "20:45",
-    "FKservico": "2",
+    "dataInicioFiltro": "",
+    "dataFinalFiltro": "",
+    "horaInicioFiltro": "01:00",
+    "horaFinalFiltro": "",
+    "FKservico": "1",
     "ordenacao": ""
 }
 
