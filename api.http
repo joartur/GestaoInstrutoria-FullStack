@@ -84,10 +84,13 @@ GET http://localhost:3001/instrutor/servicos/123456
 GET http://localhost:3001/coordArea/listarRegistros/789012
 
 ###
-GET http://localhost:3001/coordArea/listarInstrutores
+GET http://localhost:3000/coordArea/verificaSituacao/345678
 
 ###
-PUT http://localhost:3001/coordArea/validarRegistro/3/019283
+GET http://localhost:3000/coordArea/listarInstrutores/Tecnologia
+
+###
+PUT http://localhost:3000/coordArea/validarRegistro/10/4321
 Content-Type: application/json
 
 {
@@ -99,6 +102,19 @@ PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/3/019283
 Content-Type: application/json
 
 {
-    "justificativa": "Deu vontade",
-    "total": "0"
+    "justificativa": "!!!!!!!!!!!!!!!!!!!!!",
+    "total": "1"
+}
+
+###
+POST http://localhost:3000/coordArea/registro/1234/789012
+Content-Type: application/json
+
+{
+    "dataServico": "19-02-2024",
+    "horaInicio": "10:00",
+    "horaFinal": "13:00",
+    "titulo": "Pabbabrte",
+    "descricao": "Se coabayguso!!!",
+    "FKservico": "2"
 }
