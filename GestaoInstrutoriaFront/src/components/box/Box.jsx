@@ -2,7 +2,7 @@ import "./box.css"
 
 const Box = (props) => {
     return (
-        <div className={props.type}>
+        <div className={`box ${props.type}`}>
             <h2>{props.title}</h2>
             <h1>{props.description}</h1>
         </div>

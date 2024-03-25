@@ -18,6 +18,7 @@ const DeleteModal = ({ onCancel, onConfirm }) => {
                         Deletar
                     </button>
                 </div>
+                <p>Aperte "Esc" para Cancelar</p>
             </div>
         </div>
         </div>

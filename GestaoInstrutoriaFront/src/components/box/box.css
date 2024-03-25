@@ -58,3 +58,31 @@
     font-weight: 700;
     margin: 10px 0px 0px 0px;
 }
+
+.red {
+    background-color: #ff4d4d; /* Vermelhão */
+}
+.red h1{
+    color: var(--main-black);
+} 
+.orange {
+    background-color: var(--main-orange); /* Laranjinha */
+}
+.orange h1{
+    color: var(--main-black);
+}
+  
+.yellow {
+    background-color: #fff346; /* Amarelo */
+}
+.yellow h1{
+    color: var(--main-black);
+}
+  
+.not-white {
+    background-color: #fff5c9; /* Branco não branco */
+}
+  
+.white {
+    background-color: #ffffff; /* Branco */
+}

@@ -88,6 +88,20 @@ const TablesService = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
+    //apertar esct para sair do modal de filtro
+    const handleKeyPress = (e) => {
+        if (e.key === 'Escape') {
+            setIsModalOpen(false)
+        }
+    };
+    useEffect(() => {
+        if (isModalOpen) {
+          document.addEventListener('keydown', handleKeyPress);
+    }
+    return () => {
+          document.removeEventListener('keydown', handleKeyPress);
+        };
+    }, [isModalOpen]);
 
     if (!data) {
         return <Loading />

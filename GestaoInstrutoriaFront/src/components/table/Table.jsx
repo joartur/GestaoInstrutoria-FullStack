@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { faTrash, faPenToSquare, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import { useDataContext } from '../../services/DataContext';
 import { Link } from 'react-router-dom';
@@ -23,6 +23,20 @@ const Table = ({formattedData}) => {
           setServiceIdToDelete(null);
         }
     };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Escape') {
+            setServiceIdToDelete(null);
+        }
+    };
+    useEffect(() => {
+        if (serviceIdToDelete != null) {
+          document.addEventListener('keydown', handleKeyPress);
+    }
+    return () => {
+          document.removeEventListener('keydown', handleKeyPress);
+        };
+    }, [serviceIdToDelete]);
 
     return (
         <div className="table-container">

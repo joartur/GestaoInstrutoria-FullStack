@@ -83,6 +83,7 @@ const FilterModal = ({ onClose }) => {
                 <p></p>
                 <button className="filters-btn">Aplicar Filtros</button>
                 </div>
+                <p>Aperte "Esc" para Cancelar</p>
                 </div>
             </div>
         </div>
