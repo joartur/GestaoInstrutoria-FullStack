@@ -15,7 +15,8 @@ const HomePage = () => {
   }
 
   const getBoxColor = (hoursString) => {
-    const hours = parseInt(hoursString.split(":")[0]); // Obtém apenas a parte das horas
+    if(instrutorData.horasTrab){
+      const hours = parseInt(hoursString.split(":")[0]); // Obtém apenas a parte das horas
     if (hours >= 176) {
       return "red"; // Vermelhão
     } else if (hours >= 141) {
@@ -27,6 +28,10 @@ const HomePage = () => {
     } else {
       return "white"; // Branco
     }
+    } else {
+      return "white"
+    }
+    
   };
 
   return (

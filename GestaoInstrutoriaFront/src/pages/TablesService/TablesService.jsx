@@ -17,6 +17,8 @@ const TablesService = () => {
     
     const { data } = useDataContext();
 
+    const [situacao, setSituacao] = useState('');
+
     //formata hora e data dos dados recebeidos da API
     const formattedServices = data.map(service => {
         const dataServico = moment(service.dataServico).format('DD/MM/YYYY');
@@ -54,12 +56,18 @@ const TablesService = () => {
     };
 
     //filtra os dados com base na consulta do input de pesquisa
-    const filterData = (term) => {
-        const filteredResults = formattedServices.filter((item) =>
-            item.titulo.toLowerCase().indexOf(term.toLowerCase()) !== -1
-        );
+    const filterData = (term, situacao) => {
+        let filteredResults = formattedServices;
+        if (term) {
+          filteredResults = filteredResults.filter((item) =>
+            item.titulo.toLowerCase().includes(term.toLowerCase())
+          );
+        }
+        if (situacao) {
+          filteredResults = filteredResults.filter((item) => item.status === situacao);
+        }
         setFilteredData(filteredResults);
-    };
+      };
     
     useEffect(() => {
         setFilteredData(formattedServices);
@@ -76,15 +84,9 @@ const TablesService = () => {
     // Obtém os itens da página atual
     const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
     // Função para alterar a página atual
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-    // Função para lidar com a mudança no filtro de situação
-    const handleChange = (event) => {
-        setSituacao(event.target.value);
-    };
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);  
 
     // Estados e funções relacionadas ao modal de filtro
-    const [situacao, setSituacao] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -102,6 +104,14 @@ const TablesService = () => {
           document.removeEventListener('keydown', handleKeyPress);
         };
     }, [isModalOpen]);
+
+    // Função para lidar com a mudança no filtro de situação
+    const handleChange = (event) => {
+        const situacaoValue = event.target.value;
+        setSituacao(situacaoValue);
+        setCurrentPage(1);
+        filterData(searchTerm, situacaoValue); // Atualiza o filtro com a situação selecionada
+    };
 
     if (!data) {
         return <Loading />
@@ -131,13 +141,13 @@ const TablesService = () => {
                     </div>
                 </div>
                 <div className="filters-container">
-                    <select id="filter" name="filter" value={situacao} onChange={handleChange}>
-                        <option value="">Todas as Situações</option>
-                        <option value="">Em Análises</option>
-                        <option value="">Validados</option>
-                        <option value="">Parcialmente Validados</option>
-                        <option value="">Recusados</option>
-                    </select>
+                <select id="filter" name="filter" value={situacao} onChange={handleChange}>
+                    <option value="">Todas as Situações</option>
+                    <option value="Em Análise">Em Análise</option>
+                    <option value="Validado">Validado</option>
+                    <option value="Parcialmente Validado">Parcialmente Validado</option>
+                    <option value="Recusado">Recusado</option>
+                </select>
                     <button title="Filtros" size="medium" onClick={openModal} className="filterOpen-btn">Filtros</button>
                 </div>
                 {filteredData.length > 0 ? (
