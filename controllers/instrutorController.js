@@ -262,6 +262,14 @@ const instrutorController = {
 
             // Adicione as condições de filtro para hora
             if (horaInicioFiltro != "" && horaFinalFiltro != "") {
+                
+                //conferindo horas trocadas
+                const ordemHora = await conferirHora(horaInicioFiltro, horaFinalFiltro);
+
+                if (ordemHora){
+                    return res.status(400).json({ error: "Filtro com horas inválidas." });
+                }
+            
                 where[Op.and] = [
                     { horaInicio: { [Op.gte]: horaInicioFiltro } },
                     { horaFinal: { [Op.lte]: horaFinalFiltro } }
@@ -276,6 +284,14 @@ const instrutorController = {
 
             // Adicione as condições de filtro para hora
             if (dataInicioFiltro != "" && dataFinalFiltro != "") {
+                
+                //conferindo datas trocadas
+                const ordemData = await conferirHora(dataInicioFiltro, dataFinalFiltro);
+
+                if (ordemData){
+                    return res.status(400).json({ error: "Filtro com datas inválidas." });
+                }
+
                 where['dataServico'] = { [Op.between]: [dataInicioFiltro, dataFinalFiltro] }
 
             } else if ( dataInicioFiltro != "" && dataFinalFiltro == ""){
@@ -484,6 +500,10 @@ function calcularDiferencaHoras(horaInicio, horaFinal) {
     let horaFormatada = `${hora.getUTCHours().toString().padStart(2, '0')}:${hora.getUTCMinutes().toString().padStart(2, '0')}`;
     
     return horaFormatada;
+}
+
+async function conferirData(dtInicio, dtFinal){
+    return ( dtInicio >= dtFinal )
 }
 
 async function conferirHora(hrInicio, hrFinal){
