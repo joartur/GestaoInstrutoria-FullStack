@@ -4,6 +4,8 @@ const Servico = require("../models/Servico");
 const sequelize = require('../database/connection.js');
 const { Op, literal } = require('sequelize');
 
+const json2xls = require('json2xls');
+
 const instrutorController = {
     cadastrarRegistro: async (req, res) => {
         try {
@@ -363,7 +365,53 @@ const instrutorController = {
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-    }
+    },
+
+    // //rota para a exportação do pdf
+    // exportPDF: async (req, res) =>{
+    //     try {
+
+    //         const { matriculaI } = req.params;
+            
+    //         //dados pegos do banco
+    //         const registros = await Registro.findAll({
+    //             attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
+    //             include: [{
+    //                 model: Servico,
+    //                 attributes: ['nome'],
+    //                 where: {
+    //                     id: sequelize.col('Registro.FKservico')
+    //                 }
+    //             }],
+    //             where: {
+    //                 FKinstrutor: matriculaI
+    //             }
+    //         });
+
+    //     // Converter os dados para JSON
+    //     const registrosJSON = registros.map(registro => ({
+    //         ID: registro.id,
+    //         Título: registro.titulo,
+    //         Data: registro.dataServico,
+    //         'Hora de Início': registro.horaInicio,
+    //         'Hora Final': registro.horaFinal,
+    //         Total: registro.total,
+    //         Status: registro.status
+    //     }));
+
+    //     // Converter JSON para Excel
+    //     const xls = json2xls(registrosJSON);
+
+    //     // Enviar o arquivo Excel como resposta
+    //     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    //     res.setHeader('Content-Disposition', 'attachment; filename="registros.xlsx"');
+    //     res.send(xls);
+
+
+    //     } catch (error) {
+    //         res.status(500).json({ error: error.message });
+    //     }
+    // }
 };
 
 async function conferirData(data) {
