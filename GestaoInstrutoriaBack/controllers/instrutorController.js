@@ -4,6 +4,8 @@ const Servico = require("../models/Servico");
 const sequelize = require('../database/connection.js');
 const { Op, literal } = require('sequelize');
 
+const json2xls = require('json2xls');
+
 const instrutorController = {
     cadastrarRegistro: async (req, res) => {
         try {
@@ -249,6 +251,88 @@ const instrutorController = {
         }
     },
 
+    filtroRegistros: async(req, res) =>{
+        try{
+            const { matriculaI } = req.params;
+            const { dataInicioFiltro, dataFinalFiltro, horaInicioFiltro, horaFinalFiltro, FKservico, ordenacao } = req.body
+
+            let order = []
+            // Inicialize o objeto where
+            let where = {
+                FKinstrutor: matriculaI
+            };
+
+            // Adicione as condições de filtro para hora
+            if (horaInicioFiltro != "" && horaFinalFiltro != "") {
+                
+                //conferindo horas trocadas
+                const ordemHora = await conferirHora(horaInicioFiltro, horaFinalFiltro);
+
+                if (ordemHora){
+                    return res.status(400).json({ error: "Filtro com horas inválidas." });
+                }
+            
+                where[Op.and] = [
+                    { horaInicio: { [Op.gte]: horaInicioFiltro } },
+                    { horaFinal: { [Op.lte]: horaFinalFiltro } }
+                ];
+
+            } else if ( horaInicioFiltro != "" && horaFinalFiltro == ""){
+                where['horaInicio'] = { [Op.eq]: [horaInicioFiltro] }
+
+            } else if ( horaInicioFiltro == "" && horaFinalFiltro != ""){
+                where['horaFinal'] = { [Op.eq]: [horaFinalFiltro] }
+            }
+
+            // Adicione as condições de filtro para hora
+            if (dataInicioFiltro != "" && dataFinalFiltro != "") {
+                
+                //conferindo datas trocadas
+                const ordemData = await conferirHora(dataInicioFiltro, dataFinalFiltro);
+
+                if (ordemData){
+                    return res.status(400).json({ error: "Filtro com datas inválidas." });
+                }
+
+                where['dataServico'] = { [Op.between]: [dataInicioFiltro, dataFinalFiltro] }
+
+            } else if ( dataInicioFiltro != "" && dataFinalFiltro == ""){
+                where['dataServico'] = { [Op.eq]: [dataInicioFiltro] }
+
+            } else if ( dataInicioFiltro == "" && dataFinalFiltro != ""){
+                where['dataServico'] = { [Op.eq]: [dataFinalFiltro] }
+            }
+
+            if(FKservico !=""){
+                where['FKservico'] = { [Op.eq]: [FKservico] }
+            }
+
+            if (ordenacao) {
+                order.push(["id", ordenacao]);
+            }
+
+            const registros = await Registro.findAll({
+                attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
+                include: [{
+                    model: Servico,
+                    attributes: ['id','nome'],
+                    where: {
+                        id: sequelize.col('Registro.FKservico')
+                    }
+                }],
+                where,
+                order
+            });
+    
+            if (registros.length === 0) {
+                return res.status(404).json({ error: "Registros não encontrados." });
+            }
+            
+            res.status(200).json({ msg: "Registros encontrados", data: registros });
+        } catch(error){
+            res.status(500).json({ error: error.message })
+        }
+    },
     //rota de teste para o front com todos os registros do banco
     test: async (req, res) => {
         try {
@@ -281,7 +365,53 @@ const instrutorController = {
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-    }
+    },
+
+    // //rota para a exportação do pdf
+    // exportPDF: async (req, res) =>{
+    //     try {
+
+    //         const { matriculaI } = req.params;
+            
+    //         //dados pegos do banco
+    //         const registros = await Registro.findAll({
+    //             attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
+    //             include: [{
+    //                 model: Servico,
+    //                 attributes: ['nome'],
+    //                 where: {
+    //                     id: sequelize.col('Registro.FKservico')
+    //                 }
+    //             }],
+    //             where: {
+    //                 FKinstrutor: matriculaI
+    //             }
+    //         });
+
+    //     // Converter os dados para JSON
+    //     const registrosJSON = registros.map(registro => ({
+    //         ID: registro.id,
+    //         Título: registro.titulo,
+    //         Data: registro.dataServico,
+    //         'Hora de Início': registro.horaInicio,
+    //         'Hora Final': registro.horaFinal,
+    //         Total: registro.total,
+    //         Status: registro.status
+    //     }));
+
+    //     // Converter JSON para Excel
+    //     const xls = json2xls(registrosJSON);
+
+    //     // Enviar o arquivo Excel como resposta
+    //     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    //     res.setHeader('Content-Disposition', 'attachment; filename="registros.xlsx"');
+    //     res.send(xls);
+
+
+    //     } catch (error) {
+    //         res.status(500).json({ error: error.message });
+    //     }
+    // }
 };
 
 async function conferirData(data) {
@@ -354,7 +484,7 @@ async function calcularHorasServicos(matriculaI) {
         where: {
             FKinstrutor: matriculaI,
             status: {
-                [Op.or]: ["validado"]
+                [Op.or]: ["validado", "parcialmente validado"]
             }
         }
     });
@@ -418,6 +548,10 @@ function calcularDiferencaHoras(horaInicio, horaFinal) {
     let horaFormatada = `${hora.getUTCHours().toString().padStart(2, '0')}:${hora.getUTCMinutes().toString().padStart(2, '0')}`;
     
     return horaFormatada;
+}
+
+async function conferirData(dtInicio, dtFinal){
+    return ( dtInicio >= dtFinal )
 }
 
 async function conferirHora(hrInicio, hrFinal){

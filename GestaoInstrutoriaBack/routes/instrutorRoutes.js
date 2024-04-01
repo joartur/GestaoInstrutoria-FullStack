@@ -20,6 +20,16 @@ router.get('/registros/:matriculaI',(req, res) => {
     instrutorController.listarRegistros(req, res);
 })
 
+//rota para a lista dos registros filtrados do instrutor
+router.post('/registros/:matriculaI',(req, res) => {
+    instrutorController.filtroRegistros(req, res);
+})
+
+// //rota para exportar o arquivo pdf de todos os registros em tabela
+// router.get('/registros/exportPDF/:matriculaI',(req, res) => {
+//     instrutorController.exportPDF(req, res);
+// })
+
 //rota post para criar um novo registro do instrutor
 router.post('/registro/:matriculaI',(req, res) => {
     instrutorController.cadastrarRegistro(req, res);
