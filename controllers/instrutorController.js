@@ -352,7 +352,7 @@ const instrutorController = {
 
 async function conferirData(data) {
     const hoje = new Date()
-    const dataServico = new Date(`1970-01-01T${data}`)
+    const dataServico = new Date(`${data}`)
     console.log(dataServico)
     
     if (dataServico > hoje) {
