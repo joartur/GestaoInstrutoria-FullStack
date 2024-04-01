@@ -52,7 +52,7 @@ const Table = ({formattedData}) => {
             <table className='table'>
             <thead>
                 <tr>
-                    <th><input type="checkbox" name="select" id="select" /></th>
+                    {/* <th><input type="checkbox" name="select" id="select" /></th> */}
                     <th>Título</th>
                     <th>Data</th>
                     <th>Início</th>
@@ -66,7 +66,7 @@ const Table = ({formattedData}) => {
 
                         {formattedData.map(registro => (
                         <tr key={registro.id}>
-                            <td><input type="checkbox" name="checkbox" id={registro.id} /></td>
+                            {/* <td><input type="checkbox" name="checkbox" id={registro.id} /></td> */}
                             <td><Link to={`/viewServices/${registro.id}`}>{registro.titulo}</Link></td>
                             <td>{registro.dataServico}</td>
                             <td>{registro.horaInicio}</td>

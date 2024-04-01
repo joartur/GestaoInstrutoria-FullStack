@@ -26,24 +26,23 @@ GET  http://localhost:3001/instrutor/123456
 GET  http://localhost:3001/instrutor/perfil/789012
 
 ###
-POST http://localhost:3001/instrutor/registro/123456
+POST http://localhost:3001/instrutor/registro/789012
 Content-Type: application/json
 
 {
-    "dataServico": "2024-03-09",
+    "dataServico": "2024-04-01",
     "horaInicio": "00:00",
     "horaFinal": "20:45",
-<<<<<<< HEAD:GestaoInstrutoriaBack/api.http
     "titulo": "Worisso tem que ficar grande demais obrigado",
-=======
-    "titulo": "Workshop de",
->>>>>>> 7b368d44b8d66c3f30f1b442ca6d79131fea8316:api.http
     "descricao": "Workshop prático de técnicas de temperagem para a pascoa.",
     "FKservico": "2"
 }
 
 ###
 GET http://localhost:3001/instrutor/registros/789012
+
+# ###
+# GET http://localhost:3001/instrutor/registros/exportPDF/789012
 
 ###
 POST http://localhost:3001/instrutor/registros/789012
