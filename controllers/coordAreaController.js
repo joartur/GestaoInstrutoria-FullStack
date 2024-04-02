@@ -1,6 +1,6 @@
 const { status } = require("express/lib/response");
-const Instrutor = require("../models/Instrutor.js")
-const Registro = require("../models/Registro.js")
+const Instrutor = require("../models/Instrutor.js");
+const Registro = require("../models/Registro.js");
 
 const coordAreaController = {
     listarInstrutores: async (req, res) => {
@@ -35,7 +35,6 @@ const coordAreaController = {
 
     validarRegistro: async (req, res) => {
         try {
-            const {id} = req.params
 
             const registro = await Registro.findOne({ where: { id: req.params.id } })
 
@@ -55,7 +54,7 @@ const coordAreaController = {
                 }
             );
 
-            const attHoras = await calcularHoras(id)
+            const attHoras = await calcularHoras(req.params.id)
 
             res.json(registros)
         } catch (error) {
@@ -65,7 +64,7 @@ const coordAreaController = {
 
     validarParcialmenteRegistro: async (req, res) => {
         try {
-            if (req.body.total >= 0) {
+            if (req.body.total >= '00:00') {
             const registro = await Registro.findOne({ where: { id: req.params.id } })
 
             const situacao = situacaoRegistro(registro.status)
@@ -94,10 +93,13 @@ const coordAreaController = {
                     }
                 );
                 res.json(registros)
+                
+                const attHoras = await calcularHoras(req.params.id)
+
             } else if (registro.total < req.body.total) {
                 return res.status(400).json({ error: "A quantidade de horas foi excedida." });
             }
-            }else if (req.body.total > 0) {
+            }else if (req.body.total > '00:00') {
                 const registros = await Registro.update({
                     status: "Parcialmente validado",
                     justificativa: req.body.justificativa,
@@ -111,19 +113,22 @@ const coordAreaController = {
                     }
                 );
                 res.json(registros)
-            } else if(req.body.total == 0) {
+
+                const attHoras = await calcularHoras(req.params.id)
+            } else if(req.body.total == '00:00') {
                 const registros = await Registro.update({
                     status: "Recusado",
                     justificativa: req.body.justificativa,
                     total: req.body.total,
                     FKcoordenador: req.params.FKcoordenador
-                },
-                    {
-                        where: {
-                            id: req.params.id,
-                        },
-                    });
-                    res.json(registros)
+                },{
+                    where: {
+                        id: req.params.id,
+                    },
+                });
+                res.json(registros)
+                    
+                const attHoras = await calcularHoras(req.params.id)
             }
             else {
                 return res.status(400).json({ error: "Erro inesperado." });
@@ -203,11 +208,26 @@ async function calcularHoras(idRegistro) {
         const instrutor = await Instrutor.findAll({where: {matricula: reg.FKinstrutor}})
 
         instrutor.forEach(async (ins)=>{
-            let hrTrabAtt = calcularHorasTrab(reg.total, ins.horasTrabalhadas);
+            const verificaHrTrab = verificaHrTrabAtt(ins.horasTrabalhadas);
+            console.log(verificaHrTrab)
 
-            await Instrutor.update({
-                horasTrabalhadas: hrTrabAtt
-            }, { where: { matricula: ins.matricula } });
+            if (verificaHrTrab){
+                let saldoAtt = calcularHorasTrab(reg.total, ins.saldoHoras);
+
+                let hrTrabAtt = calcularHorasTrab(reg.total, ins.horasTrabalhadas);
+
+                await Instrutor.update({
+                    saldoHoras: saldoAtt,
+                    horasTrabalhadas: hrTrabAtt
+                }, { where: { matricula: ins.matricula } });
+
+            } else {
+                let hrTrabAtt = calcularHorasTrab(reg.total, ins.horasTrabalhadas);
+
+                await Instrutor.update({
+                    horasTrabalhadas: hrTrabAtt
+                }, { where: { matricula: ins.matricula } });
+            }
 
         })
     })
@@ -240,9 +260,9 @@ function calcularHorasTrab(horasTrab, horasRegis) {
     // Formatando o resultado
     const horaFormatada = `${somaHoras.toString().padStart(2, '0')}:${somaMinutos.toString().padStart(2, '0')}:${somaSegundos.toString().padStart(2, '0')}`;
     
-    console.log(horaFormatada, somaHoras, somaMinutos, horasRegis, horasTrab);
     return horaFormatada;
 }
+
 function situacaoRegistro(status) {
     try {
 
@@ -255,6 +275,15 @@ function situacaoRegistro(status) {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+}
+
+function verificaHrTrabAtt(hrtrabs){
+    const hrTrab = new Date(`1970-01-01T${hrtrabs}`).getTime();
+    const hrMensal = new Date(`1970-01-01T${'176:00:00'}`).getTime();
+
+    console.log(hrTrab, hrMensal)
+
+    return (hrTrab >= hrMensal)
 }
 
 async function conferirData(data) {
