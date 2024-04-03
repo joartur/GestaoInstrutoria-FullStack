@@ -7,9 +7,10 @@ export const useDataContext = () => useContext(DataContext);
 export const DataProvider = ({ children }) => {
   
     const [data, setData] = useState([]); //Array com os dados de serviço do instrutor
-    const [instrutorData, setInstrutorData] = useState([]) //Array com dados da página inicial
+    const [instrutorData, setInstrutorData] = useState([]); //Array com dados da página inicial
     const [instrutorProfile, setInstrutorProfile] = useState([]); //Array com dados do instrutor
     const [serviceTypes, setServiceTypes] = useState([]); //Lista de tipos de serviço educacional
+    const [filteredData, setFilteredData] = useState([]); //Armazena os dados filtrados 
 
     const [errorMsg, setErrorMsg] = useState([]) //Mensagens de erro do sistema
     const [serviceCreated, setServiceCreated] = useState(false); //Serviço foi criado ou não
@@ -151,8 +152,22 @@ export const DataProvider = ({ children }) => {
     }
   }
 
+
+  const filterRegister = async (filtro) => {
+      try {
+          const response = await axios.post('http://localhost:3001/instrutor/registros/123456', filtro);
+          console.log(response.data)
+          setFilteredData(response.data)
+      } catch (error) {
+          console.error('Erro ao enviar filtro:', error);
+          console.log(error)
+      }
+  };
+
+
+
   return (
-    <DataContext.Provider value={{ data, instrutorData, serviceCreated, serviceEdited, instrutorProfile, serviceTypes, setServiceCreated, setServiceEdited, createEducationalService, deleteService, editService, errorMsg }}>
+    <DataContext.Provider value={{ data, instrutorData, serviceCreated, serviceEdited, instrutorProfile, serviceTypes, setServiceCreated, setServiceEdited, createEducationalService, deleteService, editService, filterRegister, errorMsg }}>
         {children}
     </DataContext.Provider>
   );

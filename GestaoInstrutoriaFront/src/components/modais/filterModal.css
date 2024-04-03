@@ -80,3 +80,7 @@
     margin-right: 10px;
     margin-left: 10px;
 }
+
+.order-filter fieldset{
+    width: 100%;
+}
