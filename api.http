@@ -20,17 +20,17 @@ GET http://localhost:3001/servico/buscar/4
 
 # rotas de instrutor
 ###
-GET  http://localhost:3001/instrutor/123456
+GET  http://localhost:3001/instrutor/789012
 
 ###
 GET  http://localhost:3001/instrutor/perfil/789012
 
 ###
-POST http://localhost:3001/instrutor/registro/123456
+POST http://localhost:3001/instrutor/registro/789012
 Content-Type: application/json
 
 {
-    "dataServico": "2024-03-09",
+    "dataServico": "2024-04-03",
     "horaInicio": "00:00",
     "horaFinal": "20:45",
     "titulo": "Workshop de",
@@ -107,7 +107,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/coordArea/registro/1234/789012
+POST http://localhost:3000/coordArea/registro/019283/789012
 Content-Type: application/json
 
 {
