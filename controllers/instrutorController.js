@@ -134,7 +134,7 @@ const instrutorController = {
                 return res.status(400).json({ error: "Descrição inválida." });
             }
 
-            const periodoData = await conferirData(dataForm);
+            const periodoData = await conferirData(dataServico);
 
             if (!periodoData) {
                 return res.status(400).json({ error: "Não é permitido editar registros para datas futuras" });

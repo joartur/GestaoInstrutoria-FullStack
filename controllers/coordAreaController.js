@@ -92,6 +92,7 @@ const coordAreaController = {
                         },
                     }
                 );
+
                 res.json(registros)
                 
                 const attHoras = await calcularHoras(req.params.id)
@@ -112,7 +113,8 @@ const coordAreaController = {
                         },
                     }
                 );
-                res.json(registros)
+                
+                res.json(registros);
 
                 const attHoras = await calcularHoras(req.params.id)
             } else if(req.body.total == '00:00') {

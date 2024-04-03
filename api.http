@@ -209,7 +209,7 @@ GET http://localhost:3000/coordArea/verificaSituacao/345678
 GET http://localhost:3000/coordArea/listarInstrutores/Gastronomia
 
 ###
-PUT http://localhost:3000/coordArea/validarRegistro/8/123456
+PUT http://localhost:3000/coordArea/validarRegistro/3/019283
 Content-Type: application/json
 
 {
@@ -217,11 +217,11 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/8/019283
+PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/3/019283
 Content-Type: application/json
 
 {
-    "justificativa": "ojaiha sllsa fieie",
+    "justificativa": "ojaiha sakdksahkjdkasj fieie",
     "total": "00:00"
 }
 
