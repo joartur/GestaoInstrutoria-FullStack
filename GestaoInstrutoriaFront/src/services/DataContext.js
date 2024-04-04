@@ -152,7 +152,6 @@ export const DataProvider = ({ children }) => {
     }
   }
 
-
   const filterRegister = async (filtro) => {
       try {
           const response = await axios.post('http://localhost:3001/instrutor/registros/123456', filtro);
@@ -164,10 +163,8 @@ export const DataProvider = ({ children }) => {
       }
   };
 
-
-
   return (
-    <DataContext.Provider value={{ data, instrutorData, serviceCreated, serviceEdited, instrutorProfile, serviceTypes, setServiceCreated, setServiceEdited, createEducationalService, deleteService, editService, filterRegister, errorMsg }}>
+    <DataContext.Provider value={{ data, instrutorData, serviceCreated, serviceEdited, instrutorProfile, serviceTypes, filteredData, setServiceCreated, setServiceEdited, createEducationalService, deleteService, editService, filterRegister, errorMsg }}>
         {children}
     </DataContext.Provider>
   );

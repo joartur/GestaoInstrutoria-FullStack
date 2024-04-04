@@ -1,5 +1,3 @@
-import Button from "../../components/buttons/Button"
-import ButtonFilter from "../../components/buttons/ButtonFilter"
 import Header from "../../components/header/Header"
 import TextInput from "../../components/inputs/TextInput"
 import Layout from "../../components/layout/Layout"
@@ -54,11 +52,6 @@ const Profile = () => {
                                                 <label htmlFor="unity">Unidade</label>
                                                 <TextInput id="unity" name="unity" value={instrutorProfile.unidade} disabled={true} />
                                             </div>
-                                        </div>
-
-                                        <div className="profileButtons-container">
-                                            <ButtonFilter title="Cancelar" size="medium" />
-                                            <Button title="Salvar" size="medium" />
                                         </div>
                                     </form>
                                 </div>
