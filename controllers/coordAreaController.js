@@ -1,4 +1,3 @@
-const { status } = require("express/lib/response");
 const Instrutor = require("../models/Instrutor.js");
 const Registro = require("../models/Registro.js");
 

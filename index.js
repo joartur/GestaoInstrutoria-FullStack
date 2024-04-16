@@ -1,7 +1,8 @@
 const sequelize = require('./database/connection.js');
 const servicoRouter = require('./routes/servicoRoutes');
-const coordAreaRouter = require('./routes/coordAreaRoutes')
+const coordAreaRouter = require('./routes/coordAreaRoutes');
 const instrutorRouter = require('./routes/instrutorRoutes');
+const loginRouter = require('./routes/loginRoutes.js');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger');
 const express = require('express');
@@ -20,6 +21,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/servico', servicoRouter);
 app.use('/instrutor', instrutorRouter);
 app.use('/coordArea', coordAreaRouter);
+app.use('/login', loginRouter);
 
 // Middleware para tratamento de erros
 app.use((err, req, res, next) => {
