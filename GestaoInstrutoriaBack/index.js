@@ -28,7 +28,7 @@ app.use((err, req, res, next) => {
 });
 
 // Função assíncrona para autenticar o Sequelize e sincronizar as tabelas
-async function iniciarServidor() {
+export default async function iniciarServidor() {
   try {
     await sequelize.authenticate();
     console.log('Conexão com o banco de dados estabelecida com sucesso.');
