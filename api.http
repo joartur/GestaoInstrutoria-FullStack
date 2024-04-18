@@ -20,7 +20,7 @@ GET http://localhost:3001/servico/buscar/4
 
 # rotas de instrutor
 ###
-GET  http://localhost:3001/instrutor/789012
+GET  http://localhost:3001/instrutor/123456
 
 ###
 GET  http://localhost:3001/instrutor/perfil/789012
