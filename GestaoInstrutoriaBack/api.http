@@ -30,19 +30,16 @@ POST http://localhost:3001/instrutor/registro/789012
 Content-Type: application/json
 
 {
-    "dataServico": "2024-04-01",
+    "dataServico": "2024-04-03",
     "horaInicio": "00:00",
     "horaFinal": "20:45",
-    "titulo": "Worisso tem que ficar grande demais obrigado",
+    "titulo": "Workshop de",
     "descricao": "Workshop prático de técnicas de temperagem para a pascoa.",
     "FKservico": "2"
 }
 
 ###
 GET http://localhost:3001/instrutor/registros/789012
-
-# ###
-# GET http://localhost:3001/instrutor/registros/exportPDF/789012
 
 ###
 POST http://localhost:3001/instrutor/registros/789012
@@ -90,7 +87,10 @@ GET http://localhost:3001/coordArea/listarRegistros/789012
 GET http://localhost:3000/coordArea/verificaSituacao/345678
 
 ###
-PUT http://localhost:3001/coordArea/validarRegistro/6/019283
+GET http://localhost:3000/coordArea/listarInstrutores/Tecnologia
+
+###
+PUT http://localhost:3000/coordArea/validarRegistro/10/4321
 Content-Type: application/json
 
 {
@@ -107,7 +107,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/coordArea/registro/1234/789012
+POST http://localhost:3000/coordArea/registro/019283/789012
 Content-Type: application/json
 
 {
