@@ -74,7 +74,7 @@ function CreateService () {
                                 className="textInput"
                                 
                                 maxLength="50"
-                                placeholder='Insira um Título que Resuma do seu Serviço Educacional, Exemplo: "Palestra Sobre Criatividade". '
+                                placeholder='Insira um título que resuma o seu serviço educacional, por exemplo: "Palestra Sobre Criatividade". '
                                 {...register('titulo')}
                                 onChange={(e) => setInputCount(e.target.value.length)}
                             />
@@ -132,7 +132,7 @@ function CreateService () {
                                 id="descricao"
                                 name="descricao"
                                 className="BigInput"
-                                placeholder='Descreva Brevemente seu Serviço Educacional. Exemplo: "Apresentei a palestra sobre criatividade no auditório do Senac RN, apresentei técnicas práticas e exemplos inspiradores para estimular a imaginação e a inovação." '
+                                placeholder='Descreva brevemente seu serviço educacional. Por exemplo: "Apresentei a palestra sobre criatividade no auditório do Senac RN, exemplifiquei técnicas práticas para estimular a imaginação no ambiente de trabalho." '
                                 {...register('descricao')}
                             />
                             <span className="error-msg">{errors.descricao && <>{errors.descricao.message}</>}</span>
