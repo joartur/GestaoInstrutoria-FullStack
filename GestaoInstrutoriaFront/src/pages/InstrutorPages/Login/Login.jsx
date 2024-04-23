@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import logo from "../../image/logo_senac.png"
-import TextInput from '../../components/inputs/TextInput';
+import logo from '../../../image/logo_senac.png'
+import TextInput from '../../../components/inputs/TextInput';
 import './login.css';
 
 const Login = () => {

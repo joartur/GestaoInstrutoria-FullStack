@@ -1,8 +1,8 @@
-import Layout from '../../components/layout/Layout';
-import Header from '../../components/header/Header';
-import Box from '../../components/box/Box';
-import Calendario from '../../components/calendar/Calendar';
-import { useDataContext } from '../../services/DataContext';
+import Layout from '../../../components/layout/Layout';
+import Header from '../../../components/header/Header';
+import Box from '../../../components/box/Box';
+import Calendario from '../../../components/calendar/Calendar';
+import { useDataContext } from '../../../services/DataContext';
 import Loading from '../loading/Loading';
 import "./homePage.css"
 

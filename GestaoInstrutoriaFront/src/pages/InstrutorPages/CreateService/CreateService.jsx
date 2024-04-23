@@ -1,17 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faClock } from '@fortawesome/free-solid-svg-icons';
-import Layout from "../../components/layout/Layout";
-import Header from "../../components/header/Header";
-import { useDataContext } from '../../services/DataContext';
-import { useForm, reset } from 'react-hook-form';
+import Layout from "../../../components/layout/Layout";
+import Header from "../../../components/header/Header";
+import { useDataContext } from '../../../services/DataContext';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import ConfirmationModal from "../../components/modais/ConfirmationModal";
+import ConfirmationModal from "../../../components/modais/ConfirmationModal";
 import * as yup from 'yup';
 import "./createService.css"
 
 function CreateService () {
     const { createEducationalService, errorMsg, serviceCreated, setServiceCreated, serviceTypes } = useDataContext();
+
+    const [inputCount, setInputCount] = useState(0);
 
     const closeModal = () => {
         setServiceCreated(false);
@@ -31,7 +33,7 @@ function CreateService () {
         descricao: yup.string().required('A descrição é obrigatória'),
     });
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
 
@@ -55,23 +57,31 @@ function CreateService () {
             <main>
                 <div className="createServiceForm-container">
                     <div className="createServiceForm-header">
-                        <p>Insira as informações da atividade realizada</p>
+                        <p>Insira as informações do Serviço Educacional Prestado</p>
                         <hr />
                     </div>
                     <div className="createServiceForm-body">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div>
-                            <label htmlFor="titulo">Título:</label>
+                            <div className="title-label">
+                                <label htmlFor="titulo">Título do Serviço Educacional:</label><span><p>{inputCount}/50</p></span>
+                            </div>
+                            
                             <input
                                 id="titulo"
                                 name="titulo"
                                 type="text"
                                 className="textInput"
-                                placeholder="Insira o Título do Serviço Educacional"
+                                
+                                maxLength="50"
+                                placeholder='Insira um Título que Resuma do seu Serviço Educacional, Exemplo: "Palestra Sobre Criatividade". '
                                 {...register('titulo')}
+                                onChange={(e) => setInputCount(e.target.value.length)}
                             />
                             <span className="error-msg">{errors.titulo && <>{errors.titulo.message}</>}</span>
                         </div>
+                        
+                        <div className="timeInput-container">
                         <div className="dateInput-container">
                             <label htmlFor="dataServico"><FontAwesomeIcon icon={faCalendar} className="icon"/>Data do Serviço:</label>
                             <input
@@ -82,8 +92,6 @@ function CreateService () {
                             />
                             <span className="error-msg">{errors.dataServico && <>{errors.dataServico.message}</>}</span>
                         </div>
-
-                        <div className="timeInput-container">
                             <div className="timeInput-box">
                                 <label htmlFor="horaInicio"><FontAwesomeIcon icon={faClock} className="icon"/>Hora de Início:</label>
                                 <input
@@ -119,12 +127,12 @@ function CreateService () {
                         </div>
 
                         <div>
-                            <label htmlFor="descricao">Descrição:</label>
+                            <label htmlFor="descricao">Descrição do Serviço Educacional:</label>
                             <textarea
                                 id="descricao"
                                 name="descricao"
                                 className="BigInput"
-                                placeholder="Insira a Descrição do Serviço Educacional"
+                                placeholder='Descreva Brevemente seu Serviço Educacional. Exemplo: "Apresentei a palestra sobre criatividade no auditório do Senac RN, apresentei técnicas práticas e exemplos inspiradores para estimular a imaginação e a inovação." '
                                 {...register('descricao')}
                             />
                             <span className="error-msg">{errors.descricao && <>{errors.descricao.message}</>}</span>

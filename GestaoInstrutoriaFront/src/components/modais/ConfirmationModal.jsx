@@ -10,7 +10,7 @@ const ConfirmationModal = (props) => {
             <div className="deletModal-container">
                 <h2>Registro Criado com Sucesso!</h2>
                 <FontAwesomeIcon icon={faCircleCheck} className="confirm-icon"/> 
-                <h2>Aguarde a Confirmação do Cordenador </h2>
+                <h2>Aguarde a Confirmação do Coordenador</h2>
                 <div className="deleteModal-buttons">
                     <Link to="/tables">
                         <button className="cancel-btn" onClick={props.onCancel}>

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { useDataContext } from '../../services/DataContext';
-import Layout from "../../components/layout/Layout"
-import Header from "../../components/header/Header"
-import Button from '../../components/buttons/Button';
-import Table from '../../components/table/Table';
-import FilterModal from '../../components/modais/FilterModal';
-import Pagination from '../../components/pagination/Pagination';
+import { useDataContext } from '../../../services/DataContext';
+import Layout from "../../../components/layout/Layout"
+import Header from "../../../components/header/Header"
+import Button from '../../../components/buttons/Button';
+import Table from '../../../components/table/Table';
+import FilterModal from '../../../components/modais/FilterModal';
+import Pagination from '../../../components/pagination/Pagination';
 import Loading from '../loading/Loading';
 import moment from 'moment';
 import 'moment/locale/pt-br';

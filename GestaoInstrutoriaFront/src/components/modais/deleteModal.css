@@ -17,7 +17,7 @@
 }
 
 .delete-icon{
-    color: var(--main-red);
+    color: var(--dark-red);
     font-size: 142px;
 }
 
@@ -44,7 +44,7 @@
 
 .delete-btn{
     padding: 15px 50px;
-    background-color: var(--main-red);
+    background-color: var(--dark-red);
     color: var(--white);
     font-size: 16px;
     border-radius: 12px;

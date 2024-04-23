@@ -56,6 +56,11 @@
     margin-bottom: 20px;
 }
 
+.deleteModal-buttons p{
+    margin: 30px 30px;
+    padding: 20px;
+}
+
 .filters-btn{
     padding: 15px 50px;
     background-color: var(--main-blue);

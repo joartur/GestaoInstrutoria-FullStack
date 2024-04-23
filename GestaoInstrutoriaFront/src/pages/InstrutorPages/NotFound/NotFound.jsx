@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Logo from "../../image/logo_senac.png"
+import Logo from '../../../image/logo_senac.png'
 import './notFound.css';
 
 const NotFoundPage = () => {

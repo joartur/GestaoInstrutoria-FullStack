@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import Header from "../../components/header/Header"
-import Layout from "../../components/layout/Layout"
-import BigInput from "../../components/inputs/BigInput"
-import TableSituation from "../../components/table/TableSituation"
-import Loading from '../loading/Loading';
+import Header from "../../../components/header/Header"
+import Layout from "../../../components/layout/Layout"
+import BigInput from "../../../components/inputs/BigInput"
+import TableSituation from "../../../components/table/TableSituation"
+import Loading from '../../InstrutorPages/loading/Loading';
 import "./viewServices.css"
 
 const ViewServices = () => {
@@ -36,7 +36,7 @@ const ViewServices = () => {
     const horaInicioFormatada = `${horaInicial}:${minutoInicial}`;
     const [horaFim, minutoFim] = service.horaFinal.split(":");
     const horaFinalFormatada = `${horaFim}:${minutoFim}`;
-    const horaTotal = service.total.split(":")[0]
+    const horaTotal = service.total
 
     return (
         <Layout>
@@ -58,7 +58,7 @@ const ViewServices = () => {
                     <div className="time-info">
                         <strong>Horário Inincial: </strong><span>{horaInicioFormatada}</span>
                         <strong>Horário Final: </strong><span>{horaFinalFormatada}</span>
-                        <strong>Total de Horas: </strong><span>{horaTotal} {horaTotal > 1 || horaTotal == 0 ? "Horas": "Hora"}</span>
+                        <strong>Total de Horas: </strong><span>{horaTotal} {horaTotal > 1 || horaTotal === 0 ? "Horas": "Hora"}</span>
                     </div>
                     <div className="description-info">
                         <h2>Descrição do Serviço Educacional:</h2>

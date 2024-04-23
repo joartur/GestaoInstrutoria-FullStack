@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faClock } from '@fortawesome/free-solid-svg-icons';
-import Layout from "../../components/layout/Layout";
-import Header from "../../components/header/Header";
+import Layout from "../../../components/layout/Layout";
+import Header from "../../../components/header/Header";
 import { useParams } from 'react-router-dom';
-import { useDataContext } from '../../services/DataContext';
+import { useDataContext } from '../../../services/DataContext';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import EditModal from "../../components/modais/EditModal"
+import EditModal from "../../../components/modais/EditModal"
 import * as yup from 'yup';
 import axios from 'axios';
-import "../EditService/editService.css"
+import "./editService.css"
 import Loading from '../loading/Loading';
 
 const EditService = () => {

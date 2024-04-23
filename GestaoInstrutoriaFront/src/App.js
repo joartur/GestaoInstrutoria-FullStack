@@ -1,16 +1,16 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage/HomePage';
-import CreateService from './pages/CreateService/CreateService';
-import TablesService from './pages/TablesService/TablesService';
-import Login from './pages/Login/Login';
-import Profile from './pages/Profile/Profile';
-import ViewServices from './pages/ViewServices/ViewServices';
-import EditService from './pages/EditService/EditService';
-import NotFound from './pages/NotFound/NotFound';
+import HomePage from './pages/InstrutorPages/HomePage/HomePage';
+import CreateService from './pages/InstrutorPages/CreateService/CreateService';
+import TablesService from './pages/InstrutorPages/TablesService/TablesService';
+import Login from './pages/InstrutorPages/Login/Login';
+import Profile from './pages/InstrutorPages/Profile/Profile';
+import ViewServices from './pages/InstrutorPages/ViewServices/ViewServices';
+import EditService from './pages/InstrutorPages/EditService/EditService';
+import NotFound from './pages/InstrutorPages/NotFound/NotFound';
 import { DataProvider } from './services/DataContext';
 
-const App = () => {
+const InstrutorApp = () => {
   return (
     <DataProvider>
     <Router>
@@ -29,4 +29,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default InstrutorApp;

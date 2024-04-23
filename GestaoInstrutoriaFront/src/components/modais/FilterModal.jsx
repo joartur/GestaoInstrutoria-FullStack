@@ -43,31 +43,8 @@ const FilterModal = ({ onClose }) => {
                     <h2>Filtrar Serviços Educacionais</h2>
                     <form onSubmit={handleSubmit} className="filter-form">
 
-                        <div className="hour-filter">
-                            <div className="timeInput-box">
-                                <label htmlFor="horaInicioFiltro">Hora Inicial</label>
-                                <input
-                                    id="horaInicioFiltro"
-                                    name="horaInicioFiltro"
-                                    type="time"
-                                    value={formData.horaInicioFiltro}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className="timeInput-box">
-                                <label htmlFor="horaFinalFiltro">Hora Final</label>
-                                <input
-                                    id="horaFinalFiltro"
-                                    name="horaFinalFiltro"
-                                    type="time"
-                                    value={formData.horaFinalFiltro}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        </div>
-
                         <div className="type-filter">
-                            <label htmlFor="FKservico">Tipo</label>
+                            <label htmlFor="FKservico">Tipo de Serviço Educacional</label>
                             <select id="FKservico" name="FKservico" value={formData.FKservico} onChange={handleChange}>
                                 <option value="">Escolha o tipo de serviço educacional</option>
                                 {serviceTypes ? (
@@ -101,6 +78,45 @@ const FilterModal = ({ onClose }) => {
                             </div>
                         </div>
 
+                        <div className="deleteModal-buttons">
+                            <button className="filterOpen-btn" onClick={onClose}>Cancelar Filtros</button>
+                            <p></p>
+                            <button type="submit" className="filters-btn">Aplicar Filtros</button>
+                        </div>
+                    </form>
+                    <p>Aperte "Esc" para Cancelar</p>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default FilterModal;
+
+/*
+<div className="hour-filter">
+                            <div className="timeInput-box">
+                                <label htmlFor="horaInicioFiltro">Hora Inicial</label>
+                                <input
+                                    id="horaInicioFiltro"
+                                    name="horaInicioFiltro"
+                                    type="time"
+                                    value={formData.horaInicioFiltro}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="timeInput-box">
+                                <label htmlFor="horaFinalFiltro">Hora Final</label>
+                                <input
+                                    id="horaFinalFiltro"
+                                    name="horaFinalFiltro"
+                                    type="time"
+                                    value={formData.horaFinalFiltro}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        </div>
+
                         <div className="order-filter">
                             <fieldset>
                                 <legend>Selecione por ordem de criação:</legend>
@@ -129,18 +145,4 @@ const FilterModal = ({ onClose }) => {
                                 </label>
                             </fieldset>
                         </div>
-
-                        <div className="deleteModal-buttons">
-                            <button className="filterOpen-btn" onClick={onClose}>Cancelar Filtros</button>
-                            <p></p>
-                            <button type="submit" className="filters-btn">Aplicar Filtros</button>
-                        </div>
-                    </form>
-                    <p>Aperte "Esc" para Cancelar</p>
-                </div>
-            </div>
-        </div>
-    )
-}
-
-export default FilterModal;
+*/

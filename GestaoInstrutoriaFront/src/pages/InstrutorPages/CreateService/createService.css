@@ -28,7 +28,11 @@
 }
 
 .timeInput-container input{
-    margin-right: 15px;
+    margin-right: 30px;
+}
+
+.dateInput-container input{
+    padding: 11px;
 }
 
 .createServiceForm-body button{
@@ -39,4 +43,14 @@
     color: var(--main-red);
     display: block;
     margin: 20px 20px 20px 0px;
+}
+
+.title-label{
+    display: flex;
+    align-items: center;
+}
+.title-label span{
+    margin-bottom: 15px;
+    margin-left: 5px;
+    color: var(--grey);
 }
