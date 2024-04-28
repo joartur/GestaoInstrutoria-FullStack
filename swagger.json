@@ -735,27 +735,10 @@
             "description": "Data final para filtro (opcional)",
             "example": "2024-02-25"
           },
-          "horaInicioFiltro": {
-            "type": "string",
-            "format": "time",
-            "description": "Hora de início para filtro (opcional)",
-            "example": "01:00"
-          },
-          "horaFinalFiltro": {
-            "type": "string",
-            "format": "time",
-            "description": "Hora final para filtro (opcional)",
-            "example": "23:00"
-          },
           "FKservico": {
             "type": "string",
             "description": "Chave estrangeira para o serviço",
-            "example": "1"
-          },
-          "ordenacao": {
-            "type": "string",
-            "description": "Ordem de ordenação dos registros (opcional)",
-            "example": "asc"
+            "example": "1, 3"
           }
         },
         "required": []

@@ -30,12 +30,12 @@ POST http://localhost:3001/instrutor/registro/789012
 Content-Type: application/json
 
 {
-    "dataServico": "2024-04-03",
+    "dataServico": "2024-04-05",
     "horaInicio": "00:00",
     "horaFinal": "20:45",
     "titulo": "Workshop de",
     "descricao": "Workshop prático de técnicas de temperagem para a pascoa.",
-    "FKservico": "2"
+    "FKservico": "1"
 }
 
 ###
@@ -46,12 +46,9 @@ POST http://localhost:3001/instrutor/registros/789012
 Content-Type: application/json
 
 {
-    "dataInicioFiltro": "2024-02-20",
-    "dataFinalFiltro": "2024-03-27",
-    "horaInicioFiltro": "",
-    "horaFinalFiltro": "",
-    "FKservico": "",
-    "ordenacao": "desc"
+    "dataInicioFiltro": "",
+    "dataFinalFiltro": "",
+    "FKservico": "3, 2"
 }
 
 ###
