@@ -8,7 +8,6 @@ export const DataProvider = ({ children }) => {
   
     const [data, setData] = useState([]); //Array com os dados de serviço do instrutor
     const [instrutorData, setInstrutorData] = useState([]); //Array com dados da página inicial
-    const [instrutorProfile, setInstrutorProfile] = useState([]); //Array com dados do instrutor
     const [serviceTypes, setServiceTypes] = useState([]); //Lista de tipos de serviço educacional
     const [filteredData, setFilteredData] = useState([]); //Armazena os dados filtrados 
 
@@ -27,10 +26,6 @@ export const DataProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
-      InstrutorProfileFetch();
-    }, []);
-
-    useEffect(() => {
       serviceTypesFetch();
     }, []);
   
@@ -40,6 +35,8 @@ export const DataProvider = ({ children }) => {
           const response = await axios.get('http://localhost:3001/instrutor/registros/123456');
           const orderedData = response.data.data.slice().reverse();
           setData(orderedData);
+          console.log(orderedData)
+          console.log(response.data.data)
           //Atualiza os dados do instrutor como: Horas Cadastradas. Isso seria uma gambiarra?
           InstrutorDataFetch();
           console.log(data)
@@ -120,6 +117,8 @@ export const DataProvider = ({ children }) => {
       }
     };
 
+//FETCH DE DADOS PESSOAIS
+
 //consumo dos dados da página inicial
   const InstrutorDataFetch = async () => {
     try {
@@ -131,17 +130,7 @@ export const DataProvider = ({ children }) => {
   }
   };
 
-//consumo dos dados do pefil do instrutor
-  const InstrutorProfileFetch = async () => {
-    try {
-        const response = await axios.get('http://localhost:3001/instrutor/perfil/123456');
-        setInstrutorProfile(response.data);
-    } catch (error) {
-      console.error('Erro ao buscar dados do perfil do instrutor:', error);
-    }
-  };
-
-//consumo dos dados da lista de tipos de serviço
+//RECEBER DADOS DOS TIPOS DE SERVIÇO QUE EXISTEM
   const serviceTypesFetch = async () => {
     try {
       const response = await axios.get('http://localhost:3001/instrutor/servicos/123456');
@@ -152,6 +141,7 @@ export const DataProvider = ({ children }) => {
     }
   }
 
+//ENVIAR PARAMETROS DE FILTRO E RECEBER RESPOSTA COM DADOS FILTRADOS
   const filterRegister = async (filtro) => {
       try {
           const response = await axios.post('http://localhost:3001/instrutor/registros/123456', filtro);
@@ -164,7 +154,7 @@ export const DataProvider = ({ children }) => {
   };
 
   return (
-    <DataContext.Provider value={{ data, instrutorData, serviceCreated, serviceEdited, instrutorProfile, serviceTypes, filteredData, setServiceCreated, setServiceEdited, createEducationalService, deleteService, editService, filterRegister, errorMsg }}>
+    <DataContext.Provider value={{ data, instrutorData, serviceCreated, serviceEdited, serviceTypes, filteredData, setServiceCreated, setServiceEdited, createEducationalService, deleteService, editService, filterRegister, errorMsg }}>
         {children}
     </DataContext.Provider>
   );

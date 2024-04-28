@@ -3,6 +3,7 @@ import { faBell } from '@fortawesome/free-solid-svg-icons'
 import "./header.css"
 
 const Header = (props) => {
+    
     return (
         <header>
             <div className="info-container">

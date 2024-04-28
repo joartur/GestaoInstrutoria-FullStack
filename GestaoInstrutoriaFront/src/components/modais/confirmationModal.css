@@ -14,7 +14,7 @@
 .deletModal-container{
     background-color: var(--white);
     border: 1px solid var(--dark-grey);
-    font-size: 16px;
+    font-size: 15px;
     padding: 30px 70px;
     display: flex;
     flex-direction: column;

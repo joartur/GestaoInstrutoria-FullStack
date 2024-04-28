@@ -1,12 +1,12 @@
+import { useProfileContext } from "../../../services/ProfileContext";
 import Header from "../../../components/header/Header"
 import TextInput from "../../../components/inputs/TextInput"
 import Layout from "../../../components/layout/Layout"
-import { useDataContext } from '../../../services/DataContext';
 import Loading from "../loading/Loading"
 import "./profile.css"
 
 const Profile = () => {
-    const { instrutorProfile } = useDataContext();
+    const { instrutorProfile } = useProfileContext();
 
     if (!instrutorProfile) {
         return <Loading />
