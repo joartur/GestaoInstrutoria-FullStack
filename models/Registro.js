@@ -34,7 +34,7 @@ Registro.init({
     },
     descricao: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: true
     },
     status: {
         type: DataTypes.ENUM('Em Análise', 'Validado', 'Recusado', 'Parcialmente Validado'),
