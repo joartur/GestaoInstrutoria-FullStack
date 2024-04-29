@@ -252,47 +252,27 @@ const instrutorController = {
     filtroRegistros: async(req, res) =>{
         try{
             const { matriculaI } = req.params;
-            const { dataInicioFiltro, dataFinalFiltro, horaInicioFiltro, horaFinalFiltro, FKservico, ordenacao } = req.body
+            const { dataInicioFiltro, dataFinalFiltro, FKservico } = req.body
 
-            let order = []
-            // Inicialize o objeto where
             let where = {
                 FKinstrutor: matriculaI
             };
 
-            // Adicione as condições de filtro para hora
-            if (horaInicioFiltro != "" && horaFinalFiltro != "") {
-                where[Op.and] = [
-                    { horaInicio: { [Op.gte]: horaInicioFiltro } },
-                    { horaFinal: { [Op.lte]: horaFinalFiltro } }
-                ];
-
-            } else if ( horaInicioFiltro != "" && horaFinalFiltro == ""){
-                where['horaInicio'] = { [Op.eq]: [horaInicioFiltro] }
-
-            } else if ( horaInicioFiltro == "" && horaFinalFiltro != ""){
-                where['horaFinal'] = { [Op.eq]: [horaFinalFiltro] }
+           // Adicione as condições de filtro para a data
+            if (dataInicioFiltro && dataFinalFiltro) {
+                where['dataServico'] = { [Op.between]: [dataInicioFiltro, dataFinalFiltro] };
+            } else if (dataInicioFiltro && !dataFinalFiltro) {
+                where['dataServico'] = { [Op.eq]: dataInicioFiltro };
+            } else if (!dataInicioFiltro && dataFinalFiltro) {
+                where['dataServico'] = { [Op.eq]: dataFinalFiltro };
             }
 
-            // Adicione as condições de filtro para hora
-            if (dataInicioFiltro != "" && dataFinalFiltro != "") {
-                where['dataServico'] = { [Op.between]: [dataInicioFiltro, dataFinalFiltro] }
-
-            } else if ( dataInicioFiltro != "" && dataFinalFiltro == ""){
-                where['dataServico'] = { [Op.eq]: [dataInicioFiltro] }
-
-            } else if ( dataInicioFiltro == "" && dataFinalFiltro != ""){
-                where['dataServico'] = { [Op.eq]: [dataFinalFiltro] }
+            // Adicione a condição de filtro para FKservico, se houver valor
+            if (FKservico) {
+                const fkServicosArray = FKservico.split(',').map(Number); // Divida a string em um array de números
+                where['FKservico'] = { [Op.in]: fkServicosArray };
             }
-
-            if(FKservico !=""){
-                where['FKservico'] = { [Op.eq]: [FKservico] }
-            }
-
-            if (ordenacao) {
-                order.push(["id", ordenacao]);
-            }
-
+            
             const registros = await Registro.findAll({
                 attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
                 include: [{
@@ -302,8 +282,7 @@ const instrutorController = {
                         id: sequelize.col('Registro.FKservico')
                     }
                 }],
-                where,
-                order
+                where
             });
     
             if (registros.length === 0) {
