@@ -210,7 +210,7 @@ async function calcularHoras(idRegistro) {
 
         instrutor.forEach(async (ins)=>{
             const verificaHrTrab = verificaHrTrabAtt(ins.horasTrabalhadas);
-            console.log(verificaHrTrab)
+            // console.log(verificaHrTrab)
 
             if (verificaHrTrab){
                 let saldoAtt = calcularHorasTrab(reg.total, ins.saldoHoras);
@@ -282,7 +282,7 @@ function verificaHrTrabAtt(hrtrabs){
     const hrTrab = new Date(`1970-01-01T${hrtrabs}`).getTime();
     const hrMensal = new Date(`1970-01-01T${'176:00:00'}`).getTime();
 
-    console.log(hrTrab, hrMensal)
+    // console.log(hrTrab, hrMensal)
 
     return (hrTrab >= hrMensal)
 }

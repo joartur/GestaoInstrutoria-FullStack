@@ -136,7 +136,7 @@ GET http://localhost:3001/servico/buscar/4
 
 # rotas de instrutor
 ###
-GET  http://localhost:3001/instrutor/789012
+GET  http://localhost:3001/instrutor/123456
 
 ###
 GET  http://localhost:3001/instrutor/perfil/789012
@@ -146,16 +146,16 @@ POST http://localhost:3001/instrutor/registro/123456
 Content-Type: application/json
 
 {
-    "dataServico": "2024-03-09",
+    "dataServico": "2024-04-20",
     "horaInicio": "00:00",
-    "horaFinal": "20:45",
-    "titulo": "Workshop de",
+    "horaFinal": "23:50",
+    "titulo": "Workshop",
     "descricao": "Workshop prático de técnicas de temperagem para a pascoa.",
     "FKservico": "2"
 }
 
 ###
-GET http://localhost:3001/instrutor/registros/789012
+GET http://localhost:3001/instrutor/registros/123456
 
 ###
 POST http://localhost:3001/instrutor/registros/789012
@@ -206,7 +206,7 @@ GET http://localhost:3001/coordArea/verificaSituacao/345678
 GET http://localhost:3001/coordArea/listarInstrutores/Tecnologia
 
 ###
-PUT http://localhost:3001/coordArea/validarRegistro/3/019283
+PUT http://localhost:3001/coordArea/validarRegistro/14/019283
 Content-Type: application/json
 
 {
