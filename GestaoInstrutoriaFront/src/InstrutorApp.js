@@ -8,6 +8,7 @@ import Profile from './pages/InstrutorPages/Profile/Profile';
 import ViewServices from './pages/InstrutorPages/ViewServices/ViewServices';
 import EditService from './pages/InstrutorPages/EditService/EditService';
 import NotFound from './pages/InstrutorPages/NotFound/NotFound';
+import TestPage from './pages/InstrutorPages/TestPage';
 import { DataProvider } from './services/DataContext';
 import { ProfileProvider } from './services/ProfileContext';
 
@@ -25,6 +26,7 @@ const InstrutorApp = () => {
           <Route path="/viewServices/:id" element={<ViewServices />} />
           <Route path="/editService/:id" element={<EditService />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/testPage" element={<TestPage />} />
           </Routes>
         </Router>
       </ProfileProvider>
