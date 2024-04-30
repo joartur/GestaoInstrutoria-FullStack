@@ -8,8 +8,6 @@ const FilterModal = ({ onClose }) => {
     const [formData, setFormData] = useState({
         dataInicioFiltro: "",
         dataFinalFiltro: "",
-        horaInicioFiltro: "",
-        horaFinalFiltro: "",
         FKservico: "",
         ordenacao: "desc"
     });
@@ -22,19 +20,24 @@ const FilterModal = ({ onClose }) => {
         });
     };
 
-    const handleOptionChange = (event) => {
-        const { value } = event.target;
-        setFormData({
-            ...formData,
-            ordenacao: value
-        });
-    };
-
     const handleSubmit = (event) => {
         event.preventDefault();
         filterRegister(formData); // Chamada da função filterRegister com os dados do formulário como parâmetro
         onClose(); // Fechar o modal após enviar o formulário
     };
+
+    const [selectedOptions, setSelectedOptions] = useState([]);
+
+    const handleOptionChange = (event) => {
+        const { value, checked } = event.target;
+        let updatedOptions;
+        if (checked) {
+          updatedOptions = [...selectedOptions, value]; // Adiciona a opção selecionada
+        } else {
+          updatedOptions = selectedOptions.filter(option => option !== value); // Remove a opção desmarcada
+        }
+        setSelectedOptions(updatedOptions);
+      };
 
     return(
         <div className="deleteModal-overlay">
@@ -45,16 +48,25 @@ const FilterModal = ({ onClose }) => {
 
                         <div className="type-filter">
                             <label htmlFor="FKservico">Tipo de Serviço Educacional</label>
-                            <select id="FKservico" name="FKservico" value={formData.FKservico} onChange={handleChange}>
-                                <option value="">Escolha o tipo de serviço educacional</option>
-                                {serviceTypes ? (
-                                    serviceTypes.map(service => (
-                                        <option value={service.id} key={service.id}>{service.nome}</option>
-                                    ))
-                                ) : (null)}
-                            </select>
+                            {
+                                serviceTypes ? (
+                                        serviceTypes.map(service => (
+                                            <label key={service.id}>
+                                                <input
+                                                type="checkbox"
+                                                key={service.id}
+                                                value={service.id}
+                                                checked={selectedOptions.includes()}
+                                                onChange={handleOptionChange}
+                                                />
+                                                {service.nome}
+                                            </label>
+                                        ))
+                                ) : (null)
+                            }
+                            
+                            <p>Opções selecionadas: {selectedOptions.join(', ')}</p>
                         </div>
-
                         <div className="date-filter">
                             <div className="dateInput-box">
                                 <label htmlFor="dataInicioFiltro">Data Inicial</label>
@@ -145,4 +157,13 @@ export default FilterModal;
                                 </label>
                             </fieldset>
                         </div>
+
+                        <select id="FKservico" name="FKservico" value={formData.FKservico} onChange={handleChange}>
+                                <option value="">Escolha o tipo de serviço educacional</option>
+                                {serviceTypes ? (
+                                    serviceTypes.map(service => (
+                                        <option value={service.id} key={service.id}>{service.nome}</option>
+                                    ))
+                                ) : (null)}
+                            </select>
 */

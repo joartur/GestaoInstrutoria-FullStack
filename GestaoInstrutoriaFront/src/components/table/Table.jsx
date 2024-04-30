@@ -38,6 +38,36 @@ const Table = ({formattedData}) => {
         };
     }, [serviceIdToDelete]);
 
+    const [sortBy, setSortBy] = useState('dataServico');
+    const [sortDirection, setSortDirection] = useState('desc');
+
+    // Função para lidar com a ordenação da coluna de dataServico
+    const handleSort = (columnName) => {
+        if (sortBy === columnName) {
+            // Inverte a direção se a coluna já estiver selecionada
+            setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+        } else {
+            // Define a nova coluna de ordenação e a direção como descendente
+            setSortBy(columnName);
+            setSortDirection('desc');
+        }
+    };
+
+    // Função para ordenar os dados com base na coluna e direção de ordenação
+    const sortedData = [...formattedData].sort((a, b) => {
+        const valueA = a[sortBy];
+        const valueB = b[sortBy];
+        if (valueA === valueB) {
+            return 0;
+        }
+        if (sortDirection === 'asc') {
+            return valueA < valueB ? -1 : 1;
+        } else {
+            return valueA > valueB ? -1 : 1;
+        }
+    });
+
+
     return (
         <div className="table-container">
 
@@ -49,24 +79,21 @@ const Table = ({formattedData}) => {
                 />
             )}
 
-            <table className='table'>
-            <thead>
-                <tr>
-                    {/* <th><input type="checkbox" name="select" id="select" /></th> */}
-                    <th>Título</th>
-                    <th>Data</th>
-                    <th>Início</th>
-                    <th>Fim</th>
-                    <th>Tipo</th>
-                    <th>Situação</th>
-                    <th colSpan="3">Ações</th>
-                </tr>
-            </thead>
-                    <tbody>
-
-                        {formattedData.map(registro => (
+<table className='table'>
+                <thead>
+                    <tr>
+                        <th onClick={() => handleSort('titulo')}>Título</th>
+                        <th onClick={() => handleSort('dataServico')}>Data</th>
+                        <th onClick={() => handleSort('horaInicio')}>Início</th>
+                        <th onClick={() => handleSort('horaFinal')}>Fim</th>
+                        <th onClick={() => handleSort('Servico.nome')}>Tipo</th>
+                        <th onClick={() => handleSort('status')}>Situação</th>
+                        <th colSpan="3">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {sortedData.map(registro => (
                         <tr key={registro.id}>
-                            {/* <td><input type="checkbox" name="checkbox" id={registro.id} /></td> */}
                             <td><Link to={`/viewServices/${registro.id}`}>{registro.titulo}</Link></td>
                             <td>{registro.dataServico}</td>
                             <td>{registro.horaInicio}</td>
@@ -77,10 +104,9 @@ const Table = ({formattedData}) => {
                             <td><ActionButton legenda="EDITAR SERVIÇO" icon={faPenToSquare} url={`/editService/${registro.id}`}/></td>
                             <td><ActionButton legenda="VISUALIZAR SERVIÇO" icon={faCircleInfo} url={`/viewServices/${registro.id}`} /></td>
                         </tr>
-                        ))
-                        }
-                    </tbody>
-                    </table>
+                    ))}
+                </tbody>
+            </table>
         </div>
     )
 }

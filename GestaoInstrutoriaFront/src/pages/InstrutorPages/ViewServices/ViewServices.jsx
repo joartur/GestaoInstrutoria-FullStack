@@ -36,7 +36,7 @@ const ViewServices = () => {
     const horaInicioFormatada = `${horaInicial}:${minutoInicial}`;
     const [horaFim, minutoFim] = service.horaFinal.split(":");
     const horaFinalFormatada = `${horaFim}:${minutoFim}`;
-    const horaTotal = service.total
+    const horaTotal = service.total.split(":")[0]
 
     return (
         <Layout>
