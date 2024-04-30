@@ -1,8 +1,8 @@
 const Registro = require("../models/Registro");
-const Instrutor = require("../models/Instrutor");
 const Servico = require("../models/Servico");
 const sequelize = require('../database/connection.js');
-const { Op, literal } = require('sequelize');
+const { Op } = require('sequelize');
+const funcao = require('./funcoesController.js');
 
 const instrutorController = {
     cadastrarRegistro: async (req, res) => {
@@ -15,35 +15,35 @@ const instrutorController = {
             }
 
             //validação básica do texto da descrição
-            const validaDesc = await validarDesc(descricao);
+            const validaDesc = await funcao.validarDesc(descricao);
 
             if (!validaDesc) {
                 return res.status(400).json({ error: "Descrição inválida." });
             }
 
             //conferindo se a data corresponde ao período em vigor ou está no futuro
-            const periodoData = await conferirData(dataServico);
+            const periodoData = await funcao.conferirData(dataServico);
 
             if (!periodoData) {
                 return res.status(400).json({ error: "Não é permitido cadastrar registros para datas futuras." });
             }
 
             //conferindo se a hora é válida
-            const ordemHora = await conferirHora(horaInicio, horaFinal);
+            const ordemHora = await funcao.conferirHora(horaInicio, horaFinal);
 
             if (ordemHora){
                 return res.status(400).json({ error: "Registro com horas inválidas." });
             }            
             
             //confere se não existe algum registro com a data e hora igual ou que se sobrepõe, já registrado
-            const sobreposicaoHoras = await conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio);
+            const sobreposicaoHoras = await funcao.conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio);
 
             if (sobreposicaoHoras) {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
             }
 
             //calcula o total de horas e retorna em time
-            const total = calcularDiferencaHoras(horaInicio, horaFinal);
+            const total = funcao.calcularDiferencaHoras(horaInicio, horaFinal);
             
             await Registro.create({
                 dataServico,
@@ -67,7 +67,7 @@ const instrutorController = {
             const { matriculaI, registroId } = req.params;
 
             //busca um registro para ver se ele existe e retorna os dados dele
-            const registro = await buscarRegistro(matriculaI, registroId);
+            const registro = await funcao.buscarRegistro(matriculaI, registroId);
 
             if (!registro) {
                 return res.status(404).json({ error: "Registro não encontrado." });
@@ -116,7 +116,7 @@ const instrutorController = {
                 return res.status(400).json({error: "Limite de caracteres para o título foi atingido."})
             }
 
-            const registro = await buscarRegistro(matriculaI, registroId);
+            const registro = await funcao.buscarRegistro(matriculaI, registroId);
 
             if (!registro) {
                 return res.status(404).json({ error: "Registro não encontrado" });
@@ -128,31 +128,31 @@ const instrutorController = {
             }
 
             //validação básica do texto da descrição
-            const validaDesc = await validarDesc(descricao);
+            const validaDesc = await funcao.validarDesc(descricao);
 
             if (!validaDesc) {
                 return res.status(400).json({ error: "Descrição inválida." });
             }
 
-            const periodoData = await conferirData(dataServico);
+            const periodoData = await funcao.conferirData(dataServico);
 
             if (!periodoData) {
                 return res.status(400).json({ error: "Não é permitido editar registros para datas futuras" });
             }
             
-            const ordemHora = await conferirHora(horaInicio, horaFinal);
+            const ordemHora = await funcao.conferirHora(horaInicio, horaFinal);
 
             if (ordemHora){
                 return res.status(400).json({ error: "Registro com horas inválidas." });
             }            
 
-            const sobreposicaoHoras = await conferirRegistros(dataServico, matriculaI, horaFinal, horaInicio, registroId);
+            const sobreposicaoHoras = await funcao.conferirRegistros(dataServico, matriculaI, horaFinal, horaInicio, registroId);
 
             if (sobreposicaoHoras) {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
             }
 
-            const total = calcularDiferencaHoras(horaInicio, horaFinal);
+            const total = funcao.calcularDiferencaHoras(horaInicio, horaFinal);
 
             const [rowsUpdated] = await Registro.update({
                 dataServico,
@@ -180,7 +180,7 @@ const instrutorController = {
         try {
             const { matriculaI, registroId } = req.params;
             
-            const registro = await buscarRegistro(matriculaI, registroId);
+            const registro = await funcao.buscarRegistro(matriculaI, registroId);
 
             if (!registro) {
                 return res.status(404).json({ error: "Registro não encontrado." });
@@ -207,16 +207,16 @@ const instrutorController = {
             // const registrosRecentes = await buscarRegistrosRecentes(matriculaI);
 
             //busca as datas de todos os registros do mês vigente
-            const datasServico = await buscarDatasServico(matriculaI);
+            const datasServico = await funcao.buscarDatasServico(matriculaI);
 
             //busca e calcula as horas totais de serviço educacional
-            const horasServicos = await calcularHorasServicos(matriculaI);
+            const horasServicos = await funcao.calcularHorasServicos(matriculaI);
             
             //busca e calcula as horas totais validadas
-            const horasTrab = await calcularHorasTrab(matriculaI);
+            const horasTrab = await funcao.calcularHorasTrab(matriculaI);
 
             //busca pelo saldo de hora, se houver
-            const saldoHoras = await buscarSaldoHoras(matriculaI);
+            const saldoHoras = await funcao.buscarSaldoHoras(matriculaI);
 
             //organiza o response da rota
             const response = {
@@ -237,7 +237,7 @@ const instrutorController = {
             const { matriculaI } = req.params;
 
             //busca pelo instrutor de acordo com o id
-            const instrutor = await buscarInstrutor(matriculaI);
+            const instrutor = await funcao.buscarInstrutor(matriculaI);
 
             if(!instrutor){
                 return res.status(404).json({ error: "Usuário não encontrado." });
@@ -328,184 +328,5 @@ const instrutorController = {
         }
     }
 };
-
-async function conferirData(data) {
-    const hoje = new Date()
-    const dataServico = new Date(`${data}`)
-    
-    if (dataServico > hoje) {
-        return false
-    } else {
-        return true
-    }
-}
-
-async function buscarRegistro(matriculaI, registroId) {
-    return await Registro.findOne({
-        include: [{
-            model: Servico,
-            attributes: ['id','nome'],
-            where: {
-                id: sequelize.col('Registro.FKservico')
-            }
-        }],
-        attributes: {
-            exclude: ['FKservico'] // Exclaui o campo FKservico do resultado
-        },
-        where: { FKinstrutor: matriculaI, id: registroId }
-    });
-    
-}
-
-async function buscarDatasServico(matriculaI) {
-    const dataAtual = new Date();
-    const anoAtual = dataAtual.getFullYear();
-    const mesAtual = dataAtual.getMonth() + 1; 
-
-    return await Registro.findAll({
-        attributes: [
-            [literal('DISTINCT dataServico'), 'dataServico']
-        ],
-        where: {
-            FKinstrutor: matriculaI,
-            [Op.and]: [
-                literal(`YEAR(dataServico) = ${anoAtual}`),
-                literal(`MONTH(dataServico) = ${mesAtual}`)
-            ]
-        }
-    });
-}
-
-async function calcularHorasServicos(matriculaI) {
-    let horas, minutos, segundos, horaFormatada;
-    // retorna uma string com o valor somado ex. '473000' -> 47:30:00
-    const somaR = await Registro.sum('total', {
-        where: {
-            FKinstrutor: matriculaI,
-            status: {
-                [Op.or]: ["validado", "parcialmente validado"]
-            }
-        }
-    });
-
-    if(somaR == null){
-        return "00:00:00";
-    }
-
-    if(somaR.length == 5){
-        // Convertendo a string para horas, minutos e segundos
-        horas = parseInt(somaR.substring(0, 1)); // Extrai as duas primeiras posições para as horas
-        minutos = parseInt(somaR.substring(1, 3)); // Extrai as duas posições seguintes para os minutos
-        segundos = parseInt(somaR.substring(3, 5)); // Extrai as duas últimas posições para os segundos
-
-        // Formatando o resultado
-        horaFormatada = `${horas}:${minutos < 10 ? '0' : ''}${minutos}:${segundos < 10 ? '0' : ''}${segundos}`;
-    } else {
-        // Convertendo a string para horas, minutos e segundos
-        horas = parseInt(somaR.substring(0, 2)); // Extrai as duas primeiras posições para as horas
-        minutos = parseInt(somaR.substring(2, 4)); // Extrai as duas posições seguintes para os minutos
-        segundos = parseInt(somaR.substring(4, 6)); // Extrai as duas últimas posições para os segundos
-    
-        // Formatando o resultado
-        horaFormatada = `${horas}:${minutos < 10 ? '0' : ''}${minutos}:${segundos < 10 ? '0' : ''}${segundos}`;
-    }
-
-    console.log(somaR, horas, minutos, segundos, horaFormatada);
-
-    return horaFormatada;
-}
-
-
-
-async function calcularHorasTrab(matriculaI) {
-    const instrutor = await Instrutor.findOne({
-        attributes: ['horasTrabalhadas'],
-        where: {
-            matricula: matriculaI
-        }
-    });
-
-    return instrutor.horasTrabalhadas;
-}
-
-async function buscarSaldoHoras(matriculaI) {
-    const instrutor = await Instrutor.findOne({
-        attributes: ['saldoHoras'],
-        where: {
-            matricula: matriculaI
-        }
-    });
-
-    return instrutor.saldoHoras;
-}
-
-async function buscarInstrutor(matriculaI){
-    const instrutor = await Instrutor.findOne({
-        attributes: ['nome', 'email', 'unidade', 'area'],
-        where: {
-            matricula: matriculaI
-        }
-    });
-    return instrutor;
-}
-
-function calcularDiferencaHoras(horaInicio, horaFinal) {
-    const horaInicioMs = new Date(`1970-01-01T${horaInicio}`).getTime();
-    const horaFinalMs = new Date(`1970-01-01T${horaFinal}`).getTime();
-    const diffMs = horaFinalMs - horaInicioMs; // Diferença em milissegundos
-
-    let hora = new Date(diffMs);
-    let horaFormatada = `${hora.getUTCHours().toString().padStart(2, '0')}:${hora.getUTCMinutes().toString().padStart(2, '0')}`;
-    
-    return horaFormatada;
-}
-
-async function conferirHora(hrInicio, hrFinal){
-    return ( hrInicio >= hrFinal )
-}
-
-async function validarDesc(desc){
-    /*
-    a expressão regular permite qualquer combinação de letras, números, espaços, vírgulas, pontos, exclamação, interrogação, hífens
-    e caracteres acentuados, incluindo palavras, frases e números decimais simples, mas evita números independentes com quatro ou mais dígitos consecutivos.
-    */
-   const regex = /^(?!.*\b\d{4,}\b)(?!.*\b[A-Za-z]{20,}\b)[a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\']+(?: [a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\']+)*$/;
-
-    // verifica o tamanho da descrição
-    return (regex.test(desc) && desc.length > 15);
-}
-
-async function conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio, registroEditadoId = null) {
-    const whereClause = {
-        FKinstrutor,
-        dataServico,
-    };
-
-    // Se o ID do registro editado estiver disponível, exclua esse registro da consulta
-    if (registroEditadoId) {
-        whereClause.id = { [Op.ne]: registroEditadoId };
-    }
-
-    const registrosNoMesmoDia = await Registro.findAll({
-        where: whereClause
-    });
-
-    const novoInicio = new Date(`1970-01-01T${horaInicio}`);
-    const novoFim = new Date(`1970-01-01T${horaFinal}`);
-
-    const sobreposicao = registrosNoMesmoDia.some(registro => {
-        const registroInicio = new Date(`1970-01-01T${registro.horaInicio}`);
-        const registroFim = new Date(`1970-01-01T${registro.horaFinal}`);
-
-        return (
-            (novoInicio >= registroInicio && novoInicio < registroFim) ||
-            (novoFim > registroInicio && novoFim <= registroFim) ||
-            (novoInicio <= registroInicio && novoFim >= registroFim)
-        );
-    });
-
-    return sobreposicao;
-}
-
 
 module.exports = instrutorController;
