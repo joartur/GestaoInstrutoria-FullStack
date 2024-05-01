@@ -86,8 +86,6 @@ const Funcoes = {
             horaFormatada = `${horas}:${minutos < 10 ? '0' : ''}${minutos}:${segundos < 10 ? '0' : ''}${segundos}`;
         }
 
-        console.log(somaR, horas, minutos, segundos, horaFormatada);
-
         return horaFormatada;
     },
 
@@ -99,7 +97,7 @@ const Funcoes = {
             }
         });
 
-        return instrutor.horasTrabalhadas;
+        return instrutor;
     },
 
     buscarSaldoHoras: async (matriculaI) => {
@@ -124,12 +122,24 @@ const Funcoes = {
     },
 
     calcularDiferencaHoras: (horaInicio, horaFinal) => {
-        const horaInicioMs = new Date(`1970-01-01T${horaInicio}`).getTime();
-        const horaFinalMs = new Date(`1970-01-01T${horaFinal}`).getTime();
-        const diffMs = horaFinalMs - horaInicioMs; // Diferença em milissegundos
-
-        let hora = new Date(diffMs);
-        let horaFormatada = `${hora.getUTCHours().toString().padStart(2, '0')}:${hora.getUTCMinutes().toString().padStart(2, '0')}`;
+        // Extrair horas, minutos e segundos das strings de horaInicio e horaFinal
+        const [inicioHours, inicioMinutes, inicioSeconds] = horaInicio.split(':').map(Number);
+        const [finalHours, finalMinutes, finalSeconds] = horaFinal.split(':').map(Number);
+        
+        // Calcular o total de milissegundos para horaInicio e horaFinal
+        const horaInicioMs = (inicioHours * 3600 + inicioMinutes * 60 + inicioSeconds) * 1000;
+        const horaFinalMs = (finalHours * 3600 + finalMinutes * 60 + finalSeconds) * 1000;
+        
+        // Calcular a diferença em milissegundos
+        const diffMs = horaFinalMs - horaInicioMs;
+        
+        // Calcular a diferença em horas, minutos e segundos
+        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+        const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+        const diffSeconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+        
+        // Formatar a diferença para hh:mm:ss
+        const horaFormatada = `${diffHours.toString().padStart(2, '0')}:${diffMinutes.toString().padStart(2, '0')}:${diffSeconds.toString().padStart(2, '0')}`;
         
         return horaFormatada;
     },
@@ -190,20 +200,23 @@ const Funcoes = {
             const instrutor = await Instrutor.findAll({where: {matricula: reg.FKinstrutor}})
     
             instrutor.forEach(async (ins)=>{
-                const verificaHrTrab = verificaHrTrabAtt(ins.horasTrabalhadas);
-    
+                const verificaHrTrab = Funcoes.verificaHrTrabAtt(ins.horasTrabalhadas);
+                
                 if (verificaHrTrab){
-                    let saldoAtt = calcularHorasTrab(reg.total, ins.saldoHoras);
-    
-                    let hrTrabAtt = calcularHorasTrab(reg.total, ins.horasTrabalhadas);
-    
+                    
+                    let hrTrabAtt = Funcoes.somarHoras(reg.total, ins.horasTrabalhadas);
+                    
+                    let saldoHrTrab = Funcoes.calcularDiferencaHoras('176:00:00', hrTrabAtt);
+                    
+                    let saldoAtt = Funcoes.somarHoras(saldoHrTrab, ins.saldoHoras)
+
                     await Instrutor.update({
                         saldoHoras: saldoAtt,
                         horasTrabalhadas: hrTrabAtt
                     }, { where: { matricula: ins.matricula } });
     
                 } else {
-                    let hrTrabAtt = calcularHorasTrab(reg.total, ins.horasTrabalhadas);
+                    let hrTrabAtt = Funcoes.somarHoras(reg.total, ins.horasTrabalhadas);
     
                     await Instrutor.update({
                         horasTrabalhadas: hrTrabAtt
@@ -215,7 +228,7 @@ const Funcoes = {
     },
     
     //modificar o valor das horas cadastradas (adicionando)
-    calcularHorasTrab: (horasTrab, horasRegis) => {
+    somarHoras: (horasTrab, horasRegis) => {
         // Dividindo as horas e os minutos da horasTrab
         const [trabHoras, trabMinutos, trabSegundos] = horasTrab.split(':').map(Number);
         
@@ -237,7 +250,7 @@ const Funcoes = {
             somaHoras += Math.floor(somaMinutos / 60);
             somaMinutos %= 60;
         }
-    
+        
         // Formatando o resultado
         const horaFormatada = `${somaHoras.toString().padStart(2, '0')}:${somaMinutos.toString().padStart(2, '0')}:${somaSegundos.toString().padStart(2, '0')}`;
         
@@ -259,10 +272,17 @@ const Funcoes = {
     },
     
     verificaHrTrabAtt: (hrtrabs) => {
-        const hrTrab = new Date(`1970-01-01T${hrtrabs}`).getTime();
-        const hrMensal = new Date(`1970-01-01T${'176:00:00'}`).getTime();
-    
-        return (hrTrab >= hrMensal)
+        // Extrair horas, minutos e segundos da string hrtrabs
+        const [hours, minutes, seconds] = hrtrabs.split(':').map(Number);
+            
+        // Calcular o total de milissegundos para hrTrab
+        const hrTrab = (hours * 3600 + minutes * 60 + seconds) * 1000;
+
+        // Calcular o total de milissegundos para hrMensal (176 horas)
+        const hrMensal = (176 * 3600) * 1000;
+
+        // Verificar se hrTrab é maior ou igual a hrMensal
+        return hrTrab >= hrMensal;
     }
     
 }

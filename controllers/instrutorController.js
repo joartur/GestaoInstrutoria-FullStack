@@ -209,7 +209,7 @@ const instrutorController = {
             //busca as datas de todos os registros do mês vigente
             const datasServico = await funcao.buscarDatasServico(matriculaI);
 
-            //busca e calcula as horas totais de serviço educacional
+            //busca e calcula as horas totais de serviço educacional validadas
             const horasServicos = await funcao.calcularHorasServicos(matriculaI);
             
             //busca e calcula as horas totais validadas

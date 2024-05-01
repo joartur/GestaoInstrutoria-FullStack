@@ -20,7 +20,7 @@ GET http://localhost:3001/servico/buscar/4
 
 # rotas de instrutor
 ###
-GET  http://localhost:3001/instrutor/789012
+GET  http://localhost:3001/instrutor/123456
 
 ###
 GET  http://localhost:3001/instrutor/perfil/789012
@@ -30,7 +30,7 @@ POST http://localhost:3001/instrutor/registro/123456
 Content-Type: application/json
 
 {
-    "dataServico": "2024-04-05",
+    "dataServico": "2024-04-10",
     "horaInicio": "00:00",
     "horaFinal": "20:45",
     "titulo": "Workshop de",
@@ -39,7 +39,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3001/instrutor/registros/789012
+GET http://localhost:3001/instrutor/registros/123456
 
 ###
 POST http://localhost:3001/instrutor/registros/789012
@@ -81,13 +81,13 @@ GET http://localhost:3001/instrutor/servicos/123456
 GET http://localhost:3001/coordArea/listarRegistros/789012
 
 ###
-GET http://localhost:3000/coordArea/verificaSituacao/345678
+GET http://localhost:3001/coordArea/verificaSituacao/345678
 
 ###
-GET http://localhost:3000/coordArea/listarInstrutores/Gastronomia
+GET http://localhost:3001/coordArea/listarInstrutores/Gastronomia
 
 ###
-PUT http://localhost:3000/coordArea/validarRegistro/1/123456
+PUT http://localhost:3001/coordArea/validarRegistro/5/123456
 Content-Type: application/json
 
 {
@@ -104,126 +104,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/coordArea/registro/1234/789012
-Content-Type: application/json
-
-{
-    "dataServico": "19-02-2024",
-    "horaInicio": "10:00",
-    "horaFinal": "13:00",
-    "titulo": "Pabbabrte",
-    "descricao": "Se coabayguso!!!",
-    "FKservico": "2"
-}###
-GET http://localhost:3001
-
-###
-POST http://localhost:3001/servico/adicionar
-Content-Type: application/json
-
-{
-    "nome": "D"
-}
-
-###
-GET http://localhost:3001/servico/listar
-
-###
-DELETE http://localhost:3001/servico/deletar/6
-
-###
-GET http://localhost:3001/servico/buscar/4
-
-# rotas de instrutor
-###
-GET  http://localhost:3001/instrutor/123456
-
-###
-GET  http://localhost:3001/instrutor/perfil/789012
-
-###
-POST http://localhost:3001/instrutor/registro/123456
-Content-Type: application/json
-
-{
-    "dataServico": "2024-04-20",
-    "horaInicio": "00:00",
-    "horaFinal": "23:50",
-    "titulo": "Workshop",
-    "descricao": "Workshop prático de técnicas de temperagem para a pascoa.",
-    "FKservico": "2"
-}
-
-###
-GET http://localhost:3001/instrutor/registros/123456
-
-###
-POST http://localhost:3001/instrutor/registros/789012
-Content-Type: application/json
-
-{
-    "dataInicioFiltro": "2024-02-20",
-    "dataFinalFiltro": "2024-03-27",
-    "horaInicioFiltro": "",
-    "horaFinalFiltro": "",
-    "FKservico": "",
-    "ordenacao": "desc"
-}
-
-###
-GET http://localhost:3001/instrutor/registro/789012/8
-
-###
-PUT http://localhost:3001/instrutor/registro/789012/3
-Content-Type: application/json
-
-{
-    "dataServico": "2024-02-27",
-    "horaInicio": "06:00:00",
-    "horaFinal": "09:30:00",
-    "titulo": "1º consulta com o zé boné",
-    "descricao": "consulta de recomendação nutricional",
-    "FKservico": "1"
-}
-
-###
-DELETE http://localhost:3001/instrutor/registro/123456/10
-
-###
-GET http://localhost:3001/instrutor/test/789012
-
-###
-GET http://localhost:3001/instrutor/servicos/123456
-
-# Rota coordenador
-###
-GET http://localhost:3001/coordArea/listarRegistros/789012
-
-###
-GET http://localhost:3001/coordArea/verificaSituacao/345678
-
-###
-GET http://localhost:3001/coordArea/listarInstrutores/Tecnologia
-
-###
-PUT http://localhost:3001/coordArea/validarRegistro/14/019283
-Content-Type: application/json
-
-{
-    
-}
-
-###
-PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/4/019283
-Content-Type: application/json
-
-{
-    "justificativa": "ojaiha sakdksahkjdkasj fieie",
-    "total": "00:00"
-}
-
-###
-POST http://localhost:3001/coordArea/registro/019283/789012
+POST http://localhost:3001/coordArea/registro/1234/789012
 Content-Type: application/json
 
 {
