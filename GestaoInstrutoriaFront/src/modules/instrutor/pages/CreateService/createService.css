@@ -1,0 +1,56 @@
+.createServiceForm-container{
+    padding: 20px 40px;
+    margin-bottom: 40px;
+    border: 1px solid var(--dark-grey);
+    border-radius: 12px;
+}
+
+.createServiceForm-header p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--main-orange);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.createServiceForm-body label{
+    display: block;
+    margin-bottom: 15px;
+}
+
+.createServiceForm-body .icon{
+    margin-right: 8px;
+}
+
+.timeInput-container{
+    display: flex;
+}
+
+.timeInput-container input{
+    margin-right: 30px;
+}
+
+.dateInput-container input{
+    padding: 11px;
+}
+
+.createServiceForm-body button{
+    margin: 0px 0px 0px 0px;
+}
+
+.error-msg{
+    color: var(--main-red);
+    display: block;
+    margin: 20px 20px 20px 0px;
+}
+
+.title-label{
+    display: flex;
+    align-items: center;
+}
+.title-label span{
+    margin-bottom: 15px;
+    margin-left: 5px;
+    color: var(--grey);
+}

@@ -1,0 +1,9 @@
+.actionButton-container button{
+    width: 46px;
+    height: 48px;
+    background-color: var(--bg-blue);
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+}
+
