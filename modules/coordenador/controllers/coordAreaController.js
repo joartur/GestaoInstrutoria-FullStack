@@ -1,6 +1,6 @@
 const { status } = require("express/lib/response");
-const Instrutor = require("../models/Instrutor.js")
-const Registro = require("../models/Registro.js")
+const Instrutor = require("../../instrutor/models/Instrutor.js")
+const Registro = require("../../administrador/models/Registro.js")
 
 const coordAreaController = {
     listarInstrutores: async (req, res) => {
@@ -36,7 +36,6 @@ const coordAreaController = {
     validarRegistro: async (req, res) => {
         try {
             const registro = await Registro.findOne({ where: { id: req.params.id } })
-
             const situacao = situacaoRegistro(registro.status)
 
             if (situacao === false) {
@@ -61,7 +60,6 @@ const coordAreaController = {
     validarParcialmenteRegistro: async (req, res) => {
         try {
             const registro = await Registro.findOne({ where: { id: req.params.id } })
-
             const situacao = situacaoRegistro(registro.status)
 
             if (situacao === false) {

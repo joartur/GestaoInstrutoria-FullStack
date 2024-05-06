@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../database/connection'); // Certifique-se de importar sua instância do sequelize corretamente
+const sequelize = require('../../../database/connection'); // Certifique-se de importar sua instância do sequelize corretamente
 
 class Administrativo extends Model {}
 
