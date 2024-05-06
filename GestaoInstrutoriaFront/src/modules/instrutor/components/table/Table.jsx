@@ -7,7 +7,7 @@ import ActionButton from "./ActionButton"
 import DeleteModal from '../modais/DeleteModal';
 import "./table.css"
 
-const Table = ({formattedData}) => {
+const Table = ({formattedData, handleSort, sortDirection, sortBy}) => {
     const { deleteService } = useDataContext();
 
     //estado para averiguar se há algum serviço selecionado para deletar
@@ -38,36 +38,6 @@ const Table = ({formattedData}) => {
         };
     }, [serviceIdToDelete]);
 
-    const [sortBy, setSortBy] = useState('dataServico');
-    const [sortDirection, setSortDirection] = useState('desc');
-
-    // Função para lidar com a ordenação da coluna de dataServico
-    const handleSort = (columnName) => {
-        if (sortBy === columnName) {
-            // Inverte a direção se a coluna já estiver selecionada
-            setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-        } else {
-            // Define a nova coluna de ordenação e a direção como descendente
-            setSortBy(columnName);
-            setSortDirection('desc');
-        }
-    };
-
-    // Função para ordenar os dados com base na coluna e direção de ordenação
-    const sortedData = [...formattedData].sort((a, b) => {
-        const valueA = a[sortBy];
-        const valueB = b[sortBy];
-        if (valueA === valueB) {
-            return 0;
-        }
-        if (sortDirection === 'asc') {
-            return valueA < valueB ? -1 : 1;
-        } else {
-            return valueA > valueB ? -1 : 1;
-        }
-    });
-
-
     return (
         <div className="table-container">
 
@@ -81,18 +51,27 @@ const Table = ({formattedData}) => {
 
 <table className='table'>
                 <thead>
-                    <tr>
-                        <th onClick={() => handleSort('titulo')}>Título</th>
-                        <th onClick={() => handleSort('dataServico')}>Data</th>
-                        <th onClick={() => handleSort('horaInicio')}>Início</th>
-                        <th onClick={() => handleSort('horaFinal')}>Fim</th>
-                        <th onClick={() => handleSort('Servico.nome')}>Tipo</th>
-                        <th onClick={() => handleSort('status')}>Situação</th>
-                        <th colSpan="3">Ações</th>
-                    </tr>
+                <tr>
+                    <th className="clickableTh" onClick={() => handleSort('titulo')}>
+                        Título {sortBy === 'titulo' && (sortDirection === 'desc' ? <span>&#8593;</span> : <span>&#8595;</span>)}
+                    </th>
+                    <th className="clickableTh" onClick={() => handleSort('dataServico')}>
+                        Data {sortBy === 'dataServico' && (sortDirection === 'desc' ? <span>&#8593;</span> : <span>&#8595;</span>)}
+                    </th>
+                    <th className="clickableTh" onClick={() => handleSort('horaInicio')}>
+                        Início {sortBy === 'horaInicio' && (sortDirection === 'desc' ? <span>&#8593;</span> : <span>&#8595;</span>)}
+                    </th>
+                    <th className="clickableTh" onClick={() => handleSort('horaFinal')}>
+                        Fim {sortBy === 'horaFinal' && (sortDirection === 'desc' ? <span>&#8593;</span> : <span>&#8595;</span>)}
+                    </th>
+                    <th>Tipo</th>
+                    <th>Situação</th>
+                    <th colSpan="3">Ações</th>
+                </tr>
+
                 </thead>
                 <tbody>
-                    {sortedData.map(registro => (
+                    {formattedData.map(registro => (
                         <tr key={registro.id}>
                             <td><Link to={`/viewServices/${registro.id}`}>{registro.titulo}</Link></td>
                             <td>{registro.dataServico}</td>

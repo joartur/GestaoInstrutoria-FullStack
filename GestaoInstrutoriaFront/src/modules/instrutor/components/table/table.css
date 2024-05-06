@@ -8,6 +8,13 @@
     background-color: #f9fafb;
 }
 
+.clickableTh{
+    cursor: pointer;
+}
+.clickableTh:hover{
+    background-color: #dddddd;
+}
+
 .table th, td{
     padding: 8px;
     border: 1px solid #e5e7eb;

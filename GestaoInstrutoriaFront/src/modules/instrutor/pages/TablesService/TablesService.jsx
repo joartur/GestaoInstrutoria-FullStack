@@ -19,6 +19,7 @@ const TablesService = () => {
 
     const [situacao, setSituacao] = useState('');
 
+    
     //formata hora e data dos dados recebeidos da API
     const formattedServices = data.map(service => {
         const dataServico = moment(service.dataServico).format('DD/MM/YYYY');
@@ -77,12 +78,40 @@ const TablesService = () => {
         filterData(searchTerm);
     }, [searchTerm]);
 
+    const [sortBy, setSortBy] = useState('');
+    const [sortDirection, setSortDirection] = useState('desc');
+
+    // Função para lidar com a ordenação da coluna de dataServico
+    const handleSort = (columnName) => {
+        if (sortBy === columnName) {
+            // Inverte a direção se a coluna já estiver selecionada
+            setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+        } else {
+            // Define a nova coluna de ordenação e a direção como descendente
+            setSortBy(columnName);
+            setSortDirection('desc');
+        }
+    };
+
+    const sortedData = [...filteredData].sort((a, b) => {
+        const valueA = a[sortBy];
+        const valueB = b[sortBy];
+        if (valueA === valueB) {
+            return 0;
+        }
+        if (sortDirection === 'asc') {
+            return valueA < valueB ? -1 : 1;
+        } else {
+            return valueA > valueB ? -1 : 1;
+        }
+    });
+
     // Calcula o índice do último item da página atual
     const indexOfLastItem = currentPage * itemsPerPage;
     // Calcula o índice do primeiro item da página atual
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     // Obtém os itens da página atual
-    const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
     // Função para alterar a página atual
     const paginate = (pageNumber) => setCurrentPage(pageNumber);  
 
@@ -112,6 +141,8 @@ const TablesService = () => {
         setCurrentPage(1);
         filterData(searchTerm, situacaoValue); // Atualiza o filtro com a situação selecionada
     };
+
+    
 
     if (!data) {
         return <Loading />
@@ -152,7 +183,12 @@ const TablesService = () => {
                 </div>
                 {filteredData.length > 0 ? (
                     <div className="tables-container">
-                        <Table formattedData={currentItems}/>
+                        <Table
+                        formattedData={currentItems}
+                        handleSort={handleSort}
+                        sortDirection={sortDirection}
+                        sortBy={sortBy}
+                        />
                         <Pagination 
                             itemsPerPage={itemsPerPage} 
                             totalItems={filteredData.length} 
