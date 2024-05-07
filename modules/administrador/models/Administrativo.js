@@ -1,9 +1,9 @@
 const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../database/connection'); // Certifique-se de importar sua instância do sequelize corretamente
+const sequelize = require('../../../database/connection'); // Certifique-se de importar sua instância do sequelize corretamente
 
-class CoordenadorArea extends Model {}
+class Administrativo extends Model {}
 
-CoordenadorArea.init({
+Administrativo.init({
     matricula: {
         type: DataTypes.STRING,
         primaryKey: true,
@@ -19,15 +19,11 @@ CoordenadorArea.init({
         validate:{
             isEmail: true,
         }
-    },
-    area: {
-        type: DataTypes.STRING(30),
-        allowNull: false
     }
 }, {
     sequelize,
-    modelName: 'CoordenadorArea',
+    modelName: 'Administrativo',
     timestamps: true // Se não precisar de timestamps, pode desativá-los aqui
 });
 
-module.exports = CoordenadorArea;
+module.exports = Administrativo;

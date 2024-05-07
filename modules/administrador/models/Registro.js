@@ -1,8 +1,8 @@
 const { DataTypes, Model } = require('sequelize');
 const Servico = require("./Servico");
-const Instrutor = require('./Instrutor');
-const Coordenador = require('./CoordenadorArea');
-const sequelize = require('../database/connection'); // Certifique-se de importar sua instância do sequelize corretamente
+const Instrutor = require('../../instrutor/models/Instrutor');
+const Coordenador = require('../../coordenador/models/CoordenadorArea');
+const sequelize = require('../../../config/connection'); // Certifique-se de importar sua instância do sequelize corretamente
 
 class Registro extends Model {}
 
