@@ -3,9 +3,15 @@
     align-items: center;
     justify-content: center;
     border-radius: 12px;
-    height: 48px;
-    width: 150px;
     text-align: center;
+    box-sizing: border-box;
+    padding: 12px 50px;
+}
+.situation-container{
+    display: flex;
+}
+.situation-link{
+    display: flex;
 }
 .tableSituation p{
     margin: 0;

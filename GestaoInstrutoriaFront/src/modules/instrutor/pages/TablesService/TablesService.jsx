@@ -94,11 +94,13 @@ const TablesService = () => {
     };
 
     const sortedData = [...filteredData].sort((a, b) => {
-        const valueA = a[sortBy];
-        const valueB = b[sortBy];
+        const valueA = typeof a[sortBy] === 'string' ? a[sortBy].toLowerCase() : a[sortBy];
+        const valueB = typeof b[sortBy] === 'string' ? b[sortBy].toLowerCase() : b[sortBy];
+    
         if (valueA === valueB) {
             return 0;
         }
+    
         if (sortDirection === 'asc') {
             return valueA < valueB ? -1 : 1;
         } else {

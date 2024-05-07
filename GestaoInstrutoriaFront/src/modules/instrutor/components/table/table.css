@@ -12,7 +12,7 @@
     cursor: pointer;
 }
 .clickableTh:hover{
-    background-color: #dddddd;
+    background-color: #e2e2e2;
 }
 
 .table th, td{

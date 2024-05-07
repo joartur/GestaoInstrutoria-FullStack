@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { faTrash, faPenToSquare, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faPenToSquare, faCircleInfo, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useDataContext } from '../../services/DataContext';
 import { Link } from 'react-router-dom';
 import TableSituation from "./TableSituation"
@@ -49,20 +50,20 @@ const Table = ({formattedData, handleSort, sortDirection, sortBy}) => {
                 />
             )}
 
-<table className='table'>
+        <table className='table'>
                 <thead>
                 <tr>
                     <th className="clickableTh" onClick={() => handleSort('titulo')}>
-                        Título {sortBy === 'titulo' && (sortDirection === 'desc' ? <span>&#8593;</span> : <span>&#8595;</span>)}
+                        Título {sortBy === 'titulo' && (sortDirection === 'desc' ? <span><FontAwesomeIcon icon={faArrowUp} /></span> : <span><FontAwesomeIcon icon={faArrowDown} /></span>)}
                     </th>
                     <th className="clickableTh" onClick={() => handleSort('dataServico')}>
-                        Data {sortBy === 'dataServico' && (sortDirection === 'desc' ? <span>&#8593;</span> : <span>&#8595;</span>)}
+                        Data {sortBy === 'dataServico' && (sortDirection === 'desc' ? <span><FontAwesomeIcon icon={faArrowUp} /></span> : <span><FontAwesomeIcon icon={faArrowDown} /></span>)}
                     </th>
                     <th className="clickableTh" onClick={() => handleSort('horaInicio')}>
-                        Início {sortBy === 'horaInicio' && (sortDirection === 'desc' ? <span>&#8593;</span> : <span>&#8595;</span>)}
+                        Início {sortBy === 'horaInicio' && (sortDirection === 'desc' ? <span><FontAwesomeIcon icon={faArrowUp} /></span> : <span><FontAwesomeIcon icon={faArrowDown} /></span>)}
                     </th>
                     <th className="clickableTh" onClick={() => handleSort('horaFinal')}>
-                        Fim {sortBy === 'horaFinal' && (sortDirection === 'desc' ? <span>&#8593;</span> : <span>&#8595;</span>)}
+                        Fim {sortBy === 'horaFinal' && (sortDirection === 'desc' ? <span><FontAwesomeIcon icon={faArrowUp} /></span> : <span><FontAwesomeIcon icon={faArrowDown} /></span>)}
                     </th>
                     <th>Tipo</th>
                     <th>Situação</th>
@@ -78,7 +79,7 @@ const Table = ({formattedData, handleSort, sortDirection, sortBy}) => {
                             <td>{registro.horaInicio}</td>
                             <td>{registro.horaFinal}</td>
                             <td>{registro.Servico ? registro.Servico.nome : 'N/A'}</td>
-                            <td><TableSituation title={registro.status} url={`/viewServices/${registro.id}`} /></td>
+                            <td className="situationTd"><TableSituation title={registro.status} url={`/viewServices/${registro.id}`} /></td>
                             <td onClick={() => handleDelete(registro.id)}><ActionButton legenda="DELETAR SERVIÇO" icon={faTrash} /></td>
                             <td><ActionButton legenda="EDITAR SERVIÇO" icon={faPenToSquare} url={`/editService/${registro.id}`}/></td>
                             <td><ActionButton legenda="VISUALIZAR SERVIÇO" icon={faCircleInfo} url={`/viewServices/${registro.id}`} /></td>
