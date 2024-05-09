@@ -19,12 +19,15 @@ const Table = ({formattedData, handleSort, sortDirection, sortBy}) => {
     };
     //função modal confirmar para deletar serviço
     const handleConfirmDelete = () => {
+        //Se houver algum serviço selecionado, ele chama a função de deletar (API)
         if (serviceIdToDelete) {
           deleteService(serviceIdToDelete);
+          //registra que não há serviços selecionados para deletar
           setServiceIdToDelete(null);
         }
     };
 
+    //Função para cancelar modal de deletar ao apertar "ESC"
     const handleKeyPress = (e) => {
         if (e.key === 'Escape') {
             setServiceIdToDelete(null);
@@ -41,7 +44,7 @@ const Table = ({formattedData, handleSort, sortDirection, sortBy}) => {
 
     return (
         <div className="table-container">
-
+            
             {serviceIdToDelete && (
                 <DeleteModal
                 isOpen={serviceIdToDelete !== null}
@@ -92,18 +95,3 @@ const Table = ({formattedData, handleSort, sortDirection, sortBy}) => {
 }
 
 export default Table;
-
-/* 
-<tr>
-                    <td><input type="checkbox" name="" id="" /></td>
-                    <td><Link to="/viewServices">Consultoria para agência de Design Zé do Boné</Link></td>
-                    <td>01/02/2024</td>
-                    <td>13:30</td>
-                    <td>17:30</td>
-                    <td>Consultoria</td>
-                    <td><TableSituation title="Em Análise" type="analysis"/></td>
-                    <td><ActionButton icon={faTrash}/></td>
-                    <td><ActionButton icon={faPenToSquare} url="/editService"/></td>
-                    <td><ActionButton icon={faCircleInfo} url="/viewServices"/></td>
-                </tr>
-*/
