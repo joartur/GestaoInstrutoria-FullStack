@@ -11,19 +11,24 @@ import * as yup from 'yup';
 import "./createService.css"
 
 function CreateService () {
+    //Pega as variáveis do Context
     const { createEducationalService, errorMsg, serviceCreated, setServiceCreated, serviceTypes } = useDataContext();
 
+    //Estado que armazena quantidade de caracteres digitados no input de título
     const [inputCount, setInputCount] = useState(0);
 
+    //Fecha o modal ao apertar "ESC"  
     const closeModal = () => {
         setServiceCreated(false);
     };
     const handleKeyPress = (e) => {
         if (e.key === 'Escape') {
           closeModal();
+          reset()
         }
     };
 
+    //Validação do formulário com biblioteca YUP
     const schema = yup.object().shape({
         titulo: yup.string().required('O título é obrigatório'),
         dataServico: yup.string().required('A data do serviço é obrigatória'),
@@ -33,13 +38,16 @@ function CreateService () {
         descricao: yup.string().required('A descrição é obrigatória'),
     });
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
 
+    //Ao enviar o formulário, reseta o forms e número de caracteres digitados
     const onSubmit = async (data) => {
         await createEducationalService(data);
         console.log(data)
+        reset()
+        setInputCount(0)
     };
 
     useEffect(() => {

@@ -10,6 +10,13 @@
     transition: 0.3s;
 }
 
+.clickableTh{
+    cursor: pointer;
+}
+.clickableTh:hover{
+    background-color: #e2e2e2;
+}
+
 .table th, td{
     padding: 8px;
     border: 1px solid #e5e7eb;
