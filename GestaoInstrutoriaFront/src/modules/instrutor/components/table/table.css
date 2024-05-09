@@ -6,11 +6,17 @@
 
 .table th{
     background-color: #f9fafb;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 .table th, td{
     padding: 8px;
     border: 1px solid #e5e7eb;
+}
+
+.table th:hover{
+    background-color: #d2d2d2;
 }
 
 .table a{
