@@ -1,3 +1,4 @@
+// metrics.js
 const client = require('prom-client');
 
 // Registro global do prom-client
