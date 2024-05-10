@@ -26,7 +26,7 @@ GET  http://localhost:3001/instrutor/123456
 GET  http://localhost:3001/instrutor/perfil/123456
 
 ###
-POST http://localhost:3001/instrutor/registro/789012
+POST http://localhost:3001/instrutor/registro/123456
 Content-Type: application/json
 
 {
@@ -39,23 +39,23 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3001/instrutor/registros/789012
+GET http://localhost:3001/instrutor/registros/123456
 
 ###
-POST http://localhost:3001/instrutor/registros/789012
+POST http://localhost:3001/instrutor/registros/123456
 Content-Type: application/json
 
 {
     "dataInicioFiltro": "",
     "dataFinalFiltro": "",
-    "FKservico": "3, 2"
+    "FKservico": ""
 }
 
 ###
-GET http://localhost:3001/instrutor/registro/789012/3
+GET http://localhost:3001/instrutor/registro/123456/1
 
 ###
-PUT http://localhost:3001/instrutor/registro/789012/3
+PUT http://localhost:3001/instrutor/registro/123456/1
 Content-Type: application/json
 
 {
@@ -68,10 +68,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3001/instrutor/registro/789012/6
-
-###
-GET http://localhost:3001/instrutor/test/789012
+DELETE http://localhost:3001/instrutor/registro/123456/7
 
 ###
 GET http://localhost:3001/instrutor/servicos/123456

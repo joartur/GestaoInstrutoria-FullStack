@@ -30,7 +30,7 @@ class RegistroServico {
             })
         };
 
-        return await RegistroServico.findAll({
+        return await Registro.findAll({
             attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
             include: [{
                 model: Servico,
@@ -432,9 +432,9 @@ class InstrutorController {
             const { matriculaI } = req.params;
 
             //busca pelo instrutor de acordo com o id
-            const instrutor = RegistroServico.buscarInstrutor(matriculaI);
+            const instrutor = await RegistroServico.buscarInstrutor(matriculaI);
 
-            if(!instrutor){
+            if(instrutor == null){
                 return res.status(404).json({ error: "Usuário não encontrado." });
             }
 
