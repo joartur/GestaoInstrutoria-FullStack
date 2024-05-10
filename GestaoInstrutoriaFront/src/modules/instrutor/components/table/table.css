@@ -6,7 +6,6 @@
 
 .table th{
     background-color: #f9fafb;
-    cursor: pointer;
     transition: 0.3s;
 }
 
@@ -20,12 +19,23 @@
 .table th, td{
     padding: 8px;
     border: 1px solid #e5e7eb;
-}
+    text-align: center; /* Alinha o texto no centro das células */
 
-.table th:hover{
-    background-color: #d2d2d2;
 }
 
 .table a{
     color: var(--main-blue);
 }
+
+.status-sphere{
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 50%;
+}
+.pending{
+    background-color: var(--main-orange);
+}
+.conclude{
+    background-color: var(--main-green);
+}
+

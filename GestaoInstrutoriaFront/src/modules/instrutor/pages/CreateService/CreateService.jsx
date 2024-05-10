@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faClock } from '@fortawesome/free-solid-svg-icons';
-import Layout from "../../../../components/layout/Layout";
+import Layout from "../../components/layout/Layout"
 import Header from "../../../../components/header/Header";
 import { useDataContext } from '../../services/DataContext';
 import { useForm } from 'react-hook-form';
@@ -24,7 +24,6 @@ function CreateService () {
     const handleKeyPress = (e) => {
         if (e.key === 'Escape') {
           closeModal();
-          reset()
         }
     };
 

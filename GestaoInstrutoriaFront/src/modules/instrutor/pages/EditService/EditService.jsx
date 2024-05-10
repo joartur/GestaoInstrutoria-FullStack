@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faClock } from '@fortawesome/free-solid-svg-icons';
-import Layout from "../../../../components/layout/Layout";
+import Layout from "../../components/layout/Layout"
 import Header from "../../../../components/header/Header";
 import { useParams } from 'react-router-dom';
 import { useDataContext } from '../../services/DataContext';

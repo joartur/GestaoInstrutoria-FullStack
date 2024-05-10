@@ -1,5 +1,5 @@
-import Logo from "../../image/logo_senac.png"
-import MenuItem from "./MenuItem"
+import Logo from "../../../../image/logo_senac.png"
+import MenuItem from "../../../../components/MenuItem/MenuItem"
 import "../menu/menu.css"
 import { faHouse, faUser, faBook, faPenToSquare, faDoorOpen } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom';

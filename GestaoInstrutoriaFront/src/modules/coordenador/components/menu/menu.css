@@ -1,0 +1,27 @@
+aside{
+    padding: 16px 0px;
+    margin: 0;
+    width: 270px;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    border-right: 2px solid #DFDFDF;
+}
+
+.logo-container a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-container img{
+    max-width: 40%;
+    height: auto;
+    margin: 40px 0px 40px 0px;
+}
+
+ul{
+    margin: 0;
+    padding: 0;
+}

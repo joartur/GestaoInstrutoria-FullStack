@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { useDataContext } from '../../services/DataContext';
-import Layout from "../../../../components/layout/Layout"
+import Layout from "../../components/layout/Layout"
 import Header from "../../../../components/header/Header"
 import Button from '../../../../components/buttons/Button';
 import Table from '../../components/table/Table';
@@ -170,7 +170,10 @@ const TablesService = () => {
                         />
                     </div>
                     <div className="searchButton-containe">
-                        <Button title="Adicionar Serviço" size="medium" url="/createService"/>
+                        <Button
+                        title="Adicionar Serviço"
+                        size="medium"
+                        url="/createService"/>
                     </div>
                 </div>
                 <div className="filters-container">
@@ -200,10 +203,17 @@ const TablesService = () => {
                     </div>
                 ) : 
                     <div className="notFound-container">
-                        <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
+                        <FontAwesomeIcon
+                        icon={faMagnifyingGlass}
+                        className="icon"
+                        />
                         <h1>Não Há Nenhum Serviço Educacional Cadastrado</h1>
                         <p>Cadastre novos serviços educacionais e aguarde a validação do coordenador de área!</p>
-                        <Button title="Cadastrar Serviços Educacionais" size="medium" url="/createService"/>
+                        <Button
+                            title="Cadastrar Serviços Educacionais"
+                            size="medium"
+                            url="/createService"
+                        />
                     </div>
                 }
             </main>

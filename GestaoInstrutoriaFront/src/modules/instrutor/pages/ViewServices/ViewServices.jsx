@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Header from "../../../../components/header/Header"
-import Layout from "../../../../components/layout/Layout"
+import Layout from "../../components/layout/Layout"
 import BigInput from "../../../../components/inputs/BigInput"
 import TableSituation from "../../components/table/TableSituation"
 import Loading from '../loading/Loading';
