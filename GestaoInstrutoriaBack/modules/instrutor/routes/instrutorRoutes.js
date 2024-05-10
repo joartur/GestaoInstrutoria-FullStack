@@ -25,11 +25,6 @@ router.post('/registros/:matriculaI',(req, res) => {
     instrutorController.filtroRegistros(req, res);
 })
 
-// //rota para exportar o arquivo pdf de todos os registros em tabela
-// router.get('/registros/exportPDF/:matriculaI',(req, res) => {
-//     instrutorController.exportPDF(req, res);
-// })
-
 //rota post para criar um novo registro do instrutor
 router.post('/registro/:matriculaI',(req, res) => {
     instrutorController.cadastrarRegistro(req, res);
@@ -48,12 +43,6 @@ router.put('/registro/:matriculaI/:registroId',(req, res)=>{
 //rota para exclusão de um registro
 router.delete('/registro/:matriculaI/:registroId',(req, res)=>{
     instrutorController.excluirRegistro(req, res);
-})
-
-
-//rota para a lista de todos os registro
-router.get('/test/:matriculaI',(req, res) => {
-    instrutorController.test(req, res);
 })
 
 //rota para listar as atividade de serviço educacional
