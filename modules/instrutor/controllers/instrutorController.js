@@ -17,7 +17,19 @@ class RegistroServico {
         return  await Registro.destroy({ where: { id } });
     }
     
-    static async buscarRegistros(matriculaI) {
+    static async buscarRegistros(matriculaI, condicao='') {
+        let where = {
+            FKinstrutor: matriculaI
+        };
+
+        if (condicao !== ''){
+            let obj = Object.keys(condicao)
+
+            obj.forEach((chave) => {
+                where[chave] = condicao[chave]
+            })
+        };
+
         return await RegistroServico.findAll({
             attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
             include: [{
@@ -27,13 +39,11 @@ class RegistroServico {
                     id: sequelize.col('Registro.FKservico')
                 }
             }],
-            where: {
-                FKinstrutor: matriculaI
-            }
+            where
         });
     }
     
-    static async buscarRegistro(matriculaI, registroId) {
+    static async buscarRegistro(registroId) {
         return await Registro.findOne({
             include: [{
                 model: Servico,
@@ -45,7 +55,7 @@ class RegistroServico {
             attributes: {
                 exclude: ['FKservico'] // Exclaui o campo FKservico do resultado
             },
-            where: { FKinstrutor: matriculaI, id: registroId }
+            where: { id: registroId }
         });
     }
     
@@ -207,7 +217,7 @@ class RegistroServico {
         return ( hrInicio >= hrFinal )
     }
     
-    static async validarDescricao(desc){
+    static validarDescricao(desc){
         /*
         a expressão regular permite qualquer combinação de letras, números, espaços, vírgulas, pontos, exclamação, interrogação, hífens
         e caracteres acentuados, incluindo palavras, frases e números decimais simples, mas evita números independentes com quatro ou mais dígitos consecutivos.
@@ -219,7 +229,6 @@ class RegistroServico {
     }
     
 };
-
 
 class InstrutorController {
     static async cadastrarRegistro(req, res) {
@@ -273,10 +282,10 @@ class InstrutorController {
 
     static async visualizarRegistro(req, res) {
         try {
-            const { matriculaI, registroId } = req.params;
+            const { registroId } = req.params;
 
             //busca um registro para ver se ele existe e retorna os dados dele
-            const registro = await RegistroServico.buscarRegistro(matriculaI, registroId)
+            const registro = await RegistroServico.buscarRegistro(registroId)
 
             if (!registro) {
                 return res.status(404).json({ error: "Registro não encontrado." });
@@ -313,7 +322,7 @@ class InstrutorController {
                 return res.status(400).json({error: "Limite de caracteres para o título foi atingido."})
             }
 
-            const registro = await buscarRegistro(matriculaI, registroId);
+            const registro = await RegistroServico.buscarRegistro(registroId);
 
             if (!registro) {
                 return res.status(404).json({ error: "Registro não encontrado" });
@@ -347,7 +356,7 @@ class InstrutorController {
             //calcula o total de horas e retorna em time
             const total = RegistroServico.calcularDiferencaHoras(horaInicio, horaFinal);
             
-            const [rowsUpdated] = await RegistroServico.atualizarRegistro( registroId, {
+            await RegistroServico.atualizarRegistro( registroId, {
                 dataServico,
                 horaInicio,
                 horaFinal,
@@ -359,10 +368,6 @@ class InstrutorController {
                 justificativa:""
             });
 
-            if (rowsUpdated === 0) {
-                return res.status(404).json({ error: "Registro não encontrado." });
-            }
-
             res.json({ msg: "Registro atualizado com sucesso." });
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -371,9 +376,9 @@ class InstrutorController {
 
     static async excluirRegistro(req, res) {
         try {
-            const { matriculaI, registroId } = req.params;
+            const { registroId } = req.params;
             
-            const registro = await RegistroServico.buscarRegistro(matriculaI, registroId);
+            const registro = await RegistroServico.buscarRegistro(registroId);
 
             if (!registro) {
                 return res.status(404).json({ error: "Registro não encontrado." });
@@ -445,7 +450,6 @@ class InstrutorController {
             const { dataInicioFiltro, dataFinalFiltro, FKservico } = req.body
 
             let where = {
-                FKinstrutor: matriculaI
             };
 
            // Adicione as condições de filtro para a data
@@ -463,17 +467,7 @@ class InstrutorController {
                 where['FKservico'] = { [Op.in]: fkServicosArray };
             }
             
-            const registros = await Registro.findAll({
-                attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
-                include: [{
-                    model: Servico,
-                    attributes: ['id','nome'],
-                    where: {
-                        id: sequelize.col('Registro.FKservico')
-                    }
-                }],
-                where
-            });
+            const registros = await RegistroServico.buscarRegistros(matriculaI, where);
     
             if (registros.length === 0) {
                 return res.status(404).json({ error: "Registros não encontrados." });
@@ -486,6 +480,7 @@ class InstrutorController {
     }
 
     //rota para renderização da lista de atividades de servico edducacionais
+    // melhorar levando para o administrador
     static async listaAtvs(req, res) {
         try {
             const servicos = await Servico.findAll({attributes: ['id', 'nome']});
@@ -495,6 +490,5 @@ class InstrutorController {
         }
     }
 };
-
 
 module.exports = InstrutorController;
