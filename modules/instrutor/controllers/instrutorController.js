@@ -17,9 +17,9 @@ class RegistroServico {
         return  await Registro.destroy({ where: { id } });
     }
     
-    static async buscarRegistros(matriculaI, condicao='') {
+    static async buscarRegistros(matriculaInstrutor, condicao='') {
         let where = {
-            FKinstrutor: matriculaI
+            FKinstrutor: matriculaInstrutor
         };
 
         if (condicao !== ''){
@@ -59,7 +59,7 @@ class RegistroServico {
         });
     }
     
-    static async buscarDatasServico(matriculaI) {
+    static async buscarDatasServico(matriculaInstrutor) {
         const dataAtual = new Date();
         const anoAtual = dataAtual.getFullYear();
         const mesAtual = dataAtual.getMonth() + 1; 
@@ -69,7 +69,7 @@ class RegistroServico {
                 [literal('DISTINCT dataServico'), 'dataServico']
             ],
             where: {
-                FKinstrutor: matriculaI,
+                FKinstrutor: matriculaInstrutor,
                 [Op.and]: [
                     literal(`YEAR(dataServico) = ${anoAtual}`),
                     literal(`MONTH(dataServico) = ${mesAtual}`)
@@ -78,35 +78,35 @@ class RegistroServico {
         });
     }
     
-    static async calcularHorasServicos(matriculaI) {
+    static async calcularHorasServicos(matriculaInstrutor) {
         let horas, minutos, segundos, horaFormatada;
         // retorna uma string com o valor somado ex. '473000' -> 47:30:00
-        const somaR = await Registro.sum('total', {
+        const somaHoraRegistros = await Registro.sum('total', {
             where: {
-                FKinstrutor: matriculaI,
+                FKinstrutor: matriculaInstrutor,
                 status: {
                     [Op.or]: ["validado", "parcialmente validado"]
                 }
             }
         });
     
-        if(somaR == null){
+        if(somaHoraRegistros == null){
             return "00:00:00";
         }
     
-        if(somaR.length == 5){
+        if(somaHoraRegistros.length == 5){
             // Convertendo a string para horas, minutos e segundos
-            horas = parseInt(somaR.substring(0, 1)); // Extrai as duas primeiras posições para as horas
-            minutos = parseInt(somaR.substring(1, 3)); // Extrai as duas posições seguintes para os minutos
-            segundos = parseInt(somaR.substring(3, 5)); // Extrai as duas últimas posições para os segundos
+            horas = parseInt(somaHoraRegistros.substring(0, 1)); // Extrai as duas primeiras posições para as horas
+            minutos = parseInt(somaHoraRegistros.substring(1, 3)); // Extrai as duas posições seguintes para os minutos
+            segundos = parseInt(somaHoraRegistros.substring(3, 5)); // Extrai as duas últimas posições para os segundos
     
             // Formatando o resultado
             horaFormatada = `${horas}:${minutos < 10 ? '0' : ''}${minutos}:${segundos < 10 ? '0' : ''}${segundos}`;
         } else {
             // Convertendo a string para horas, minutos e segundos
-            horas = parseInt(somaR.substring(0, 2)); // Extrai as duas primeiras posições para as horas
-            minutos = parseInt(somaR.substring(2, 4)); // Extrai as duas posições seguintes para os minutos
-            segundos = parseInt(somaR.substring(4, 6)); // Extrai as duas últimas posições para os segundos
+            horas = parseInt(somaHoraRegistros.substring(0, 2)); // Extrai as duas primeiras posições para as horas
+            minutos = parseInt(somaHoraRegistros.substring(2, 4)); // Extrai as duas posições seguintes para os minutos
+            segundos = parseInt(somaHoraRegistros.substring(4, 6)); // Extrai as duas últimas posições para os segundos
         
             // Formatando o resultado
             horaFormatada = `${horas}:${minutos < 10 ? '0' : ''}${minutos}:${segundos < 10 ? '0' : ''}${segundos}`;
@@ -115,33 +115,33 @@ class RegistroServico {
         return horaFormatada;
     }
     
-    static async buscarHorasTrab(matriculaI) {
+    static async buscarHorasTrab(matriculaInstrutor) {
         const instrutor = await Instrutor.findOne({
             attributes: ['horasTrabalhadas'],
             where: {
-                matricula: matriculaI
+                matricula: matriculaInstrutor
             }
         });
     
         return instrutor.horasTrabalhadas;
     }
     
-    static async buscarSaldoHoras(matriculaI) {
+    static async buscarSaldoHoras(matriculaInstrutor) {
         const instrutor = await Instrutor.findOne({
             attributes: ['saldoHoras'],
             where: {
-                matricula: matriculaI
+                matricula: matriculaInstrutor
             }
         });
     
         return instrutor.saldoHoras;
     }
     
-    static async buscarInstrutor(matriculaI){
+    static async buscarInstrutor(matriculaInstrutor){
         const instrutor = await Instrutor.findOne({
             attributes: ['nome', 'email', 'unidade', 'area'],
             where: {
-                matricula: matriculaI
+                matricula: matriculaInstrutor
             }
         });
         return instrutor;
@@ -180,26 +180,26 @@ class RegistroServico {
     }
 
     static calcularDiferencaHoras(horaInicio, horaFinal) {
-         // Extrair horas, minutos e segundos das strings de horaInicio e horaFinal
-         const [inicioHours, inicioMinutes] = horaInicio.split(':').map(Number);
-         const [finalHours, finalMinutes] = horaFinal.split(':').map(Number);
-         
-         // Calcular o total de milissegundos para horaInicio e horaFinal
-         const horaInicioMs = (inicioHours * 3600 + inicioMinutes * 60 + 0) * 1000;
-         const horaFinalMs = (finalHours * 3600 + finalMinutes * 60 + 0) * 1000;
-         
-         // Calcular a diferença em milissegundos
-         const diffMs = horaFinalMs - horaInicioMs;
-         
-         // Calcular a diferença em horas, minutos e segundos
-         const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-         const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-         const diffSeconds = Math.floor((diffMs % (1000 * 60)) / 1000);
-         
-         // Formatar a diferença para hh:mm:ss
-         const horaFormatada = `${diffHours.toString().padStart(2, '0')}:${diffMinutes.toString().padStart(2, '0')}:${diffSeconds.toString().padStart(2, '0')}`;
+        // Extrair horas, minutos e segundos das strings de horaInicio e horaFinal
+        const [inicioHoras, inicioMinutos] = horaInicio.split(':').map(Number);
+        const [finalHoras, finalMinutos] = horaFinal.split(':').map(Number);
+        
+        // Calcular o total de milissegundos para horaInicio e horaFinal
+        const horaInicioMs = (inicioHoras * 3600 + inicioMinutos * 60 + 0) * 1000;
+        const horaFinalMs = (finalHoras * 3600 + finalMinutos * 60 + 0) * 1000;
+        
+        // Calcular a diferença em milissegundos
+        const diffMs = horaFinalMs - horaInicioMs;
+        
+        // Calcular a diferença em horas, minutos e segundos
+        const diffHouras = Math.floor(diffMs / (1000 * 60 * 60));
+        const diffMinutos = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+        const diffSecondos = Math.floor((diffMs % (1000 * 60)) / 1000);
+        
+        // Formatar a diferença para hh:mm:ss
+        const horaFormatada = `${diffHouras.toString().padStart(2, '0')}:${diffMinutos.toString().padStart(2, '0')}:${diffSecondos.toString().padStart(2, '0')}`;
     
-         return horaFormatada;
+        return horaFormatada;
     }
     
     static conferirData(data) {
@@ -217,7 +217,7 @@ class RegistroServico {
         return ( hrInicio >= hrFinal )
     }
     
-    static validarDescricao(desc){
+    static validarDescricao(descricao){
         /*
         a expressão regular permite qualquer combinação de letras, números, espaços, vírgulas, pontos, exclamação, interrogação, hífens
         e caracteres acentuados, incluindo palavras, frases e números decimais simples, mas evita números independentes com quatro ou mais dígitos consecutivos.
@@ -225,16 +225,15 @@ class RegistroServico {
        const regex = /^(?!.*\b\d{4,}\b)(?!.*\b[A-Za-z]{20,}\b)[a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\']+(?: [a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\']+)*$/;
     
         // verifica o tamanho da descrição
-        return (regex.test(desc) && desc.length > 15);
-    }
-    
+        return (regex.test(descricao) && descricao.length > 15);
+    } 
 };
 
 class InstrutorController {
     static async cadastrarRegistro(req, res) {
         try {
             const { dataServico, horaInicio, horaFinal, titulo, descricao, FKservico } = req.body;
-            const FKinstrutor = req.params.matriculaI;
+            const FKinstrutor = req.params.matriculaInstrutor;
 
             if(titulo.length > 50){
                 return res.status(400).json({error: "Limite de caracteres para o título foi atingido."})
@@ -299,9 +298,9 @@ class InstrutorController {
 
     static async listarRegistros(req, res) {
         try {
-            const { matriculaI } = req.params;
+            const { matriculaInstrutor } = req.params;
     
-            const registros = await RegistroServico.buscarRegistros(matriculaI)
+            const registros = await RegistroServico.buscarRegistros(matriculaInstrutor)
 
             if (registros.length === 0) {
                 return res.status(404).json({ error: "Registros não encontrados." });
@@ -315,7 +314,7 @@ class InstrutorController {
     
     static async editarRegistro(req, res) {
         try {
-            const { matriculaI, registroId } = req.params;
+            const { matriculaInstrutor, registroId } = req.params;
             const { dataServico, horaInicio, horaFinal, titulo, descricao, FKservico } = req.body;
 
             if(titulo.length > 50){
@@ -349,7 +348,7 @@ class InstrutorController {
             }            
             
             //confere se não existe algum registro com a data e hora igual ou que se sobrepõe, já registrado
-            if (await RegistroServico.conferirRegistros(dataServico, matriculaI, horaFinal, horaInicio)) {
+            if (await RegistroServico.conferirRegistros(dataServico, matriculaInstrutor, horaFinal, horaInicio)) {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
             }
 
@@ -399,19 +398,19 @@ class InstrutorController {
   
     static async home(req, res){
         try {
-            const { matriculaI } = req.params;
+            const { matriculaInstrutor } = req.params;
 
             //busca as datas de todos os registros do mês vigente
-            const datasServico = await RegistroServico.buscarDatasServico(matriculaI);
+            const datasServico = await RegistroServico.buscarDatasServico(matriculaInstrutor);
 
             //busca e calcula as horas totais de serviço educacional
-            const horasServicos = await RegistroServico.calcularHorasServicos(matriculaI);
+            const horasServicos = await RegistroServico.calcularHorasServicos(matriculaInstrutor);
             
             //busca e calcula as horas totais validadas
-            const horasTrab = await RegistroServico.buscarHorasTrab(matriculaI);
+            const horasTrab = await RegistroServico.buscarHorasTrab(matriculaInstrutor);
 
             //busca pelo saldo de hora, se houver
-            const saldoHoras = await RegistroServico.buscarSaldoHoras(matriculaI);
+            const saldoHoras = await RegistroServico.buscarSaldoHoras(matriculaInstrutor);
 
             //organiza o response da rota
             const response = {
@@ -429,10 +428,10 @@ class InstrutorController {
 
     static async perfil(req, res){
         try {
-            const { matriculaI } = req.params;
+            const { matriculaInstrutor } = req.params;
 
             //busca pelo instrutor de acordo com o id
-            const instrutor = await RegistroServico.buscarInstrutor(matriculaI);
+            const instrutor = await RegistroServico.buscarInstrutor(matriculaInstrutor);
 
             if(instrutor == null){
                 return res.status(404).json({ error: "Usuário não encontrado." });
@@ -446,7 +445,7 @@ class InstrutorController {
 
     static async filtroRegistros(req, res) {
         try{
-            const { matriculaI } = req.params;
+            const { matriculaInstrutor } = req.params;
             const { dataInicioFiltro, dataFinalFiltro, FKservico } = req.body
 
             let where = {
@@ -467,7 +466,7 @@ class InstrutorController {
                 where['FKservico'] = { [Op.in]: fkServicosArray };
             }
             
-            const registros = await RegistroServico.buscarRegistros(matriculaI, where);
+            const registros = await RegistroServico.buscarRegistros(matriculaInstrutor, where);
     
             if (registros.length === 0) {
                 return res.status(404).json({ error: "Registros não encontrados." });
