@@ -25,7 +25,7 @@ router.put('/validarRegistro/:id/:FKcoordenador', (req, res) =>{
     coordArea.validarRegistro(req, res);
 })
 
-//Rota PUT para validar parcialmente o resgistro
+//Rota PUT para validar parcialmente ou rejeitar o registro 
 router.put('/validarParcialmenteRegistro/:id/:FKcoordenador', (req, res) =>{
     coordArea.validarParcialmenteRegistro(req, res);
 })
