@@ -153,8 +153,24 @@ export const DataProvider = ({ children }) => {
       }
   };
 
+  const value={
+    data,
+    instrutorData,
+    serviceCreated,
+    serviceEdited,
+    serviceTypes,
+    filteredData,
+    setServiceCreated,
+    setServiceEdited,
+    createEducationalService,
+    deleteService,
+    editService,
+    filterRegister,
+    errorMsg 
+  }
+
   return (
-    <DataContext.Provider value={{ data, instrutorData, serviceCreated, serviceEdited, serviceTypes, filteredData, setServiceCreated, setServiceEdited, createEducationalService, deleteService, editService, filterRegister, errorMsg }}>
+    <DataContext.Provider value={value}>
         {children}
     </DataContext.Provider>
   );

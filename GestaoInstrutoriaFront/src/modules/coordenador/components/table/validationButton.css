@@ -1,0 +1,17 @@
+.validation-button .icon{
+    border-radius: 12px;
+    padding: 15px 15px;
+    border: none;
+    cursor: pointer;
+}
+.accept .icon{
+    background-color: var(--light-green);
+    color: var(--main-green);
+}
+.reject .icon{
+    background-color: var(--light-red);
+    color: var(--main-red);
+}
+.view .icon{
+    background-color: var(--bg-blue);
+}

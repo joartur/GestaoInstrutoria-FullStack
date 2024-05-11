@@ -1,8 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import Button from "../../../../components/buttons/Button";
+import { Link } from "react-router-dom";
+import "../../../instrutor/components/table/table.css"
 
-const Table = () => {
+const InstrutoresListTable = () => {
     return (
             <table className='table'>
                 <thead>
@@ -21,11 +23,15 @@ const Table = () => {
                         <td>10 Horas</td>
                         <td><Button title="Ver Registros" size="small"/></td>
                         <td><Button title="Adicionar Registro" size="small"/></td>
-                        <td className="status-sphere-td"><FontAwesomeIcon className="status-sphere conclude" icon={faCheck} /></td>
+                        <td className="status-sphere-td">
+                            <Link to="/">
+                            <FontAwesomeIcon className="status-sphere conclude" icon={faCheck} />
+                            </Link>
+                        </td>
                     </tr>
                 </tbody>
             </table>
     )
 }
 
-export default Table;
+export default InstrutoresListTable;
