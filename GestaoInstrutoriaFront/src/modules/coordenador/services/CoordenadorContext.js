@@ -12,9 +12,11 @@ export const CoordenadorProvider = ({ children }) => {
     //armazena valor booleano para expressar se o instrutor tem algum serviço educacional com situação "em análise". Se sim = true, se não = false
     const [instructorSituation, setInstructorSituation] = useState(null);
 
+    //Atualiza função para listar todos os professores de uma determinada área caso haja atualizações na lista
     useEffect(() => {
         fetchInstructors("Tecnologia");
     }, []);
+    //passar parametros por forms
     useEffect(() => {
       fetchInstructorRegisters("123456");
     }, []);
@@ -28,19 +30,17 @@ export const CoordenadorProvider = ({ children }) => {
           const response = await axios.get(`http://localhost:3001/coordArea/listarInstrutores/${area}`);
           setInstructors(response.data);
           console.log("instructors: ", instructors)
-          console.log("response.data: ", response.data)
         } catch (error) {
           console.error('Erro ao buscar instrutores:', error);
         }
-      };
+    };
     
-    //Busca todos os registros deum determinado instrutor através da matricula dele
+    //Busca todos os registros de um determinado instrutor através da matricula dele
     const fetchInstructorRegisters = async (matricula) => {
         try {
           const instructorRegisterResponse = await axios.get(`http://localhost:3001/coordArea/listarRegistros/${matricula}`);
-          setInstructorRegisters(instructorRegisterResponse);
+          setInstructorRegisters(instructorRegisterResponse.data);
           console.log("instructorRegister", instructorRegisters)
-          console.log("instructorRegisterResponse: ", instructorRegisterResponse.data)
         } catch (error) {
           console.error('Error fetching records:', error);
         }
@@ -51,7 +51,7 @@ export const CoordenadorProvider = ({ children }) => {
         try {
           const response = await axios.get(`http://localhost:3001/coordArea/verificaSituacao/${matricula}`);
           setInstructorSituation(response.data);
-          console.log(response.data)
+          console.log(instructorSituation)
         } catch (error) {
           console.error('Error fetching situation:', error);
         }
@@ -63,10 +63,8 @@ export const CoordenadorProvider = ({ children }) => {
         // Aqui você pode preparar os dados para enviar, se necessário
         const response = await axios.put(`http://localhost:3001/coordArea/validarRegistro/${id}/${FKcoordenador}`);
         console.log('Registro validado com sucesso:', response.data);
-        return response.data; // Se precisar manipular a resposta, você pode fazer isso aqui
       } catch (error) {
         console.error('Erro ao validar registro:', error);
-        throw error; // Se precisar lidar com o erro em outro lugar, você pode lançá-lo novamente
       }
     };
 

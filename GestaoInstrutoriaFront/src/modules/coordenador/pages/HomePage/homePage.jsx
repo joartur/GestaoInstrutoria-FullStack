@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { useCoordenadorContext } from "../../services/CoordenadorContext"
 import Box from "../../../../components/box/Box";
 import Header from "../../../../components/header/Header";
 import Layout from "../../components/layout/Layout";
@@ -7,12 +6,6 @@ import InstutoresListTable from "../../components/table/InstrutoresListTable";
 import "./HomePage.css"
 
 const HomePage = () => {
-    const { instructors, instructorRegisters, validateInstructorRegister } = useCoordenadorContext();
-
-    function validate(){
-        validateInstructorRegister(139, 345678)
-    }
-
     return (
         <Layout>
             <Header title="Página Inicial" description="Bem-vindo!"/>
@@ -56,8 +49,6 @@ const HomePage = () => {
                     <InstutoresListTable />
                 </div>
             </main>
-
-            <button onClick={validate}>Validar</button>
         </Layout>
     )
 }

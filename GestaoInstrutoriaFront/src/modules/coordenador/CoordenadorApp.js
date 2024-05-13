@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from "./pages/HomePage/homePage"
-import ValidateService from "./pages/ValidateServices/validateServices"
+import ValidateService from "./pages/ValidateServices/validateServices";
+import HomePage from './pages/HomePage/HomePage';
 import { CoordenadorProvider } from './services/CoordenadorContext';
 
 const CoordenadorApp = () => {
