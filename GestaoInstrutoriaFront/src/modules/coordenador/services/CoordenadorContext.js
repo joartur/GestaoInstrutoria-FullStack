@@ -28,7 +28,6 @@ export const CoordenadorProvider = ({ children }) => {
           const response = await axios.get(`http://localhost:3001/coordArea/listarInstrutores/${area}`);
           setInstructors(response.data);
           console.log("instructors: ", instructors)
-          console.log("response.data: ", response.data)
         } catch (error) {
           console.error('Erro ao buscar instrutores:', error);
         }
@@ -38,9 +37,8 @@ export const CoordenadorProvider = ({ children }) => {
     const fetchInstructorRegisters = async (matricula) => {
         try {
           const instructorRegisterResponse = await axios.get(`http://localhost:3001/coordArea/listarRegistros/${matricula}`);
-          setInstructorRegisters(instructorRegisterResponse);
+          setInstructorRegisters(instructorRegisterResponse.data);
           console.log("instructorRegister", instructorRegisters)
-          console.log("instructorRegisterResponse: ", instructorRegisterResponse.data)
         } catch (error) {
           console.error('Error fetching records:', error);
         }
@@ -51,7 +49,7 @@ export const CoordenadorProvider = ({ children }) => {
         try {
           const response = await axios.get(`http://localhost:3001/coordArea/verificaSituacao/${matricula}`);
           setInstructorSituation(response.data);
-          console.log(response.data)
+          console.log(instructorSituation)
         } catch (error) {
           console.error('Error fetching situation:', error);
         }
@@ -72,8 +70,8 @@ export const CoordenadorProvider = ({ children }) => {
 
     const value={
         instructors,
-        instructorRegisters,
-        instructorSituation,
+        fetchInstructorRegisters,
+        fetchInstructorSituation,
         validateInstructorRegister
     }
     return (

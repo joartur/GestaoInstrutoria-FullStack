@@ -14,7 +14,6 @@ const Menu = () => {
             </div>
             <ul>
                 <MenuItem title="Página Inicial" icon={faHouse} url="/"/>
-                <MenuItem title="Adicionar Serviço" icon={faPenToSquare} url="/createService"/>
                 <MenuItem title="Perfil" icon={faUser} url="/profile/"/>
                 <MenuItem title="Sair" icon={faDoorOpen} url="/login"/>
             </ul>
