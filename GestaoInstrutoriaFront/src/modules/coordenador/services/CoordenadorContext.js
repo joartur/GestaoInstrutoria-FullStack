@@ -70,8 +70,8 @@ export const CoordenadorProvider = ({ children }) => {
 
     const value={
         instructors,
-        instructorRegisters,
-        instructorSituation,
+        fetchInstructorRegisters,
+        fetchInstructorSituation,
         validateInstructorRegister
     }
     return (

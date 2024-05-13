@@ -25,10 +25,10 @@ const InstrutoresListTable = () => {
                     <td>{data.matricula}</td>
                     <td>{data.nome}</td>
                     <td>{data.horasTrabalhadas} Horas</td>
-                    <td><Button title="Ver Registros" size="small"/></td>
+                    <td><Button title="Ver Registros" size="small" url={`/validate/${"1"}`}/></td>
                     <td><Button title="Adicionar Registro" size="small"/></td>
                     <td className="status-sphere-td">
-                        <Link to="/">
+                        <Link to={`/validate/${data.id}`}>
                         <FontAwesomeIcon className="status-sphere conclude" icon={faCheck} />
                         </Link>
                     </td>

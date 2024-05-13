@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useDataContext } from '../../services/DataContext';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import Header from "../../../../components/header/Header"
 import Layout from "../../components/layout/Layout"
 import BigInput from "../../../../components/inputs/BigInput"
@@ -10,33 +10,38 @@ import "./viewServices.css"
 
 const ViewServices = () => {
     const { id } = useParams();
+    const { fetchServiceDetails } = useDataContext();
     const [service, setService] = useState(null);
 
     useEffect(() => {
-        const fetchServiceDetails = async () => {
-          try {
-            const response = await axios.get(`http://localhost:3001/instrutor/registro/123456/${id}`);
-            setService(response.data.data);
-            console.log(response.data.data);
-          } catch (error) {
-            console.error('Erro ao buscar detalhes do serviço:', error);
-          }
+        const fetchData = async () => {
+            const response = await fetchServiceDetails(id);
+            setService(response);
         };
     
-        fetchServiceDetails();
-    }, [id]);
+        fetchData();
+    }, [id, fetchServiceDetails]);
+    
 
     if (!service) {
         return <Loading />
     }
 
-    const [ano, mes, dia] = service.dataServico.split("-");
-    const dataFormatada = `${dia}/${mes}/${ano}`;
-    const [horaInicial, minutoInicial] = service.horaInicio.split(":");
-    const horaInicioFormatada = `${horaInicial}:${minutoInicial}`;
-    const [horaFim, minutoFim] = service.horaFinal.split(":");
-    const horaFinalFormatada = `${horaFim}:${minutoFim}`;
-    const horaTotal = service.total.split(":")[0]
+    let dataFormatada = '';
+    let horaInicioFormatada = '';
+    let horaFinalFormatada = '';
+    let horaTotal = '';
+    
+    if (service !== null) {
+        const [ano, mes, dia] = service.dataServico.split("-");
+        dataFormatada = `${dia}/${mes}/${ano}`;
+        const [horaInicial, minutoInicial] = service.horaInicio.split(":");
+        horaInicioFormatada = `${horaInicial}:${minutoInicial}`;
+        const [horaFim, minutoFim] = service.horaFinal.split(":");
+        horaFinalFormatada = `${horaFim}:${minutoFim}`;
+        horaTotal = service.total.split(":")[0];
+    }
+    
 
     return (
         <Layout>

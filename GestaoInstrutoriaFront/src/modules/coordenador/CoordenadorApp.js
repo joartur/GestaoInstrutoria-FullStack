@@ -9,7 +9,7 @@ const CoordenadorApp = () => {
         <Router>
             <Routes>
                 <Route path="/" element={<HomePage />}/>
-                <Route path="/validate" element={<ValidateService />}/>
+                <Route path="/validate/:id" element={<ValidateService />}/>
             </Routes>
         </Router>
         </CoordenadorProvider>

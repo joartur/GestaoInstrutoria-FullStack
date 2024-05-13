@@ -1,8 +1,12 @@
+import { useParams } from 'react-router-dom';
 import Header from "../../../../components/header/Header";
 import Layout from "../../components/layout/Layout";
 import ValidationTable from "../../components/table/ValidationTable";
 
 const ValidateServices = () => {
+    const { id } = useParams();
+    
+
     return (
         <Layout>
             <Header

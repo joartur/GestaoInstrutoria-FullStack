@@ -117,6 +117,18 @@ export const DataProvider = ({ children }) => {
       }
     };
 
+    //Consumo dos dados detalhados de um serviço específico com consulta por ID
+    const fetchServiceDetails = async (id) => {
+      try {
+        const response = await axios.get(`http://localhost:3001/instrutor/registro/123456/${id}`);
+        console.log(response.data.data);
+        //Retorna os dados para manipulação em outras páginas
+        return response.data.data
+      } catch (error) {
+        console.error('Erro ao buscar detalhes do serviço:', error);
+      }
+    };
+
 //FETCH DE DADOS PESSOAIS
 
 //consumo dos dados da página inicial
@@ -165,6 +177,7 @@ export const DataProvider = ({ children }) => {
     createEducationalService,
     deleteService,
     editService,
+    fetchServiceDetails,
     filterRegister,
     errorMsg 
   }

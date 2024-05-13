@@ -10,12 +10,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import EditModal from "../../components/modais/EditModal";
 import Loading from '../../pages/loading/Loading';
 import * as yup from 'yup';
-import axios from 'axios';
 import "./editService.css"
 
 const EditService = () => {
     const { id } = useParams();
-    const { editService, errorMsg, serviceEdited, setServiceEdited, serviceTypes } = useDataContext();
+    const { editService, errorMsg, serviceEdited, setServiceEdited, serviceTypes, fetchServiceDetails } = useDataContext();
     const [service, setService] = useState(null);
 
     const closeModal = () => {
@@ -36,24 +35,24 @@ const EditService = () => {
     });
 
     useEffect(() => {
-        const fetchServiceDetails = async () => {
+        const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/instrutor/registro/123456/${id}`);
-                setService(response.data.data);
-                setValue('titulo', response.data.data.titulo);
-                setValue('dataServico', response.data.data.dataServico);
-                setValue('horaInicio', response.data.data.horaInicio);
-                setValue('horaFinal', response.data.data.horaFinal);
-                setValue('FKservico', response.data.data.Servico.id);
-                setValue('descricao', response.data.data.descricao);
-                console.log(response.data.data);
+                const response = await fetchServiceDetails(id);
+                setService(response);
+                setValue('titulo', response.titulo);
+                setValue('dataServico', response.dataServico);
+                setValue('horaInicio', response.horaInicio);
+                setValue('horaFinal', response.horaFinal);
+                setValue('FKservico', response.Servico.id);
+                setValue('descricao', response.descricao);
+                console.log(response);
             } catch (error) {
                 console.error('Erro ao buscar detalhes do serviço:', error);
             }
         };
 
-        fetchServiceDetails();
-    }, []);
+        fetchData();
+    }, [fetchServiceDetails, id, setValue]);
 
     const onSubmit = async (data) => {
         await editService(id, data);
