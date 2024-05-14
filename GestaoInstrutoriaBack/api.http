@@ -78,7 +78,7 @@ GET http://localhost:3001/instrutor/servicos/123456
 GET http://localhost:3001/coordArea/listarRegistros/789012
 
 ###
-GET http://localhost:3001/coordArea/verificaSituacao/345678
+GET http://localhost:3001/coordArea/verificaSituacao/123456
 
 ###
 GET http://localhost:3001/coordArea/listarInstrutores/Tecnologia

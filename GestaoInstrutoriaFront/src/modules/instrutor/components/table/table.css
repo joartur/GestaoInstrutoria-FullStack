@@ -30,7 +30,7 @@
 .status-sphere{
     color: #ffffff;
     padding: 10px;
-    border-radius: 50%;
+    border-radius: 100%;
 }
 .pending{
     background-color: var(--main-orange);

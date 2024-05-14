@@ -31,14 +31,11 @@ const HomePage = () => {
                     placeholder="Pesquisar Nome do Instrutor"
                     id="search"
                     name="search"
-                    value=""
-                    onChange=""
                 />
                 <div className="searchButton-containe">
                 <button
                     title="Filtros"
                     size="medium"
-                    onClick=""
                     className="filterOpen-btn">
                     Filtros
                 </button>

@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faExclamation } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { useCoordenadorContext } from "../../services/CoordenadorContext"
+import { useCoordenadorContext } from "../../services/CoordenadorContext";
 import Button from "../../../../components/buttons/Button";
-import "../../../instrutor/components/table/table.css"
+import "../../../instrutor/components/table/table.css";
 
 const InstrutoresListTable = () => {
-    const { instructors } = useCoordenadorContext();
+    const { instructors, fetchInstructorSituation } = useCoordenadorContext();
 
     return (
         <table className='table'>
@@ -25,11 +25,12 @@ const InstrutoresListTable = () => {
                     <td>{data.matricula}</td>
                     <td>{data.nome}</td>
                     <td>{data.horasTrabalhadas} Horas</td>
-                    <td><Button title="Ver Registros" size="small" url={`/validate/${"1"}`}/></td>
+                    <td><Button title="Ver Registros" size="small" url={`/validate/${data.matricula}`}/></td>
+
                     <td><Button title="Adicionar Registro" size="small"/></td>
                     <td className="status-sphere-td">
-                        <Link to={`/validate/${data.id}`}>
-                        <FontAwesomeIcon className="status-sphere conclude" icon={faCheck} />
+                        <Link to={`/validate/${data.matricula}`}>
+                        <FontAwesomeIcon className={fetchInstructorSituation(data.matricula) === false ? "status-sphere conclude" : "status-sphere pending"} icon={fetchInstructorSituation(data.matricula) === false ? faCheck : faExclamation} />
                         </Link>
                     </td>
                 </tr>

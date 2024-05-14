@@ -5,8 +5,6 @@ import ValidationTable from "../../components/table/ValidationTable";
 
 const ValidateServices = () => {
     const { id } = useParams();
-    
-
     return (
         <Layout>
             <Header
@@ -21,21 +19,20 @@ const ValidateServices = () => {
                     placeholder="Pesquisar título de Serviço Educacional cadastrado pelo instrutor"
                     id="search"
                     name="search"
-                    value=""
-                    onChange=""
                 />
                 <div className="searchButton-containe">
                 <button
                     title="Filtros"
                     size="medium"
-                    onClick=""
                     className="filterOpen-btn">
                     Filtros
                 </button>
                 </div>
                 </div>
                 <div className="table-container">
-                    <ValidationTable />
+                    <ValidationTable
+                    id={id}
+                    />
                 </div>
             </main>
         </Layout>

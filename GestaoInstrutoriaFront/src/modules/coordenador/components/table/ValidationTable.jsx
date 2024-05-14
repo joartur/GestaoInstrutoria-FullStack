@@ -1,7 +1,24 @@
+import { useEffect, useState } from "react";
 import ValidationButtons from "./ValidationButtons";
+import { useCoordenadorContext } from "../../services/CoordenadorContext";
 import { faCheck, faXmark, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
-const ValidationTable = () => {
+const ValidationTable = ({id}) => {
+    const { fetchInstructorRegisters } = useCoordenadorContext();
+    const [instructorRegisters, setInstructorRegisters] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await fetchInstructorRegisters(id);
+                setInstructorRegisters(data);
+            } catch (error) {
+                console.error("Erro ao buscar registros do instrutor:", error);
+            }
+        };
+        fetchData();
+    }, [fetchInstructorRegisters, id]);
+
     return (
             <table className='table'>
                 <thead>
@@ -17,30 +34,38 @@ const ValidationTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Consultoria para agência de Design Zé do Boné</td>
-                        <td>29/01/2024</td>
-                        <td>13:30</td>
-                        <td>17:30</td>
-                        <td>4 Horas</td>
-                        <td>Consultoria</td>
-                        <td>Carlos Drummond</td>
-                        <td><ValidationButtons
-                        type="accept"
-                        icon={faCheck}
-                        legenda="VALIDAR SERVIÇO EDUCACIONAL"
-                        /></td>
-                        <td><ValidationButtons
-                        type="reject"
-                        icon={faXmark}
-                        legenda="REJEITAR SERVIÇO EDUCACIONAL"
-                        /></td>
-                        <td><ValidationButtons
-                        type="view"
-                        icon={faCircleInfo}
-                        legenda="VISUALIZAR SERVIÇO EDUCACIONAL"
-                        /></td>
+                {instructorRegisters.map(register => (
+                    <tr key={register.id}>
+                        <td>{register.titulo}</td>
+                        <td>{register.dataServico}</td>
+                        <td>{register.horaInicio}</td>
+                        <td>{register.horaFinal}</td>
+                        <td>{register.total}</td>
+                        <td>{register.tipo}</td>
+                        <td>{register.autor}</td>
+                        <td>
+                            <ValidationButtons
+                                type="accept"
+                                icon={faCheck}
+                                legenda="VALIDAR SERVIÇO EDUCACIONAL"
+                            />
+                        </td>
+                        <td>
+                            <ValidationButtons
+                                type="reject"
+                                icon={faXmark}
+                                legenda="REJEITAR SERVIÇO EDUCACIONAL"
+                            />
+                        </td>
+                        <td>
+                            <ValidationButtons
+                                type="view"
+                                icon={faCircleInfo}
+                                legenda="VISUALIZAR SERVIÇO EDUCACIONAL"
+                            />
+                        </td>
                     </tr>
+                ))}
                 </tbody>
             </table>
     )
