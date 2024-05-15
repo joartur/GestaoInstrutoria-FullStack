@@ -11,7 +11,7 @@ class RegistroServico {
 
     static async listarRegistrosPorInstrutor(matricula) {
         return await Registro.findAll({
-attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
+        attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
             include: [{
                 model: Servico,
                 attributes: ['id','nome'],
@@ -25,14 +25,14 @@ attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', '
                     matricula: sequelize.col('Registro.FKinstrutor')
                 }
             }],
-where: { FKinstrutor: matricula } });
+        where: { FKinstrutor: matricula } });
     }
 
     static async isRegistroEmAnalisePorId(id) {
         const registro = await Registro.findOne({ where: { id } });
         return registro && registro.status === 'Em Análise';
     }
-    
+
     static async isRegistroEmAnalisePorInstrutor(matricula) {
         const registros = await Registro.findAll({ where: { FKinstrutor: matricula } });
         return registros.some(registro => registro.status === 'Em Análise');
