@@ -1,5 +1,8 @@
 const Instrutor = require("../../instrutor/models/Instrutor.js");
 const Registro = require("../../administrador/models/Registro.js");
+const Servico = require("../../administrador/models/Servico.js");
+const sequelize = require('../../../config/connection.js');
+const { Op } = require('sequelize');
 
 class RegistroServico {
     static async listarInstrutoresPorArea(area) {
@@ -15,6 +18,12 @@ attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', '
                 where: {
                     id: sequelize.col('Registro.FKservico')
                 }
+            },{
+                model: Instrutor,
+                attributes: ['matricula','nome'],
+                where: {
+                    matricula: sequelize.col('Registro.FKinstrutor')
+                }
             }],
 where: { FKinstrutor: matricula } });
     }
@@ -23,6 +32,7 @@ where: { FKinstrutor: matricula } });
         const registro = await Registro.findOne({ where: { id } });
         return registro && registro.status === 'Em Análise';
     }
+    
     static async isRegistroEmAnalisePorInstrutor(matricula) {
         const registros = await Registro.findAll({ where: { FKinstrutor: matricula } });
         return registros.some(registro => registro.status === 'Em Análise');
@@ -33,7 +43,23 @@ where: { FKinstrutor: matricula } });
     }
 
     static async obterTotalRegistroPorId(id) {
-        const registro = await Registro.findOne({ where: { id } });
+        const registro = await Registro.findOne({
+            attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
+                include: [{
+                    model: Servico,
+                    attributes: ['id','nome'],
+                    where: {
+                        id: sequelize.col('Registro.FKservico')
+                    }
+                },{
+                    model: Instrutor,
+                    attributes: ['matricula','nome'],
+                    where: {
+                        matricula: sequelize.col('Registro.FKinstrutor')
+                    }
+                }],
+             where: { id } });
+
         return registro ? registro.total : null;
     }
 
@@ -65,11 +91,6 @@ where: { FKinstrutor: matricula } });
         }
 
         return `${somaHoras.toString().padStart(2, '0')}:${somaMinutos.toString().padStart(2, '0')}`;
-    }
-
-    static formatarDataParaBD(data) {
-        const partesData = data.split('-');
-        return `${partesData[2]}-${partesData[1]}-${partesData[0]}`;
     }
 
     static validarDescricao(desc) {
