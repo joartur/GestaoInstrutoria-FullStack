@@ -1,266 +1,308 @@
 {
-  "openapi": "3.0.0",
-  "info": {
-    "version": "1.0.0",
-    "title": "Documentação da API do Instrutor",
-    "description": "API para gerenciamento de instrutores e seus registros"
-  },
-  "servers": [
-    {
-      "url": "http://localhost:3001"
-    }
-  ],
-  "tags": [
-    {
-      "name": "Instrutor",
-      "description": "Operações relacionadas ao instrutor"
-    }
-  ],
-  "paths": {
-    "/instrutor/{matriculaI}": {
-      "get": {
-        "tags": ["Instrutor"],
-        "summary": "Obter informações para a página inicial do instrutor",
-        "parameters": [
-          {
-            "name": "matriculaI",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Matrícula do instrutor"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Dado requisitado foi encontrado.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/homeInstrutor"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Indica que um erro interno ocorreu."
-          }
-        }
-      }
+    "openapi": "3.0.0",
+    "info": {
+      "version": "1.2.0",
+      "title": "Documentação da API do Instrutor",
+      "description": "API para gerenciamento de instrutores e seus registros"
     },
-    "/instrutor/perfil/{matriculaI}": {
-      "get": {
-        "tags": ["Instrutor"],
-        "summary": "Obter os dados do perfil do instrutor",
-        "parameters": [
-          {
-            "name": "matriculaI",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Matrícula do instrutor"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Usuário encontrado",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/perfilInstrutor"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Usuário não encontrado"
-          },
-          "500": {
-            "description": "Erro interno ocorreu."
-          }
-        }
+    "servers": [
+      {
+        "url": "http://localhost:3001"
       }
-    },
-    "/instrutor/registros/{matriculaI}": {
-      "get": {
-        "tags": ["Instrutor"],
-        "summary": "Obter a lista de registros associados ao instrutor",
-        "parameters": [
-          {
-            "name": "matriculaI",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Matrícula do instrutor"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Registros encontrados",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/listaRegistros"
-                }
-              }
+    ],
+    "tags": [
+      {
+        "name": "Instrutor",
+        "description": "Operações relacionadas ao instrutor"
+      }
+    ],
+    "paths": {
+      "/instrutor/{matriculaI}": {
+        "get": {
+          "tags": ["Instrutor"],
+          "summary": "Obter informações para a página inicial do instrutor",
+          "parameters": [
+            {
+              "name": "matriculaI",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Matrícula do instrutor"
             }
-          },
-          "400": {
-            "description": "Bad Request - O registro não pôde ser encontrado",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                },
-                "examples": {
-                  "horaInvalida": {
-                    "value": {
-                      "error": "Filtro com horas inválidas."
-                    }
-                  },
-                  "DataInvalida": {
-                    "value": {
-                      "error": "Filtro com datas inválidas."
-                    }
+          ],
+          "responses": {
+            "200": {
+              "description": "Dado requisitado foi encontrado.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/homeInstrutor"
                   }
                 }
               }
+            },
+            "500": {
+              "description": "Indica que um erro interno ocorreu."
             }
-          },
-          "404": {
-            "description": "Registros não encontrados"
-          },
-          "500": {
-            "description": "Erro interno ocorreu."
           }
         }
       },
-      "post": {
-        "tags": ["Instrutor"],
-        "summary": "Busca por registros de acordo com os filtros determinados",
-        "parameters": [
-          {
-            "name": "matriculaI",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Matrícula do instrutor"
-          }
-        ],
-        "requestBody": {
-          "description": "Dados necessários para buscar os registros com base no desejado.",
-          "required": true,
-          "content": {
-            "application/json": {
+      "/instrutor/perfil/{matriculaI}": {
+        "get": {
+          "tags": ["Instrutor"],
+          "summary": "Obter os dados do perfil do instrutor",
+          "parameters": [
+            {
+              "name": "matriculaI",
+              "in": "path",
+              "required": true,
               "schema": {
-                "$ref": "#/components/schemas/requestFiltro"
-              }
+                "type": "string"
+              },
+              "description": "Matrícula do instrutor"
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Registros encontrados",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/listaRegistros"
+          ],
+          "responses": {
+            "200": {
+              "description": "Usuário encontrado",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/perfilInstrutor"
+                  }
                 }
               }
+            },
+            "404": {
+              "description": "Usuário não encontrado"
+            },
+            "500": {
+              "description": "Erro interno ocorreu."
             }
-          },
-          "404": {
-            "description": "Registros não encontrados."
-          },
-          "500": {
-            "description": "Erro interno ocorreu."
           }
         }
-      }
-    },
-    "/instrutor/registro/{matriculaI}": {
-      "post":{
-        "tags": ["Instrutor"],
-        "summary": "Criar um novo registro de serviço educacional do instrutor",
-        "parameters": [
-          {
-            "name": "matriculaI",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Matrícula do instrutor"
-          }
-        ],
-        "requestBody":{
-          "description": "Dados necessários para cadastrar o registro de serviço educacional.",
-          "content": {
-            "application/json": {
+      },
+      "/instrutor/registros/{matriculaI}": {
+        "get": {
+          "tags": ["Instrutor"],
+          "summary": "Obter a lista de registros associados ao instrutor",
+          "parameters": [
+            {
+              "name": "matriculaI",
+              "in": "path",
+              "required": true,
               "schema": {
-                "$ref": "#/components/schemas/requestRegistro"
-              }
+                "type": "string"
+              },
+              "description": "Matrícula do instrutor"
             }
-          }
-        },
-        "responses":{
-          "200": {
-            "description": "Registro cadastrado"
-          },
-          "400": {
-            "description": "Bad Request - O registro não pôde ser cadastrado",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                },
-                "examples": {
-                  "registroSobreposto": {
-                    "value": {
-                      "error": "Já existe um registro com horário sobreposto para este instrutor nesta data."
-                    }
+          ],
+          "responses": {
+            "200": {
+              "description": "Registros encontrados",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/listaRegistros"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request - O registro não pôde ser encontrado",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
                   },
-                  "dataInvalida": {
-                    "value": {
-                      "error": "Data inválida. Não é permitido cadastrar registros para datas futuras."
-                    }
-                  },
-                  "horaInvalida": {
-                    "value": {
-                      "error": "Registro com horas inválidas."
-                    }
-                  },
-                  "descricaoInvalida": {
-                    "value": {
-                      "error": "Descrição inválida."
-                    }
-                  },
-                  "tituloInvalido": {
-                    "value": {
-                      "error": "Limite de caracteres para o título foi atingido."
+                  "examples": {
+                    "horaInvalida": {
+                      "value": {
+                        "error": "Filtro com horas inválidas."
+                      }
+                    },
+                    "DataInvalida": {
+                      "value": {
+                        "error": "Filtro com datas inválidas."
+                      }
                     }
                   }
                 }
               }
+            },
+            "404": {
+              "description": "Registros não encontrados"
+            },
+            "500": {
+              "description": "Erro interno ocorreu."
+            }
+          }
+        },
+        "post": {
+          "tags": ["Instrutor"],
+          "summary": "Busca por registros de acordo com os filtros determinados",
+          "parameters": [
+            {
+              "name": "matriculaI",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Matrícula do instrutor"
+            }
+          ],
+          "requestBody": {
+            "description": "Dados necessários para buscar os registros com base no desejado.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/requestFiltro"
+                }
+              }
             }
           },
-          "500": {
-            "description": "Erro interno ocorreu."
+          "responses": {
+            "200": {
+              "description": "Registros encontrados",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/listaRegistros"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Registros não encontrados."
+            },
+            "500": {
+              "description": "Erro interno ocorreu."
+            }
           }
         }
-      }
-    },
-    "/instrutor/registro/{matriculaI}/{registroId}": {
-      "get": {
-        "tags": ["Instrutor"],
-          "summary": "Obter os dados de um registro associado ao instrutor (visualização)",
+      },
+      "/instrutor/registro/{matriculaI}": {
+        "post":{
+          "tags": ["Instrutor"],
+          "summary": "Criar um novo registro de serviço educacional do instrutor",
+          "parameters": [
+            {
+              "name": "matriculaI",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Matrícula do instrutor"
+            }
+          ],
+          "requestBody":{
+            "description": "Dados necessários para cadastrar o registro de serviço educacional.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/requestRegistro"
+                }
+              }
+            }
+          },
+          "responses":{
+            "200": {
+              "description": "Registro cadastrado"
+            },
+            "400": {
+              "description": "Bad Request - O registro não pôde ser cadastrado",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  },
+                  "examples": {
+                    "registroSobreposto": {
+                      "value": {
+                        "error": "Já existe um registro com horário sobreposto para este instrutor nesta data."
+                      }
+                    },
+                    "dataInvalida": {
+                      "value": {
+                        "error": "Data inválida. Não é permitido cadastrar registros para datas futuras."
+                      }
+                    },
+                    "horaInvalida": {
+                      "value": {
+                        "error": "Registro com horas inválidas."
+                      }
+                    },
+                    "descricaoInvalida": {
+                      "value": {
+                        "error": "Descrição inválida."
+                      }
+                    },
+                    "tituloInvalido": {
+                      "value": {
+                        "error": "Limite de caracteres para o título foi atingido."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno ocorreu."
+            }
+          }
+        }
+      },
+      "/instrutor/registro/{matriculaI}/{registroId}": {
+        "get": {
+          "tags": ["Instrutor"],
+            "summary": "Obter os dados de um registro associado ao instrutor (visualização)",
+            "parameters": [
+              {
+                "name": "matriculaI",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Matrícula do instrutor"
+              },
+              {
+                "name": "registroId",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                },
+                "description": "ID do registro a ser visualizado"
+              }
+            ],
+            "responses":{
+              "200": {
+                "description": "Registro encontrado",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/listaRegistro"
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "Registro não encontrado"
+              },
+              "500": {
+                "description": "Indica que um erro interno ocorreu."
+              }
+            }
+        },
+        "put": {
+          "tags": ["Instrutor"],
+          "summary": "Atualizar dados de um registro de serviço educacional do instrutor",
           "parameters": [
             {
               "name": "matriculaI",
@@ -278,16 +320,57 @@
               "schema": {
                 "type": "string"
               },
-              "description": "ID do registro a ser visualizado"
+              "description": "ID do registro a ser atualizado"
             }
           ],
-          "responses":{
+          "requestBody": {
+            "description": "Dados necessários para atualizar o registro.",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/requestRegistro"
+                }
+              }
+            }
+          },
+          "responses": {
             "200": {
-              "description": "Registro encontrado",
+              "description": "Registro atualizado com sucesso"
+            },
+            "400": {
+              "description": "Bad Request - O registro não pôde ser cadastrado",
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "#/components/schemas/listaRegistro"
+                    "$ref": "#/components/schemas/Error"
+                  },
+                  "examples": {
+                    "registroSobreposto": {
+                      "value": {
+                        "error": "Já existe um registro com horário sobreposto para este instrutor nesta data."
+                      }
+                    },
+                    "dataInvalida": {
+                      "value": {
+                        "error": "Data inválida. Não é permitido cadastrar registros para datas futuras."
+                      }
+                    },
+                    "horaInvalida": {
+                      "value": {
+                        "error": "Registro com horas inválidas."
+                      }
+                    },
+                    "descricaoInvalida": {
+                      "value": {
+                        "error": "Descrição inválida."
+                      }
+                    },
+                    "tituloInvalido": {
+                      "value": {
+                        "error": "Limite de caracteres para o título foi atingido."
+                      }
+                    }
                   }
                 }
               }
@@ -296,373 +379,331 @@
               "description": "Registro não encontrado"
             },
             "500": {
-              "description": "Indica que um erro interno ocorreu."
-            }
-          }
-      },
-      "put": {
-        "tags": ["Instrutor"],
-        "summary": "Atualizar dados de um registro de serviço educacional do instrutor",
-        "parameters": [
-          {
-            "name": "matriculaI",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Matrícula do instrutor"
-          },
-          {
-            "name": "registroId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "ID do registro a ser atualizado"
-          }
-        ],
-        "requestBody": {
-          "description": "Dados necessários para atualizar o registro.",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/requestRegistro"
-              }
+              "description": "Erro interno no servidor"
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "Registro atualizado com sucesso"
-          },
-          "400": {
-            "description": "Bad Request - O registro não pôde ser cadastrado",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
+        "delete": {
+          "tags": ["Instrutor"],
+          "summary": "Excluir um registro do instrutor",
+          "parameters": [
+            {
+              "name": "matriculaI",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Matrícula do instrutor"
+            },
+            {
+              "name": "registroId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID do registro a ser excluído"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Registro excluído com sucesso.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/exclusaoRegistro"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Não é permitido excluir registro com status de 'Validado' ou 'Parcialmente Validado'"
+            },
+            "404": {
+              "description": "Registro não encontrado"
+            },
+            "500": {
+              "description": "Indica que um erro interno ocorreu."
+            }
+          }
+        }
+      },
+      "/instrutor/test/{matriculaI}": {
+        "get": {
+          "tags": ["Instrutor"],
+          "summary": "Obter todos os dados de registros educacionais cadastrados do banco.",
+          "parameters": [
+            {
+              "name": "matriculaI",
+              "in": "path",
+              "required": false,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Matrícula do instrutor"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/listaRegistros"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Registros não encontrados"
+            },
+            "500": {
+              "description": "Indica que um erro interno ocorreu."
+            }
+          }
+        }
+      },
+      "/instrutor/servicos/{matriculaI}": {
+        "get": {
+          "tags": ["Instrutor"],
+          "summary": "Obter a lista de serviço educacional do banco.",
+          "parameters": [
+            {
+              "name": "matriculaI",
+              "in": "path",
+              "required": false,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Matrícula do instrutor"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/servicos"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Registros não encontrados"
+            },
+            "500": {
+              "description": "Indica que um erro interno ocorreu."
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "homeInstrutor": {
+          "type": "object",
+          "properties": {
+            "datasServico": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "dataServico": { "type": "string", "format": "date", "example": "2024-03-01" }
                 },
-                "examples": {
-                  "registroSobreposto": {
-                    "value": {
-                      "error": "Já existe um registro com horário sobreposto para este instrutor nesta data."
-                    }
-                  },
-                  "dataInvalida": {
-                    "value": {
-                      "error": "Data inválida. Não é permitido cadastrar registros para datas futuras."
-                    }
-                  },
-                  "horaInvalida": {
-                    "value": {
-                      "error": "Registro com horas inválidas."
-                    }
-                  },
-                  "descricaoInvalida": {
-                    "value": {
-                      "error": "Descrição inválida."
-                    }
-                  },
-                  "tituloInvalido": {
-                    "value": {
-                      "error": "Limite de caracteres para o título foi atingido."
+                "required": ["dataServico"]
+              }
+            },
+            "horasServicos": { "type": "string", "format": "time", "example": "34:50:00" },
+            "horasTrab": { "type": "string", "format": "time", "example": "121:30:00" },
+            "saldoHoras": { "type": "string", "format": "time", "example": "00:00:00" }
+          },
+          "required": ["registrosRecentes", "datasServico", "horasServicos", "saldoHoras"]
+        },
+        "perfilInstrutor": {
+          "type": "object",
+          "properties": {
+            "nome": { "type": "string", "example": "Maria Souza" },
+            "email": { "type": "string", "format": "email", "example": "maria.souza@example.com" },
+            "unidade": { "type": "string", "example": "Unidade Alecrim" },
+            "area": { "type": "string", "example": "Gastronomia" }
+          },
+          "required": ["nome", "email", "unidade", "area"]
+        },
+        "requestRegistro":{
+          "type": "object",
+          "properties": {
+            "dataServico": {
+              "type": "string",
+              "format": "date",
+              "example": "2024-03-04"
+            },
+            "horaInicio": {
+              "type": "string",
+              "format": "time",
+              "example": "03:00"
+            },
+            "horaFinal": {
+              "type": "string",
+              "format": "time",
+              "example": "06:45"
+            },
+            "titulo": {
+              "type": "string",
+              "example": "Workshop de Gastronomia parte 2"
+            },
+            "descricao": {
+              "type": "string",
+              "example": "Workshop prático de técnicas de temperagem para a Páscoa."
+            },
+            "FKservico": {
+              "type": "string",
+              "example": "2"
+            }
+          },
+          "required": ["dataServico", "horaInicio", "horaFinal", "titulo", "FKservico"]
+        },      
+        "listaRegistros": {
+          "type": "object",
+          "properties": {
+            "msg": { "type": "string", "example": "Registros encontrados." },
+            "data": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "integer", "example": 3 },
+                  "titulo": { "type": "string", "example": "1º consulta com o zé boné" },
+                  "dataServico": { "type": "string", "format": "date", "example": "2024-02-25" },
+                  "horaInicio": { "type": "string", "format": "time", "example": "06:00:00" },
+                  "horaFinal": { "type": "string", "format": "time", "example": "09:30:00" },
+                  "total": { "type": "string", "example": "03:30:00" },
+                  "status": { "type": "string", "example": "Validado" },
+                  "Servico": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "integer", "example": 1 },
+                      "nome": { "type": "string", "example": "Consultoria" }
+                    },
+                    "required": ["id", "nome"]
+                  }
+                },
+                "required": ["id", "titulo", "dataServico", "horaInicio", "horaFinal", "total", "status", "Servico"]
+              }
+            }
+          },
+          "required": ["msg", "data"]
+        },
+        "listaRegistro": {
+          "type": "object",
+          "properties": {
+            "msg": {
+              "type": "string",
+              "example": "Registro encontrado"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 3
+                },
+                "dataServico": {
+                  "type": "string",
+                  "format": "date",
+                  "example": "2024-02-25"
+                },
+                "horaInicio": {
+                  "type": "string",
+                  "format": "time",
+                  "example": "06:00:00"
+                },
+                "horaFinal": {
+                  "type": "string",
+                  "format": "time",
+                  "example": "09:30:00"
+                },
+                "total": {
+                  "type": "string",
+                  "example": "03:30:00"
+                },
+                "titulo": {
+                  "type": "string",
+                  "example": "1º consulta com o zé boné"
+                },
+                "descricao": {
+                  "type": "string",
+                  "example": "consulta de recomendação nutricional"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "Validado"
+                },
+                "justificativa": {
+                  "type": "string",
+                  "example": ""
+                },
+                "FKinstrutor": {
+                  "type": "string",
+                  "example": "789012"
+                },
+                "FKcoordenador": {
+                  "type": "string",
+                  "example": "019283"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2024-03-12T21:07:04.000Z"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2024-03-12T21:43:42.000Z"
+                },
+                "Servico": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "nome": {
+                      "type": "string",
+                      "example": "Consultoria"
                     }
                   }
                 }
               }
             }
           },
-          "404": {
-            "description": "Registro não encontrado"
-          },
-          "500": {
-            "description": "Erro interno no servidor"
+          "required": ["msg", "data"]
+        },
+        "exclusaoRegistro": {
+          "type": "object",
+          "required": ["msg"],
+          "properties": {
+            "msg": {
+              "type": "string",
+              "example": "Registro excluído com sucesso"
+            }
           }
-        }
-      },
-      "delete": {
-        "tags": ["Instrutor"],
-        "summary": "Excluir um registro do instrutor",
-        "parameters": [
-          {
-            "name": "matriculaI",
-            "in": "path",
-            "required": true,
-            "schema": {
+        },
+        "Error": {
+          "type": "object",
+          "properties": {
+            "error": {
               "type": "string"
-            },
-            "description": "Matrícula do instrutor"
-          },
-          {
-            "name": "registroId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            },
-            "description": "ID do registro a ser excluído"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Registro excluído com sucesso.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/exclusaoRegistro"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Não é permitido excluir registro com status de 'Validado' ou 'Parcialmente Validado'"
-          },
-          "404": {
-            "description": "Registro não encontrado"
-          },
-          "500": {
-            "description": "Indica que um erro interno ocorreu."
-          }
-        }
-      }
-    },
-    "/instrutor/test/{matriculaI}": {
-      "get": {
-        "tags": ["Instrutor"],
-        "summary": "Obter todos os dados de registros educacionais cadastrados do banco.",
-        "parameters": [
-          {
-            "name": "matriculaI",
-            "in": "path",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Matrícula do instrutor"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/listaRegistros"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Registros não encontrados"
-          },
-          "500": {
-            "description": "Indica que um erro interno ocorreu."
-          }
-        }
-      }
-    },
-    "/instrutor/servicos/{matriculaI}": {
-      "get": {
-        "tags": ["Instrutor"],
-        "summary": "Obter a lista de serviço educacional do banco.",
-        "parameters": [
-          {
-            "name": "matriculaI",
-            "in": "path",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Matrícula do instrutor"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/servicos"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Registros não encontrados"
-          },
-          "500": {
-            "description": "Indica que um erro interno ocorreu."
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "homeInstrutor": {
-        "type": "object",
-        "properties": {
-          "datasServico": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "dataServico": { "type": "string", "format": "date", "example": "2024-03-01" }
-              },
-              "required": ["dataServico"]
-            }
-          },
-          "horasServicos": { "type": "string", "format": "time", "example": "34:50:00" },
-          "horasTrab": { "type": "string", "format": "time", "example": "121:30:00" },
-          "saldoHoras": { "type": "string", "format": "time", "example": "00:00:00" }
-        },
-        "required": ["registrosRecentes", "datasServico", "horasServicos", "saldoHoras"]
-      },
-      "perfilInstrutor": {
-        "type": "object",
-        "properties": {
-          "nome": { "type": "string", "example": "Maria Souza" },
-          "email": { "type": "string", "format": "email", "example": "maria.souza@example.com" },
-          "unidade": { "type": "string", "example": "Unidade Alecrim" },
-          "area": { "type": "string", "example": "Gastronomia" }
-        },
-        "required": ["nome", "email", "unidade", "area"]
-      },
-      "requestRegistro":{
-        "type": "object",
-        "properties": {
-          "dataServico": {
-            "type": "string",
-            "format": "date",
-            "example": "2024-03-04"
-          },
-          "horaInicio": {
-            "type": "string",
-            "format": "time",
-            "example": "03:00"
-          },
-          "horaFinal": {
-            "type": "string",
-            "format": "time",
-            "example": "06:45"
-          },
-          "titulo": {
-            "type": "string",
-            "example": "Workshop de Gastronomia parte 2"
-          },
-          "descricao": {
-            "type": "string",
-            "example": "Workshop prático de técnicas de temperagem para a Páscoa."
-          },
-          "FKservico": {
-            "type": "string",
-            "example": "2"
-          }
-        },
-        "required": ["dataServico", "horaInicio", "horaFinal", "titulo", "FKservico"]
-      },      
-      "listaRegistros": {
-        "type": "object",
-        "properties": {
-          "msg": { "type": "string", "example": "Registros encontrados." },
-          "data": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "id": { "type": "integer", "example": 3 },
-                "titulo": { "type": "string", "example": "1º consulta com o zé boné" },
-                "dataServico": { "type": "string", "format": "date", "example": "2024-02-25" },
-                "horaInicio": { "type": "string", "format": "time", "example": "06:00:00" },
-                "horaFinal": { "type": "string", "format": "time", "example": "09:30:00" },
-                "total": { "type": "string", "example": "03:30:00" },
-                "status": { "type": "string", "example": "Validado" },
-                "Servico": {
-                  "type": "object",
-                  "properties": {
-                    "id": { "type": "integer", "example": 1 },
-                    "nome": { "type": "string", "example": "Consultoria" }
-                  },
-                  "required": ["id", "nome"]
-                }
-              },
-              "required": ["id", "titulo", "dataServico", "horaInicio", "horaFinal", "total", "status", "Servico"]
             }
           }
         },
-        "required": ["msg", "data"]
-      },
-      "listaRegistro": {
-        "type": "object",
-        "properties": {
-          "msg": {
-            "type": "string",
-            "example": "Registro encontrado"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "integer",
-                "example": 3
-              },
-              "dataServico": {
-                "type": "string",
-                "format": "date",
-                "example": "2024-02-25"
-              },
-              "horaInicio": {
-                "type": "string",
-                "format": "time",
-                "example": "06:00:00"
-              },
-              "horaFinal": {
-                "type": "string",
-                "format": "time",
-                "example": "09:30:00"
-              },
-              "total": {
-                "type": "string",
-                "example": "03:30:00"
-              },
-              "titulo": {
-                "type": "string",
-                "example": "1º consulta com o zé boné"
-              },
-              "descricao": {
-                "type": "string",
-                "example": "consulta de recomendação nutricional"
-              },
-              "status": {
-                "type": "string",
-                "example": "Validado"
-              },
-              "justificativa": {
-                "type": "string",
-                "example": ""
-              },
-              "FKinstrutor": {
-                "type": "string",
-                "example": "789012"
-              },
-              "FKcoordenador": {
-                "type": "string",
-                "example": "019283"
-              },
-              "createdAt": {
-                "type": "string",
-                "format": "date-time",
-                "example": "2024-03-12T21:07:04.000Z"
-              },
-              "updatedAt": {
-                "type": "string",
-                "format": "date-time",
-                "example": "2024-03-12T21:43:42.000Z"
-              },
-              "Servico": {
+        "servicos": {
+          "type": "object",
+          "properties":{
+            "servico":{
+              "type": "array",
+              "items": {
                 "type": "object",
                 "properties": {
                   "id": {
@@ -671,78 +712,38 @@
                   },
                   "nome": {
                     "type": "string",
-                    "example": "Consultoria"
+                    "example":"Consultoria"
                   }
-                }
+                },
+                "required": ["id", "nome"]
               }
             }
           }
         },
-        "required": ["msg", "data"]
-      },
-      "exclusaoRegistro": {
-        "type": "object",
-        "required": ["msg"],
-        "properties": {
-          "msg": {
-            "type": "string",
-            "example": "Registro excluído com sucesso"
-          }
-        }
-      },
-      "Error": {
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "string"
-          }
-        }
-      },
-      "servicos": {
-        "type": "object",
-        "properties":{
-          "servico":{
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer",
-                  "example": 1
-                },
-                "nome": {
-                  "type": "string",
-                  "example":"Consultoria"
-                }
-              },
-              "required": ["id", "nome"]
+        "requestFiltro":{
+          "type": "object",
+          "properties": {
+            "dataInicioFiltro": {
+              "type": "string",
+              "format": "date",
+              "description": "Data de início para filtro (opcional)",
+              "example": "2024-02-23"
+            },
+            "dataFinalFiltro": {
+              "type": "string",
+              "format": "date",
+              "description": "Data final para filtro (opcional)",
+              "example": "2024-02-25"
+            },
+            "FKservico": {
+              "type": "string",
+              "description": "Chave estrangeira para o serviço",
+              "example": "1, 3"
             }
-          }
-        }
-      },
-      "requestFiltro":{
-        "type": "object",
-        "properties": {
-          "dataInicioFiltro": {
-            "type": "string",
-            "format": "date",
-            "description": "Data de início para filtro (opcional)",
-            "example": "2024-02-23"
           },
-          "dataFinalFiltro": {
-            "type": "string",
-            "format": "date",
-            "description": "Data final para filtro (opcional)",
-            "example": "2024-02-25"
-          },
-          "FKservico": {
-            "type": "string",
-            "description": "Chave estrangeira para o serviço",
-            "example": "1, 3"
-          }
-        },
-        "required": []
-      }      
+          "required": []
+        }      
+      }
     }
   }
-}
+  
