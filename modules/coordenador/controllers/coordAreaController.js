@@ -7,7 +7,16 @@ class RegistroServico {
     }
 
     static async listarRegistrosPorInstrutor(matricula) {
-        return await Registro.findAll({ where: { FKinstrutor: matricula } });
+        return await Registro.findAll({
+attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
+            include: [{
+                model: Servico,
+                attributes: ['id','nome'],
+                where: {
+                    id: sequelize.col('Registro.FKservico')
+                }
+            }],
+where: { FKinstrutor: matricula } });
     }
 
     static async isRegistroEmAnalisePorId(id) {
