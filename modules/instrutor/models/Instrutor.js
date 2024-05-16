@@ -20,6 +20,10 @@ Instrutor.init({
             isEmail: true,
         }
     },
+    senha: {       
+        type: DataTypes.STRING(128),
+        allowNull: false,
+    },
     unidade: {
         type: DataTypes.STRING(50),
         allowNull: false
