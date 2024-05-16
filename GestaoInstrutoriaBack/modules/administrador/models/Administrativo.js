@@ -19,6 +19,10 @@ Administrativo.init({
         validate:{
             isEmail: true,
         }
+    },
+    senha: {       
+        type: DataTypes.STRING(128),
+        allowNull: false,
     }
 }, {
     sequelize,
