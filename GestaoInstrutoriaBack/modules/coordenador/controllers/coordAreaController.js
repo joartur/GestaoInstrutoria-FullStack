@@ -11,7 +11,7 @@ class RegistroServico {
 
     static async listarRegistrosPorInstrutor(matricula) {
         return await Registro.findAll({
-        attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
+        attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total'],
             include: [{
                 model: Servico,
                 attributes: ['id','nome'],
@@ -208,7 +208,7 @@ class CoordAreaController {
 
             // Determinar o novo status do registro
             let status;
-            if (total === 0) {
+            if (total == "00:00:00") {
                 status = "Recusado";
             } else if (total < totalOriginal) {
                 status = "Parcialmente validado";

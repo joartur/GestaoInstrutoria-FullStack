@@ -4,13 +4,13 @@ import { useCoordenadorContext } from "../../services/CoordenadorContext";
 import { faCheck, faXmark, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
 const ValidationTable = ({id}) => {
-    const { fetchInstructorRegisters } = useCoordenadorContext();
+    const { fetchInstructorRegisters, validateInstructorRegister, partiallyValidateInstructorRegister } = useCoordenadorContext();
     const [instructorRegisters, setInstructorRegisters] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await fetchInstructorRegisters("123456");
+                const data = await fetchInstructorRegisters(id);
                 setInstructorRegisters(data);
             } catch (error) {
                 console.error("Erro ao buscar registros do instrutor:", error);
@@ -18,6 +18,14 @@ const ValidationTable = ({id}) => {
         };
         fetchData();
     }, [fetchInstructorRegisters, id]);
+
+    const handleAccept = (registerId) => {
+        validateInstructorRegister(registerId, "123456");
+    };
+    const handleRefuse = (registerId) => {
+        partiallyValidateInstructorRegister(registerId, "123456", "justificativa válida", "00:00:00");
+    };
+    
 
     return (
             <table className='table'>
@@ -29,7 +37,6 @@ const ValidationTable = ({id}) => {
                         <th>Hora Final</th>
                         <th>Total de Horas</th>
                         <th>Tipo</th>
-                        <th>Autor</th>
                         <th colSpan={3}>Ações</th>
                     </tr>
                 </thead>
@@ -41,13 +48,13 @@ const ValidationTable = ({id}) => {
                         <td>{register.horaInicio}</td>
                         <td>{register.horaFinal}</td>
                         <td>{register.total}</td>
-                        <td>{register.tipo}</td>
-                        <td>{register.autor}</td>
+                        <td>{register.Servico.nome}</td>
                         <td>
                             <ValidationButtons
                                 type="accept"
                                 icon={faCheck}
                                 legenda="VALIDAR SERVIÇO EDUCACIONAL"
+                                onClick={() => handleAccept(register.id)}
                             />
                         </td>
                         <td>
@@ -55,6 +62,7 @@ const ValidationTable = ({id}) => {
                                 type="reject"
                                 icon={faXmark}
                                 legenda="REJEITAR SERVIÇO EDUCACIONAL"
+                                onClick={() => handleRefuse(register.id)}
                             />
                         </td>
                         <td>

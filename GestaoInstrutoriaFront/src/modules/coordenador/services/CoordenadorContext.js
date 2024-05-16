@@ -27,6 +27,7 @@ export const CoordenadorProvider = ({ children }) => {
     const fetchInstructorRegisters = async (matricula) => {
         try {
           const instructorRegisterResponse = await axios.get(`http://localhost:3001/coordArea/listarRegistros/${matricula}`);
+          console.log(instructorRegisterResponse.data)
           return instructorRegisterResponse.data
         } catch (error) {
           console.error('Error fetching records:', error);
@@ -48,7 +49,20 @@ export const CoordenadorProvider = ({ children }) => {
       try {
         // Aqui você pode preparar os dados para enviar, se necessário
         const response = await axios.put(`http://localhost:3001/coordArea/validarRegistro/${id}/${FKcoordenador}`);
-        console.log(response.data)
+        console.log(response.data, "VALIDADO COM SUCESSO!")
+      } catch (error) {
+        console.error('Erro ao validar registro:', error);
+      }
+    };
+
+    //Validar um serviço educacional parcialmente
+    const partiallyValidateInstructorRegister = async (id, FKcoordenador, justificativa, total) => {
+      try {
+        const response = await axios.put(`http://localhost:3001/coordArea/validarParcialmenteRegistro/${id}/${FKcoordenador}`, {
+          justificativa: justificativa,
+          total: total
+        });
+        console.log(response.data, "VALIDADO PARCIALMENTE COM SUCESSO!");
       } catch (error) {
         console.error('Erro ao validar registro:', error);
       }
@@ -58,7 +72,8 @@ export const CoordenadorProvider = ({ children }) => {
         instructors,
         fetchInstructorRegisters,
         fetchInstructorSituation,
-        validateInstructorRegister
+        validateInstructorRegister,
+        partiallyValidateInstructorRegister
     }
     return (
         <CoordenadorContext.Provider value={value}>

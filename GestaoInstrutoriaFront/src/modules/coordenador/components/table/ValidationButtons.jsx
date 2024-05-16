@@ -8,7 +8,7 @@ const ValidationButtons = (props) => {
     //legenda: descrição do botão ao passar o mouse em cima
     //icon: ícone do font awesome
     return (
-    <div className={`validation-button ${props.type}`}>
+    <div className={`validation-button ${props.type}`} onClick={props.onClick}>
             <Link to={props.url} title={props.legenda}>
             <FontAwesomeIcon icon={props.icon} className="icon"/>
             </Link>
