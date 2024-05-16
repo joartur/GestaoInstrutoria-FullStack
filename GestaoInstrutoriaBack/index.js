@@ -7,6 +7,9 @@ const coordAreaRouter = require('./modules/coordenador/routes/coordAreaRoutes.js
 const instrutorRouter = require('./modules/instrutor/routes/instrutorRoutes.js');
 const swaggerDoc = require('./swagger.json');
 
+// Importando métricas
+const { register, httpRequestDurationMicroseconds } = require('./metrics');
+
 const app = express();
 const port = 3001;
 
@@ -22,6 +25,21 @@ app.use('/coordArea', coordAreaRouter);
 
 // Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+
+// Endpoint de métricas para Prometheus
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
+});
+
+// Middleware para medir a duração de requisições HTTP
+app.use((req, res, next) => {
+  const end = httpRequestDurationMicroseconds.startTimer();
+  res.on('finish', () => {
+    end({ route: req.path, code: res.statusCode, method: req.method });
+  });
+  next();
+});
 
 // Middleware para tratamento de erros
 app.use((err, req, res, next) => {
