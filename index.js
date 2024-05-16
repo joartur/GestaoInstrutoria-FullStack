@@ -1,11 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-const swaggerUi = require('swagger-ui-express');
 const sequelize = require('./config/connection.js');
 const servicoRouter = require('./modules/administrador/routes/servicoRoutes.js');
 const coordAreaRouter = require('./modules/coordenador/routes/coordAreaRoutes.js');
 const instrutorRouter = require('./modules/instrutor/routes/instrutorRoutes.js');
-const swaggerDoc = require('./swagger.json');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDoc = require('./swagger');
+const express = require('express');
+const cors = require('cors');
 
 const app = express();
 const port = 3001;
@@ -15,7 +15,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Rotas dos módulos
+// Endpoint de métricas para Prometheus
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
+});
+
+// Rotas
 app.use('/servico', servicoRouter);
 app.use('/instrutor', instrutorRouter);
 app.use('/coordArea', coordAreaRouter);

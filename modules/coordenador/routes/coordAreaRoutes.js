@@ -5,17 +5,24 @@ const router = express.Router();
 
 router.use(override('_method'));
 
-// Rota GET para listar os registros de um determinado instrutor
-router.get('/listarRegistros/:matricula', (req, res) => {
-    coordArea.listarRegistros(req, res);
-});
+// seria melhor se tivesse a matricula do coordenador em todas as rotas
+
+// rota GET de perfil do coordenador
+
+// rota GET da home do coordenador, com as response sintetizada.
 
 // Rota GET para saber a situação de determinado instrutor
 router.get('/verificaSituacao/:matricula', (req, res) => {
     coordArea.verificaSituacao(req, res);
 });
 
-// Rota GET para listar os Instrutores
+// Rota GET para listar os registros de um determinado instrutor
+router.get('/listarRegistros/:matricula', (req, res) => {
+    coordArea.listarRegistros(req, res);
+});
+
+// Rota GET para listar os instrutores
+// da pra fazer com a matricula do coordenador
 router.get('/listarInstrutores/:area', (req, res) => {
     coordArea.listarInstrutores(req, res);
 });
