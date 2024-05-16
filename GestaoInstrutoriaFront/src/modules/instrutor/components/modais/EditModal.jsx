@@ -20,6 +20,8 @@ const EditModal = ({ onCancel, onClick }) => {
                     </Link>
                     <button type="submit" className="edit-btn" onClick={onClick}>Continuar Edição</button>
                 </div>
+                <p>Aperte "Esc" para Continuar</p>
+
             </div>
         </div>
         </div>

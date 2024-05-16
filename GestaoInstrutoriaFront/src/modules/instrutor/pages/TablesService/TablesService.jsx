@@ -9,17 +9,18 @@ import Table from '../../components/table/Table';
 import FilterModal from '../../components/modais/FilterModal';
 import Pagination from '../../../../components/pagination/Pagination';
 import Loading from '../../pages/loading/Loading';
+import useEscapeKeyPress from "../../../../hooks/useEscapeKeyPress";
 import moment from 'moment';
 import 'moment/locale/pt-br';
 import "./tablesService.css"
 
 const TablesService = () => {
     
+    //Importa os dados dos serviços educacionais cadastrados pelo instrutor através da contet API
     const { data } = useDataContext();
 
     const [situacao, setSituacao] = useState('');
 
-    
     //formata hora e data dos dados recebeidos da API
     const formattedServices = data.map(service => {
         const dataServico = moment(service.dataServico).format('DD/MM/YYYY');
@@ -119,22 +120,16 @@ const TablesService = () => {
 
     // Estados e funções relacionadas ao modal de filtro
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
-    //apertar esct para sair do modal de filtro
-    const handleKeyPress = (e) => {
-        if (e.key === 'Escape') {
-            setIsModalOpen(false)
-        }
+
+    const openModal = () => {
+    setIsModalOpen(true)
     };
-    useEffect(() => {
-        if (isModalOpen) {
-          document.addEventListener('keydown', handleKeyPress);
-    }
-    return () => {
-          document.removeEventListener('keydown', handleKeyPress);
-        };
-    }, [isModalOpen]);
+    
+    const closeModal = () => {
+        setIsModalOpen(false)
+    };
+    //Chamada de Custom Hook para fechar o modal ao apertar ESC
+    useEscapeKeyPress(closeModal, [isModalOpen]);
 
     // Função para lidar com a mudança no filtro de situação
     const handleChange = (event) => {
@@ -143,8 +138,6 @@ const TablesService = () => {
         setCurrentPage(1);
         filterData(searchTerm, situacaoValue); // Atualiza o filtro com a situação selecionada
     };
-
-    
 
     if (!data) {
         return <Loading />

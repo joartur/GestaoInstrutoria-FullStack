@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import TableSituation from "./TableSituation"
 import ActionButton from "./ActionButton"
 import DeleteModal from '../modais/DeleteModal';
+import useEscapeKeyPress from "../../../../hooks/useEscapeKeyPress";
 import "./table.css"
 
 const Table = ({formattedData, handleSort, sortDirection, sortBy}) => {
@@ -27,20 +28,12 @@ const Table = ({formattedData, handleSort, sortDirection, sortBy}) => {
         }
     };
 
-    //Função para cancelar modal de deletar ao apertar "ESC"
-    const handleKeyPress = (e) => {
-        if (e.key === 'Escape') {
-            setServiceIdToDelete(null);
-        }
+    //Fecha o modal ao apertar "ESC"  
+    const closeModal = () => {
+        setServiceIdToDelete(null);
     };
-    useEffect(() => {
-        if (serviceIdToDelete != null) {
-          document.addEventListener('keydown', handleKeyPress);
-    }
-    return () => {
-          document.removeEventListener('keydown', handleKeyPress);
-        };
-    }, [serviceIdToDelete]);
+    useEscapeKeyPress(closeModal, [serviceIdToDelete]);
+
 
     return (
         <div className="table-container">

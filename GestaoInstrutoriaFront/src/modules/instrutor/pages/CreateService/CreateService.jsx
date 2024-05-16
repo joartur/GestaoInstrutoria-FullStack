@@ -7,6 +7,7 @@ import { useDataContext } from '../../services/DataContext';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import ConfirmationModal from "../../components/modais/ConfirmationModal";
+import useEscapeKeyPress from "../../../../hooks/useEscapeKeyPress";
 import * as yup from 'yup';
 import "./createService.css"
 
@@ -21,11 +22,8 @@ function CreateService () {
     const closeModal = () => {
         setServiceCreated(false);
     };
-    const handleKeyPress = (e) => {
-        if (e.key === 'Escape') {
-          closeModal();
-        }
-    };
+    //Chamada de Custom Hook para fechar o modal ao apertar ESC
+    useEscapeKeyPress(closeModal, [serviceCreated]);
 
     //Validação do formulário com biblioteca YUP
     const schema = yup.object().shape({
@@ -48,15 +46,6 @@ function CreateService () {
         reset()
         setInputCount(0)
     };
-
-    useEffect(() => {
-        if (serviceCreated) {
-          document.addEventListener('keydown', handleKeyPress);
-    }
-    return () => {
-          document.removeEventListener('keydown', handleKeyPress);
-        };
-    }, [serviceCreated]);
 
     return (
         <Layout>

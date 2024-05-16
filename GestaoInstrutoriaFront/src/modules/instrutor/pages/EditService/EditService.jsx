@@ -9,17 +9,23 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import EditModal from "../../components/modais/EditModal";
 import Loading from '../../pages/loading/Loading';
+import useEscapeKeyPress from "../../../../hooks/useEscapeKeyPress";
 import * as yup from 'yup';
 import "./editService.css"
 
 const EditService = () => {
     const { id } = useParams();
+    //importa principais funções e variáveis do context API
     const { editService, errorMsg, serviceEdited, setServiceEdited, serviceTypes, fetchServiceDetails } = useDataContext();
+
+    //armazena as informações do serviço educacional que vai ser editado
     const [service, setService] = useState(null);
 
+    //Fecha modal ao apertar ESC
     const closeModal = () => {
         setServiceEdited(false);
     };
+    useEscapeKeyPress(closeModal, [serviceEdited]);
 
     const schema = yup.object().shape({
         titulo: yup.string().required('O título é obrigatório'),

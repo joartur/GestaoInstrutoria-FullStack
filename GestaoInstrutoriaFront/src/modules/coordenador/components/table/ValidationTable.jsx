@@ -10,7 +10,7 @@ const ValidationTable = ({id}) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await fetchInstructorRegisters(id);
+                const data = await fetchInstructorRegisters("123456");
                 setInstructorRegisters(data);
             } catch (error) {
                 console.error("Erro ao buscar registros do instrutor:", error);
