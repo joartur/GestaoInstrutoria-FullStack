@@ -348,7 +348,7 @@ class InstrutorController {
             }            
             
             //confere se não existe algum registro com a data e hora igual ou que se sobrepõe, já registrado
-            if (await RegistroServico.conferirRegistros(dataServico, matriculaInstrutor, horaFinal, horaInicio)) {
+            if (await RegistroServico.conferirRegistros(dataServico, matriculaInstrutor, horaFinal, horaInicio, registroId)) {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
             }
 
