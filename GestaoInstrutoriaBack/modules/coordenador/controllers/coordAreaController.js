@@ -6,34 +6,33 @@ const { Op } = require('sequelize');
 
 class RegistroServico {
     static async listarInstrutoresPorArea(area) {
+        // dá pra tentar buscar á area pelo registro do coordenador (ele possui o campo de área)
         return await Instrutor.findAll({ where: { area } });
     }
 
-    static async listarRegistrosPorInstrutor(matricula) {
+    static async listarRegistrosEmAnalisePorInstrutor(matricula) {
         return await Registro.findAll({
         attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total'],
             include: [{
                 model: Servico,
                 attributes: ['id','nome'],
-                where: {
-                    id: sequelize.col('Registro.FKservico')
-                }
+                where: { id: sequelize.col('Registro.FKservico') }
             },{
                 model: Instrutor,
                 attributes: ['matricula','nome'],
-                where: {
-                    matricula: sequelize.col('Registro.FKinstrutor')
-                }
+                where: { matricula: sequelize.col('Registro.FKinstrutor') }
             }],
-        where: { FKinstrutor: matricula } });
+        where: { FKinstrutor: matricula, status: "Em Análise" } });
     }
 
     static async isRegistroEmAnalisePorId(id) {
+        // dá pra filtrar no campo de where o status também
         const registro = await Registro.findOne({ where: { id } });
         return registro && registro.status === 'Em Análise';
     }
 
     static async isRegistroEmAnalisePorInstrutor(matricula) {
+        // mesma coisa do de cima
         const registros = await Registro.findAll({ where: { FKinstrutor: matricula } });
         return registros.some(registro => registro.status === 'Em Análise');
     }
@@ -75,6 +74,7 @@ class RegistroServico {
         if (!instrutor) return;
 
         const horasAtualizadas = RegistroServico.somarHoras(registro.total, instrutor.horasTrabalhadas);
+
         await Instrutor.update({ horasTrabalhadas: horasAtualizadas }, { where: { matricula: instrutor.matricula } });
     }
 
@@ -147,7 +147,7 @@ class CoordAreaController {
 
     static async listarRegistros(req, res) {
         try {
-            const registros = await RegistroServico.listarRegistrosPorInstrutor(req.params.matricula);
+            const registros = await RegistroServico.listarRegistrosEmAnalisePorInstrutor(req.params.matricula);
             res.json(registros);
         } catch (error) {
             res.status (500).json({ error: error.message });
@@ -183,15 +183,12 @@ class CoordAreaController {
         }
     }
 
+    // nessa função ainda tem que fazer um casting de string para time 
+    // assim vai dar pra fazer a comparação certa.
     static async validarParcialmenteRegistro(req, res) {
         try {
             const { id, FKcoordenador } = req.params;
             const { justificativa, total } = req.body;
-
-            // Validar se o total não é negativo
-            if (total < 0) {
-                return res.status(400).json({ error: "Erro inesperado." });
-            }
 
             // Verificar se o registro está "Em Análise"
             if (!await RegistroServico.isRegistroEmAnalisePorId(id)) {
@@ -218,7 +215,7 @@ class CoordAreaController {
                 return res.status(400).json({ error: "A quantidade de horas foi excedida." });
             }
 
-            // Atualizar o registro com novo status e justificativa
+            // Atualizar o registro com novo status, total e justificativa
             const atualizado = await RegistroServico.atualizarRegistro(id, {
                 status,
                 justificativa,
@@ -237,9 +234,6 @@ class CoordAreaController {
             const { dataServico, horaInicio, horaFinal, titulo, descricao, FKservico } = req.body;
             const FKcoordenador = req.params.matriculaC;
             const FKinstrutor = req.params.matriculaI;
-
-            // Formatar data para o formato BD
-            const dataFormatada = RegistroServico.formatarDataParaBD(dataServico);
 
             // Validar descrição
             if (!RegistroServico.validarDescricao(descricao)) {
