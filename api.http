@@ -28,6 +28,12 @@ GET http://localhost:3000/coordArea/verificaSituacao/345678
 GET http://localhost:3000/coordArea/listarInstrutores/Tecnologia
 
 ###
+GET http://localhost:3000/coordArea/contarInstrutoresZerados/Tecnologia
+
+###
+GET http://localhost:3000/coordArea/contarInstrutoresExcedente/Tecnologia
+
+###
 PUT http://localhost:3000/coordArea/validarRegistro/10/4321
 Content-Type: application/json
 

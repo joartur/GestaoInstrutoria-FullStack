@@ -1,9 +1,26 @@
 const Instrutor = require("../../instrutor/models/Instrutor.js");
 const Registro = require("../../administrador/models/Registro.js");
 
+const { Op } = require('sequelize');
+
 class RegistroServico {
     static async listarInstrutoresPorArea(area) {
         return await Instrutor.findAll({ where: { area } });
+    }
+
+    static async listarInstrutoresComSaldoZero(area) {
+        const instrutores = await Instrutor.findAll({ where: { area, saldoHoras: '00:00' } });
+        return instrutores;
+    }   
+    
+    static async listarInstrutoresComSaldoExcedente(area) {
+        const instrutores = await Instrutor.findAll({ 
+            where: { 
+                area,
+                saldoHoras: { [Op.gt]: 176 }
+            } 
+        });
+        return instrutores;
     }
 
     static async listarRegistrosPorInstrutor(matricula) {
@@ -110,6 +127,24 @@ class CoordAreaController {
         try {
             const instrutores = await RegistroServico.listarInstrutoresPorArea(req.params.area);
             res.json(instrutores);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    static async contarInstrutoresComSaldoZero(req, res) {
+        try {
+            const instrutores = await RegistroServico.listarInstrutoresComSaldoZero(req.params.area);
+            res.json({ total: instrutores.length });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+    
+    static async contarInstrutoresComSaldoExcedente(req, res) {
+        try {
+            const instrutores = await RegistroServico.listarInstrutoresComSaldoExcedente(req.params.area);
+            res.json({ total: instrutores.length });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
