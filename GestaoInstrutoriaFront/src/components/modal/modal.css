@@ -1,0 +1,54 @@
+.deleteModal-whrapper{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.deleteModal-whrapper p{
+    margin: 0;
+    color: var(--dark-grey);
+}
+
+.deletModal-container{
+    background-color: var(--white);
+    border: 1px solid var(--dark-grey);
+    font-size: 15px;
+    padding: 30px 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);  
+}
+
+.confirm-icon{
+    color: var(--dark-green);
+    font-size: 142px;
+}
+
+.deleteModal-buttons{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.confirm-btn{
+    padding: 15px 50px;
+    background-color: var(--dark-green);
+    color: var(--white);
+    font-size: 16px;
+    border-radius: 12px;
+    border: none;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.confirm-btn:hover{
+    background-color: var(--dark-green)
+}

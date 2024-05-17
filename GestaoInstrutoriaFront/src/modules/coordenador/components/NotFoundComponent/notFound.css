@@ -1,0 +1,17 @@
+.notFound-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.notFound-container h1{
+    margin: 0;
+}
+.notFound-container p{
+    font-size: 20px;
+}
+.notFound-container .icon{
+    font-size: 84px;
+    margin-bottom: 25px;
+}

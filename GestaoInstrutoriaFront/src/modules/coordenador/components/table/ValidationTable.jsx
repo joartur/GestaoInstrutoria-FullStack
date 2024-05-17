@@ -1,11 +1,54 @@
 import { useEffect, useState } from "react";
 import ValidationButtons from "./ValidationButtons";
 import { useCoordenadorContext } from "../../services/CoordenadorContext";
-import { faCheck, faXmark, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faXmark, faCircleInfo, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import Modal from "../../../../components/modal/Modal";
+import PartialValidationModal from "../modal/partialValidationModal";
+import useEscapeKeyPress from "../../../../hooks/useEscapeKeyPress";
 
 const ValidationTable = ({id}) => {
     const { fetchInstructorRegisters, validateInstructorRegister, partiallyValidateInstructorRegister } = useCoordenadorContext();
+    //Armazena registros do instrutor pelo ID
     const [instructorRegisters, setInstructorRegisters] = useState([]);
+
+    //Armazena variável do ID de registro para validar
+    const [serviceIdToValidate, setServiceIdToValidate] = useState(null);
+    //Armazena variável do ID de registro para validar parcialmente
+    const [serviceIdToPartialValidate, setServiceIdToPartialValidate] = useState(null);
+    //Função que diz que registro deve ser validado
+    const handleAccept = (id) => {
+        setServiceIdToValidate(id)
+    };
+    const handlePartiallyValidate = (id) => {
+        setServiceIdToPartialValidate(id);
+    };
+    //Função para validar registo
+    const handleConfirmValidation = () => {
+        if (serviceIdToValidate) {
+            validateInstructorRegister(serviceIdToValidate, "123456");
+            setServiceIdToValidate(null);
+        }
+    };
+    const handleConfirmPartialValidation = (id, data) => {
+        if (serviceIdToPartialValidate) {
+            partiallyValidateInstructorRegister(serviceIdToPartialValidate, id, data)
+            setServiceIdToPartialValidate(null);
+        }
+    };
+    //Função para fechar o modal
+    const closeModal = () => {
+        setServiceIdToValidate(null);
+    };
+    //Função para fechar o modal ao apertar "ESC"
+    useEscapeKeyPress(closeModal, [serviceIdToValidate]);
+
+    //Função para fechar o modal
+    const closePartialValidationModal = () => {
+        setServiceIdToPartialValidate(null);
+    };
+    //Função para fechar o modal ao apertar "ESC"
+    useEscapeKeyPress(closePartialValidationModal, [serviceIdToPartialValidate]);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -19,16 +62,26 @@ const ValidationTable = ({id}) => {
         fetchData();
     }, [fetchInstructorRegisters, id]);
 
-    const handleAccept = (registerId) => {
-        validateInstructorRegister(registerId, "123456");
-    };
-    const handleRefuse = (registerId) => {
-        partiallyValidateInstructorRegister(registerId, "123456", "justificativa válida", "00:00:00");
-    };
-    
-
     return (
-            <table className='table'>
+        <div className="table-container">
+            {serviceIdToValidate && (
+                <Modal 
+                title="Tem certeza que deseja validar esse serviço educacional?"
+                subtitle="Essa ação não pode ser revertida"
+                modalIcon={faCircleCheck}
+                mainButtonTitle="Validar"
+                onCancel={() => setServiceIdToValidate(null)}
+                onConfirm={handleConfirmValidation}
+            />
+            )}
+            {serviceIdToPartialValidate && (
+                <PartialValidationModal
+                onCancel={() => setServiceIdToPartialValidate(null)}
+                onConfirm={handleConfirmPartialValidation}
+                />
+            )}
+            
+            <table className="table">
                 <thead>
                     <tr>
                         <th>Título</th>
@@ -62,7 +115,7 @@ const ValidationTable = ({id}) => {
                                 type="reject"
                                 icon={faXmark}
                                 legenda="REJEITAR SERVIÇO EDUCACIONAL"
-                                onClick={() => handleRefuse(register.id)}
+                                onClick={() => handlePartiallyValidate(register.id)}
                             />
                         </td>
                         <td>
@@ -76,6 +129,7 @@ const ValidationTable = ({id}) => {
                 ))}
                 </tbody>
             </table>
+        </div>
     )
 }
 

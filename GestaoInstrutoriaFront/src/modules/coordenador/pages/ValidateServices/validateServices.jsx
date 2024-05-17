@@ -29,11 +29,9 @@ const ValidateServices = () => {
                 </button>
                 </div>
                 </div>
-                <div className="table-container">
                     <ValidationTable
                     id={id}
                     />
-                </div>
             </main>
         </Layout>
     )

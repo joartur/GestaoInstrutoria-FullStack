@@ -18,6 +18,7 @@ export const CoordenadorProvider = ({ children }) => {
         try {
           const response = await axios.get(`http://localhost:3001/coordArea/listarInstrutores/${area}`);
           setInstructors(response.data);
+          console.log(instructors)
         } catch (error) {
           console.error('Erro ao buscar instrutores:', error);
         }
