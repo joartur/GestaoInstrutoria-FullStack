@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useDataContext } from '../../services/DataContext';
+import { useDataContext } from '../../modules/instrutor/services/DataContext';
 import { useParams } from 'react-router-dom';
-import Header from "../../../../components/header/Header"
-import Layout from "../../components/layout/Layout"
-import BigInput from "../../../../components/inputs/BigInput"
-import TableSituation from "../../components/table/TableSituation"
-import Loading from '../loading/Loading';
+import Header from "../../components/header/Header"
+import Layout from "../../modules/instrutor/components/layout/Layout"
+import BigInput from "../../components/inputs/BigInput"
+import TableSituation from "../../modules/instrutor/components/table/TableSituation"
+import Loading from '../../modules/instrutor/pages/loading/Loading';
 import "./viewServices.css"
 
 const ViewServices = () => {

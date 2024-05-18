@@ -30,10 +30,10 @@ POST http://localhost:3001/instrutor/registro/123456
 Content-Type: application/json
 
 {
-    "dataServico": "2024-04-03",
+    "dataServico": "2024-05-07",
     "horaInicio": "00:00",
-    "horaFinal": "20:00",
-    "titulo": "Workshop de Culinária 2",
+    "horaFinal": "13:00",
+    "titulo": "Workshop de Maquiagem",
     "descricao": "Workshop prático de técnicas de temperagem para a pascoa.",
     "FKservico": "1"
 }
@@ -92,7 +92,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/5/019283
+PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/9/019283
 Content-Type: application/json
 
 {

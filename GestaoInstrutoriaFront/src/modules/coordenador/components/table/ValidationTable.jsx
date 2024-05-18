@@ -1,83 +1,124 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import ValidationButtons from "./ValidationButtons";
 import { useCoordenadorContext } from "../../services/CoordenadorContext";
 import { faCheck, faXmark, faCircleInfo, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../../../components/modal/Modal";
 import PartialValidationModal from "../modal/partialValidationModal";
 import useEscapeKeyPress from "../../../../hooks/useEscapeKeyPress";
+import useFormattedDateTime from "../../../../hooks/useFormattedDateTime";
+import ConfirmationModal from "../modal/ConfirmationModal";
 
-const ValidationTable = ({id}) => {
+const ValidationTable = ({ id }) => {
     const { fetchInstructorRegisters, validateInstructorRegister, partiallyValidateInstructorRegister } = useCoordenadorContext();
-    //Armazena registros do instrutor pelo ID
-    const [instructorRegisters, setInstructorRegisters] = useState([]);
 
-    //Armazena variável do ID de registro para validar
+    const [instructorRegisters, setInstructorRegisters] = useState([]);
     const [serviceIdToValidate, setServiceIdToValidate] = useState(null);
-    //Armazena variável do ID de registro para validar parcialmente
     const [serviceIdToPartialValidate, setServiceIdToPartialValidate] = useState(null);
-    //Função que diz que registro deve ser validado
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    const [confirmationMessage, setConfirmationMessage] = useState("");
+
     const handleAccept = (id) => {
-        setServiceIdToValidate(id)
+        setServiceIdToValidate(id);
     };
     const handlePartiallyValidate = (id) => {
         setServiceIdToPartialValidate(id);
     };
-    //Função para validar registo
-    const handleConfirmValidation = () => {
+
+    const handleConfirmValidation = async () => {
         if (serviceIdToValidate) {
-            validateInstructorRegister(serviceIdToValidate, "123456");
-            setServiceIdToValidate(null);
+            try {
+                await validateInstructorRegister(serviceIdToValidate, "123456");
+                setServiceIdToValidate(null);
+                setConfirmationMessage("Serviço educacional validado com sucesso!");
+                setShowConfirmationModal(true);
+                await fetchData(); // Atualizar a lista de registros
+            } catch (error) {
+                setServiceIdToValidate(null);
+                if (error.response?.status === 400) {
+                    setConfirmationMessage("Justificativa inválida");
+                } else if (error.response?.status === 500) {
+                    setConfirmationMessage("Erro interno do servidor");
+                } else {
+                    setConfirmationMessage("Erro ao validar o serviço");
+                }
+                setShowConfirmationModal(true);
+                console.error("Erro ao validar o serviço:", error);
+            }
         }
     };
-    const handleConfirmPartialValidation = (id, data) => {
+
+    const handleConfirmPartialValidation = async (data) => {
+        console.log(data)
         if (serviceIdToPartialValidate) {
-            partiallyValidateInstructorRegister(serviceIdToPartialValidate, id, data)
-            setServiceIdToPartialValidate(null);
+            try {
+                await partiallyValidateInstructorRegister(serviceIdToPartialValidate, "123456", data);
+                setServiceIdToPartialValidate(null);
+                setConfirmationMessage("Serviço educacional validado parcialmente com sucesso!");
+                setShowConfirmationModal(true);
+                await fetchData(); // Atualizar a lista de registros
+            } catch (error) {
+                setServiceIdToPartialValidate(null);
+                if (error.response?.status === 400) {
+                    setConfirmationMessage("Justificativa inválida");
+                } else if (error.response?.status === 500) {
+                    setConfirmationMessage("Erro interno do servidor");
+                } else {
+                    setConfirmationMessage("Erro ao validar parcialmente o serviço");
+                }
+                setShowConfirmationModal(true);
+                console.error("Erro ao validar parcialmente o serviço:", error);
+            }
         }
     };
-    //Função para fechar o modal
+
     const closeModal = () => {
         setServiceIdToValidate(null);
     };
-    //Função para fechar o modal ao apertar "ESC"
+
     useEscapeKeyPress(closeModal, [serviceIdToValidate]);
 
-    //Função para fechar o modal
     const closePartialValidationModal = () => {
         setServiceIdToPartialValidate(null);
     };
-    //Função para fechar o modal ao apertar "ESC"
+
     useEscapeKeyPress(closePartialValidationModal, [serviceIdToPartialValidate]);
 
+    const fetchData = useCallback(async () => {
+        try {
+            const data = await fetchInstructorRegisters(id);
+            setInstructorRegisters(data);
+        } catch (error) {
+            console.error("Erro ao buscar registros do instrutor:", error);
+        }
+    }, [fetchInstructorRegisters, id]);
+    
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await fetchInstructorRegisters(id);
-                setInstructorRegisters(data);
-            } catch (error) {
-                console.error("Erro ao buscar registros do instrutor:", error);
-            }
-        };
         fetchData();
-    }, [fetchInstructorRegisters, id]);
+    }, [fetchData]);
 
     return (
         <div className="table-container">
             {serviceIdToValidate && (
                 <Modal 
-                title="Tem certeza que deseja validar esse serviço educacional?"
-                subtitle="Essa ação não pode ser revertida"
-                modalIcon={faCircleCheck}
-                mainButtonTitle="Validar"
-                onCancel={() => setServiceIdToValidate(null)}
-                onConfirm={handleConfirmValidation}
-            />
+                    title="Tem certeza que deseja validar esse serviço educacional?"
+                    subtitle="Essa ação não pode ser revertida"
+                    modalIcon={faCircleCheck}
+                    mainButtonTitle="Validar"
+                    onCancel={() => setServiceIdToValidate(null)}
+                    onConfirm={handleConfirmValidation}
+                />
             )}
             {serviceIdToPartialValidate && (
                 <PartialValidationModal
-                onCancel={() => setServiceIdToPartialValidate(null)}
-                onConfirm={handleConfirmPartialValidation}
+                    onCancel={() => setServiceIdToPartialValidate(null)}
+                    onConfirm={handleConfirmPartialValidation}
+                />
+            )}
+            {showConfirmationModal && (
+                <ConfirmationModal
+                    message={confirmationMessage}
+                    onClose={() => setShowConfirmationModal(false)}
                 />
             )}
             
@@ -94,43 +135,44 @@ const ValidationTable = ({id}) => {
                     </tr>
                 </thead>
                 <tbody>
-                {instructorRegisters.map(register => (
-                    <tr key={register.id}>
-                        <td>{register.titulo}</td>
-                        <td>{register.dataServico}</td>
-                        <td>{register.horaInicio}</td>
-                        <td>{register.horaFinal}</td>
-                        <td>{register.total}</td>
-                        <td>{register.Servico.nome}</td>
-                        <td>
-                            <ValidationButtons
-                                type="accept"
-                                icon={faCheck}
-                                legenda="VALIDAR SERVIÇO EDUCACIONAL"
-                                onClick={() => handleAccept(register.id)}
-                            />
-                        </td>
-                        <td>
-                            <ValidationButtons
-                                type="reject"
-                                icon={faXmark}
-                                legenda="REJEITAR SERVIÇO EDUCACIONAL"
-                                onClick={() => handlePartiallyValidate(register.id)}
-                            />
-                        </td>
-                        <td>
-                            <ValidationButtons
-                                type="view"
-                                icon={faCircleInfo}
-                                legenda="VISUALIZAR SERVIÇO EDUCACIONAL"
-                            />
-                        </td>
-                    </tr>
-                ))}
+                    {instructorRegisters.map(register => (
+                        <tr key={register.id}>
+                            <td>{register.titulo}</td>
+                            <td>{register.dataServico}</td>
+                            <td>{register.horaInicio}</td>
+                            <td>{register.horaFinal}</td>
+                            <td>{register.total}</td>
+                            <td>{register.Servico.nome}</td>
+                            <td>
+                                <ValidationButtons
+                                    type="accept"
+                                    icon={faCheck}
+                                    legenda="VALIDAR SERVIÇO EDUCACIONAL"
+                                    onClick={() => handleAccept(register.id)}
+                                />
+                            </td>
+                            <td>
+                                <ValidationButtons
+                                    type="reject"
+                                    icon={faXmark}
+                                    legenda="REJEITAR SERVIÇO EDUCACIONAL"
+                                    onClick={() => handlePartiallyValidate(register.id)}
+                                />
+                            </td>
+                            <td>
+                                <ValidationButtons
+                                    type="view"
+                                    icon={faCircleInfo}
+                                    legenda="VISUALIZAR SERVIÇO EDUCACIONAL"
+                                    url={`/viewServices/${id}`}
+                                />
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>
-    )
+    );
 }
 
 export default ValidationTable;

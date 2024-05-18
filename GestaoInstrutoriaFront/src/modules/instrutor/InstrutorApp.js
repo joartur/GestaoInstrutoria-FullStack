@@ -5,7 +5,7 @@ import CreateService from './pages/CreateService/CreateService';
 import TablesService from './pages/TablesService/TablesService';
 import Login from './pages/Login/Login';
 import Profile from './pages/Profile/Profile';
-import ViewServices from './pages/ViewServices/ViewServices';
+import ViewServices from '../../common/ViewServices/ViewServices';
 import EditService from './pages/EditService/EditService';
 import NotFound from './pages/NotFound/NotFound';
 import { DataProvider } from './services/DataContext';
