@@ -1,8 +1,8 @@
 const { DataTypes, Model } = require('sequelize');
-const Servico = require("./Servico");
-const Instrutor = require('../../instrutor/models/Instrutor');
-const Coordenador = require('../../usuario/model/CoordenadorArea');
-const sequelize = require('../../../config/connection'); // Certifique-se de importar sua instância do sequelize corretamente
+const sequelize = require('../../../config/connection'); 
+
+const Servico = require("../../administrador/models/Servico");
+const Usuario = require('./Usuario');
 
 class Registro extends Model {}
 
@@ -43,13 +43,13 @@ Registro.init({
     },
     justificativa: {
         type: DataTypes.TEXT,
-        allowNull: true // Pode ser nulo, dependendo da situação
+        allowNull: true
     },
     FKinstrutor: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(15),
         allowNull: false,
         references: {
-            model: 'Instrutor',
+            model: Usuario,
             key: 'matricula'
         }
     },
@@ -57,28 +57,26 @@ Registro.init({
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'Servico',
+            model: Servico,
             key: 'id'
         }
     },
     FKcoordenador: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(15),
         allowNull: true,
         references: {
-            model: 'CoordenadorArea',
+            model: Usuario,
             key: 'matricula'
         }
     }
 }, {
     sequelize,
     modelName: 'Registro',
-    timestamps: true // Adiciona automaticamente createdAt e updatedAt
+    timestamps: true
 });
 
 Registro.belongsTo(Servico, { foreignKey: 'FKservico' });
-
-Registro.belongsTo(Instrutor, { foreignKey: 'FKinstrutor' });
-
-Registro.belongsTo(Coordenador, { foreignKey: 'FKcoordenador' });
+Registro.belongsTo(Usuario, { as: 'Instrutor', foreignKey: 'FKinstrutor' });
+Registro.belongsTo(Usuario, { as: 'Coordenador', foreignKey: 'FKcoordenador' });
 
 module.exports = Registro;
