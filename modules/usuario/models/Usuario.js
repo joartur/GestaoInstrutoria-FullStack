@@ -1,9 +1,9 @@
 const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../../../config/connection'); 
-
 const Registro = require('./Registro');
 const Area = require('./Area');
+const UsuarioArea = require('./UsuarioArea');
 const Instrutor = require('../../instrutor/models/Instrutor');
+const sequelize = require('../../../config/connection'); 
 
 class Usuario extends Model {}
 
@@ -39,9 +39,12 @@ Usuario.init({
 });
 
 // Definindo as associações
-Usuario.hasOne(Instrutor, { foreignKey: 'FKinstrutor', as: 'InstrutorDetails' });
-Usuario.hasMany(Registro, { as: 'InstrutorRegistros', foreignKey: 'FKinstrutor' });
-Usuario.hasMany(Registro, { as: 'CoordenadorRegistros', foreignKey: 'FKcoordenador' });
+// Usuario.hasOne(Instrutor, { foreignKey: 'FKinstrutor', as: 'InstrutorDetails' });
+
+// Usuario.hasMany(Registro, { as: 'InstrutorRegistros', foreignKey: 'FKinstrutor' });
+
+// Usuario.hasMany(Registro, { as: 'CoordenadorRegistros', foreignKey: 'FKcoordenador' });
+
 Usuario.belongsToMany(Area, { through: UsuarioArea, foreignKey: 'usuarioMatricula' });
 
 module.exports = Usuario;

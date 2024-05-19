@@ -1,7 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../../../config/connection');
 
-const Registro = require('../../usuario/model/Registro');
+const Registro = require('../../usuario/models/Registro');
 
 class Servico extends Model {}
 
@@ -23,6 +23,6 @@ Servico.init({
 });
 
 // Definindo a associação
-Servico.hasMany(Registro, { foreignKey: 'FKservico' });
+// Servico.hasMany(Registro, { foreignKey: 'FKservico' });
 
 module.exports = Servico;

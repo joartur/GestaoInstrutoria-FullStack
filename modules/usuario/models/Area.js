@@ -22,6 +22,8 @@ Area.init({
     timestamps: false 
 });
 
+console.log(typeof(UsuarioArea))
+
 Area.belongsToMany(Usuario, { through: UsuarioArea, foreignKey: 'areaId' });
 
 module.exports = Area;

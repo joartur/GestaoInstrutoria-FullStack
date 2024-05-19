@@ -76,7 +76,9 @@ Registro.init({
 });
 
 Registro.belongsTo(Servico, { foreignKey: 'FKservico' });
+
 Registro.belongsTo(Usuario, { as: 'Instrutor', foreignKey: 'FKinstrutor' });
+
 Registro.belongsTo(Usuario, { as: 'Coordenador', foreignKey: 'FKcoordenador' });
 
 module.exports = Registro;
