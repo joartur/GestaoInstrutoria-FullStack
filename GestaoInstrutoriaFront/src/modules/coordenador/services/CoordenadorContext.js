@@ -18,7 +18,6 @@ export const CoordenadorProvider = ({ children }) => {
         try {
           const response = await axios.get(`http://localhost:3001/coordArea/listarInstrutores/${area}`);
           setInstructors(response.data);
-          console.log(instructors)
         } catch (error) {
           console.error('Erro ao buscar instrutores:', error);
         }
@@ -52,7 +51,7 @@ export const CoordenadorProvider = ({ children }) => {
         const response = await axios.put(`http://localhost:3001/coordArea/validarRegistro/${id}/${FKcoordenador}`);
         console.log(response.data, "VALIDADO COM SUCESSO!")
       } catch (error) {
-        console.error('Erro ao validar registro:', error);
+        throw error; 
       }
     };
 
@@ -65,7 +64,7 @@ export const CoordenadorProvider = ({ children }) => {
         });
         console.log(response.data, "VALIDADO PARCIALMENTE COM SUCESSO!");
       } catch (error) {
-        console.error('Erro ao validar registro:', error);
+        throw error; 
       }
     };
 

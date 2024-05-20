@@ -1,10 +1,19 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-
 import "./partialValidationModal.css"
 
 const PartialValidationModal = ({ onCancel, onConfirm }) => {
+
+    const convertToTimeFormat = (hours) => {
+        const totalSeconds = Math.floor(hours * 3600);
+        const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+        const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+        const s = String(totalSeconds % 60).padStart(2, '0');
+        return `${h}:${m}:${s}`;
+    };
+
+
     const schema = yup.object().shape({
         total: yup.string().required('O total de horas é obrigatório'),
         justificativa: yup.string().required('A justificativa é obrigatória')
@@ -15,6 +24,11 @@ const PartialValidationModal = ({ onCancel, onConfirm }) => {
     });
 
     const onSubmit = (data) => {
+        const formattedData = {
+            ...data,
+            total: convertToTimeFormat(data.total)
+        };
+        console.log(formattedData)
         onConfirm(data);
         reset();
     };

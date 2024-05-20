@@ -9,7 +9,7 @@ export const DataProvider = ({ children }) => {
     const [data, setData] = useState([]); //Array com os dados de serviço do instrutor
     const [instrutorData, setInstrutorData] = useState([]); //Array com dados da página inicial
     const [serviceTypes, setServiceTypes] = useState([]); //Lista de tipos de serviço educacional
-    const [filteredData, setFilteredData] = useState([]); //Armazena os dados filtrados 
+    const [filteredData, setFilteredData] = useState([]); //Armazena os dados filtrados
 
     const [errorMsg, setErrorMsg] = useState([]) //Mensagens de erro do sistema
     const [serviceCreated, setServiceCreated] = useState(false); //Serviço foi criado ou não
@@ -35,11 +35,7 @@ export const DataProvider = ({ children }) => {
           const response = await axios.get('http://localhost:3001/instrutor/registros/123456');
           const orderedData = response.data.data.slice().reverse();
           setData(orderedData);
-          console.log(orderedData)
-          console.log(response.data.data)
-          //Atualiza os dados do instrutor como: Horas Cadastradas. Isso seria uma gambiarra?
           InstrutorDataFetch();
-          console.log(data)
     } catch (error) {
           console.error('Erro ao buscar dados da API:', error);
       }
@@ -136,7 +132,6 @@ export const DataProvider = ({ children }) => {
     try {
       const response = await axios.get('http://localhost:3001/instrutor/123456');
       setInstrutorData(response.data)
-      console.log(instrutorData)
   } catch (error) {
       console.error('Erro ao buscar dados do instrutor:', error);
   }
@@ -147,7 +142,6 @@ export const DataProvider = ({ children }) => {
     try {
       const response = await axios.get('http://localhost:3001/instrutor/servicos/123456');
       setServiceTypes(response.data.servicos);
-      console.log(serviceTypes)
     } catch (error) {
       console.error('Erro ao buscar dados do perfil do instrutor:', error);
     }

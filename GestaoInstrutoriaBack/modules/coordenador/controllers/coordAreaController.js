@@ -43,23 +43,11 @@ class RegistroServico {
 
     static async obterTotalRegistroPorId(id) {
         const registro = await Registro.findOne({
-            attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
-                include: [{
-                    model: Servico,
-                    attributes: ['id','nome'],
-                    where: {
-                        id: sequelize.col('Registro.FKservico')
-                    }
-                },{
-                    model: Instrutor,
-                    attributes: ['matricula','nome'],
-                    where: {
-                        matricula: sequelize.col('Registro.FKinstrutor')
-                    }
-                }],
-             where: { id } });
+            attributes: ['total'],
+            where: { id }
+            });
 
-        return registro ? registro.total : null;
+        return registro.total;
     }
 
     static async cadastrarRegistro(novoRegistro) {
@@ -195,13 +183,14 @@ class CoordAreaController {
                 return res.status(400).json({ error: "O registro não está em análise." });
             }
 
-            // Validar justificativa
-            if (!RegistroServico.validarDescricao(justificativa)) {
-                return res.status(400).json({ error: "Justificativa inválida." });
-            }
+            // // Validar justificativa
+            // if (!RegistroServico.validarDescricao(justificativa)) {
+            //     return res.status(400).json({ error: "Justificativa inválida." });
+            // }
 
             // Obter total original do registro
             const totalOriginal = await RegistroServico.obterTotalRegistroPorId(id);
+            console.log(totalOriginal, total)
 
             // Determinar o novo status do registro
             let status;

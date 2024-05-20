@@ -48,20 +48,17 @@ const ValidationTable = ({ id }) => {
     };
 
     const handleConfirmPartialValidation = async (data) => {
-        console.log(data)
         if (serviceIdToPartialValidate) {
             try {
-                await partiallyValidateInstructorRegister(serviceIdToPartialValidate, "123456", data);
-                setServiceIdToPartialValidate(null);
-                setConfirmationMessage("Serviço educacional validado parcialmente com sucesso!");
-                setShowConfirmationModal(true);
-                await fetchData(); // Atualizar a lista de registros
+                await partiallyValidateInstructorRegister(serviceIdToPartialValidate, "123456", data.justificativa, data.total);
+                console.log("CUZÃO")
             } catch (error) {
+                console.log("CU")
                 setServiceIdToPartialValidate(null);
-                if (error.response?.status === 400) {
-                    setConfirmationMessage("Justificativa inválida");
+                if (error.response.request?.status === 400) {
+                    setConfirmationMessage("Justificativa inválida. Tente escrever uma justificativa mais elaborada.");
                 } else if (error.response?.status === 500) {
-                    setConfirmationMessage("Erro interno do servidor");
+                    setConfirmationMessage("Erro interno do servidor ao tentar justificar registro.");
                 } else {
                     setConfirmationMessage("Erro ao validar parcialmente o serviço");
                 }
@@ -74,13 +71,11 @@ const ValidationTable = ({ id }) => {
     const closeModal = () => {
         setServiceIdToValidate(null);
     };
-
     useEscapeKeyPress(closeModal, [serviceIdToValidate]);
 
     const closePartialValidationModal = () => {
         setServiceIdToPartialValidate(null);
     };
-
     useEscapeKeyPress(closePartialValidationModal, [serviceIdToPartialValidate]);
 
     const fetchData = useCallback(async () => {
