@@ -1,4 +1,4 @@
-const Registro = require("../../usuario/models/Registro.js");
+const Registro = require("../../administrador/models/Registro.js");
 const Instrutor = require("../models/Instrutor.js");
 const Servico = require("../../administrador/models/Servico.js");
 const sequelize = require('../../../config/connection.js');

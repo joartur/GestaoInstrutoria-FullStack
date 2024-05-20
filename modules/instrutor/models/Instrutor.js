@@ -1,44 +1,53 @@
 const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../../../config/connection'); 
-
-const Usuario = require('../../usuario/models/Usuario');
+const sequelize = require('../../../config/connection'); // Certifique-se de importar sua instância do sequelize corretamente
 
 class Instrutor extends Model {}
 
 Instrutor.init({
-    id:{        
-        type: DataTypes.INTEGER,
+    matricula:{        
+        type: DataTypes.STRING,
         primaryKey: true,
-        autoIncrement: true,
+    },
+    nome: {
+        type: DataTypes.STRING(100),
+        allowNull: false
+    },
+    email: {
+        type: DataTypes.STRING(80),
+        allowNull: false,
+        unique: true,
+        validate:{
+            isEmail: true,
+        }
+    },
+    senha: {       
+        type: DataTypes.STRING(128),
+        allowNull: false,
+    },
+    unidade: {
+        type: DataTypes.STRING(50),
+        allowNull: false
+    },
+    area: {
+        type: DataTypes.STRING(30),
         allowNull: false
     },
     horasMinimas: {
         type: DataTypes.TIME,
-        defaultValue: '00:00:00'
+        allowNull: false
     },
-    horasTrabalhadasPeriodo: {
+    horasTrabalhadas: {
         type: DataTypes.TIME,
         defaultValue: '00:00:00'
     },
     saldoHoras: {
         type: DataTypes.TIME,
         defaultValue: '00:00:00'
-    },
-    FKinstrutor: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        references: {
-            model: Usuario,
-            key: 'matricula'
-        }
     }
 }, {
     sequelize,
     modelName: 'Instrutor',
     timestamps: true
 });
-
-// 1 p/ 1
-Instrutor.belongsTo(Usuario, { foreignKey: 'FKinstrutor' });
 
 module.exports = Instrutor;

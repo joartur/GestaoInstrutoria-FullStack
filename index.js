@@ -52,7 +52,7 @@ async function iniciarServidor() {
   try {
     await sequelize.authenticate();
     console.log('Conexão com o banco de dados estabelecida com sucesso.');
-    await sequelize.sync({ force: false });
+    await sequelize.sync();
     console.log('Tabelas sincronizadas com sucesso.');
     // Inicia o servidor após a sincronização das tabelas
     app.listen(port, () => {

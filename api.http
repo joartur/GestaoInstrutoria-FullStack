@@ -1,0 +1,114 @@
+###
+GET http://localhost:3001
+
+# ###
+# POST http://localhost:3001/servico/adicionar
+# Content-Type: application/json
+
+# {
+#     "nome": "D"
+# }
+
+# ###
+# GET http://localhost:3001/servico/listar
+
+# ###
+# DELETE http://localhost:3001/servico/deletar/6
+
+# ###
+# GET http://localhost:3001/servico/buscar/4
+
+# rotas de instrutor
+###
+GET  http://localhost:3001/instrutor/123456
+
+###
+GET  http://localhost:3001/instrutor/perfil/123456
+
+###
+POST http://localhost:3001/instrutor/registro/123456
+Content-Type: application/json
+
+{
+    "dataServico": "2024-05-07",
+    "horaInicio": "00:00",
+    "horaFinal": "13:00",
+    "titulo": "Workshop de Maquiagem",
+    "descricao": "Workshop prático de técnicas de temperagem para a pascoa.",
+    "FKservico": "1"
+}
+
+###
+GET http://localhost:3001/instrutor/registros/123456
+
+###
+POST http://localhost:3001/instrutor/registros/123456
+Content-Type: application/json
+
+{
+    "dataInicioFiltro": "",
+    "dataFinalFiltro": "",
+    "FKservico": ""
+}
+
+###
+GET http://localhost:3001/instrutor/registro/123456/1
+
+###
+PUT http://localhost:3001/instrutor/registro/123456/1
+Content-Type: application/json
+
+{
+    "dataServico": "2024-03-27",
+    "horaInicio": "06:00:00",
+    "horaFinal": "09:30:00",
+    "titulo": "1º consulta com o zé boné",
+    "descricao": "consulta de recomendação nutricional",
+    "FKservico": "1"
+}
+
+###
+DELETE http://localhost:3001/instrutor/registro/123456/7
+
+###
+GET http://localhost:3001/instrutor/servicos/123456
+
+# Rota coordenador
+###
+GET http://localhost:3001/coordArea/listarRegistros/789012
+
+###
+GET http://localhost:3001/coordArea/verificaSituacao/123456
+
+###
+GET http://localhost:3001/coordArea/listarInstrutores/Tecnologia
+
+###
+PUT http://localhost:3001/coordArea/validarRegistro/3/345678
+Content-Type: application/json
+
+{
+    
+}
+
+###
+PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/9/019283
+Content-Type: application/json
+
+{
+    "justificativa": "!!!!!!!!!!!!!!!!!!!!!",
+    "total": "00:00:00"
+}
+
+###
+POST http://localhost:3001/coordArea/registro/019283/789012
+Content-Type: application/json
+
+{
+    "dataServico": "19-02-2024",
+    "horaInicio": "10:00",
+    "horaFinal": "13:00",
+    "titulo": "Pabbabrte",
+    "descricao": "Se coabayguso!!!",
+    "FKservico": "2"
+}

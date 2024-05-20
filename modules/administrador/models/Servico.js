@@ -1,7 +1,5 @@
 const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../../../config/connection');
-
-const Registro = require('../../usuario/models/Registro');
+const sequelize = require('../../../config/connection'); // Certifique-se de importar sua instância do sequelize corretamente
 
 class Servico extends Model {}
 
@@ -9,11 +7,10 @@ Servico.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
+        autoIncrement: true
     },
     nome: {
-        type: DataTypes.STRING(60),
+        type: DataTypes.STRING(80),
         allowNull: false
     }
 }, {
@@ -21,8 +18,5 @@ Servico.init({
     modelName: 'Servico',
     timestamps: true // Se não precisar de timestamps, pode desativá-los aqui
 });
-
-// Definindo a associação
-// Servico.hasMany(Registro, { foreignKey: 'FKservico' });
 
 module.exports = Servico;
