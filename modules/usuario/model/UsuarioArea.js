@@ -1,7 +1,5 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../../../config/connection');
-const Usuario = require('./Usuario');
-const Area = require('./Area');
 
 class UsuarioArea extends Model {}
 
@@ -12,12 +10,6 @@ UsuarioArea.init({
         primaryKey: true,
         autoIncrement: true
     },
-    // Exemplos de campos adicionais
-    dataAssociacao: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW
-    },
     usuarioMatricula: {
       type: DataTypes.STRING(15),
       allowNull: false,
@@ -26,7 +18,7 @@ UsuarioArea.init({
         key: 'matricula'
       }
     },
-    areaId: {
+    AreaId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -39,10 +31,5 @@ UsuarioArea.init({
     modelName: 'UsuarioArea',
     timestamps: false 
 });
-
-// definindo relações
-UsuarioArea.belongsTo(Usuario, {foreignKey: 'usuarioMatricula'})
-
-UsuarioArea.belongsTo(Area, {foreignKey: 'areaId'})
 
 module.exports = UsuarioArea;

@@ -1,7 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../../../config/connection'); 
-// const UsuarioArea = require('./UsuarioArea');
-// const Area = require('./Area');
+const UsuarioArea = require('./UsuarioArea');
+const Area = require('./Area');
 
 class Usuario extends Model {}
 
@@ -37,6 +37,6 @@ Usuario.init({
 });
 
 // // Definindo as associações
-// Usuario.belongsToMany(Area, { through: UsuarioArea, foreignKey: 'usuarioMatricula' });
+Usuario.belongsToMany(Area, { through: UsuarioArea, foreignKey: 'usuarioMatricula' });
 
 module.exports = Usuario;
