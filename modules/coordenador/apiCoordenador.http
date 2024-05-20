@@ -1,9 +1,9 @@
 # Rota coordenador
 ###
-GET http://localhost:3001/coordArea/listarRegistros/123456
+GET http://localhost:3001/coordArea/listarRegistros/2345678901
 
 ###
-GET http://localhost:3001/coordArea/verificaSituacao/758690
+GET http://localhost:3001/coordArea/verificaSituacao/2345678901
 
 ###
 GET http://localhost:3001/coordArea/listarInstrutores/Tecnologia
@@ -17,12 +17,12 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/3/758690
+PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/3/1234567890
 Content-Type: application/json
 
 {
-    "justificativa": "!!!!!!!!!!!!!!!!!!!!!",
-    "total": "1"
+    "justificativa": "Material das aulas para turma de banco de dados",
+    "total": "02:00:00"
 }
 
 ###

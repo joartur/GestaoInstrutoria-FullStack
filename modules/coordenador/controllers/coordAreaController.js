@@ -1,3 +1,4 @@
+const Usuario = require("../../usuario/model/Usuario.js");
 const Instrutor = require("../../instrutor/models/Instrutor.js");
 const Registro = require("../../administrador/models/Registro.js");
 const Servico = require("../../administrador/models/Servico.js");
@@ -9,6 +10,17 @@ class RegistroServico {
         // dá pra tentar buscar á area pelo registro do coordenador (ele possui o campo de área)
         return await Instrutor.findAll({ where: { area } });
     }
+     
+    static async buscarNomeInstrutor(matriculaInstrutor){
+        const instrutor = await Usuario.findOne({
+            attributes: ['nome'],
+            where: {
+                matricula: matriculaInstrutor,
+                tipoUsuario: 'instrutor'
+            }
+        });
+        return instrutor.nome;
+    }
 
     static async listarRegistrosEmAnalisePorInstrutor(matricula) {
         return await Registro.findAll({
@@ -17,22 +29,17 @@ class RegistroServico {
                 model: Servico,
                 attributes: ['id','nome'],
                 where: { id: sequelize.col('Registro.FKservico') }
-            },{
-                model: Instrutor,
-                attributes: ['matricula','nome'],
-                where: { matricula: sequelize.col('Registro.FKinstrutor') }
-            }],
+            }
+        ],
         where: { FKinstrutor: matricula, status: "Em Análise" } });
     }
 
     static async isRegistroEmAnalisePorId(id) {
-        // dá pra filtrar no campo de where o status também
         const registro = await Registro.findOne({ where: { id } });
         return registro && registro.status === 'Em Análise';
     }
 
     static async isRegistroEmAnalisePorInstrutor(matricula) {
-        // mesma coisa do de cima
         const registros = await Registro.findAll({ where: { FKinstrutor: matricula } });
         return registros.some(registro => registro.status === 'Em Análise');
     }
@@ -43,21 +50,8 @@ class RegistroServico {
 
     static async obterTotalRegistroPorId(id) {
         const registro = await Registro.findOne({
-            attributes: ['id','titulo', 'dataServico', 'horaInicio', 'horaFinal', 'total', 'status'],
-                include: [{
-                    model: Servico,
-                    attributes: ['id','nome'],
-                    where: {
-                        id: sequelize.col('Registro.FKservico')
-                    }
-                },{
-                    model: Instrutor,
-                    attributes: ['matricula','nome'],
-                    where: {
-                        matricula: sequelize.col('Registro.FKinstrutor')
-                    }
-                }],
-             where: { id } });
+            attributes: ['total'],
+            where: { id } });
 
         return registro ? registro.total : null;
     }
@@ -147,8 +141,12 @@ class CoordAreaController {
 
     static async listarRegistros(req, res) {
         try {
-            const registros = await RegistroServico.listarRegistrosEmAnalisePorInstrutor(req.params.matricula);
-            res.json(registros);
+            const { matricula } = req.params;
+
+            const registros = await RegistroServico.listarRegistrosEmAnalisePorInstrutor(matricula);
+            const nomeIntrutor = await RegistroServico.buscarNomeInstrutor(matricula)
+
+            res.json({nomeIntrutor, registros});
         } catch (error) {
             res.status (500).json({ error: error.message });
         }
@@ -203,6 +201,8 @@ class CoordAreaController {
             // Obter total original do registro
             const totalOriginal = await RegistroServico.obterTotalRegistroPorId(id);
 
+            console.log(total, totalOriginal)
+
             // Determinar o novo status do registro
             let status;
             if (total == "00:00:00") {
@@ -223,7 +223,9 @@ class CoordAreaController {
                 FKcoordenador
             });
 
-            res.json(atualizado);
+            // await RegistroServico.calcularHoras(id);
+            
+            res.status(200).json({msg: "Serviço educacional avalidado com sucesso!"});
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
