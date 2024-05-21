@@ -22,6 +22,27 @@ class RegistroServico {
           });
     }
 
+    static async listarInstrutoresComHorasZeradasPeriodo(matriculaCoordenador) {
+        // Passo 1: Buscar o Coordenador e Sua Área
+        const coordenador = await RegistroServico.buscarCoordenador(matriculaCoordenador)
+
+        const instrutores = await Instrutor.findAll({ where: { area, saldoHoras: '00:00' } });
+        return instrutores;
+    }   
+
+    static async listarInstrutoresComSaldoHora(matriculaCoordenador) {
+        // encontrar a area do coordenador
+        // listar o usuários instrutores com saldo de horas.
+
+        const instrutores = await Instrutor.findAll({ 
+            where: { 
+                area,
+                saldoHoras: { [Op.gt]: '00:00:00' }
+            } 
+        });
+        return instrutores;
+    }
+
     static async listarInstrutoresPorArea(matriculaCoordenador) {
         // Passo 1: Buscar o Coordenador e Sua Área
         const coordenador = await RegistroServico.buscarCoordenador(matriculaCoordenador)
@@ -252,18 +273,18 @@ class CoordAreaController {
         }
     }
 
-    static async contarInstrutoresComSaldoZero(req, res) {
+    static async contarInstrutoresComHorasZeradasPeriodo(req, res) {
         try {
-            const instrutores = await RegistroServico.listarInstrutoresComSaldoZero(req.params.area);
+            const instrutores = await RegistroServico.listarInstrutoresComHorasZeradasPeriodo(req.params.area);
             res.json({ total: instrutores.length });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     }
     
-    static async contarInstrutoresComSaldoExcedente(req, res) {
+    static async contarInstrutoresComSaldoHoras(req, res) {
         try {
-            const instrutores = await RegistroServico.listarInstrutoresComSaldoExcedente(req.params.area);
+            const instrutores = await RegistroServico.listarInstrutoresComSaldoHora(req.params.area);
             res.json({ total: instrutores.length });
         } catch (error) {
             res.status(500).json({ error: error.message });
