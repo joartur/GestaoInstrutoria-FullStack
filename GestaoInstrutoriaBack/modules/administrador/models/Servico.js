@@ -10,7 +10,7 @@ Servico.init({
         autoIncrement: true
     },
     nome: {
-        type: DataTypes.STRING(80),
+        type: DataTypes.STRING(60),
         allowNull: false
     }
 }, {
