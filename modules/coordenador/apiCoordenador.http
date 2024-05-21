@@ -1,0 +1,39 @@
+# Rota coordenador
+###
+GET http://localhost:3001/coordArea/listarRegistros/2345678901
+
+###
+GET http://localhost:3001/coordArea/verificaSituacao/2345678901
+
+###
+GET http://localhost:3001/coordArea/listarInstrutores/1234567890
+
+###
+PUT http://localhost:3001/coordArea/validarRegistro/14/1234567890
+Content-Type: application/json
+
+{
+    
+}
+
+###
+PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/14/1234567890
+Content-Type: application/json
+
+{
+    "justificativa": "Material insuficiente",
+    "total": "02:30:00"
+}
+
+###
+POST http://localhost:3001/coordArea/registro/2345678901/1234567890
+Content-Type: application/json
+
+{
+    "dataServico": "2024-05-09",
+    "horaInicio": "10:00:00",
+    "horaFinal": "13:00:00",
+    "titulo": "Pabbabrte",
+    "descricao": "Se coabayguso!!!",
+    "FKservico": "2"
+}

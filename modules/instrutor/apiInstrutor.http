@@ -1,0 +1,54 @@
+# rotas de instrutor
+###
+GET  http://localhost:3001/instrutor/2345678901
+
+###
+GET  http://localhost:3001/instrutor/perfil/2345678901
+
+###
+POST http://localhost:3001/instrutor/registro/2345678901
+Content-Type: application/json
+
+{
+    "dataServico": "2024-05-20",
+    "horaInicio": "08:00",
+    "horaFinal": "12:00",
+    "titulo": "Material das aulas para turma de banco de dados",
+    "descricao": "",
+    "FKservico": "1"
+}
+
+###
+GET http://localhost:3001/instrutor/registros/2345678901
+
+###
+POST http://localhost:3001/instrutor/registros/2345678901
+Content-Type: application/json
+
+{
+    "dataInicioFiltro": "",
+    "dataFinalFiltro": "",
+    "FKservico": "1"
+}
+
+###
+GET http://localhost:3001/instrutor/registro/2345678901/14
+
+###
+PUT http://localhost:3001/instrutor/registro/2345678901/1
+Content-Type: application/json
+
+{
+    "dataServico": "2024-05-19",
+    "horaInicio": "06:00:00",
+    "horaFinal": "09:30:00",
+    "titulo": "1º consulta com o zé boné",
+    "descricao": "consulta de recomendação nutricional",
+    "FKservico": "4"
+}
+
+###
+DELETE http://localhost:3001/instrutor/registro/2345678901/2
+
+###
+GET http://localhost:3001/instrutor/servicos/2345678901

@@ -20,6 +20,10 @@ CoordenadorArea.init({
             isEmail: true,
         }
     },
+    senha: {       
+        type: DataTypes.STRING(128),
+        allowNull: false,
+    },
     area: {
         type: DataTypes.STRING(30),
         allowNull: false
