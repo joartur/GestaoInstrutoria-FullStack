@@ -37,3 +37,9 @@ Content-Type: application/json
     "descricao": "Se coabayguso!!!",
     "FKservico": "2"
 }
+
+###
+GET http://localhost:3000/coordArea/contarInstrutoresZerados/Tecnologia
+
+###
+GET http://localhost:3000/coordArea/contarInstrutoresExcedente/Tecnologia

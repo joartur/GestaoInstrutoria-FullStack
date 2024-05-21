@@ -86,7 +86,7 @@ class RegistroServico {
         const registro = await Registro.findOne({ where: { id } });
         return registro && registro.status === 'Em Análise';
     }
-
+    
     static async isRegistroEmAnalisePorInstrutor(matricula) {
         const registros = await Registro.findAll({ where: { FKinstrutor: matricula } });
         return registros.some(registro => registro.status === 'Em Análise');
@@ -247,6 +247,24 @@ class CoordAreaController {
         try {
             const instrutores = await RegistroServico.listarInstrutoresPorArea(req.params.area);
             res.status(200).json(instrutores);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    static async contarInstrutoresComSaldoZero(req, res) {
+        try {
+            const instrutores = await RegistroServico.listarInstrutoresComSaldoZero(req.params.area);
+            res.json({ total: instrutores.length });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+    
+    static async contarInstrutoresComSaldoExcedente(req, res) {
+        try {
+            const instrutores = await RegistroServico.listarInstrutoresComSaldoExcedente(req.params.area);
+            res.json({ total: instrutores.length });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
