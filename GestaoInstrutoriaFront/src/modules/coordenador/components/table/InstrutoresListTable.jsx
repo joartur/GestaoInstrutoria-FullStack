@@ -36,8 +36,8 @@ const InstrutoresListTable = () => {
                         <td className="status-sphere-td">
                             <Link to={`/validate/${data.matricula}`}>
                                 <FontAwesomeIcon
-                                    className={fetchInstructorSituation(data.matricula) ? "status-sphere conclude" : "status-sphere pending"}
-                                    icon={fetchInstructorSituation(data.matricula) ? faCheck : faExclamation}
+                                    className={fetchInstructorSituation(data.matricula) === true ? "status-sphere conclude" : "status-sphere pending"}
+                                    icon={fetchInstructorSituation(data.matricula) === true ? faCheck : faExclamation}
                                 />
                             </Link>
                         </td>

@@ -30,7 +30,7 @@ POST http://localhost:3001/instrutor/registro/123456
 Content-Type: application/json
 
 {
-    "dataServico": "2024-05-12",
+    "dataServico": "2024-03-08",
     "horaInicio": "00:00",
     "horaFinal": "13:00",
     "titulo": "Workshop de Maquiagem",

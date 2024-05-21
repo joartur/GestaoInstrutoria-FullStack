@@ -9,7 +9,6 @@ const FilterModal = ({ onClose }) => {
         dataInicioFiltro: "",
         dataFinalFiltro: "",
         FKservico: "",
-        ordenacao: "desc"
     });
 
     const handleChange = (event) => {
@@ -21,7 +20,14 @@ const FilterModal = ({ onClose }) => {
     };
 
     const handleSubmit = (event) => {
+        const selectedServicesString = selectedOptions.join(', ');
+        setFormData({
+            ...formData,
+            FKservico: selectedServicesString
+        });
         event.preventDefault();
+        console.log(formData)
+
         filterRegister(formData); // Chamada da função filterRegister com os dados do formulário como parâmetro
         onClose(); // Fechar o modal após enviar o formulário
     };
@@ -37,6 +43,7 @@ const FilterModal = ({ onClose }) => {
           updatedOptions = selectedOptions.filter(option => option !== value); // Remove a opção desmarcada
         }
         setSelectedOptions(updatedOptions);
+        console.log("update", updatedOptions)
       };
 
     return(
@@ -56,7 +63,6 @@ const FilterModal = ({ onClose }) => {
                                                 type="checkbox"
                                                 key={service.id}
                                                 value={service.id}
-                                                checked={selectedOptions.includes()}
                                                 onChange={handleOptionChange}
                                                 />
                                                 {service.nome}
@@ -104,66 +110,3 @@ const FilterModal = ({ onClose }) => {
 }
 
 export default FilterModal;
-
-/*
-<div className="hour-filter">
-                            <div className="timeInput-box">
-                                <label htmlFor="horaInicioFiltro">Hora Inicial</label>
-                                <input
-                                    id="horaInicioFiltro"
-                                    name="horaInicioFiltro"
-                                    type="time"
-                                    value={formData.horaInicioFiltro}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className="timeInput-box">
-                                <label htmlFor="horaFinalFiltro">Hora Final</label>
-                                <input
-                                    id="horaFinalFiltro"
-                                    name="horaFinalFiltro"
-                                    type="time"
-                                    value={formData.horaFinalFiltro}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="order-filter">
-                            <fieldset>
-                                <legend>Selecione por ordem de criação:</legend>
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="ordenacao"
-                                        value="desc"
-                                        checked={formData.ordenacao === 'desc'}
-                                        onChange={handleOptionChange}
-                                    />
-                                    Mais Recentes
-                                </label>
-
-                                <br/>
-
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="ordenacao"
-                                        value="asc"
-                                        checked={formData.ordenacao === 'asc'}
-                                        onChange={handleOptionChange}
-                                    />
-                                    Mais Antigas
-                                </label>
-                            </fieldset>
-                        </div>
-
-                        <select id="FKservico" name="FKservico" value={formData.FKservico} onChange={handleChange}>
-                                <option value="">Escolha o tipo de serviço educacional</option>
-                                {serviceTypes ? (
-                                    serviceTypes.map(service => (
-                                        <option value={service.id} key={service.id}>{service.nome}</option>
-                                    ))
-                                ) : (null)}
-                            </select>
-*/

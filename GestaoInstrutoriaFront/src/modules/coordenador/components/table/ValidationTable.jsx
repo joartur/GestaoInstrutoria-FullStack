@@ -15,7 +15,7 @@ const ValidationTable = ({ id }) => {
     const [serviceIdToValidate, setServiceIdToValidate] = useState(null);
     const [serviceIdToPartialValidate, setServiceIdToPartialValidate] = useState(null);
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-    const [confirmationMessage, setConfirmationMessage] = useState("");
+    const [confirmationMessage, setConfirmationMessage] = useState([]);
 
     const handleAccept = (id) => {
         setServiceIdToValidate(id);
@@ -29,17 +29,17 @@ const ValidationTable = ({ id }) => {
             try {
                 await validateInstructorRegister(serviceIdToValidate, "123456");
                 setServiceIdToValidate(null);
-                setConfirmationMessage("Serviço educacional validado com sucesso!");
+                setConfirmationMessage(["Confirmação", "Serviço educacional validado com sucesso!"]);
                 setShowConfirmationModal(true);
                 await fetchData(); // Atualizar a lista de registros
             } catch (error) {
                 setServiceIdToValidate(null);
                 if (error.response?.status === 400) {
-                    setConfirmationMessage("Justificativa inválida");
+                    setConfirmationMessage(["Falha", "Justificativa inválida"]);
                 } else if (error.response?.status === 500) {
-                    setConfirmationMessage("Erro interno do servidor");
+                    setConfirmationMessage(["Falha", "Erro interno do servidor"]);
                 } else {
-                    setConfirmationMessage("Erro ao validar o serviço");
+                    setConfirmationMessage(["Falha", "Erro ao validar serviço"]);
                 }
                 setShowConfirmationModal(true);
                 console.error("Erro ao validar o serviço:", error);
@@ -51,16 +51,18 @@ const ValidationTable = ({ id }) => {
         if (serviceIdToPartialValidate) {
             try {
                 await partiallyValidateInstructorRegister(serviceIdToPartialValidate, "123456", data.justificativa, data.total);
-                console.log("CUZÃO")
+                setServiceIdToPartialValidate(null);
+                setConfirmationMessage(["Confirmação", "Serviço educacional validado com sucesso!"]);
+                setShowConfirmationModal(true);
+                await fetchData();
             } catch (error) {
-                console.log("CU")
                 setServiceIdToPartialValidate(null);
                 if (error.response.request?.status === 400) {
-                    setConfirmationMessage("Justificativa inválida. Tente escrever uma justificativa mais elaborada.");
+                    setConfirmationMessage(["Falha", error.response.data.error]);
                 } else if (error.response?.status === 500) {
-                    setConfirmationMessage("Erro interno do servidor ao tentar justificar registro.");
+                    setConfirmationMessage(["Falha", "Erro interno do servidor"]);
                 } else {
-                    setConfirmationMessage("Erro ao validar parcialmente o serviço");
+                    setConfirmationMessage(["Falha", "Erro ao tentar validar parcialmente esse serviço"]);
                 }
                 setShowConfirmationModal(true);
                 console.error("Erro ao validar parcialmente o serviço:", error);
