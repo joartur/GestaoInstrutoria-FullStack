@@ -6,15 +6,8 @@ const { Op } = require('sequelize');
 class RegistroServico {
     static async listarInstrutoresPorArea(area) {
         const instrutores = await Instrutor.findAll({ where: { area } });
-
-        // Percorrer cada instrutor e verificar se possui registro em análise
         for (const instrutor of instrutores) {
             const emAnalise = await RegistroServico.isRegistroEmAnalisePorInstrutor(instrutor.matricula);
-            //const emAnalise = await Registro.findAll({
-              //  where: { FKinstrutor: instrutor.matricula },
-            //}).some((registro) => registro.status === 'Em Análise');
-
-            // Adicionar propriedade "situacao" ao objeto do instrutor
             instrutor.dataValues.situacao = emAnalise;
         }
 
