@@ -1,8 +1,10 @@
 const Registro = require("../../administrador/models/Registro.js");
 const Instrutor = require("../models/Instrutor.js");
 const Servico = require("../../administrador/models/Servico.js");
+const Usuario = require("../../usuario/model/Usuario.js");
 const sequelize = require('../../../config/connection.js');
 const { Op, literal } = require('sequelize');
+const Area = require("../../usuario/model/Area.js");
 
 class RegistroServico {
     static async cadastrarRegistro(novoRegistro){
@@ -53,7 +55,7 @@ class RegistroServico {
                 }
             }],
             attributes: {
-                exclude: ['FKservico'] // Exclaui o campo FKservico do resultado
+                exclude: ['FKservico'] // Exclui o campo FKservico do resultado
             },
             where: { id: registroId }
         });
@@ -117,20 +119,20 @@ class RegistroServico {
     
     static async buscarHorasTrab(matriculaInstrutor) {
         const instrutor = await Instrutor.findOne({
-            attributes: ['horasTrabalhadas'],
+            attributes: ['horasTrabalhadasPeriodo'],
             where: {
-                matricula: matriculaInstrutor
+                FKinstrutor: matriculaInstrutor
             }
         });
     
-        return instrutor.horasTrabalhadas;
+        return instrutor.horasTrabalhadasPeriodo;
     }
     
     static async buscarSaldoHoras(matriculaInstrutor) {
         const instrutor = await Instrutor.findOne({
             attributes: ['saldoHoras'],
             where: {
-                matricula: matriculaInstrutor
+                FKinstrutor: matriculaInstrutor
             }
         });
     
@@ -138,13 +140,19 @@ class RegistroServico {
     }
     
     static async buscarInstrutor(matriculaInstrutor){
-        const instrutor = await Instrutor.findOne({
-            attributes: ['nome', 'email', 'unidade', 'area'],
-            where: {
-                matricula: matriculaInstrutor
-            }
-        });
-        return instrutor;
+        return await Usuario.findOne({
+                attributes: ['nome', 'email', 'tipoUsuario'],
+                include: [{
+                    model: Area,
+                    attributes: ['nome'],
+                    where: {
+                        usuarioMatricula: sequelize.col('Usuario.matricula')
+                    }
+                }],
+                where: {
+                    matricula: matriculaInstrutor
+                }
+            });
     }
     
     static async conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio, registroEditadoId = null) {
@@ -218,6 +226,9 @@ class RegistroServico {
     }
     
     static validarDescricao(descricao){
+        if(descricao == ""){
+            return true
+        }
         /*
         a expressão regular permite qualquer combinação de letras, números, espaços, vírgulas, pontos, exclamação, interrogação, hífens
         e caracteres acentuados, incluindo palavras, frases e números decimais simples, mas evita números independentes com quatro ou mais dígitos consecutivos.
