@@ -6,10 +6,10 @@ GET http://localhost:3001/coordArea/listarRegistros/2345678901
 GET http://localhost:3001/coordArea/verificaSituacao/2345678901
 
 ###
-GET http://localhost:3001/coordArea/listarInstrutores/Tecnologia
+GET http://localhost:3001/coordArea/listarInstrutores/1234567890
 
 ###
-PUT http://localhost:3001/coordArea/validarRegistro/1/758690
+PUT http://localhost:3001/coordArea/validarRegistro/14/1234567890
 Content-Type: application/json
 
 {
@@ -17,16 +17,16 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/3/1234567890
+PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/14/1234567890
 Content-Type: application/json
 
 {
-    "justificativa": "Material das aulas para turma de banco de dados",
-    "total": "02:00:00"
+    "justificativa": "Material insuficiente",
+    "total": "02:30:00"
 }
 
 ###
-POST http://localhost:3001/coordArea/registro/758690/789012
+POST http://localhost:3001/coordArea/registro/2345678901/1234567890
 Content-Type: application/json
 
 {

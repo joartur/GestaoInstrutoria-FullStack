@@ -4,7 +4,6 @@ const Servico = require("../../administrador/models/Servico.js");
 const Usuario = require("../../usuario/model/Usuario.js");
 const sequelize = require('../../../config/connection.js');
 const { Op, literal } = require('sequelize');
-const UsuarioArea = require("../../usuario/model/UsuarioArea.js");
 const Area = require("../../usuario/model/Area.js");
 
 class RegistroServico {
@@ -126,7 +125,7 @@ class RegistroServico {
             }
         });
     
-        return instrutor.horasTrabalhadas;
+        return instrutor.horasTrabalhadasPeriodo;
     }
     
     static async buscarSaldoHoras(matriculaInstrutor) {
@@ -141,20 +140,19 @@ class RegistroServico {
     }
     
     static async buscarInstrutor(matriculaInstrutor){
-        const instrutor = await Usuario.findOne({
-            attributes: ['nome', 'email', 'tipoUsuario'],
-            include: [{
-                model: Area,
-                attributes: ['nome'],
+        return await Usuario.findOne({
+                attributes: ['nome', 'email', 'tipoUsuario'],
+                include: [{
+                    model: Area,
+                    attributes: ['nome'],
+                    where: {
+                        usuarioMatricula: sequelize.col('Usuario.matricula')
+                    }
+                }],
                 where: {
-                    usuarioMatricula: sequelize.col('Usuario.matricula')
+                    matricula: matriculaInstrutor
                 }
-            }],
-            where: {
-                matricula: matriculaInstrutor
-            }
-        });
-        return instrutor;
+            });
     }
     
     static async conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio, registroEditadoId = null) {
