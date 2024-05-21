@@ -30,9 +30,9 @@ POST http://localhost:3001/coordArea/registro/2345678901/1234567890
 Content-Type: application/json
 
 {
-    "dataServico": "19-02-2024",
-    "horaInicio": "10:00",
-    "horaFinal": "13:00",
+    "dataServico": "2024-05-09",
+    "horaInicio": "10:00:00",
+    "horaFinal": "13:00:00",
     "titulo": "Pabbabrte",
     "descricao": "Se coabayguso!!!",
     "FKservico": "2"

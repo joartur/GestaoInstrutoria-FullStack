@@ -361,7 +361,7 @@ class CoordAreaController {
             }
 
             // Conferir se existe sobreposição de horário
-            if (await RegistroServico.conferirRegistros(dataFormatada, FKinstrutor, horaInicio, horaFinal)) {
+            if (await RegistroServico.conferirRegistros(dataServico, FKinstrutor, horaInicio, horaFinal)) {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
             }
 
@@ -370,7 +370,7 @@ class CoordAreaController {
 
             // Cadastrar novo registro
             await RegistroServico.cadastrarRegistro({
-                dataServico: dataFormatada,
+                dataServico,
                 horaInicio,
                 horaFinal,
                 total,
