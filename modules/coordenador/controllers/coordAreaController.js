@@ -5,20 +5,33 @@ const { Op } = require('sequelize');
 
 class RegistroServico {
     static async listarInstrutoresPorArea(area) {
-        return await Instrutor.findAll({ where: { area } });
+        const instrutores = await Instrutor.findAll({ where: { area } });
+
+        // Percorrer cada instrutor e verificar se possui registro em análise
+        for (const instrutor of instrutores) {
+            const emAnalise = await RegistroServico.isRegistroEmAnalisePorInstrutor(instrutor.matricula);
+            //const emAnalise = await Registro.findAll({
+              //  where: { FKinstrutor: instrutor.matricula },
+            //}).some((registro) => registro.status === 'Em Análise');
+
+            // Adicionar propriedade "situacao" ao objeto do instrutor
+            instrutor.dataValues.situacao = emAnalise;
+        }
+
+        return instrutores;
     }
 
     static async listarInstrutoresComSaldoZero(area) {
         const instrutores = await Instrutor.findAll({ where: { area, saldoHoras: '00:00' } });
         return instrutores;
-    }   
-    
+    }
+
     static async listarInstrutoresComSaldoExcedente(area) {
-        const instrutores = await Instrutor.findAll({ 
-            where: { 
+        const instrutores = await Instrutor.findAll({
+            where: {
                 area,
                 saldoHoras: { [Op.gt]: 176 }
-            } 
+            }
         });
         return instrutores;
     }
@@ -140,7 +153,7 @@ class CoordAreaController {
             res.status(500).json({ error: error.message });
         }
     }
-    
+
     static async contarInstrutoresComSaldoExcedente(req, res) {
         try {
             const instrutores = await RegistroServico.listarInstrutoresComSaldoExcedente(req.params.area);
@@ -155,7 +168,7 @@ class CoordAreaController {
             const registros = await RegistroServico.listarRegistrosPorInstrutor(req.params.matricula);
             res.json(registros);
         } catch (error) {
-            res.status (500).json({ error: error.message });
+            res.status(500).json({ error: error.message });
         }
     }
 
