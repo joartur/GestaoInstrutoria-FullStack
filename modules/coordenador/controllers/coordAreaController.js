@@ -128,46 +128,10 @@ class RegistroServico {
 }
 
 class CoordAreaController {
-    static async listarInstrutores(req, res) {
-        try {
-            const instrutores = await RegistroServico.listarInstrutoresPorArea(req.params.area);
-            res.json(instrutores);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    }
-
-    static async contarInstrutoresComSaldoZero(req, res) {
-        try {
-            const instrutores = await RegistroServico.listarInstrutoresComSaldoZero(req.params.area);
-            res.json({ instrutores });
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    }
-
-    static async contarInstrutoresComSaldoExcedente(req, res) {
-        try {
-            const instrutores = await RegistroServico.listarInstrutoresComSaldoExcedente(req.params.area);
-            res.json({ instrutores });
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    }
-
     static async listarRegistros(req, res) {
         try {
             const registros = await RegistroServico.listarRegistrosPorInstrutor(req.params.matricula);
             res.json(registros);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    }
-
-    static async verificaSituacao(req, res) {
-        try {
-            const emAnalise = await RegistroServico.isRegistroEmAnalisePorInstrutor(req.params.matricula);
-            res.json(emAnalise);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

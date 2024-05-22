@@ -15,24 +15,9 @@ router.get('/listarRegistros/:matricula', (req, res) => {
     coordArea.listarRegistros(req, res);
 });
 
-// Rota GET para saber a situação de determinado instrutor
-router.get('/verificaSituacao/:matricula', (req, res) => {
-    coordArea.verificaSituacao(req, res);
-});
-
 // Rota GET para listar os Instrutores
 router.get('/listarInstrutores/:area', (req, res) => {
     coordArea.listarInstrutores(req, res);
-});
-
-// Rota GET para contar os Instrutores com o saldo de horas zerado
-router.get('/contarInstrutoresZerados/:area', (req, res) => {
-    coordArea.contarInstrutoresComSaldoZero(req, res);
-});
-
-// Rota GET para contar os Instrutores com o saldo de horas Excedente
-router.get('/contarInstrutoresExcedente/:area', (req, res) => {
-    coordArea.contarInstrutoresComSaldoExcedente(req, res);
 });
 
 //Rota PUT para validar o resgistro
