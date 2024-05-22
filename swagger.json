@@ -21,13 +21,13 @@
     }
   ],
   "paths": {
-    "/instrutor/{matriculaI}": {
+    "/instrutor/{matriculaInstrutor}": {
       "get": {
         "tags": ["Instrutor"],
         "summary": "Obter informações para a página inicial do instrutor",
         "parameters": [
           {
-            "name": "matriculaI",
+            "name": "matriculaInstrutor",
             "in": "path",
             "required": true,
             "schema": {
@@ -53,13 +53,13 @@
         }
       }
     },
-    "/instrutor/perfil/{matriculaI}": {
+    "/instrutor/perfil/{matriculaInstrutor}": {
       "get": {
         "tags": ["Instrutor"],
         "summary": "Obter os dados do perfil do instrutor",
         "parameters": [
           {
-            "name": "matriculaI",
+            "name": "matriculaIntrutor",
             "in": "path",
             "required": true,
             "schema": {
@@ -88,13 +88,13 @@
         }
       }
     },
-    "/instrutor/registros/{matriculaI}": {
+    "/instrutor/registros/{matriculaInstruto}": {
       "get": {
         "tags": ["Instrutor"],
         "summary": "Obter a lista de registros associados ao instrutor",
         "parameters": [
           {
-            "name": "matriculaI",
+            "name": "matriculaInstruto",
             "in": "path",
             "required": true,
             "schema": {
@@ -149,7 +149,7 @@
         "summary": "Busca por registros de acordo com os filtros determinados",
         "parameters": [
           {
-            "name": "matriculaI",
+            "name": "matriculaInstruto",
             "in": "path",
             "required": true,
             "schema": {
@@ -189,13 +189,13 @@
         }
       }
     },
-    "/instrutor/registro/{matriculaI}": {
+    "/instrutor/registro/{matriculaInstruto}": {
       "post":{
         "tags": ["Instrutor"],
         "summary": "Criar um novo registro de serviço educacional do instrutor",
         "parameters": [
           {
-            "name": "matriculaI",
+            "name": "matriculaInstruto",
             "in": "path",
             "required": true,
             "schema": {
@@ -261,13 +261,13 @@
         }
       }
     },
-    "/instrutor/registro/{matriculaI}/{registroId}": {
+    "/instrutor/registro/{matriculaInstruto}/{registroId}": {
       "get": {
         "tags": ["Instrutor"],
           "summary": "Obter os dados de um registro associado ao instrutor (visualização)",
           "parameters": [
             {
-              "name": "matriculaI",
+              "name": "matriculaInstruto",
               "in": "path",
               "required": true,
               "schema": {
@@ -309,7 +309,7 @@
         "summary": "Atualizar dados de um registro de serviço educacional do instrutor",
         "parameters": [
           {
-            "name": "matriculaI",
+            "name": "matriculaInstruto",
             "in": "path",
             "required": true,
             "schema": {
@@ -392,7 +392,7 @@
         "summary": "Excluir um registro do instrutor",
         "parameters": [
           {
-            "name": "matriculaI",
+            "name": "matriculaInstruto",
             "in": "path",
             "required": true,
             "schema": {
@@ -433,48 +433,13 @@
         }
       }
     },
-    "/instrutor/test/{matriculaI}": {
-      "get": {
-        "tags": ["Instrutor"],
-        "summary": "Obter todos os dados de registros educacionais cadastrados do banco.",
-        "parameters": [
-          {
-            "name": "matriculaI",
-            "in": "path",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Matrícula do instrutor"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/listaRegistros"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Registros não encontrados"
-          },
-          "500": {
-            "description": "Indica que um erro interno ocorreu."
-          }
-        }
-      }
-    },
-    "/instrutor/servicos/{matriculaI}": {
+    "/instrutor/servicos/{matriculaInstruto}": {
       "get": {
         "tags": ["Instrutor"],
         "summary": "Obter a lista de serviço educacional do banco.",
         "parameters": [
           {
-            "name": "matriculaI",
+            "name": "matriculaInstruto",
             "in": "path",
             "required": false,
             "schema": {
@@ -503,19 +468,19 @@
         }
       }
     },
-    "/coordArea/listarRegistros/{matricula}":{
+    "/coordArea/listarRegistros/{matriculaInstrutor}":{
       "get": {
         "tags": ["Coordenador de área"],
-        "summary": "Obter informações para a página inicial do instrutor",
+        "summary": "Obter os registros em análise do instrutor",
         "parameters": [
           {
-            "name": "matriculaI",
+            "name": "matriculaInstrutor",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string"
             },
-            "description": "Matrícula do instrutor"
+            "description": "Matricula do Instrutor"
           }
         ],
         "responses": {
@@ -524,7 +489,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/homeInstrutor"
+                  "$ref": "#/components/schemas/listaRegistrosInstrutor"
                 }
               }
             }
@@ -562,8 +527,15 @@
         "properties": {
           "nome": { "type": "string", "example": "Maria Souza" },
           "email": { "type": "string", "format": "email", "example": "maria.souza@example.com" },
-          "unidade": { "type": "string", "example": "Unidade Alecrim" },
-          "area": { "type": "string", "example": "Gastronomia" }
+          "tipoUsuario": { "type": "string", "example": "instrutor" },
+          "Areas": { 
+            "type": "array",
+            "items":{
+              "type":"object",
+              "properties":{
+                "nome": {"type": "string", "example":"Marketing"}
+              }
+            }}
         },
         "required": ["nome", "email", "unidade", "area"]
       },
@@ -630,6 +602,37 @@
           }
         },
         "required": ["msg", "data"]
+      },      
+      "listaRegistrosInstrutor": {
+        "type": "object",
+        "properties": {
+          "nomeInstrutor": { "type": "string", "example": "Maria Souza" },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "integer", "example": 3 },
+                "titulo": { "type": "string", "example": "1º consulta com o zé boné" },
+                "dataServico": { "type": "string", "format": "date", "example": "2024-02-25" },
+                "horaInicio": { "type": "string", "format": "time", "example": "06:00:00" },
+                "horaFinal": { "type": "string", "format": "time", "example": "09:30:00" },
+                "total": { "type": "string", "example": "03:30:00" },
+                "status": { "type": "string", "example": "Validado" },
+                "Servico": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer", "example": 1 },
+                    "nome": { "type": "string", "example": "Consultoria" }
+                  },
+                  "required": ["id", "nome"]
+                }
+              },
+              "required": ["id", "titulo", "dataServico", "horaInicio", "horaFinal", "total", "status", "Servico"]
+            }
+          }
+        },
+        "required": ["nomeInstrutor", "data"]
       },
       "listaRegistro": {
         "type": "object",

@@ -145,6 +145,7 @@ class RegistroServico {
                 include: [{
                     model: Area,
                     attributes: ['nome'],
+                    through: { attributes: [] },
                     where: {
                         usuarioMatricula: sequelize.col('Usuario.matricula')
                     }

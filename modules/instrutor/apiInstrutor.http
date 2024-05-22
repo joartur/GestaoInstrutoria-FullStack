@@ -32,7 +32,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3001/instrutor/registro/2345678901/14
+GET http://localhost:3001/instrutor/registro/2345678901/1
 
 ###
 PUT http://localhost:3001/instrutor/registro/2345678901/1
