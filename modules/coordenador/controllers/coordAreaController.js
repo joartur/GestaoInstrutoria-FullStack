@@ -10,13 +10,12 @@ class RegistroServico {
             const emAnalise = await RegistroServico.isRegistroEmAnalisePorInstrutor(instrutor.matricula);
             instrutor.dataValues.situacao = emAnalise;
         }
-
         return instrutores;
     }
 
     static async listarInstrutoresComSaldoZero(area) {
         const instrutores = await Instrutor.findAll({ where: { area, saldoHoras: '00:00' } });
-        return instrutores;
+        return instrutores.length;
     }
 
     static async listarInstrutoresComSaldoExcedente(area) {
@@ -26,7 +25,7 @@ class RegistroServico {
                 saldoHoras: { [Op.gt]: 176 }
             }
         });
-        return instrutores;
+        return instrutores.length;
     }
 
     static async listarRegistrosPorInstrutor(matricula) {
@@ -141,7 +140,7 @@ class CoordAreaController {
     static async contarInstrutoresComSaldoZero(req, res) {
         try {
             const instrutores = await RegistroServico.listarInstrutoresComSaldoZero(req.params.area);
-            res.json({ total: instrutores.length });
+            res.json({ instrutores });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -150,7 +149,7 @@ class CoordAreaController {
     static async contarInstrutoresComSaldoExcedente(req, res) {
         try {
             const instrutores = await RegistroServico.listarInstrutoresComSaldoExcedente(req.params.area);
-            res.json({ total: instrutores.length });
+            res.json({ instrutores });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -285,6 +284,32 @@ class CoordAreaController {
             });
 
             res.json({ msg: "Registro cadastrado." });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    static async home(req, res) {
+        try {
+            const { area } = req.params;
+
+            // Busca a quantidade de instrutores que não tem horas cadastradas
+            const instrutoresSemHoras = await RegistroServico.listarInstrutoresComSaldoZero(area);
+
+            // Busca a quantidade de instrutores que estão excedendo as horas permitidas
+            const instrutoresSaldoExcedente = await RegistroServico.listarInstrutoresComSaldoExcedente(area);
+
+            // Listar instrutores por área
+            const listarInstrutores = await RegistroServico.listarInstrutoresPorArea(area);
+
+            // Organiza o response da rota
+            const response = {
+                instrutoresSemHoras,
+                instrutoresSaldoExcedente,
+                listarInstrutores // Atualizado para um nome de variável mais claro
+            };
+
+            res.status(200).json(response);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

@@ -5,6 +5,11 @@ const router = express.Router();
 
 router.use(override('_method'));
 
+// rota get da page home do coordenador
+router.get('/:area',(req, res) => {
+    coordArea.home(req, res);
+})
+
 // Rota GET para listar os registros de um determinado instrutor
 router.get('/listarRegistros/:matricula', (req, res) => {
     coordArea.listarRegistros(req, res);
