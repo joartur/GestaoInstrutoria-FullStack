@@ -1,5 +1,6 @@
 const Instrutor = require("../../instrutor/models/Instrutor.js");
 const Registro = require("../../administrador/models/Registro.js");
+const Coordenador = require("../../coordenador/models/CoordenadorArea.js");
 
 const { Op } = require('sequelize');
 
@@ -123,6 +124,15 @@ class RegistroServico {
                 (novoFim > registroInicio && novoFim <= registroFim) ||
                 (novoInicio <= registroInicio && novoFim >= registroFim)
             );
+        });
+    }
+
+    static async buscarCoordenador(matricula) {
+        return await Coordenador.findOne({
+            attributes: ['nome', 'email', 'area'],
+            where: {
+                matricula: matricula
+            }
         });
     }
 }
@@ -274,6 +284,18 @@ class CoordAreaController {
             };
 
             res.status(200).json(response);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    static async perfil(req, res) {
+        const { matricula } = req.params;
+
+        try {
+            const coordenador = await RegistroServico.buscarCoordenador(matricula);
+
+            res.status(200).json(coordenador);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

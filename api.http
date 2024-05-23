@@ -22,6 +22,9 @@ GET http://localhost:3000/servico/buscar/4
 GET http://localhost:3000/coordArea/Tecnologia
 
 ###
+GET http://localhost:3000/coordArea/perfil/4321
+
+###
 GET http://localhost:3000/coordArea/listarRegistros/123456
 
 ###
