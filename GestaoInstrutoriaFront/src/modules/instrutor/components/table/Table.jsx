@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { faTrash, faPenToSquare, faCircleInfo, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useDataContext } from '../../services/DataContext';
@@ -27,7 +27,6 @@ const Table = ({formattedData, handleSort, sortDirection, sortBy}) => {
           setServiceIdToDelete(null);
         }
     };
-
     //Fecha o modal ao apertar "ESC"  
     const closeModal = () => {
         setServiceIdToDelete(null);

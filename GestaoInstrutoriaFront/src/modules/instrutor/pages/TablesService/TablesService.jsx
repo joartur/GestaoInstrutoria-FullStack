@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useDataContext } from '../../services/DataContext';
 import Layout from "../../components/layout/Layout"
 import Header from "../../../../components/header/Header"
@@ -17,9 +17,7 @@ import "./tablesService.css"
 const TablesService = () => {
     
     //Importa os dados dos serviços educacionais cadastrados pelo instrutor através da contet API
-    const { data } = useDataContext();
-
-    const [situacao, setSituacao] = useState('');
+    const { data, filterRegister } = useDataContext();
 
     //formata hora e data dos dados recebeidos da API
     const formattedServices = data.map(service => {
@@ -40,6 +38,14 @@ const TablesService = () => {
         }
     });
 
+    const [situacao, setSituacao] = useState('');
+
+    const [customFilters, setCustomFilters] = useState({
+        dataInicioFiltro: "",
+        dataFinalFiltro: "",
+        FKservico: ""
+    });    
+
     //estado com o valor pesquisado na barra de pesquisa
     const [searchTerm, setSearchTerm] = useState('');
     //estado do valor filtrado pela pesquisa, sem nenhuma pesquisa ele exibe os dados formatados
@@ -58,26 +64,36 @@ const TablesService = () => {
     };
 
     //filtra os dados com base na consulta do input de pesquisa
-    const filterData = (term, situacao) => {
+    const filterData = (term, situacao, customFilters) => {
         let filteredResults = formattedServices;
+    
         if (term) {
-          filteredResults = filteredResults.filter((item) =>
-            item.titulo.toLowerCase().includes(term.toLowerCase())
-          );
+            filteredResults = filteredResults.filter((item) =>
+                item.titulo.toLowerCase().includes(term.toLowerCase())
+            );
         }
+        
         if (situacao) {
-          filteredResults = filteredResults.filter((item) => item.status === situacao);
+            filteredResults = filteredResults.filter((item) => item.status === situacao);
         }
+    
+        // Aplicar filtros personalizados
+
+        if (customFilters) {
+            console.log("filtrar posteriormente")
+        }
+
         setFilteredData(filteredResults);
-      };
+    };
     
     useEffect(() => {
         setFilteredData(formattedServices);
     }, [data]);
-
+    
     useEffect(() => {
-        filterData(searchTerm);
-    }, [searchTerm]);
+        filterData(searchTerm, situacao, customFilters);
+    }, [searchTerm, situacao, customFilters]);
+    
 
     const [sortBy, setSortBy] = useState('');
     const [sortDirection, setSortDirection] = useState('desc');
@@ -128,6 +144,18 @@ const TablesService = () => {
     const closeModal = () => {
         setIsModalOpen(false)
     };
+
+    const applyFilters = async (filters) => {
+        try {
+            const filteredResults = await filterRegister(filters);
+            setCustomFilters(filters);
+            setFilteredData(filteredResults);
+        } catch (error) {
+            console.log("Error applying filters:", error);
+        }
+        
+        closeModal();
+    };
     //Chamada de Custom Hook para fechar o modal ao apertar ESC
     useEscapeKeyPress(closeModal, [isModalOpen]);
 
@@ -139,6 +167,13 @@ const TablesService = () => {
         filterData(searchTerm, situacaoValue); // Atualiza o filtro com a situação selecionada
     };
 
+    const removeFilter = (filterKey) => {
+        setCustomFilters((prevFilters) => ({
+            ...prevFilters,
+            [filterKey]: ''
+        }));
+    };
+
     if (!data) {
         return <Loading />
     }
@@ -147,9 +182,9 @@ const TablesService = () => {
         <Layout >
             <Header title="Meus Serviços Educacionais" description="Lista com informações sobre seus serviços educacionais"/>
             <main className="tableService-container">
-                {isModalOpen && (
-                    <FilterModal onClose={closeModal}/>
-                )}
+            {isModalOpen && (
+                <FilterModal onClose={closeModal} applyFilters={applyFilters} />
+            )}
                 <div className="search-container">
                     <div className="searchBar-container">
                         <input
@@ -179,6 +214,28 @@ const TablesService = () => {
                 </select>
                     <button title="Filtros" size="medium" onClick={openModal} className="filterOpen-btn">Filtros</button>
                 </div>
+
+                <div className="active-filters">
+                    {customFilters.dataInicioFiltro && (
+                        <div className="filter-tag">
+                            Data Início: {customFilters.dataInicioFiltro}
+                            <FontAwesomeIcon icon={faTimes} onClick={() => removeFilter('dataInicioFiltro')} />
+                        </div>
+                    )}
+                    {customFilters.dataFinalFiltro && (
+                        <div className="filter-tag">
+                            Data Final: {customFilters.dataFinalFiltro}
+                            <FontAwesomeIcon icon={faTimes} onClick={() => removeFilter('dataFinalFiltro')} />
+                        </div>
+                    )}
+                    {customFilters.FKservico && (
+                        <div className="filter-tag">
+                            Serviço: {customFilters.FKservico}
+                            <FontAwesomeIcon icon={faTimes} onClick={() => removeFilter('FKservico')} />
+                        </div>
+                    )}
+                </div>
+
                 {filteredData.length > 0 ? (
                     <div className="tables-container">
                         <Table

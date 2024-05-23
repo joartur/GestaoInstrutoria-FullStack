@@ -3,7 +3,6 @@ import { faCheck, faExclamation } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useCoordenadorContext } from "../../services/CoordenadorContext";
 import Button from "../../../../components/buttons/Button";
-import NotFound from "../NotFoundComponent/NotFoundComponent"
 import "../../../instrutor/components/table/table.css";
 
 const InstrutoresListTable = () => {

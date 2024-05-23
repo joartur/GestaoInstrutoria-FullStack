@@ -10,6 +10,9 @@ const HomePage = () => {
 
   const { instrutorData } = useDataContext();
 
+  console.log(instrutorData)
+
+
   if (!instrutorData) {
     return <Loading />
   }
@@ -40,9 +43,9 @@ const HomePage = () => {
         <main>
         <div className="home-container">
               <Box title="Horas Produzidas (SIG)" description="00 Horas" type="box"/>
-              <Box title="Horas de Serviço Educacional" description={instrutorData.horasServicos ? instrutorData.horasServicos.split(":")[0] + " Horas" : "0 Horas"} type="box"/>
-              <Box title="Total de Horas Cadastradas " description={instrutorData.horasTrab ? instrutorData.horasTrab.split(":")[0] + " Horas" : "0 Horas"} type={getBoxColor(instrutorData.horasTrab)}/>
-              <Box title="Saldo de Horas" description={instrutorData.saldoHoras ? instrutorData.saldoHoras.split(":")[0] + " Horas" : "0 Horas"} type="box"/>
+              <Box title="Horas de Serviço Educacional" description={instrutorData.horasServicos ? instrutorData.horasServicos.split(":")[0] + " Horas" : "00 Horas"} type="box"/>
+              <Box title="Total de Horas Cadastradas " description={instrutorData.horasTrab ? instrutorData.horasTrab.split(":")[0] + " Horas" : "00 Horas"} type={getBoxColor(instrutorData.horasTrab)}/>
+              <Box title="Saldo de Horas" description={instrutorData.saldoHoras ? instrutorData.saldoHoras.split(":")[0] + " Horas" : "00 Horas"} type="box"/>
         </div>
         <div>
           <Calendario />

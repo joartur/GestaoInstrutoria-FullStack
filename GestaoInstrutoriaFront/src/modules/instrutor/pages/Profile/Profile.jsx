@@ -33,12 +33,12 @@ const Profile = () => {
 
                                             <div className="profile-office">
                                                 <label htmlFor="position">Cargo</label>
-                                                <TextInput id="position" value="Instrutor" name="position" disabled={true} />
+                                                <TextInput id="position" value={instrutorProfile.tipoUsuario} name="position" disabled={true} />
                                             </div>
 
                                             <div className="profile-area">
                                                 <label htmlFor="area">Área</label>
-                                                <TextInput id="area" name="area" value={instrutorProfile.area} disabled={true} />
+                                                <TextInput id="area" name="area" value={instrutorProfile.Areas[0].nome} disabled={true} />
                                             </div>
                                         </div>
 

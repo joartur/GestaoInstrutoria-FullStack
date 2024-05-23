@@ -1,3 +1,8 @@
+.type-filter label{
+    font-size: 18px;
+    cursor: pointer;
+}
+
 .deleteModal-whrapper{
     display: flex;
     align-items: center;

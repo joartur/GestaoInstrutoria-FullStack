@@ -10,7 +10,7 @@ POST http://localhost:3001/instrutor/registro/2345678901
 Content-Type: application/json
 
 {
-    "dataServico": "2024-05-20",
+    "dataServico": "2024-05-04",
     "horaInicio": "08:00",
     "horaFinal": "12:00",
     "titulo": "Material das aulas para turma de banco de dados",

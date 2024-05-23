@@ -5,7 +5,6 @@ import { faCheck, faXmark, faCircleInfo, faCircleCheck } from "@fortawesome/free
 import Modal from "../../../../components/modal/Modal";
 import PartialValidationModal from "../modal/partialValidationModal";
 import useEscapeKeyPress from "../../../../hooks/useEscapeKeyPress";
-import useFormattedDateTime from "../../../../hooks/useFormattedDateTime";
 import ConfirmationModal from "../modal/ConfirmationModal";
 
 const ValidationTable = ({ id }) => {

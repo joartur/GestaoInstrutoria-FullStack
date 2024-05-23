@@ -32,7 +32,7 @@ export const DataProvider = ({ children }) => {
 //consume api de serviços educacionais de um instrutor
     const fetchData = async () => {
       try {
-          const response = await axios.get('http://localhost:3001/instrutor/registros/123456');
+          const response = await axios.get('http://localhost:3001/instrutor/registros/2345678901');
           const orderedData = response.data.data.slice().reverse();
           setData(orderedData);
           InstrutorDataFetch();
@@ -44,7 +44,7 @@ export const DataProvider = ({ children }) => {
 //consumo de api para criar um registro
     const createEducationalService = async (newServiceData) => {
         try {
-          const response = await axios.post('http://localhost:3001/instrutor/registro/123456', newServiceData);
+          const response = await axios.post('http://localhost:3001/instrutor/registro/2345678901', newServiceData);
           //assinala como verdadeiro a criação de um serviço
           setServiceCreated(true);
           //adiciona o novo registro ao data
@@ -75,7 +75,7 @@ export const DataProvider = ({ children }) => {
 
     const deleteService = async (id) => {
       try {
-        await axios.delete(`http://localhost:3001/instrutor/registro/123456/${id}`);
+        await axios.delete(`http://localhost:3001/instrutor/registro/2345678901/${id}`);
         //deleta um serviço e tira ele do array
         const updatedData = data.filter(item => item.id !== id);
         setData(updatedData);
@@ -87,7 +87,7 @@ export const DataProvider = ({ children }) => {
 
     const editService = async (id, updatedServiceData) => {
       try {
-          const response = await axios.put(`http://localhost:3001/instrutor/registro/123456/${id}`, updatedServiceData);
+          const response = await axios.put(`http://localhost:3001/instrutor/registro/2345678901/${id}`, updatedServiceData);
           setServiceEdited(true);
           console.log('Serviço educacional editado com sucesso:', response.data);
           //atualiza os dados exibidos depois de editar com sucesso
@@ -116,7 +116,7 @@ export const DataProvider = ({ children }) => {
     //Consumo dos dados detalhados de um serviço específico com consulta por ID
     const fetchServiceDetails = async (id) => {
       try {
-        const response = await axios.get(`http://localhost:3001/instrutor/registro/123456/${id}`);
+        const response = await axios.get(`http://localhost:3001/instrutor/registro/2345678901/${id}`);
         console.log(response.data.data);
         //Retorna os dados para manipulação em outras páginas
         return response.data.data
@@ -130,7 +130,7 @@ export const DataProvider = ({ children }) => {
 //consumo dos dados da página inicial
   const InstrutorDataFetch = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/instrutor/123456');
+      const response = await axios.get('http://localhost:3001/instrutor/2345678901');
       setInstrutorData(response.data)
   } catch (error) {
       console.error('Erro ao buscar dados do instrutor:', error);
@@ -140,7 +140,7 @@ export const DataProvider = ({ children }) => {
 //RECEBER DADOS DOS TIPOS DE SERVIÇO QUE EXISTEM
   const serviceTypesFetch = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/instrutor/servicos/123456');
+      const response = await axios.get('http://localhost:3001/instrutor/servicos/2345678901');
       setServiceTypes(response.data.servicos);
     } catch (error) {
       console.error('Erro ao buscar dados do perfil do instrutor:', error);
@@ -150,12 +150,12 @@ export const DataProvider = ({ children }) => {
 //ENVIAR PARAMETROS DE FILTRO E RECEBER RESPOSTA COM DADOS FILTRADOS
   const filterRegister = async (filtro) => {
       try {
-          const response = await axios.post('http://localhost:3001/instrutor/registros/123456', filtro);
+          const response = await axios.post('http://localhost:3001/instrutor/registros/2345678901', filtro);
           console.log(response.data)
           setFilteredData(response.data)
       } catch (error) {
           console.error('Erro ao enviar filtro:', error);
-          console.log(error)
+          throw error.response.data.error;
       }
   };
 

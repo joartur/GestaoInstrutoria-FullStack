@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDataContext } from '../../services/DataContext';
 import "./filterModal.css"
 
-const FilterModal = ({ onClose }) => {
+const FilterModal = ({ onClose, applyFilters }) => {
     const { serviceTypes, filterRegister } = useDataContext();
 
     const [formData, setFormData] = useState({
@@ -10,6 +10,8 @@ const FilterModal = ({ onClose }) => {
         dataFinalFiltro: "",
         FKservico: "",
     });
+
+    const [selectedOptions, setSelectedOptions] = useState([]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -19,33 +21,31 @@ const FilterModal = ({ onClose }) => {
         });
     };
 
-    const handleSubmit = (event) => {
-        const selectedServicesString = selectedOptions.join(', ');
-        setFormData({
-            ...formData,
-            FKservico: selectedServicesString
-        });
-        event.preventDefault();
-        console.log(formData)
-
-        filterRegister(formData); // Chamada da função filterRegister com os dados do formulário como parâmetro
-        onClose(); // Fechar o modal após enviar o formulário
-    };
-
-    const [selectedOptions, setSelectedOptions] = useState([]);
-
     const handleOptionChange = (event) => {
         const { value, checked } = event.target;
         let updatedOptions;
         if (checked) {
-          updatedOptions = [...selectedOptions, value]; // Adiciona a opção selecionada
+            updatedOptions = [...selectedOptions, value]; // Adiciona a opção selecionada
         } else {
-          updatedOptions = selectedOptions.filter(option => option !== value); // Remove a opção desmarcada
+            updatedOptions = selectedOptions.filter(option => option !== value); // Remove a opção desmarcada
         }
         setSelectedOptions(updatedOptions);
-        console.log("update", updatedOptions)
-      };
+        console.log(selectedOptions)
 
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const selectedServicesString = selectedOptions.join(', ');
+        // Atualizando o formData com a string formatada dos serviços selecionados
+        const updatedFormData = {
+            ...formData,
+            FKservico: selectedServicesString
+        };
+        console.log("updated:", updatedFormData)
+        applyFilters(updatedFormData); // Chama a função para aplicar os filtros
+    };
+    
     return(
         <div className="deleteModal-overlay">
             <div className="deleteModal-whrapper">
@@ -57,17 +57,17 @@ const FilterModal = ({ onClose }) => {
                             <label htmlFor="FKservico">Tipo de Serviço Educacional</label>
                             {
                                 serviceTypes ? (
-                                        serviceTypes.map(service => (
-                                            <label key={service.id}>
-                                                <input
+                                    serviceTypes.map(service => (
+                                        <label key={service.id}>
+                                            <input
                                                 type="checkbox"
                                                 key={service.id}
                                                 value={service.id}
                                                 onChange={handleOptionChange}
-                                                />
-                                                {service.nome}
-                                            </label>
-                                        ))
+                                            />
+                                            {service.nome}
+                                        </label>
+                                    ))
                                 ) : (null)
                             }
                             
@@ -97,7 +97,7 @@ const FilterModal = ({ onClose }) => {
                         </div>
 
                         <div className="deleteModal-buttons">
-                            <button className="filterOpen-btn" onClick={onClose}>Cancelar Filtros</button>
+                            <button type="button" className="filterOpen-btn" onClick={onClose}>Cancelar Filtros</button>
                             <p></p>
                             <button type="submit" className="filters-btn">Aplicar Filtros</button>
                         </div>
@@ -106,7 +106,7 @@ const FilterModal = ({ onClose }) => {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default FilterModal;
