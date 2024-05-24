@@ -494,6 +494,23 @@
               }
             }
           },
+          "404":{
+            "description": "Coordenador não encontrado ou não associado a nenhuma área",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "coordenadorNãoEncontrado": {
+                    "value": {
+                      "error": "Coordenador não encontrado."
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Indica que um erro interno ocorreu."
           }
@@ -558,6 +575,23 @@
               }
             }
           },
+          "404":{
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "coordenadorNãoEncontrado": {
+                    "value": {
+                      "error": "Usuário não encontrado."
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Indica que um erro interno ocorreu."
           }
@@ -591,6 +625,23 @@
         "responses": {
           "200": {
             "description": "Serviço educacional avalidado com sucesso!"
+          },
+          "400":{
+            "description": "O registro a ser validado não está com status 'em análise'",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "registroNãoEmAnalise": {
+                    "value": {
+                      "error": "O registro não está em análise."
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
             "description": "Indica que um erro interno ocorreu."
@@ -636,6 +687,33 @@
         "responses": {
           "200": {
             "description": "Serviço educacional avalidado com sucesso!"
+          },
+          "400":{
+            "description": "Bad Request - A informações podem ser imprecisas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "registroNãoEmAnalise": {
+                    "value": {
+                      "error": "O registro não está em análise."
+                    }
+                  },
+                  "justificatiInválida":{
+                    "value":{
+                      "error": "Justificativa inválida."
+                    }
+                  },
+                  "horaInvalida":{
+                    "value":{
+                      "error": "A quantidade de horas foi excedida."
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
             "description": "Indica que um erro interno ocorreu."
