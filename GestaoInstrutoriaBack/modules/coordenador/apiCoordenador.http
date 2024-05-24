@@ -9,15 +9,10 @@ GET http://localhost:3001/coordArea/verificaSituacao/2345678901
 GET http://localhost:3001/coordArea/listarInstrutores/1234567890
 
 ###
-PUT http://localhost:3001/coordArea/validarRegistro/1/1234567890
-Content-Type: application/json
-
-{
-    
-}
+PUT http://localhost:3001/coordArea/validarRegistro/1234567890/9
 
 ###
-PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/14/1234567890
+PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/1234567890/8
 Content-Type: application/json
 
 {

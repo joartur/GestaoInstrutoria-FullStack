@@ -6,11 +6,11 @@ GET  http://localhost:3001/instrutor/6789012345
 GET  http://localhost:3001/instrutor/perfil/2345678901
 
 ###
-POST http://localhost:3001/instrutor/registro/6789012345
+POST http://localhost:3001/instrutor/registro/2345678901
 Content-Type: application/json
 
 {
-    "dataServico": "2024-03-03",
+    "dataServico": "2024-05-18",
     "horaInicio": "08:00",
     "horaFinal": "12:00",
     "titulo": "Material das aulas para turma de banco de dados",
@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3001/instrutor/registros/6789012345
+GET http://localhost:3001/instrutor/registros/2345678901
 
 ###
 POST http://localhost:3001/instrutor/registros/2345678901
