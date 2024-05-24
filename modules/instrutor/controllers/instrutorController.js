@@ -103,7 +103,7 @@ class RegistroServico {
             segundos = parseInt(somaHoraRegistros.substring(3, 5)); // Extrai as duas últimas posições para os segundos
     
             // Formatando o resultado
-            horaFormatada = `${horas}:${minutos < 10 ? '0' : ''}${minutos}:${segundos < 10 ? '0' : ''}${segundos}`;
+            horaFormatada = `0${horas}:${minutos < 10 ? '0' : ''}${minutos}:${segundos < 10 ? '0' : ''}${segundos}`;
         } else {
             // Convertendo a string para horas, minutos e segundos
             horas = parseInt(somaHoraRegistros.substring(0, 2)); // Extrai as duas primeiras posições para as horas
