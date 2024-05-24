@@ -1,12 +1,12 @@
 # Rota coordenador
 ###
+GET http://localhost:3001/coordArea/1234567890
+
+###
 GET http://localhost:3001/coordArea/listarRegistros/2345678901
 
 ###
-GET http://localhost:3001/coordArea/verificaSituacao/2345678901
-
-###
-GET http://localhost:3001/coordArea/listarInstrutores/1234567890
+GET http://localhost:3001/coordArea/perfil/1234567890
 
 ###
 PUT http://localhost:3001/coordArea/validarRegistro/14/1234567890
@@ -38,8 +38,3 @@ Content-Type: application/json
     "FKservico": "2"
 }
 
-###
-GET http://localhost:3000/coordArea/contarInstrutoresZerados/Tecnologia
-
-###
-GET http://localhost:3000/coordArea/contarInstrutoresExcedente/Tecnologia
