@@ -155,7 +155,7 @@ export const DataProvider = ({ children }) => {
           setFilteredData(response.data)
       } catch (error) {
           console.error('Erro ao enviar filtro:', error);
-          throw error.response.data.error;
+          console.log(error.response.data.error);
       }
   };
 

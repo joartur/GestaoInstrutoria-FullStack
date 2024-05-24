@@ -42,7 +42,6 @@ const FilterModal = ({ onClose, applyFilters }) => {
             ...formData,
             FKservico: selectedServicesString
         };
-        console.log("updated:", updatedFormData)
         applyFilters(updatedFormData); // Chama a função para aplicar os filtros
     };
     
@@ -60,6 +59,8 @@ const FilterModal = ({ onClose, applyFilters }) => {
                                     serviceTypes.map(service => (
                                         <label key={service.id}>
                                             <input
+                                                id={service.id}
+                                                name={service.nome}
                                                 type="checkbox"
                                                 key={service.id}
                                                 value={service.id}

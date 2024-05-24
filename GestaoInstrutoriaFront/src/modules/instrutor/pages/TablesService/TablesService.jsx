@@ -16,10 +16,8 @@ import "./tablesService.css"
 
 const TablesService = () => {
     
-    //Importa os dados dos serviços educacionais cadastrados pelo instrutor através da contet API
     const { data, filterRegister } = useDataContext();
 
-    //formata hora e data dos dados recebeidos da API
     const formattedServices = data.map(service => {
         const dataServico = moment(service.dataServico).format('DD/MM/YYYY');
         const formattedHoraInicio = formatTime(service.horaInicio);
@@ -39,50 +37,39 @@ const TablesService = () => {
     });
 
     const [situacao, setSituacao] = useState('');
-
     const [customFilters, setCustomFilters] = useState({
         dataInicioFiltro: "",
         dataFinalFiltro: "",
         FKservico: ""
     });    
-
-    //estado com o valor pesquisado na barra de pesquisa
     const [searchTerm, setSearchTerm] = useState('');
-    //estado do valor filtrado pela pesquisa, sem nenhuma pesquisa ele exibe os dados formatados
     const [filteredData, setFilteredData] = useState(formattedServices);
-    //estado para controlar a página atual
     const [currentPage, setCurrentPage] = useState(1);
-    //estado para controlar a quantidade de itens exibidos por página
     const [itemsPerPage] = useState(6);
 
-    //função do input de pesquisa
     const handleSearch = (event) => {
         const term = event.target.value;
         setSearchTerm(term);
-        setCurrentPage(1); // Define a página atual como 1 ao fazer uma nova pesquisa
+        setCurrentPage(1);
         filterData(term);
     };
 
-    //filtra os dados com base na consulta do input de pesquisa
     const filterData = (term, situacao, customFilters) => {
         let filteredResults = formattedServices;
     
-        if (term) {
-            filteredResults = filteredResults.filter((item) =>
-                item.titulo.toLowerCase().includes(term.toLowerCase())
-            );
-        }
-        
-        if (situacao) {
-            filteredResults = filteredResults.filter((item) => item.status === situacao);
+        if (customFilters && customFilters.length > 0) {
+            filteredResults = customFilters;
+        } else {
+            if (term) {
+                filteredResults = filteredResults.filter((item) =>
+                    item.titulo.toLowerCase().includes(term.toLowerCase())
+                );
+            }
+            if (situacao) {
+                filteredResults = filteredResults.filter((item) => item.status === situacao);
+            }
         }
     
-        // Aplicar filtros personalizados
-
-        if (customFilters) {
-            console.log("filtrar posteriormente")
-        }
-
         setFilteredData(filteredResults);
     };
     
@@ -94,6 +81,18 @@ const TablesService = () => {
         filterData(searchTerm, situacao, customFilters);
     }, [searchTerm, situacao, customFilters]);
     
+    const applyFilters = async (filters) => {
+        try {
+            const filteredResults = await filterRegister(filters);
+            setCustomFilters(filteredResults); // Ajustado para setar os dados filtrados
+            setFilteredData(filteredResults); // Atualiza o estado com os dados filtrados
+            console.log("FILTERED CARALHO:", filteredData)
+        } catch (error) {
+            console.log("Error applying filters:", error);
+        }
+
+        closeModal();
+    };
 
     const [sortBy, setSortBy] = useState('');
     const [sortDirection, setSortDirection] = useState('desc');
@@ -125,41 +124,20 @@ const TablesService = () => {
         }
     });
 
-    // Calcula o índice do último item da página atual
     const indexOfLastItem = currentPage * itemsPerPage;
-    // Calcula o índice do primeiro item da página atual
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    // Obtém os itens da página atual
     const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
-    // Função para alterar a página atual
     const paginate = (pageNumber) => setCurrentPage(pageNumber);  
 
-    // Estados e funções relacionadas ao modal de filtro
     const [isModalOpen, setIsModalOpen] = useState(false);
-
     const openModal = () => {
     setIsModalOpen(true)
     };
-    
     const closeModal = () => {
         setIsModalOpen(false)
     };
-
-    const applyFilters = async (filters) => {
-        try {
-            const filteredResults = await filterRegister(filters);
-            setCustomFilters(filters);
-            setFilteredData(filteredResults);
-        } catch (error) {
-            console.log("Error applying filters:", error);
-        }
-        
-        closeModal();
-    };
-    //Chamada de Custom Hook para fechar o modal ao apertar ESC
     useEscapeKeyPress(closeModal, [isModalOpen]);
 
-    // Função para lidar com a mudança no filtro de situação
     const handleChange = (event) => {
         const situacaoValue = event.target.value;
         setSituacao(situacaoValue);
