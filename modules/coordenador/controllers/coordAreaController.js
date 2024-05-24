@@ -7,7 +7,13 @@ const sequelize = require('../../../config/connection.js');
 const { Op } = require('sequelize');
 
 class RegistroServico {
-    
+
+    static httpError(status, message) {
+        const error = new Error(message);
+        error.status = status;
+        return error;
+    }
+
     static async buscarCoordenador(matriculaCoordenador){
         return await Usuario.findOne({
             attributes: ['nome', 'email', 'tipoUsuario'],
@@ -22,23 +28,80 @@ class RegistroServico {
             }
           });
     }
+
     static async listarInstrutoresComHorasZeradasPeriodo(matriculaCoordenador) {
+            try {
+                // Passo 1: Buscar o Coordenador e Sua Área
+                const coordenador = await RegistroServico.buscarCoordenador(matriculaCoordenador);
+
+                // Verificar se o coordenador foi encontrado
+                if (!coordenador) {
+                    throw RegistroServico.httpError(404, 'Coordenador não encontrado');
+                }
+
+                // Verificar se o coordenador está associado a alguma área
+                const areaDoCoordenador = coordenador.Areas[0];
+                if (!areaDoCoordenador) {
+                    throw RegistroServico.httpError(404, 'Coordenador não está associado a nenhuma área');
+                }
+
+                // Passo 2: Buscar Instrutores na Mesma Área com horas trabalhadas período igual a '00:00:00'
+                const instrutoresNaArea = await Usuario.findAll({
+                    attributes: ['matricula', 'nome', 'email'],
+                    include: [{
+                        model: Area,
+                        attributes: ['id', 'nome'],
+                        where: {
+                            id: areaDoCoordenador.id
+                        },
+                        through: { attributes: [] }  // Não precisa dos atributos de associação
+                    }],
+                    where: {
+                        tipoUsuario: 'instrutor'
+                    }
+                });
+
+                // Passo 3: Buscar Detalhes dos Instrutores com horas trabalhadas período igual a '00:00:00'
+                const instrutoresSemHoras = await Promise.all(instrutoresNaArea.map(async (instrutor) => {
+                    const instrutorDetalhes = await Instrutor.findOne({
+                        where: {
+                            FKinstrutor: instrutor.matricula,
+                            horasTrabalhadasPeriodo: { [Op.eq]: '00:00:00' }
+                        }
+                    });
+                    return instrutorDetalhes ? instrutor : null;
+                }));
+
+                // Filtrar nulos da lista
+                const instrutoresSemHorasFiltrados = instrutoresSemHoras.filter(Boolean);
+
+                // Passo 4: Retornar o length da lista
+                return instrutoresSemHorasFiltrados.length;
+            } catch (error) {
+                console.error(error);
+                const status = error.status || 500;
+                const message = error.message || 'Erro ao listar instrutores com horas zeradas no período';
+                throw RegistroServico.httpError(status, message);
+            }
+    }
+
+    static async listarInstrutoresComSaldoHora(matriculaCoordenador) {
         try {
             // Passo 1: Buscar o Coordenador e Sua Área
             const coordenador = await RegistroServico.buscarCoordenador(matriculaCoordenador);
-    
+
             // Verificar se o coordenador foi encontrado
             if (!coordenador) {
-                throw new Error('Coordenador não encontrado');
+                throw RegistroServico.httpError(404, 'Coordenador não encontrado');
             }
-    
+
             // Verificar se o coordenador está associado a alguma área
             const areaDoCoordenador = coordenador.Areas[0];
             if (!areaDoCoordenador) {
-                throw new Error('Coordenador não está associado a nenhuma área');
+                throw RegistroServico.httpError(404, 'Coordenador não está associado a nenhuma área');
             }
-    
-            // Passo 2: Buscar Instrutores na Mesma Área com saldo de horas maior que '00:00:00'
+
+            // Passo 2: Buscar Usuários Instrutores na Mesma Área
             const instrutoresNaArea = await Usuario.findAll({
                 attributes: ['matricula', 'nome', 'email'],
                 include: [{
@@ -53,124 +116,78 @@ class RegistroServico {
                     tipoUsuario: 'instrutor'
                 }
             });
-    
+
             // Passo 3: Buscar Detalhes dos Instrutores com Saldo de Horas Maior que '00:00:00'
-            const instrutoresSemHoras = await Promise.all(instrutoresNaArea.map(async (instrutor) => {
+            const instrutoresComSaldo = await Promise.all(instrutoresNaArea.map(async (instrutor) => {
                 const instrutorDetalhes = await Instrutor.findOne({
                     where: {
                         FKinstrutor: instrutor.matricula,
-                        horasTrabalhadasPeriodo: { [Op.eq]: '00:00:00' }
+                        saldoHoras: { [Op.gt]: '00:00:00' }
                     }
                 });
                 return instrutorDetalhes ? instrutor : null;
             }));
 
             // Filtrar nulos da lista
-            const instrutoresSemHorasFiltrados = instrutoresSemHoras.filter(Boolean);
-    
-            // Passo 4: Retornar o length da lista
-            return instrutoresSemHorasFiltrados.length;
+            const instrutoresComSaldoFiltrados = instrutoresComSaldo.filter(Boolean);
+
+            // Passo 4: Retornar o length da lista de instrutores com saldo de horas
+            return instrutoresComSaldoFiltrados.length;
         } catch (error) {
             console.error(error);
-            throw new Error('Erro ao listar instrutores com horas zeradas no período');
+            const status = error.status || 500;
+            const message = error.message || 'Erro ao listar instrutores com saldo de horas';
+            throw RegistroServico.httpError(status, message);
         }
     }
-
-    static async listarInstrutoresComSaldoHora(matriculaCoordenador) {
-    try {
-        // Passo 1: Buscar o Coordenador e Sua Área
-        const coordenador = await RegistroServico.buscarCoordenador(matriculaCoordenador);
-
-        // Verificar se o coordenador foi encontrado
-        if (!coordenador) {
-            throw new Error('Coordenador não encontrado');
-        }
-
-        // Verificar se o coordenador está associado a alguma área
-        const areaDoCoordenador = coordenador.Areas[0];
-        if (!areaDoCoordenador) {
-            throw new Error('Coordenador não está associado a nenhuma área');
-        }
-
-        // Passo 2: Buscar Usuários Instrutores na Mesma Área
-        const instrutoresNaArea = await Usuario.findAll({
-            attributes: ['matricula', 'nome', 'email'],
-            include: [{
-                model: Area,
-                attributes: ['id', 'nome'],
-                where: {
-                    id: areaDoCoordenador.id
-                },
-                through: { attributes: [] }  // Não precisa dos atributos de associação
-            }],
-            where: {
-                tipoUsuario: 'instrutor'
-            }
-        });
-
-        // Passo 3: Buscar Detalhes dos Instrutores com Saldo de Horas Maior que '00:00:00'
-        const instrutoresComSaldo = await Promise.all(instrutoresNaArea.map(async (instrutor) => {
-            const instrutorDetalhes = await Instrutor.findOne({
-                where: {
-                    FKinstrutor: instrutor.matricula,
-                    saldoHoras: { [Op.gt]: '00:00:00' }
-                }
-            });
-            return instrutorDetalhes ? instrutor : null;
-        }));
-
-        // Filtrar nulos da lista
-        const instrutoresComSaldoFiltrados = instrutoresComSaldo.filter(Boolean);
-
-        // Passo 4: Retornar o length da lista de instrutores com saldo de horas
-        return instrutoresComSaldoFiltrados.length;
-    } catch (error) {
-        console.error(error);
-        throw new Error('Erro ao listar instrutores com saldo de horas');
-    }
-}
-
 
     static async listarInstrutoresPorArea(matriculaCoordenador) {
-        // Passo 1: Buscar o Coordenador e Sua Área
-        const coordenador = await RegistroServico.buscarCoordenador(matriculaCoordenador)
+        try {
+            // Passo 1: Buscar o Coordenador e Sua Área
+            const coordenador = await RegistroServico.buscarCoordenador(matriculaCoordenador);
 
-        // Verificar se o coordenador foi encontrado
-        if (!coordenador) {
-            throw new Error('Coordenador não encontrado');
-        }
-    
-        // Verificar se o coordenador está associado a alguma área
-        const areaDoCoordenador = coordenador.Areas[0];
-        if (!areaDoCoordenador) {
-            throw new Error('Coordenador não está associado a nenhuma área');
-        }
-    
-        // Passo 2: Buscar Instrutores na Mesma Área
-        const instrutores = await Usuario.findAll({
-            attributes: ['matricula', 'nome', 'email'],
-            include: [{
-                model: Area,
-                attributes: ['id', 'nome'],
-                where: {
-                    id: areaDoCoordenador.id
-                },
-                through: { attributes: [] }  // Não precisa dos atributos de associação
-            }],
-            where: {
-                tipoUsuario: 'instrutor'
+            // Verificar se o coordenador foi encontrado
+            if (!coordenador) {
+                throw RegistroServico.httpError(404, 'Coordenador não encontrado');
             }
-        });
 
-        for (const instrutor of instrutores) {
-            const emAnalise = await RegistroServico.isRegistroEmAnalisePorInstrutor(instrutor.matricula);
-            instrutor.dataValues.situacao = emAnalise;
+            // Verificar se o coordenador está associado a alguma área
+            const areaDoCoordenador = coordenador.Areas[0];
+            if (!areaDoCoordenador) {
+                throw RegistroServico.httpError(404, 'Coordenador não está associado a nenhuma área');
+            }
+
+            // Passo 2: Buscar Instrutores na Mesma Área
+            const instrutores = await Usuario.findAll({
+                attributes: ['matricula', 'nome', 'email'],
+                include: [{
+                    model: Area,
+                    attributes: ['id', 'nome'],
+                    where: {
+                        id: areaDoCoordenador.id
+                    },
+                    through: { attributes: [] }  // Não precisa dos atributos de associação
+                }],
+                where: {
+                    tipoUsuario: 'instrutor'
+                }
+            });
+
+            for (const instrutor of instrutores) {
+                const emAnalise = await RegistroServico.isRegistroEmAnalisePorInstrutor(instrutor.matricula);
+                instrutor.dataValues.situacao = emAnalise;
+            }
+
+            return {
+                area: areaDoCoordenador.nome,
+                instrutores: instrutores
+            };
+        } catch (error) {
+            console.error(error);
+            const status = error.status || 500;
+            const message = error.message || 'Erro ao listar instrutores por área';
+            throw RegistroServico.httpError(status, message);
         }
-    
-        return {
-            area: areaDoCoordenador.nome,
-            instrutores: instrutores
-        };
     }
      
     static async buscarNomeInstrutor(matriculaInstrutor){
@@ -361,8 +378,8 @@ class CoordAreaController {
         try {
             const { matriculaInstrutor } = req.params;
 
-            const registros = await RegistroServico.listarRegistrosEmAnalisePorInstrutor(matriculaInstrutor);
             const nomeIntrutor = await RegistroServico.buscarNomeInstrutor(matriculaInstrutor)
+            const registros = await RegistroServico.listarRegistrosEmAnalisePorInstrutor(matriculaInstrutor);
 
             res.status(200).json({nomeIntrutor, registros});
         } catch (error) {
@@ -446,18 +463,27 @@ class CoordAreaController {
             const FKcoordenador = req.params.matriculaCoordenador;
             const FKinstrutor = req.params.matriculaInstrutor;
 
-            // Validar descrição
+            if(titulo.length > 50){
+                return res.status(400).json({error: "Limite de caracteres para o título foi atingido."})
+            }
+
+            //validação básica do texto da descrição
             if (!RegistroServico.validarDescricao(descricao)) {
                 return res.status(400).json({ error: "Descrição inválida." });
             }
 
-            // Conferir se a data não é no futuro
-            if (!RegistroServico.conferirDataValida(dataServico)) {
+            //conferindo se a data corresponde ao período em vigor ou está no futuro
+            if (!RegistroServico.conferirData(dataServico)) {
                 return res.status(400).json({ error: "Não é permitido cadastrar registros para datas futuras." });
             }
 
-            // Conferir se existe sobreposição de horário
-            if (await RegistroServico.conferirRegistros(dataServico, FKinstrutor, horaInicio, horaFinal)) {
+            //conferindo se a hora é válida
+            if (RegistroServico.conferirHora(horaInicio, horaFinal)){
+                return res.status(400).json({ error: "Registro com horas inválidas." });
+            }            
+            
+            //confere se não existe algum registro com a data e hora igual ou que se sobrepõe, já registrado
+            if (await RegistroServico.conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio)) {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
             }
 
@@ -518,15 +544,16 @@ class CoordAreaController {
             const response = {
                 instrutoresSemHorasTabalhadas,
                 instrutoresSaldoExcedente,
-                listarInstrutores // Atualizado para um nome de variável mais claro
+                listarInstrutores
             };
 
             res.status(200).json(response);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            const status = error.status || 500;
+            const message = error.message || 'Erro ao carregar a home';
+            res.status(status).json({ error: message });
         }
     }
-
 }
 
 module.exports = CoordAreaController;
