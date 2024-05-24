@@ -3,7 +3,7 @@
   "info": {
     "version": "1.2.0",
     "title": "Documentação da API do Instrutor",
-    "description": "API para gerenciamento de instrutores e seus registros"
+    "description": "API para gerenciamento de instrutores e seus serviços"
   },
   "servers": [
     {
@@ -88,13 +88,13 @@
         }
       }
     },
-    "/instrutor/registros/{matriculaInstruto}": {
+    "/instrutor/registros/{matriculaInstrutor}": {
       "get": {
         "tags": ["Instrutor"],
         "summary": "Obter a lista de registros associados ao instrutor",
         "parameters": [
           {
-            "name": "matriculaInstruto",
+            "name": "matriculaInstrutor",
             "in": "path",
             "required": true,
             "schema": {
@@ -189,13 +189,13 @@
         }
       }
     },
-    "/instrutor/registro/{matriculaInstruto}": {
+    "/instrutor/registro/{matriculaInstrutor}": {
       "post":{
         "tags": ["Instrutor"],
         "summary": "Criar um novo registro de serviço educacional do instrutor",
         "parameters": [
           {
-            "name": "matriculaInstruto",
+            "name": "matriculaInstrutor",
             "in": "path",
             "required": true,
             "schema": {
@@ -261,13 +261,13 @@
         }
       }
     },
-    "/instrutor/registro/{matriculaInstruto}/{registroId}": {
+    "/instrutor/registro/{matriculaInstrutor}/{registroId}": {
       "get": {
         "tags": ["Instrutor"],
           "summary": "Obter os dados de um registro associado ao instrutor (visualização)",
           "parameters": [
             {
-              "name": "matriculaInstruto",
+              "name": "matriculaInstrutor",
               "in": "path",
               "required": true,
               "schema": {
@@ -433,13 +433,13 @@
         }
       }
     },
-    "/instrutor/servicos/{matriculaInstruto}": {
+    "/instrutor/servicos/{matriculaInstrutor}": {
       "get": {
         "tags": ["Instrutor"],
         "summary": "Obter a lista de serviço educacional do banco.",
         "parameters": [
           {
-            "name": "matriculaInstruto",
+            "name": "matriculaInstrutor",
             "in": "path",
             "required": false,
             "schema": {
@@ -454,13 +454,45 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/servicos"
+                  "$ref": "#/components/schemas/listarServicos"
                 }
               }
             }
           },
           "404": {
             "description": "Registros não encontrados"
+          },
+          "500": {
+            "description": "Indica que um erro interno ocorreu."
+          }
+        }
+      }
+    },
+    "/coordArea/{matriculaCoordenador}":{
+      "get":{
+        "tags": ["Coordenador de área"],
+        "summary": "Obter informações para a página inicial do coordenador",
+        "parameters":[
+          {
+            "name": "matriculaCoordenador",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Matrícula do coordenador"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dado requisitado foi encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/homeCoordenador"
+                }
+              }
+            }
           },
           "500": {
             "description": "Indica que um erro interno ocorreu."
@@ -489,13 +521,205 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/listaRegistrosInstrutor"
+                  "$ref": "#/components/schemas/listaRegistrosCoordenador"
                 }
               }
             }
           },
           "500": {
             "description": "Indica que um erro interno ocorreu."
+          }
+        }
+      }
+    },
+    "/coordArea/perfil/{matriculaCoordenador}":{
+      "get":{
+        "tags": ["Coordenador de área"],
+        "summary": "Obter informações para o perfil do coordenador",
+        "parameters":[
+          {
+            "name": "matriculaCoordenador",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Matrícula do coordenador"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dado requisitado foi encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/perfilUsuario"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Indica que um erro interno ocorreu."
+          }
+        }
+      }
+    },
+    "/coordArea/validarRegistro/{matriculaCoordenador}/{registroId}":{
+      "put":{
+        "tags": ["Coordenador de área"],
+        "summary": "Endpoint para validar completamente um resgistro.",
+        "parameters":[
+          {
+            "name": "matriculaCoordenador",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Matrícula do coordenador"
+          },
+          {
+            "name": "registroId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do registro a ser visualizado"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Serviço educacional avalidado com sucesso!"
+          },
+          "500": {
+            "description": "Indica que um erro interno ocorreu."
+          }
+        }
+      }
+    },
+    "/coordArea/validarParcialmenteRegistro/{matriculaCoordenador}/{registroId}":{
+      "put":{
+        "tags": ["Coordenador de área"],
+        "summary": "Endpoint para validar completamente, parcialmente ou rejeitar o registro.",
+        "parameters":[
+          {
+            "name": "matriculaCoordenador",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Matrícula do coordenador"
+          },
+          {
+            "name": "registroId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do registro a ser visualizado"
+          }
+        ],
+        "requestBody": {
+          "description": "Dados necessários para validar registro.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/requestValidacao"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Serviço educacional avalidado com sucesso!"
+          },
+          "500": {
+            "description": "Indica que um erro interno ocorreu."
+          }
+        }
+      }
+    },
+    "/coordArea/registro/{matriculaInstrutor}/{matriculaCoordenador}": {
+      "post":{
+        "tags": ["Instrutor"],
+        "summary": "Criar um novo registro de serviço educacional do instrutor",
+        "parameters": [
+          {
+            "name": "matriculaInstrutor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Matrícula do instrutor"
+          },
+          {
+            "name": "matriculaCoordenador",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Matrícula do coordenador"
+          }
+        ],
+        "requestBody":{
+          "description": "Dados necessários para cadastrar o registro de serviço educacional.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/requestRegistro"
+              }
+            }
+          }
+        },
+        "responses":{
+          "200": {
+            "description": "Registro cadastrado"
+          },
+          "400": {
+            "description": "Bad Request - O registro não pôde ser cadastrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "registroSobreposto": {
+                    "value": {
+                      "error": "Já existe um registro com horário sobreposto para este instrutor nesta data."
+                    }
+                  },
+                  "dataInvalida": {
+                    "value": {
+                      "error": "Data inválida. Não é permitido cadastrar registros para datas futuras."
+                    }
+                  },
+                  "horaInvalida": {
+                    "value": {
+                      "error": "Registro com horas inválidas."
+                    }
+                  },
+                  "descricaoInvalida": {
+                    "value": {
+                      "error": "Descrição inválida."
+                    }
+                  },
+                  "tituloInvalido": {
+                    "value": {
+                      "error": "Limite de caracteres para o título foi atingido."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno ocorreu."
           }
         }
       }
@@ -522,22 +746,141 @@
         },
         "required": ["registrosRecentes", "datasServico", "horasServicos", "saldoHoras"]
       },
+      "homeCoordenador":{
+        "type": "object",
+        "properties": {
+          "instrutoresSemHorasTabalhadas": {
+            "type": "integer",
+            "example": 1
+          },
+          "instrutoresSaldoExcedente": {
+            "type": "integer",
+            "example": 0
+          },
+          "listarInstrutores": {
+            "type": "object",
+            "properties": {
+              "area": {
+                "type": "string",
+                "example": "Tecnologia"
+              },
+              "instrutores": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "matricula": {
+                      "type": "string",
+                      "example": "6789012345"
+                    },
+                    "nome": {
+                      "type": "string",
+                      "example": "Carla Nunes"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "carla.nunes@example.com"
+                    },
+                    "Areas": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "nome": {
+                            "type": "string",
+                            "example": "Tecnologia"
+                          }
+                        },
+                        "required": ["id", "nome"]
+                      }
+                    },
+                    "situacao": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  },
+                  "required": ["matricula", "nome", "email", "Areas", "situacao"]
+                }
+              }
+            },
+            "required": ["area", "instrutores"]
+          }
+        },
+        "required": ["instrutoresSemHorasTabalhadas", "instrutoresSaldoExcedente", "listarInstrutores"]
+      },
       "perfilInstrutor": {
         "type": "object",
         "properties": {
-          "nome": { "type": "string", "example": "Maria Souza" },
-          "email": { "type": "string", "format": "email", "example": "maria.souza@example.com" },
-          "tipoUsuario": { "type": "string", "example": "instrutor" },
-          "Areas": { 
+          "nome": {
+            "type": "string",
+            "example": "Maria Souza"
+          },
+          "email": {
+            "type": "string",
+            "example": "maria.souza@example.com"
+          },
+          "tipoUsuario": {
+            "type": "string",
+            "example": "instrutor"
+          },
+          "Areas": {
             "type": "array",
-            "items":{
-              "type":"object",
-              "properties":{
-                "nome": {"type": "string", "example":"Marketing"}
-              }
-            }}
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "nome": {
+                  "type": "string",
+                  "example": "Marketing"
+                }
+              },
+              "required": ["id", "nome"]
+            }
+          }
         },
-        "required": ["nome", "email", "unidade", "area"]
+        "required": ["nome", "email", "tipoUsuario", "Areas"]
+      },
+      "perfilUsuario":{
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "João Silva"
+          },
+          "email": {
+            "type": "string",
+            "example": "joao.silva@example.com"
+          },
+          "tipoUsuario": {
+            "type": "string",
+            "example": "coordenador"
+          },
+          "Areas": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "nome": {
+                  "type": "string",
+                  "example": "Tecnologia"
+                }
+              },
+              "required": ["id", "nome"]
+            }
+          }
+        },
+        "required": ["nome", "email", "tipoUsuario", "Areas"]
       },
       "requestRegistro":{
         "type": "object",
@@ -603,36 +946,66 @@
         },
         "required": ["msg", "data"]
       },      
-      "listaRegistrosInstrutor": {
+      "listaRegistrosCoordenador": {
         "type": "object",
         "properties": {
-          "nomeInstrutor": { "type": "string", "example": "Maria Souza" },
-          "data": {
+          "nomeIntrutor": {
+            "type": "string",
+            "example": "Maria Souza"
+          },
+          "registros": {
             "type": "array",
             "items": {
               "type": "object",
               "properties": {
-                "id": { "type": "integer", "example": 3 },
-                "titulo": { "type": "string", "example": "1º consulta com o zé boné" },
-                "dataServico": { "type": "string", "format": "date", "example": "2024-02-25" },
-                "horaInicio": { "type": "string", "format": "time", "example": "06:00:00" },
-                "horaFinal": { "type": "string", "format": "time", "example": "09:30:00" },
-                "total": { "type": "string", "example": "03:30:00" },
-                "status": { "type": "string", "example": "Validado" },
+                "id": {
+                  "type": "integer",
+                  "example": 5
+                },
+                "titulo": {
+                  "type": "string",
+                  "example": "Material das aulas para turma de banco de dados"
+                },
+                "dataServico": {
+                  "type": "string",
+                  "format": "date",
+                  "example": "2024-05-20"
+                },
+                "horaInicio": {
+                  "type": "string",
+                  "format": "time",
+                  "example": "08:00:00"
+                },
+                "horaFinal": {
+                  "type": "string",
+                  "format": "time",
+                  "example": "12:00:00"
+                },
+                "total": {
+                  "type": "string",
+                  "format": "time",
+                  "example": "04:00:00"
+                },
                 "Servico": {
                   "type": "object",
                   "properties": {
-                    "id": { "type": "integer", "example": 1 },
-                    "nome": { "type": "string", "example": "Consultoria" }
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "nome": {
+                      "type": "string",
+                      "example": "Desenvolvimento de material de aula"
+                    }
                   },
                   "required": ["id", "nome"]
                 }
               },
-              "required": ["id", "titulo", "dataServico", "horaInicio", "horaFinal", "total", "status", "Servico"]
+              "required": ["id", "titulo", "dataServico", "horaInicio", "horaFinal", "total", "Servico"]
             }
           }
         },
-        "required": ["nomeInstrutor", "data"]
+        "required": ["nomeIntrutor", "registros"]
       },
       "listaRegistro": {
         "type": "object",
@@ -737,7 +1110,7 @@
           }
         }
       },
-      "servicos": {
+      "listarServicos": {
         "type": "object",
         "properties":{
           "servico":{
@@ -781,7 +1154,22 @@
           }
         },
         "required": []
-      }      
+      },
+      "requestValidacao":{
+        "type": "object",
+        "properties": {
+          "justificativa": {
+            "type": "string",
+            "example": "Material insuficiente"
+          },
+          "total": {
+            "type": "string",
+            "format": "time",
+            "example": "02:30:00"
+          }
+        },
+        "required": ["total"]
+      }   
     }
   }
 }

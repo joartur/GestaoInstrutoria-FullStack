@@ -359,10 +359,10 @@ class RegistroServico {
 class CoordAreaController {
     static async listarRegistros(req, res) {
         try {
-            const { matricula } = req.params;
+            const { matriculaInstrutor } = req.params;
 
-            const registros = await RegistroServico.listarRegistrosEmAnalisePorInstrutor(matricula);
-            const nomeIntrutor = await RegistroServico.buscarNomeInstrutor(matricula)
+            const registros = await RegistroServico.listarRegistrosEmAnalisePorInstrutor(matriculaInstrutor);
+            const nomeIntrutor = await RegistroServico.buscarNomeInstrutor(matriculaInstrutor)
 
             res.status(200).json({nomeIntrutor, registros});
         } catch (error) {
@@ -372,17 +372,17 @@ class CoordAreaController {
 
     static async validarRegistro(req, res) {
         try {
-            const { id, FKcoordenador } = req.params;
-            if (!await RegistroServico.isRegistroEmAnalisePorId(id)) {
+            const { matriculaCoordenador, registroId } = req.params;
+            if (!await RegistroServico.isRegistroEmAnalisePorId(registroId)) {
                 return res.status(400).json({ error: "O registro não está em análise." });
             }
 
-            await RegistroServico.atualizarRegistro(id, {
+            await RegistroServico.atualizarRegistro(registroId, {
                 status: "Validado",
-                FKcoordenador
+                FKcoordenador: matriculaCoordenador
             });
 
-            await RegistroServico.calcularHoras(id);
+            await RegistroServico.calcularHoras(registroId);
 
             res.status(200).json({msg: "Serviço educacional avalidado com sucesso!"});
         } catch (error) {
@@ -392,11 +392,18 @@ class CoordAreaController {
 
     static async validarParcialmenteRegistro(req, res) {
         try {
-            const { id, FKcoordenador } = req.params;
+            const { matriculaCoordenador, registroId } = req.params;
             const { justificativa, total } = req.body;
     
+            // Obter total original do registro
+            const totalOriginal = await RegistroServico.obterTotalRegistroPorId(registroId);
+    
+            // Converter total e totalOriginal para segundos
+            const totalSegundos = RegistroServico.tempoParaSegundos(total);
+            const totalOriginalSegundos = RegistroServico.tempoParaSegundos(totalOriginal);
+    
             // Verificar se o registro está "Em Análise"
-            if (!await RegistroServico.isRegistroEmAnalisePorId(id)) {
+            if (!await RegistroServico.isRegistroEmAnalisePorId(registroId)) {
                 return res.status(400).json({ error: "O registro não está em análise." });
             }
     
@@ -404,13 +411,6 @@ class CoordAreaController {
             if (!RegistroServico.validarDescricao(justificativa)) {
                 return res.status(400).json({ error: "Justificativa inválida." });
             }
-    
-            // Obter total original do registro
-            const totalOriginal = await RegistroServico.obterTotalRegistroPorId(id);
-    
-            // Converter total e totalOriginal para segundos
-            const totalSegundos = RegistroServico.tempoParaSegundos(total);
-            const totalOriginalSegundos = RegistroServico.tempoParaSegundos(totalOriginal);
     
             // Determinar o novo status do registro
             let status;
@@ -425,14 +425,14 @@ class CoordAreaController {
             }
     
             // Atualizar o registro com novo status, total e justificativa
-            await RegistroServico.atualizarRegistro(id, {
+            await RegistroServico.atualizarRegistro(registroId, {
                 status,
                 justificativa,
                 total,
-                FKcoordenador
+                FKcoordenador: matriculaCoordenador
             });
     
-            await RegistroServico.calcularHoras(id);
+            await RegistroServico.calcularHoras(registroId);
             
             res.status(200).json({ msg: "Serviço educacional avaliado com sucesso!" });
         } catch (error) {
@@ -443,8 +443,8 @@ class CoordAreaController {
     static async cadastrarRegistro(req, res) {
         try {
             const { dataServico, horaInicio, horaFinal, titulo, descricao, FKservico } = req.body;
-            const FKcoordenador = req.params.matriculaC;
-            const FKinstrutor = req.params.matriculaI;
+            const FKcoordenador = req.params.matriculaCoordenador;
+            const FKinstrutor = req.params.matriculaInstrutor;
 
             // Validar descrição
             if (!RegistroServico.validarDescricao(descricao)) {
