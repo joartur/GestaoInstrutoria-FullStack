@@ -1,12 +1,12 @@
 # rotas de instrutor
 ###
-GET  http://localhost:3001/instrutor/2345678901
+GET  http://localhost:3001/instrutor/6789012345
 
 ###
 GET  http://localhost:3001/instrutor/perfil/2345678901
 
 ###
-POST http://localhost:3001/instrutor/registro/2345678901
+POST http://localhost:3001/instrutor/registro/6789012345
 Content-Type: application/json
 
 {
@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3001/instrutor/registros/2345678901
+GET http://localhost:3001/instrutor/registros/6789012345
 
 ###
 POST http://localhost:3001/instrutor/registros/2345678901
