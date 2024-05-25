@@ -23,6 +23,10 @@ Instrutor.init({
         type: DataTypes.TIME,
         defaultValue: '00:00:00'
     },
+    unidadeSenac:{
+        type: DataTypes.STRING(30),
+        allowNull:false
+    },
     FKinstrutor: {
         type: DataTypes.STRING,
         allowNull: false,

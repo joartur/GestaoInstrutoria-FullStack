@@ -140,8 +140,8 @@ class RegistroServico {
     }
     
     static async buscarInstrutor(matriculaInstrutor){
-        return await Usuario.findOne({
-                attributes: ['nome', 'email', 'tipoUsuario'],
+        const instrutor = await Usuario.findOne({
+                attributes: ['matricula', 'nome', 'email', 'tipoUsuario'],
                 include: [{
                     model: Area,
                     attributes: ['nome'],
@@ -154,6 +154,11 @@ class RegistroServico {
                     matricula: matriculaInstrutor
                 }
             });
+
+            const unidade = await Instrutor.findOne({ where: {FKinstrutor: instrutor.matricula}})
+            instrutor.dataValues.unidade = unidade.unidadeSenac
+
+        return instrutor
     }
     
     static async conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio, registroEditadoId = null) {
