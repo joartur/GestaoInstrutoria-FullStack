@@ -205,21 +205,30 @@ const TablesService = () => {
                 </div>
 
                 <div className="active-filters">
+                    {
+                        customFilters.dataInicioFiltro || customFilters.dataFinalFiltro || customFilters.FKservico ? (
+                            <h2>Filtros Ativos:</h2>
+                        ) : null
+                    }
+
                     {customFilters.dataInicioFiltro && (
                         <div className="filter-tag">
-                            <strong>Data Início:</strong> {customFilters.dataInicioFiltro}
-                            <FontAwesomeIcon icon={faTimes} onClick={() => removeFilter('dataInicioFiltro')} />
+                            <strong>Data Início:</strong>
+                            <span>{customFilters.dataInicioFiltro}</span>
+                            <FontAwesomeIcon className="filter-icon" icon={faTimes} onClick={() => removeFilter('dataInicioFiltro')} />
                         </div>
                     )}
                     {customFilters.dataFinalFiltro && (
                         <div className="filter-tag">
-                            <strong>Data Final:</strong> {customFilters.dataFinalFiltro}
+                            <strong>Data Final:</strong>
+                            <span>{customFilters.dataFinalFiltro}</span>
                             <FontAwesomeIcon icon={faTimes} onClick={() => removeFilter('dataFinalFiltro')} />
                         </div>
                     )}
                     {customFilters.FKservico && (
                         <div className="filter-tag">
-                            <strong>Serviço:</strong> {customFilters.FKservico}
+                            <strong>Serviço:</strong>
+                            <span>{customFilters.FKservico}</span>
                             <FontAwesomeIcon icon={faTimes} onClick={() => removeFilter('FKservico')} />
                         </div>
                     )}

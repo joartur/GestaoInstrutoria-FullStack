@@ -61,3 +61,25 @@
 .filterOpen-btn:hover{
     background-color: var(--light-grey-hover)
 }
+
+.active-filters {
+    margin-bottom: 16px;
+}
+.active-filters h2{
+    margin-bottom: 5px;
+}
+.filter-tag {
+    display: flex;
+    align-items: center;
+}
+.filter-tag strong{
+    margin-right: 5px;
+}
+.filter-tag span{
+    margin-right: 5px;
+}
+.active-filters svg{
+    font-size: 24px;
+    color: var(--main-red);
+    cursor: pointer;
+}
