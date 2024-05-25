@@ -16,6 +16,7 @@ export const ProfileProvider = ({ children }) => {
         try {
             const response = await axios.get('http://localhost:3001/instrutor/perfil/2345678901');
             setInstrutorProfile(response.data);
+            console.log(instrutorProfile)
         } catch (error) {
         console.error('Erro ao buscar dados do perfil do instrutor:', error);
         }

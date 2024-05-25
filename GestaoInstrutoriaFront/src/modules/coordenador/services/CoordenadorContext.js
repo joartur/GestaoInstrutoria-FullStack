@@ -7,16 +7,21 @@ export const useCoordenadorContext = () => useContext(CoordenadorContext);
 export const CoordenadorProvider = ({ children }) => {
     //armazena a lista de instrutores de uma área
     const [instructors, setInstructors] = useState([]);
+    const [coordenadorProfile, setCoordenadorProfile] = useState([]);
     
     //Atualiza função para listar todos os professores de uma determinada área caso haja atualizações na lista
     useEffect(() => {
-        fetchInstructors("Estética");
+        fetchInstructors();
     }, []);
 
+    useEffect(() => {
+      CoordenadorProfileFetch();
+  }, []);
+
     //Busca todos os instrutores de uma área do conhecimento do Senac
-    const fetchInstructors = async (area) => {
+    const fetchInstructors = async (id) => {
         try {
-          const response = await axios.get(`http://localhost:3001/coordArea/listarInstrutores/${area}`);
+          const response = await axios.get(`http://localhost:3001/coordArea/1234567890`);
           setInstructors(response.data);
         } catch (error) {
           console.error('Erro ao buscar instrutores:', error);
@@ -45,10 +50,10 @@ export const CoordenadorProvider = ({ children }) => {
     };
 
     //Validar um serviço educacional
-    const validateInstructorRegister = async (id, FKcoordenador) => {
+    const validateInstructorRegister = async (FKcoordenador, id) => {
       try {
         // Aqui você pode preparar os dados para enviar, se necessário
-        const response = await axios.put(`http://localhost:3001/coordArea/validarRegistro/${id}/${FKcoordenador}`);
+        const response = await axios.put(`http://localhost:3001/coordArea/validarRegistro/${FKcoordenador}/${id}`);
         console.log(response.data, "VALIDADO COM SUCESSO!")
       } catch (error) {
         throw error; 
@@ -56,9 +61,9 @@ export const CoordenadorProvider = ({ children }) => {
     };
 
     //Validar um serviço educacional parcialmente
-    const partiallyValidateInstructorRegister = async (id, FKcoordenador, justificativa, total) => {
+    const partiallyValidateInstructorRegister = async (FKcoordenador, id, justificativa, total) => {
       try {
-        const response = await axios.put(`http://localhost:3001/coordArea/validarParcialmenteRegistro/${id}/${FKcoordenador}`, {
+        const response = await axios.put(`http://localhost:3001/coordArea/validarParcialmenteRegistro/${FKcoordenador}/${id}`, {
           justificativa: justificativa,
           total: total
         });
@@ -68,8 +73,20 @@ export const CoordenadorProvider = ({ children }) => {
       }
     };
 
+    //RECEBER OS DADOS DO PERFIL DO COORDENADOR
+    const CoordenadorProfileFetch = async () => {
+        try {
+            const response = await axios.get('http://localhost:3001/coordArea/perfil/1234567890');
+            setCoordenadorProfile(response.data);
+            console.log(coordenadorProfile)
+        } catch (error) {
+        console.error('Erro ao buscar dados do perfil do coordenador:', error);
+        }
+    };
+
     const value={
         instructors,
+        coordenadorProfile,
         fetchInstructorRegisters,
         fetchInstructorSituation,
         validateInstructorRegister,

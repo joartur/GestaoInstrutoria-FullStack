@@ -1,14 +1,38 @@
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from 'react-router-dom';
 import Header from "../../../../components/header/Header";
 import Layout from "../../components/layout/Layout";
 import ValidationTable from "../../components/table/ValidationTable";
+import { useCoordenadorContext } from "../../services/CoordenadorContext";
+import useFormattedData from '../../../../hooks/useFormattedData';
 
 const ValidateServices = () => {
     const { id } = useParams();
+    const { fetchInstructorRegisters } = useCoordenadorContext();
+
+    const [instructorRegistersData, setInstructorRegistersData] = useState([]);
+    const [instructorName, setInstructorName] = useState([]);
+
+    const fetchData = useCallback(async () => {
+        try {
+            const data = await fetchInstructorRegisters(id);
+            setInstructorRegistersData(data.registros);
+            setInstructorName(data.nomeIntrutor)
+        } catch (error) {
+            console.error("Erro ao buscar registros do instrutor:", error);
+        }
+    }, [fetchInstructorRegisters, id]);
+
+    const formattedServices = useFormattedData(instructorRegistersData);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
     return (
         <Layout>
             <Header
-            title="Serviços Educacionais de:"
+            title={`Serviços Educacionais de: ${instructorName}`}
             description="Lista com informações sobre os serviços educacionais do Instrutor."
             />
             <main>
@@ -30,7 +54,8 @@ const ValidateServices = () => {
                 </div>
                 </div>
                     <ValidationTable
-                    id={id}
+                        instructorRegisters={formattedServices}
+                        fetchData={fetchData}
                     />
             </main>
         </Layout>

@@ -35,6 +35,7 @@ export const DataProvider = ({ children }) => {
           const response = await axios.get('http://localhost:3001/instrutor/registros/2345678901');
           const orderedData = response.data.data.slice().reverse();
           setData(orderedData);
+          console.log(data)
           InstrutorDataFetch();
     } catch (error) {
           console.error('Erro ao buscar dados da API:', error);
@@ -79,7 +80,7 @@ export const DataProvider = ({ children }) => {
         //deleta um serviço e tira ele do array
         const updatedData = data.filter(item => item.id !== id);
         setData(updatedData);
-        console.log('Serviço excluído com sucesso!');
+        console.log('Serviço excluído com sucesso!', data);
       } catch (error) {
         console.error('Erro ao excluir serviço:', error);
       }
@@ -132,6 +133,7 @@ export const DataProvider = ({ children }) => {
     try {
       const response = await axios.get('http://localhost:3001/instrutor/2345678901');
       setInstrutorData(response.data)
+      console.log(instrutorData)
   } catch (error) {
       console.error('Erro ao buscar dados do instrutor:', error);
   }

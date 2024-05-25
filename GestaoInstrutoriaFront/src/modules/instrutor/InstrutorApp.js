@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage/HomePage';
 import CreateService from './pages/CreateService/CreateService';
 import TablesService from './pages/TablesService/TablesService';
-import Login from './pages/Login/Login';
+import Login from '../../common/Login/Login';
 import Profile from './pages/Profile/Profile';
 import ViewServices from '../../common/ViewServices/ViewServices';
 import EditService from './pages/EditService/EditService';

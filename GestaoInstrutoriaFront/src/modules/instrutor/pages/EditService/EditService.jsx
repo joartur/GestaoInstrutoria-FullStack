@@ -8,7 +8,7 @@ import { useDataContext } from '../../services/DataContext';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import EditModal from "../../components/modais/EditModal";
-import Loading from '../../pages/loading/Loading';
+import Loading from '../../../../common/loading/Loading';
 import useEscapeKeyPress from "../../../../hooks/useEscapeKeyPress";
 import * as yup from 'yup';
 import "./editService.css"

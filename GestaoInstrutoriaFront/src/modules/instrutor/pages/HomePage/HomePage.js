@@ -3,7 +3,7 @@ import Header from '../../../../components/header/Header';
 import Box from '../../../../components/box/Box';
 import Calendario from '../../components/calendar/Calendar';
 import { useDataContext } from '../../services/DataContext';
-import Loading from '../../pages/loading/Loading';
+import Loading from '../../../../common/loading/Loading';
 import "./homePage.css"
 
 const HomePage = () => {

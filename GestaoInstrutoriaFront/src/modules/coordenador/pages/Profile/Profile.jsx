@@ -1,4 +1,4 @@
-import { useProfileContext } from "../../services/ProfileContext";
+import { useCoordenadorContext } from "../../services/CoordenadorContext";
 import Header from "../../../../components/header/Header";
 import TextInput from "../../../../components/inputs/TextInput";
 import Layout from "../../components/layout/Layout";
@@ -6,11 +6,10 @@ import Loading from "../../../../common/loading/Loading";
 import "./profile.css";
 
 const Profile = () => {
-    const { instrutorProfile } = useProfileContext();
+    const { coordenadorProfile } = useCoordenadorContext();
+    console.log(coordenadorProfile);
 
-    console.log(instrutorProfile);
-
-    if (!instrutorProfile) {
+    if (!coordenadorProfile) {
         return <Loading />;
     }
 
@@ -31,7 +30,7 @@ const Profile = () => {
                                     <TextInput 
                                         id="fullName" 
                                         name="fullName" 
-                                        value={instrutorProfile ? instrutorProfile.nome : ""} 
+                                        value={coordenadorProfile ? coordenadorProfile.nome : ""} 
                                         disabled={true} 
                                     />
                                 </div>
@@ -40,7 +39,7 @@ const Profile = () => {
                                     <TextInput 
                                         id="position" 
                                         name="position" 
-                                        value={instrutorProfile ? instrutorProfile.tipoUsuario : ""} 
+                                        value={coordenadorProfile ? coordenadorProfile.tipoUsuario : ""} 
                                         disabled={true} 
                                     />
                                 </div>
@@ -49,7 +48,7 @@ const Profile = () => {
                                     <TextInput 
                                         id="area" 
                                         name="area" 
-                                        value={instrutorProfile && instrutorProfile.Areas ? instrutorProfile.Areas[0].nome : ""} 
+                                        value={coordenadorProfile && coordenadorProfile.Areas ? coordenadorProfile.Areas[0].nome : ""} 
                                         disabled={true} 
                                     />
                                 </div>
@@ -60,7 +59,7 @@ const Profile = () => {
                                     <TextInput 
                                         id="email" 
                                         name="email" 
-                                        value={instrutorProfile ? instrutorProfile.email : ""} 
+                                        value={coordenadorProfile ? coordenadorProfile.email : ""} 
                                         disabled={true} 
                                     />
                                 </div>
@@ -69,7 +68,7 @@ const Profile = () => {
                                     <TextInput 
                                         id="unity" 
                                         name="unity" 
-                                        value={instrutorProfile ? instrutorProfile.unidade : ""} 
+                                        value={coordenadorProfile ? coordenadorProfile.unidade : ""} 
                                         disabled={true} 
                                     />
                                 </div>

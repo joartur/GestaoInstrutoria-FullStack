@@ -1,0 +1,36 @@
+.profile-container{
+    border: 1px solid var(--dark-grey);
+    border-radius: 12px;
+    margin-bottom: 40px;
+}
+
+.profile-header p{
+    font-size: 18px;
+    font-weight: 600;
+    padding: 0px 30px;
+}
+
+.profile-body{
+    padding: 0px 30px 40px 30px;
+}
+
+.profile-body input{
+    margin-right: 15px;
+    margin-bottom: 20px;
+}
+
+.profile-top, .profile-bottom{
+    display: flex;
+}
+
+.profile-name, .profile-unity{
+    flex: 2;
+}
+
+.profile-email{
+    flex: 3;
+}
+
+.profileButtons-container button{
+    margin: 0px 20px 0px 0px;
+}

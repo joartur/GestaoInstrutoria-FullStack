@@ -23,7 +23,7 @@
 
 .close-btn {
     margin-top: 20px;
-    padding: 10px 20px;
+    padding: 20px 30px;
     background: #007BFF;
     color: white;
     border: none;
@@ -33,4 +33,9 @@
 
 .close-btn:hover {
     background: #0056b3;
+}
+
+.esc p{
+    font-size: 14px;
+    color: var(--grey);
 }

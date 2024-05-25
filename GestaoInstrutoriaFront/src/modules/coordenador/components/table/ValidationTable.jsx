@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState} from "react";
 import ValidationButtons from "./ValidationButtons";
 import { useCoordenadorContext } from "../../services/CoordenadorContext";
 import { faCheck, faXmark, faCircleInfo, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
@@ -7,10 +7,9 @@ import PartialValidationModal from "../modal/partialValidationModal";
 import useEscapeKeyPress from "../../../../hooks/useEscapeKeyPress";
 import ConfirmationModal from "../modal/ConfirmationModal";
 
-const ValidationTable = ({ id }) => {
-    const { fetchInstructorRegisters, validateInstructorRegister, partiallyValidateInstructorRegister } = useCoordenadorContext();
+const ValidationTable = ({ instructorRegisters, fetchData }) => {
+    const { validateInstructorRegister, partiallyValidateInstructorRegister } = useCoordenadorContext();
 
-    const [instructorRegisters, setInstructorRegisters] = useState([]);
     const [serviceIdToValidate, setServiceIdToValidate] = useState(null);
     const [serviceIdToPartialValidate, setServiceIdToPartialValidate] = useState(null);
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -26,7 +25,7 @@ const ValidationTable = ({ id }) => {
     const handleConfirmValidation = async () => {
         if (serviceIdToValidate) {
             try {
-                await validateInstructorRegister(serviceIdToValidate, "123456");
+                await validateInstructorRegister("1234567890", serviceIdToValidate);
                 setServiceIdToValidate(null);
                 setConfirmationMessage(["Confirmação", "Serviço educacional validado com sucesso!"]);
                 setShowConfirmationModal(true);
@@ -34,7 +33,7 @@ const ValidationTable = ({ id }) => {
             } catch (error) {
                 setServiceIdToValidate(null);
                 if (error.response?.status === 400) {
-                    setConfirmationMessage(["Falha", "Justificativa inválida"]);
+                    setConfirmationMessage(["Falha", error.response?.data.error]);
                 } else if (error.response?.status === 500) {
                     setConfirmationMessage(["Falha", "Erro interno do servidor"]);
                 } else {
@@ -49,15 +48,15 @@ const ValidationTable = ({ id }) => {
     const handleConfirmPartialValidation = async (data) => {
         if (serviceIdToPartialValidate) {
             try {
-                await partiallyValidateInstructorRegister(serviceIdToPartialValidate, "123456", data.justificativa, data.total);
+                await partiallyValidateInstructorRegister("1234567890", serviceIdToPartialValidate, data.justificativa, data.total);
                 setServiceIdToPartialValidate(null);
                 setConfirmationMessage(["Confirmação", "Serviço educacional validado com sucesso!"]);
                 setShowConfirmationModal(true);
                 await fetchData();
             } catch (error) {
                 setServiceIdToPartialValidate(null);
-                if (error.response.request?.status === 400) {
-                    setConfirmationMessage(["Falha", error.response.data.error]);
+                if (error.response?.request?.status === 400) {
+                    setConfirmationMessage(["Falha", error.response?.data.error]);
                 } else if (error.response?.status === 500) {
                     setConfirmationMessage(["Falha", "Erro interno do servidor"]);
                 } else {
@@ -73,25 +72,12 @@ const ValidationTable = ({ id }) => {
         setServiceIdToValidate(null);
     };
     useEscapeKeyPress(closeModal, [serviceIdToValidate]);
-
     const closePartialValidationModal = () => {
         setServiceIdToPartialValidate(null);
     };
     useEscapeKeyPress(closePartialValidationModal, [serviceIdToPartialValidate]);
+    useEscapeKeyPress(() => {setShowConfirmationModal(false)}, [showConfirmationModal]);
 
-    const fetchData = useCallback(async () => {
-        try {
-            const data = await fetchInstructorRegisters(id);
-            setInstructorRegisters(data);
-        } catch (error) {
-            console.error("Erro ao buscar registros do instrutor:", error);
-        }
-    }, [fetchInstructorRegisters, id]);
-    
-
-    useEffect(() => {
-        fetchData();
-    }, [fetchData]);
 
     return (
         <div className="table-container">
@@ -131,13 +117,13 @@ const ValidationTable = ({ id }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {instructorRegisters.map(register => (
+                    {instructorRegisters && instructorRegisters.length > 0 ? instructorRegisters.map(register => (
                         <tr key={register.id}>
                             <td>{register.titulo}</td>
                             <td>{register.dataServico}</td>
                             <td>{register.horaInicio}</td>
                             <td>{register.horaFinal}</td>
-                            <td>{register.total}</td>
+                            <td>{register.total} Horas</td>
                             <td>{register.Servico.nome}</td>
                             <td>
                                 <ValidationButtons
@@ -160,11 +146,15 @@ const ValidationTable = ({ id }) => {
                                     type="view"
                                     icon={faCircleInfo}
                                     legenda="VISUALIZAR SERVIÇO EDUCACIONAL"
-                                    url={`/viewServices/${id}`}
+                                    url={`/viewServices/${register.id}`}
                                 />
                             </td>
                         </tr>
-                    ))}
+                    )): 
+                    <tr>
+                        <td colSpan={7}>Nenhum registro encontrado</td>
+                    </tr>
+                    }
                 </tbody>
             </table>
         </div>

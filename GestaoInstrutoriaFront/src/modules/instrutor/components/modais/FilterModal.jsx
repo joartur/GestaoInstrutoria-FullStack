@@ -36,12 +36,13 @@ const FilterModal = ({ onClose, applyFilters }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const selectedServicesString = selectedOptions.join(', ');
+        const selectedServicesString = selectedOptions;
         // Atualizando o formData com a string formatada dos serviços selecionados
         const updatedFormData = {
             ...formData,
             FKservico: selectedServicesString
         };
+        console.log(updatedFormData)
         applyFilters(updatedFormData); // Chama a função para aplicar os filtros
     };
     

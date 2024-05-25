@@ -52,7 +52,7 @@ const PartialValidationModal = ({ onCancel, onConfirm }) => {
                             />
                             <span className="error-msg">{errors.total && <>{errors.total.message}</>}</span>
                             <label htmlFor="justificativa">Confirmar justificativa de validação</label>
-                            <input
+                            <textarea
                                 id="justificativa"
                                 name="justificativa"
                                 type="text"
@@ -65,7 +65,7 @@ const PartialValidationModal = ({ onCancel, onConfirm }) => {
                                 <button className="cancel-btn" type="button" onClick={onCancel}>
                                     Cancelar
                                 </button>
-                                <button type="submit" className="confirm-btn">
+                                <button type="submit" className="partialValidation-btn">
                                     Validar
                                 </button>
                             </div>

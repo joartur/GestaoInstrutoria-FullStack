@@ -27,15 +27,22 @@
     color: var(--main-blue);
 }
 
-.status-sphere{
-    color: #ffffff;
-    padding: 10px;
-    border-radius: 100%;
+.status-sphere {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px; 
+    height: 32px;
+    border-radius: 50%;
+    color: white;
 }
-.pending{
+.status-sphere.pending {
     background-color: var(--main-orange);
 }
-.conclude{
+.status-sphere.conclude {
     background-color: var(--main-green);
+}
+.status-sphere-td {
+    text-align: center;
 }
 

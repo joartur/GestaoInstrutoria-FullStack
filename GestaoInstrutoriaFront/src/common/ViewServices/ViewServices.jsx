@@ -5,7 +5,7 @@ import Header from "../../components/header/Header"
 import Layout from "../../modules/instrutor/components/layout/Layout"
 import BigInput from "../../components/inputs/BigInput"
 import TableSituation from "../../modules/instrutor/components/table/TableSituation"
-import Loading from '../../modules/instrutor/pages/loading/Loading';
+import Loading from '../loading/Loading';
 import "./viewServices.css"
 
 const ViewServices = () => {
@@ -92,19 +92,3 @@ const ViewServices = () => {
 }
 
 export default ViewServices;
-
-/* 
-<div className="justify-name">
-                                <strong>Justificado por: </strong><span>Nome do Coordenador de Área</span>
-                            </div>
-                            <div className="justify-date">
-                                <strong>Justificado em: </strong><span>01/02/2024</span>
-                            </div>
-                            
-                            //
-
-                            <div className="profileButtons-container">
-                            <Button title="Editar" size="medium" icon={faPenToSquare} url="/editService"/>
-                            <Button title="Deletar" size="medium" icon={faTrash}/>
-                    </div>
-*/
