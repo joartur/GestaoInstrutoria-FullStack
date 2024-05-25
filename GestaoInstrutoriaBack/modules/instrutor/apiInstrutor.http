@@ -1,6 +1,6 @@
 # rotas de instrutor
 ###
-GET  http://localhost:3001/instrutor/6789012345
+GET  http://localhost:3001/instrutor/2345678901
 
 ###
 GET  http://localhost:3001/instrutor/perfil/2345678901

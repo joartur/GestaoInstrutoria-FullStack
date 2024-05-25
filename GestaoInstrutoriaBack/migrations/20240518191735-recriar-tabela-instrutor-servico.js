@@ -25,6 +25,10 @@ module.exports = {
         type: Sequelize.TIME,
         defaultValue: '00:00:00'
       },
+      unidadeSenac:{
+        type: Sequelize.STRING(30),
+        allowNull:false
+      },
       FKinstrutor: {
         type: Sequelize.STRING,
         allowNull: false,

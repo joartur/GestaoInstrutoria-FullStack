@@ -9,6 +9,7 @@ module.exports = {
         horasMinimas: '00:00:00',
         horasTrabalhadasPeriodo: '00:00:00',
         saldoHoras: '00:00:00',
+        unidadeSenac: 'Alecrim',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -17,6 +18,7 @@ module.exports = {
         horasMinimas: '00:00:00',
         horasTrabalhadasPeriodo: '00:00:00',
         saldoHoras: '00:00:00',
+        unidadeSenac: 'Centro',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -25,10 +27,10 @@ module.exports = {
         horasMinimas: '00:00:00',
         horasTrabalhadasPeriodo: '00:00:00',
         saldoHoras: '00:00:00',
+        unidadeSenac: 'Zona Norte',
         createdAt: new Date(),
         updatedAt: new Date()
-      },
-      // Repita para cada instrutor, ajustando os índices conforme necessário
+      }
     ], {});
   },
 
