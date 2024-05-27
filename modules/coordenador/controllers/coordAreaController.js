@@ -176,6 +176,9 @@ class RegistroServico {
             for (const instrutor of instrutores) {
                 const emAnalise = await RegistroServico.isRegistroEmAnalisePorInstrutor(instrutor.matricula);
                 instrutor.dataValues.situacao = emAnalise;
+
+                const horasTrabalhadas = await Instrutor.findOne({ where: { FKinstrutor : instrutor.matricula } })
+                instrutor.dataValues.totalHoras = horasTrabalhadas.horasTrabalhadasPeriodo
             }
 
             return {
@@ -378,10 +381,10 @@ class CoordAreaController {
         try {
             const { matriculaInstrutor } = req.params;
 
-            const nomeIntrutor = await RegistroServico.buscarNomeInstrutor(matriculaInstrutor)
+            const intrutor = await RegistroServico.buscarNomeInstrutor(matriculaInstrutor)
             const registros = await RegistroServico.listarRegistrosEmAnalisePorInstrutor(matriculaInstrutor);
 
-            res.status(200).json({nomeIntrutor, registros});
+            res.status(200).json({intrutor, registros});
         } catch (error) {
             res.status (500).json({ error: error.message });
         }
