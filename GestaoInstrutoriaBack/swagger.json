@@ -879,9 +879,13 @@
                     "situacao": {
                       "type": "boolean",
                       "example": false
+                    },
+                    "totalHoras":{
+                      "type": "string",
+                      "example": "00:00:00"
                     }
                   },
-                  "required": ["matricula", "nome", "email", "Areas", "situacao"]
+                  "required": ["matricula", "nome", "email", "Areas", "situacao", "totalHoras"]
                 }
               }
             },
@@ -1027,7 +1031,7 @@
       "listaRegistrosCoordenador": {
         "type": "object",
         "properties": {
-          "nomeIntrutor": {
+          "intrutor": {
             "type": "string",
             "example": "Maria Souza"
           },
@@ -1083,7 +1087,7 @@
             }
           }
         },
-        "required": ["nomeIntrutor", "registros"]
+        "required": ["intrutor", "registros"]
       },
       "listaRegistro": {
         "type": "object",

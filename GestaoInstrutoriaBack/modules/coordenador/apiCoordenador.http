@@ -1,5 +1,8 @@
 # Rota coordenador
 ###
+GET http://localhost:3001/coordArea/5678901234
+
+###
 GET http://localhost:3001/coordArea/listarRegistros/2345678901
 
 ###
