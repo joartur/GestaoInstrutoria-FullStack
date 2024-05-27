@@ -45,40 +45,31 @@ class RegistroServico {
                     throw RegistroServico.httpError(404, 'Coordenador não está associado a nenhuma área');
                 }
 
-                // Passo 2: Buscar Instrutores na Mesma Área com horas trabalhadas período igual a '00:00:00'
-                const instrutoresNaArea = await Usuario.findAll({
-                    attributes: ['matricula', 'nome', 'email'],
+                 // Passo 2: Buscar Instrutores na Mesma Área com horas trabalhadas no período igual a '00:00:00'
+                const count = await Instrutor.count({
                     include: [{
-                        model: Area,
-                        attributes: ['id', 'nome'],
+                        model: Usuario,
+                        attributes: [],
                         where: {
-                            id: areaDoCoordenador.id
+                            tipoUsuario: 'instrutor'
                         },
-                        through: { attributes: [] }  // Não precisa dos atributos de associação
+                        include: [{
+                            model: Area,
+                            attributes: [],
+                            where: {
+                                id: areaDoCoordenador.id
+                            },
+                            through: { attributes: [] } // Não precisa dos atributos de associação
+                        }]
                     }],
                     where: {
-                        tipoUsuario: 'instrutor'
+                        horasTrabalhadasPeriodo: '00:00:00'
                     }
                 });
 
-                // Passo 3: Buscar Detalhes dos Instrutores com horas trabalhadas período igual a '00:00:00'
-                const instrutoresSemHoras = await Promise.all(instrutoresNaArea.map(async (instrutor) => {
-                    const instrutorDetalhes = await Instrutor.findOne({
-                        where: {
-                            FKinstrutor: instrutor.matricula,
-                            horasTrabalhadasPeriodo: { [Op.eq]: '00:00:00' }
-                        }
-                    });
-                    return instrutorDetalhes ? instrutor : null;
-                }));
-
-                // Filtrar nulos da lista
-                const instrutoresSemHorasFiltrados = instrutoresSemHoras.filter(Boolean);
-
-                // Passo 4: Retornar o length da lista
-                return instrutoresSemHorasFiltrados.length;
+                // Retornar a contagem dos instrutores com horas trabalhadas no período igual a '00:00:00'
+                return count;
             } catch (error) {
-                console.error(error);
                 const status = error.status || 500;
                 const message = error.message || 'Erro ao listar instrutores com horas zeradas no período';
                 throw RegistroServico.httpError(status, message);
@@ -101,40 +92,31 @@ class RegistroServico {
                 throw RegistroServico.httpError(404, 'Coordenador não está associado a nenhuma área');
             }
 
-            // Passo 2: Buscar Usuários Instrutores na Mesma Área
-            const instrutoresNaArea = await Usuario.findAll({
-                attributes: ['matricula', 'nome', 'email'],
+            // Passo 2: Buscar Instrutores na Mesma Área com saldo de horas maior que '00:00:00'
+            const count = await Instrutor.count({
                 include: [{
-                    model: Area,
-                    attributes: ['id', 'nome'],
+                    model: Usuario,
+                    attributes: [],
                     where: {
-                        id: areaDoCoordenador.id
+                        tipoUsuario: 'instrutor'
                     },
-                    through: { attributes: [] }  // Não precisa dos atributos de associação
+                    include: [{
+                        model: Area,
+                        attributes: [],
+                        where: {
+                            id: areaDoCoordenador.id
+                        },
+                        through: { attributes: [] } // Não precisa dos atributos de associação
+                    }]
                 }],
                 where: {
-                    tipoUsuario: 'instrutor'
+                    saldoHoras: { [Op.gt]: '00:00:00' }
                 }
             });
 
-            // Passo 3: Buscar Detalhes dos Instrutores com Saldo de Horas Maior que '00:00:00'
-            const instrutoresComSaldo = await Promise.all(instrutoresNaArea.map(async (instrutor) => {
-                const instrutorDetalhes = await Instrutor.findOne({
-                    where: {
-                        FKinstrutor: instrutor.matricula,
-                        saldoHoras: { [Op.gt]: '00:00:00' }
-                    }
-                });
-                return instrutorDetalhes ? instrutor : null;
-            }));
-
-            // Filtrar nulos da lista
-            const instrutoresComSaldoFiltrados = instrutoresComSaldo.filter(Boolean);
-
-            // Passo 4: Retornar o length da lista de instrutores com saldo de horas
-            return instrutoresComSaldoFiltrados.length;
+            // Retornar a contagem dos instrutores com saldo de horas maior que '00:00:00'
+            return count;
         } catch (error) {
-            console.error(error);
             const status = error.status || 500;
             const message = error.message || 'Erro ao listar instrutores com saldo de horas';
             throw RegistroServico.httpError(status, message);
@@ -186,7 +168,6 @@ class RegistroServico {
                 instrutores: instrutores
             };
         } catch (error) {
-            console.error(error);
             const status = error.status || 500;
             const message = error.message || 'Erro ao listar instrutores por área';
             throw RegistroServico.httpError(status, message);
@@ -370,8 +351,15 @@ class RegistroServico {
     }
     // Função auxiliar para converter string de tempo (HH:MM:SS) para segundos
     static tempoParaSegundos(tempo) {
-        const [horas, minutos, segundos] = tempo.split(':').map(Number);
-        return (horas * 3600) + (minutos * 60) + segundos;
+        try{
+            const [horas, minutos, segundos] = tempo.split(':').map(Number);
+            return (horas * 3600) + (minutos * 60) + segundos;
+
+        } catch (error) {
+            const status = error.status || 500;
+            const message = error.message || 'Erro ao converter a string para time.';
+            throw RegistroServico.httpError(status, message);
+        }
     }
 
 }
