@@ -70,7 +70,6 @@ class RegistroServico {
                 // Retornar a contagem dos instrutores com horas trabalhadas no período igual a '00:00:00'
                 return count;
             } catch (error) {
-                console.error(error);
                 const status = error.status || 500;
                 const message = error.message || 'Erro ao listar instrutores com horas zeradas no período';
                 throw RegistroServico.httpError(status, message);
@@ -118,7 +117,6 @@ class RegistroServico {
             // Retornar a contagem dos instrutores com saldo de horas maior que '00:00:00'
             return count;
         } catch (error) {
-            console.error(error);
             const status = error.status || 500;
             const message = error.message || 'Erro ao listar instrutores com saldo de horas';
             throw RegistroServico.httpError(status, message);
@@ -170,7 +168,6 @@ class RegistroServico {
                 instrutores: instrutores
             };
         } catch (error) {
-            console.error(error);
             const status = error.status || 500;
             const message = error.message || 'Erro ao listar instrutores por área';
             throw RegistroServico.httpError(status, message);
@@ -354,8 +351,15 @@ class RegistroServico {
     }
     // Função auxiliar para converter string de tempo (HH:MM:SS) para segundos
     static tempoParaSegundos(tempo) {
-        const [horas, minutos, segundos] = tempo.split(':').map(Number);
-        return (horas * 3600) + (minutos * 60) + segundos;
+        try{
+            const [horas, minutos, segundos] = tempo.split(':').map(Number);
+            return (horas * 3600) + (minutos * 60) + segundos;
+
+        } catch (error) {
+            const status = error.status || 500;
+            const message = error.message || 'Erro ao converter a string para time.';
+            throw RegistroServico.httpError(status, message);
+        }
     }
 
 }
