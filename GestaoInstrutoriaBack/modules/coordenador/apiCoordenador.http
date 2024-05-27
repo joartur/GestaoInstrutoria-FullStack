@@ -15,12 +15,12 @@ GET http://localhost:3001/coordArea/1234567890
 PUT http://localhost:3001/coordArea/validarRegistro/1234567890/4
 
 ###
-PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/1234567890/5
+PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/1234567890/11
 Content-Type: application/json
 
 {
-    "justificativa": "Material insuficiente",
-    "total": "02:30:00"
+    "justificativa": "Está errado!",
+    "total": "00:00:00"
 }
 
 ###

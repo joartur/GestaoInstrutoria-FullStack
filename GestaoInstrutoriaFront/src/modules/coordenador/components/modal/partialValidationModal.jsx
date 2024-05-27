@@ -29,7 +29,7 @@ const PartialValidationModal = ({ onCancel, onConfirm }) => {
             total: convertToTimeFormat(data.total)
         };
         console.log(formattedData)
-        onConfirm(data);
+        onConfirm(formattedData);
         reset();
     };
 

@@ -46,6 +46,8 @@ const ValidationTable = ({ instructorRegisters, fetchData }) => {
     };
 
     const handleConfirmPartialValidation = async (data) => {
+        console.log(data.justificativa, data.total)
+
         if (serviceIdToPartialValidate) {
             try {
                 await partiallyValidateInstructorRegister("1234567890", serviceIdToPartialValidate, data.justificativa, data.total);
