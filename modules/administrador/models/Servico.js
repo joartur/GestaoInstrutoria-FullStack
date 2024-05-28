@@ -12,6 +12,10 @@ Servico.init({
     nome: {
         type: DataTypes.STRING(60),
         allowNull: false
+    },
+    descricao: {
+        type: DataTypes.TEXT,
+        allowNull: false
     }
 }, {
     sequelize,
