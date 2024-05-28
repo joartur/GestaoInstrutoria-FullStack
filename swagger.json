@@ -1031,7 +1031,7 @@
       "listaRegistrosCoordenador": {
         "type": "object",
         "properties": {
-          "intrutor": {
+          "instrutor": {
             "type": "string",
             "example": "Maria Souza"
           },
@@ -1087,7 +1087,7 @@
             }
           }
         },
-        "required": ["intrutor", "registros"]
+        "required": ["instrutor", "registros"]
       },
       "listaRegistro": {
         "type": "object",

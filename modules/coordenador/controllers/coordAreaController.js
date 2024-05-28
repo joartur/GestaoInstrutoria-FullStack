@@ -369,10 +369,10 @@ class CoordAreaController {
         try {
             const { matriculaInstrutor } = req.params;
 
-            const intrutor = await RegistroServico.buscarNomeInstrutor(matriculaInstrutor)
+            const instrutor = await RegistroServico.buscarNomeInstrutor(matriculaInstrutor)
             const registros = await RegistroServico.listarRegistrosEmAnalisePorInstrutor(matriculaInstrutor);
 
-            res.status(200).json({intrutor, registros});
+            res.status(200).json({instrutor, registros});
         } catch (error) {
             res.status (500).json({ error: error.message });
         }
