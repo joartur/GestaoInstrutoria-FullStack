@@ -281,7 +281,11 @@ class RegistroServico {
         
         return `${somaHoras.toString().padStart(2, '0')}:${somaMinutos.toString().padStart(2, '0')}:${somaSegundos.toString().padStart(2, '0')}`;
         
-      }
+    }
+      
+    static conferirHora(hrInicio, hrFinal){
+        return ( hrInicio >= hrFinal )
+    }
 
     static validarDescricao(descricao){
         if(descricao == ""){
@@ -465,7 +469,7 @@ class CoordAreaController {
             }
 
             //conferindo se a data corresponde ao período em vigor ou está no futuro
-            if (!RegistroServico.conferirData(dataServico)) {
+            if (!RegistroServico.conferirDataValida(dataServico)) {
                 return res.status(400).json({ error: "Não é permitido cadastrar registros para datas futuras." });
             }
 

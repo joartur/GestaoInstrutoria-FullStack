@@ -32,12 +32,6 @@ app.use('/coordArea', coordAreaRouter);
 // Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
-// Endpoint de métricas para Prometheus
-app.get('/metrics', async (req, res) => {
-  res.set('Content-Type', register.contentType);
-  res.end(await register.metrics());
-});
-
 // Middleware para medir a duração de requisições HTTP
 app.use((req, res, next) => {
   const end = httpRequestDurationMicroseconds.startTimer();
@@ -61,14 +55,20 @@ async function iniciarServidor() {
     await sequelize.sync();
     console.log('Tabelas sincronizadas com sucesso.');
     // Inicia o servidor após a sincronização das tabelas
-    app.listen(port, () => {
+    const server = app.listen(port, () => {
       console.log(`Aplicação rodando em http://localhost:${port}`);
     });
+    return server;
   } catch (error) {
     console.error('Erro ao conectar e sincronizar tabelas:', error);
     process.exit(1); // Encerra o processo em caso de erro
   }
 }
 
+// Exporta o app e a função iniciarServidor
+module.exports = { app, iniciarServidor };
+
 // Chama a função para iniciar o servidor
-iniciarServidor();
+if (require.main === module) {
+  iniciarServidor();
+}

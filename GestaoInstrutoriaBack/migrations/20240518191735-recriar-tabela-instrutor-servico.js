@@ -58,6 +58,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING(60)
       },
+      descricao: {
+        allowNull: false,
+        type: Sequelize.TEXT
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
