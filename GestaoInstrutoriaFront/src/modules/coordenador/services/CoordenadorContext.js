@@ -84,14 +84,35 @@ export const CoordenadorProvider = ({ children }) => {
         }
     };
 
+    //CADASTRAR REGISTRO PARA INSTRUTOR
+    const createInstructorRegister = async (coordinatorId, instructorId, newRegisterData) => {
+      try {
+          const response = await axios.post(
+              `http://localhost:3001/coordArea/registro/${coordinatorId}/${instructorId}`, 
+              newRegisterData
+          );
+          console.log('Novo registro de instrutor criado:', response.data);
+      } catch (error) {
+          if (error.response) {
+              console.error('Erro na resposta: ', error.response.data);
+          } else if (error.request) {
+              console.error('Erro na requisição: ', error.request);
+          } else {
+              console.error('Erro: ', error.message);
+          }
+      }
+  };
+
     const value={
         instructors,
         coordenadorProfile,
         fetchInstructorRegisters,
         fetchInstructorSituation,
         validateInstructorRegister,
-        partiallyValidateInstructorRegister
+        partiallyValidateInstructorRegister,
+        createInstructorRegister
     }
+    
     return (
         <CoordenadorContext.Provider value={value}>
             {children}
