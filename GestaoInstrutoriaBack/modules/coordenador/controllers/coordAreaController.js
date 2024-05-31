@@ -483,8 +483,8 @@ class CoordAreaController {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
             }
 
-            // Calcular total de horas
-            const total = RegistroServico.calcularDiferencaHoras(horaInicio, horaFinal);
+            // Calcular total de horas FINAL - INICIAL OU INICIAL - FINAL???
+            const total = RegistroServico.calcularDiferencaHoras(horaFinal, horaInicio);
 
             // Cadastrar novo registro
             await RegistroServico.cadastrarRegistro({

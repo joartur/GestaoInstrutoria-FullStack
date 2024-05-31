@@ -85,10 +85,11 @@ export const CoordenadorProvider = ({ children }) => {
     };
 
     //CADASTRAR REGISTRO PARA INSTRUTOR
-    const createInstructorRegister = async (coordinatorId, instructorId, newRegisterData) => {
+    const createInstructorRegister = async (instructorId, coordinatorId, newRegisterData) => {
+      console.log(instructorId, coordinatorId, newRegisterData)
       try {
           const response = await axios.post(
-              `http://localhost:3001/coordArea/registro/${coordinatorId}/${instructorId}`, 
+              `http://localhost:3001/coordArea/registro/${instructorId}/${coordinatorId}`, 
               newRegisterData
           );
           console.log('Novo registro de instrutor criado:', response.data);
@@ -103,6 +104,18 @@ export const CoordenadorProvider = ({ children }) => {
       }
   };
 
+  const fetchServiceDetails = async (instructorId, id) => {
+    console.log(instructorId, id)
+    try {
+      const response = await axios.get(`http://localhost:3001/instrutor/registro/${instructorId}/${id}`);
+      console.log(response.data.data);
+      //Retorna os dados para manipulação em outras páginas
+      return response.data.data
+    } catch (error) {
+      console.error('Erro ao buscar detalhes do serviço:', error);
+    }
+  };
+
     const value={
         instructors,
         coordenadorProfile,
@@ -110,7 +123,8 @@ export const CoordenadorProvider = ({ children }) => {
         fetchInstructorSituation,
         validateInstructorRegister,
         partiallyValidateInstructorRegister,
-        createInstructorRegister
+        createInstructorRegister,
+        fetchServiceDetails
     }
     
     return (

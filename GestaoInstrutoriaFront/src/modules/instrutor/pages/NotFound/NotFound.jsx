@@ -7,7 +7,7 @@ const NotFoundPage = () => {
     <div className="not-found-page">
       <div className="not-found-page-content">
       <img src={Logo} width={200} alt="Logo Senac" />
-      <h1 class="error">Error 404</h1>
+      <h1 class="error">Erro 404</h1>
       <p>Ops! Essa página não foi encontrada, retorne para a página inicial </p>        
         <Link to="/">
             <button>

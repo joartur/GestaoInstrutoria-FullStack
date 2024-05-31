@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faClock } from '@fortawesome/free-solid-svg-icons';
 import Layout from "../../components/layout/Layout"
@@ -60,7 +60,8 @@ function CreateService () {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div>
                             <div className="title-label">
-                                <label htmlFor="titulo">Título do Serviço Educacional:</label><span><p>{inputCount}/50</p></span>
+                                <label htmlFor="titulo">Título do Serviço Educacional:</label>
+                                <span><p className={inputCount === 50? "p-red": "p-grey"}>{inputCount}/50</p></span>
                             </div>
                             
                             <input

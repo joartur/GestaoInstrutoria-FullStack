@@ -9,11 +9,11 @@ module.exports = {
       },
       {
         UsuarioMatricula: '2345678901',
-        AreaId: 2, // Assume-se que 'Marketing' tem ID 2
+        AreaId: 1,
       },
       {
         UsuarioMatricula: '5678901234',
-        AreaId: 2,
+        AreaId: 2, // Assume-se que 'Marketing' tem ID 2
       },
       {
         UsuarioMatricula: '6789012345',

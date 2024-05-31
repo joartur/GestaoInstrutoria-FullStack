@@ -63,15 +63,6 @@ const Profile = () => {
                                         disabled={true} 
                                     />
                                 </div>
-                                <div className="profile-unity">
-                                    <label htmlFor="unity">Unidade</label>
-                                    <TextInput 
-                                        id="unity" 
-                                        name="unity" 
-                                        value={coordenadorProfile ? coordenadorProfile.unidade : ""} 
-                                        disabled={true} 
-                                    />
-                                </div>
                             </div>
                         </form>
                     </div>

@@ -1,0 +1,14 @@
+.createServiceForm-Title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.createServiceForm-Title p{
+    color: var(--main-orange);
+    font-weight: 900;
+    margin-right: 5px;
+}
+.createServiceForm-Title span{
+    font-weight: 900;
+}

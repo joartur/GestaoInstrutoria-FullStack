@@ -7,29 +7,16 @@ import Header from "../../../../components/header/Header";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCoordenadorContext } from "../../services/CoordenadorContext";
-import ConfirmationModal from "../../components/modais/ConfirmationModal";
 import useEscapeKeyPress from "../../../../hooks/useEscapeKeyPress";
 import * as yup from 'yup';
 import "./createService.css"
 
 function CreateService () {
     const { id } = useParams();
-    const { fetchInstructorRegisters } = useCoordenadorContext();
+    const { createInstructorRegister } = useCoordenadorContext();
 
-    //Pega as variáveis do Context
-    
-
-    //Estado que armazena quantidade de caracteres digitados no input de título
     const [inputCount, setInputCount] = useState(0);
-
-    //Fecha o modal ao apertar "ESC"  
-    const closeModal = () => {
-        setServiceCreated(false);
-    };
-    //Chamada de Custom Hook para fechar o modal ao apertar ESC
-    useEscapeKeyPress(closeModal, [serviceCreated]);
-
-    //Validação do formulário com biblioteca YUP
+    
     const schema = yup.object().shape({
         titulo: yup.string().required('O título é obrigatório'),
         dataServico: yup.string().required('A data do serviço é obrigatória'),
@@ -43,9 +30,14 @@ function CreateService () {
         resolver: yupResolver(schema)
     });
 
-    //Ao enviar o formulário, reseta o forms e número de caracteres digitados
+    const formatTime = (time) => {
+        return time + ":00";
+    };
+
     const onSubmit = async (data) => {
-        await createEducationalService(data);
+        data.horaInicio = formatTime(data.horaInicio);
+        data.horaFinal = formatTime(data.horaFinal);
+        createInstructorRegister(id, "1234567890", data)
         console.log(data)
         reset()
         setInputCount(0)
@@ -57,14 +49,17 @@ function CreateService () {
             <main>
                 <div className="createServiceForm-container">
                     <div className="createServiceForm-header">
-                        <p>Insira as informações do Serviço Educacional Prestado</p>
+                        <div className="createServiceForm-Title">
+                            <p>Adicionar Registro Educacional Para: </p><span>{id}</span>
+                        </div>
                         <hr />
                     </div>
                     <div className="createServiceForm-body">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div>
                             <div className="title-label">
-                                <label htmlFor="titulo">Título do Serviço Educacional:</label><span><p>{inputCount}/50</p></span>
+                                <label htmlFor="titulo">Título do Serviço Educacional:</label>
+                                <span><p className={inputCount === 50? "p-red": "p-grey"}>{inputCount}/50</p></span>
                             </div>
                             
                             <input
@@ -117,11 +112,7 @@ function CreateService () {
                             <label htmlFor="FKservico">Tipo de Serviço:</label>
                             <select id="FKservico" name="FKservico" {...register('FKservico')}>
                                 <option value="">Escolha a atividade</option>
-                                {serviceTypes ? (
-                                    serviceTypes.map(service => (
-                                        <option value={service.id} key={service.id}>{service.nome}</option>
-                                ))
-                                ) : (null)}
+                                <option value="1">Valha</option>
                             </select>
                             <span className="error-msg">{errors.FKservico && <>{errors.FKservico.message}</>}</span>
                         </div>
@@ -139,11 +130,10 @@ function CreateService () {
                         </div>
 
                         <div className="error-container">
-                            {errorMsg ? (<span className="error-msg">{errorMsg.error}</span>) : null}
                         </div>
                         <button type="submit" className="main-btn medium">Enviar</button>
                         </form>
-                        {serviceCreated && <ConfirmationModal onClick={closeModal} onCancel={closeModal}/>}
+
                     </div>
                 </div>
             </main>

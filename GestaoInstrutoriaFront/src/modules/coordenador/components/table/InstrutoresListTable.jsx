@@ -21,9 +21,12 @@ const InstrutoresListTable = ({ instructors }) => {
                 <tbody>
                     {instructors && instructors.length > 0 ? instructors.map(data => (
                         <tr key={data.matricula}>
-                            <td>{data.matricula}</td>
-                            <td>{data.nome}</td>
-                            <td>{data.horasTrabalhadas} Horas</td>
+                            <td>{data.matricula? data.matricula: ""}</td>
+                            <td>{data.nome? data.nome: ""}</td>
+                            <td>
+                                {data.totalHoras? data.totalHoras.split(':')[0]: "00"}
+                                {data.totalHoras === "00:00:00" || data.totalHoras > 1? " Horas": " Hora"}
+                            </td>
                             <td>
                                 <Button
                                 title="Ver Registros"
@@ -35,7 +38,7 @@ const InstrutoresListTable = ({ instructors }) => {
                                 <Button
                                 title="Adicionar Registro"
                                 size="small"
-                                url={`/createService/${data.matricula}`}
+                                url={`cordArea/createService/${data.matricula}`}
                                 />
                             </td>
                             <td className="status-sphere-td">

@@ -17,7 +17,7 @@ const ValidateServices = () => {
         try {
             const data = await fetchInstructorRegisters(id);
             setInstructorRegistersData(data.registros);
-            setInstructorName(data.nomeIntrutor)
+            setInstructorName(data.instrutor)
         } catch (error) {
             console.error("Erro ao buscar registros do instrutor:", error);
         }

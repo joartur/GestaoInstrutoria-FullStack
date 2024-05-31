@@ -54,3 +54,7 @@
     margin-left: 5px;
     color: var(--grey);
 }
+
+.p-red{
+    color: var(--main-red);
+}
