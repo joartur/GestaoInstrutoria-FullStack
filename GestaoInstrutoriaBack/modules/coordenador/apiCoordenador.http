@@ -24,7 +24,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3001/coordArea/registro/2345678901/1234567890
+POST http://localhost:3001/coordArea/registro/1234567890/2345678901
 Content-Type: application/json
 
 {

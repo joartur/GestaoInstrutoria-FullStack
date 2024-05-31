@@ -721,20 +721,11 @@
         }
       }
     },
-    "/coordArea/registro/{matriculaInstrutor}/{matriculaCoordenador}": {
+    "/coordArea/registro/{matriculaCoordenador}/{matriculaInstrutor}": {
       "post":{
         "tags": ["Instrutor"],
         "summary": "Criar um novo registro de serviço educacional do instrutor",
         "parameters": [
-          {
-            "name": "matriculaInstrutor",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Matrícula do instrutor"
-          },
           {
             "name": "matriculaCoordenador",
             "in": "path",
@@ -743,6 +734,15 @@
               "type": "string"
             },
             "description": "Matrícula do coordenador"
+          },
+          {
+            "name": "matriculaInstrutor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Matrícula do instrutor"
           }
         ],
         "requestBody":{
