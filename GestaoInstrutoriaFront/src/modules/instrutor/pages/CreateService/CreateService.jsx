@@ -13,17 +13,21 @@ import "./createService.css"
 
 function CreateService () {
     //Pega as variáveis do Context
-    const { createEducationalService, errorMsg, serviceCreated, setServiceCreated, serviceTypes } = useDataContext();
+    const { createEducationalService, serviceTypes } = useDataContext();
 
     //Estado que armazena quantidade de caracteres digitados no input de título
     const [inputCount, setInputCount] = useState(0);
 
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    const [confirmationMessage, setConfirmationMessage] = useState([]);
+    const [typeMessage, setTypeMessage ] = useState(null)
+
     //Fecha o modal ao apertar "ESC"  
     const closeModal = () => {
-        setServiceCreated(false);
+        setShowConfirmationModal(false)
     };
     //Chamada de Custom Hook para fechar o modal ao apertar ESC
-    useEscapeKeyPress(closeModal, [serviceCreated]);
+    useEscapeKeyPress(closeModal, [showConfirmationModal]);
 
     //Validação do formulário com biblioteca YUP
     const schema = yup.object().shape({
@@ -41,10 +45,29 @@ function CreateService () {
 
     //Ao enviar o formulário, reseta o forms e número de caracteres digitados
     const onSubmit = async (data) => {
-        await createEducationalService(data);
-        console.log(data)
-        reset()
-        setInputCount(0)
+        try{
+            await createEducationalService(data);
+            reset()
+            setInputCount(0)
+            setConfirmationMessage(["Serviço educacional cadastrado com sucesso!", "Aguarde a confirmação do Coordenador"]);
+            setShowConfirmationModal(true);
+            setTypeMessage(true)
+        }
+        catch (error){
+            setTypeMessage(false)
+            if (error.response?.status === 400) {
+                setConfirmationMessage(["Não foi possível cadastrar o Serviço Educacional!", error.response?.data.error]);
+                setTypeMessage(false)
+            } else if (error.response?.status === 500) {
+                setConfirmationMessage(["Não foi possível cadastrar o Serviço Educacional!", "Erro interno do servidor"]);
+                setTypeMessage(false)
+            } else {
+                setConfirmationMessage(["Não foi possível cadastrar o Serviço Educacional!", "Erro ao validar serviço"]);
+                setTypeMessage(false)
+            }
+            setShowConfirmationModal(true);
+            console.error("Erro ao validar o serviço:", error);
+        }
     };
 
     return (
@@ -71,7 +94,7 @@ function CreateService () {
                                 className="textInput"
                                 
                                 maxLength="50"
-                                placeholder='Insira um título que resuma o seu serviço educacional, por exemplo: "Palestra Sobre Criatividade". '
+                                placeholder='Insira um título que resuma o seu serviço educacional, por exemplo: "Palestra Sobre Criatividade".'
                                 {...register('titulo')}
                                 onChange={(e) => setInputCount(e.target.value.length)}
                             />
@@ -135,12 +158,17 @@ function CreateService () {
                             <span className="error-msg">{errors.descricao && <>{errors.descricao.message}</>}</span>
                         </div>
 
-                        <div className="error-container">
-                            {errorMsg ? (<span className="error-msg">{errorMsg.error}</span>) : null}
-                        </div>
                         <button type="submit" className="main-btn medium">Enviar</button>
                         </form>
-                        {serviceCreated && <ConfirmationModal onClick={closeModal} onCancel={closeModal}/>}
+
+                        {showConfirmationModal &&
+                        <ConfirmationModal
+                            message={confirmationMessage}
+                            icon={typeMessage}
+                            onClose={closeModal}
+                            onCancel={closeModal}
+                        />}
+
                     </div>
                 </div>
             </main>

@@ -10,7 +10,6 @@ import FilterModal from '../../components/modais/FilterModal';
 import Pagination from '../../../../components/pagination/Pagination';
 import Loading from '../../../../common/loading/Loading';
 import useEscapeKeyPress from "../../../../hooks/useEscapeKeyPress";
-import useFormattedData from '../../../../hooks/useFormattedData';
 import moment from 'moment';
 import 'moment/locale/pt-br';
 import "./tablesService.css";
@@ -40,8 +39,10 @@ const TablesService = () => {
     const [customFilters, setCustomFilters] = useState({
         dataInicioFiltro: "",
         dataFinalFiltro: "",
-        FKservico: ""
+        FKservico: [],
+        FKservicoNames: []
     });
+    
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredData, setFilteredData] = useState(formattedServices);
     const [currentPage, setCurrentPage] = useState(1);
@@ -56,41 +57,35 @@ const TablesService = () => {
 
     const filterData = (term, situacao, customFilters) => {
         let filteredResults = formattedServices;
-
         if (term) {
             filteredResults = filteredResults.filter((item) =>
                 item.titulo.toLowerCase().includes(term.toLowerCase())
             );
         }
-
         if (situacao) {
             filteredResults = filteredResults.filter((item) => item.status === situacao);
         }
-
         if (customFilters) {
             if (customFilters.dataInicioFiltro) {
                 filteredResults = filteredResults.filter((item) =>
-                    moment(item.dataServico).isSameOrAfter(moment(customFilters.dataInicioFiltro))
+                    moment(item.dataServico, 'DD/MM/YYYY').isSameOrAfter(moment(customFilters.dataInicioFiltro))
                 );
             }
-
             if (customFilters.dataFinalFiltro) {
                 filteredResults = filteredResults.filter((item) =>
-                    moment(item.dataServico).isSameOrBefore(moment(customFilters.dataFinalFiltro))
+                    moment(item.dataServico, 'DD/MM/YYYY').isSameOrBefore(moment(customFilters.dataFinalFiltro))
                 );
             }
-
             if (customFilters.FKservico && customFilters.FKservico.length > 0) {
                 const servicoIds = customFilters.FKservico.map(Number);
                 filteredResults = filteredResults.filter((item) =>
                     servicoIds.includes(item.Servico.id)
                 );
             }
-            
         }
-
         setFilteredData(filteredResults);
     };
+    
 
     useEffect(() => {
         setFilteredData(formattedServices);
@@ -143,10 +138,14 @@ const TablesService = () => {
     };
 
     const applyFilters = (filters) => {
+        if (!filters.FKservico || filters.FKservico.length === 0) {
+            delete filters.FKservico;
+            delete filters.FKservicoNames;
+        }
         setCustomFilters(filters);
         closeModal();
     };
-
+    
     useEscapeKeyPress(closeModal, [isModalOpen]);
 
     const handleChange = (event) => {
@@ -206,7 +205,7 @@ const TablesService = () => {
 
                 <div className="active-filters">
                     {
-                        customFilters.dataInicioFiltro || customFilters.dataFinalFiltro || customFilters.FKservico ? (
+                        customFilters.dataInicioFiltro || customFilters.dataFinalFiltro || (customFilters.FKservico && customFilters.FKservico.length > 0) ? (
                             <h2>Filtros Ativos:</h2>
                         ) : null
                     }
@@ -214,26 +213,25 @@ const TablesService = () => {
                     {customFilters.dataInicioFiltro && (
                         <div className="filter-tag">
                             <strong>Data Início:</strong>
-                            <span>{customFilters.dataInicioFiltro}</span>
+                            <span>{moment(customFilters.dataInicioFiltro).format('DD/MM/YYYY')}</span>
                             <FontAwesomeIcon className="filter-icon" icon={faTimes} onClick={() => removeFilter('dataInicioFiltro')} />
                         </div>
                     )}
                     {customFilters.dataFinalFiltro && (
                         <div className="filter-tag">
                             <strong>Data Final:</strong>
-                            <span>{customFilters.dataFinalFiltro}</span>
+                            <span>{moment(customFilters.dataFinalFiltro).format('DD/MM/YYYY')}</span>
                             <FontAwesomeIcon icon={faTimes} onClick={() => removeFilter('dataFinalFiltro')} />
                         </div>
                     )}
-                    {customFilters.FKservico && (
+                    {customFilters.FKservico && customFilters.FKservico.length > 0 && (
                         <div className="filter-tag">
                             <strong>Serviço:</strong>
-                            <span>{customFilters.FKservico}</span>
+                            <span>{customFilters.FKservicoNames.join(', ')}</span>
                             <FontAwesomeIcon icon={faTimes} onClick={() => removeFilter('FKservico')} />
                         </div>
                     )}
                 </div>
-
                 {filteredData.length > 0 ? (
                     <div className="tables-container">
                         <Table

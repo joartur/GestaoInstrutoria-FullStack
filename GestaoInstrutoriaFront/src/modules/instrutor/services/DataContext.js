@@ -11,11 +11,6 @@ export const DataProvider = ({ children }) => {
     const [serviceTypes, setServiceTypes] = useState([]); //Lista de tipos de serviço educacional
     const [filteredData, setFilteredData] = useState([]); //Armazena os dados filtrados
 
-    const [errorMsg, setErrorMsg] = useState([]) //Mensagens de erro do sistema
-    const [serviceCreated, setServiceCreated] = useState(false); //Serviço foi criado ou não
-    const [serviceEdited, setServiceEdited] = useState(false);//Serviço foi editado ou não
-
-
 //chamadas das funções de consumo de api  
     useEffect(() => {
       fetchData();
@@ -46,31 +41,11 @@ export const DataProvider = ({ children }) => {
     const createEducationalService = async (newServiceData) => {
         try {
           const response = await axios.post('http://localhost:3001/instrutor/registro/2345678901', newServiceData);
-          //assinala como verdadeiro a criação de um serviço
-          setServiceCreated(true);
-          //adiciona o novo registro ao data
           setData([...data, response.data]);
           console.log('Novo serviço educacional criado:', response.data);
-          //Atualiza os dados de serviço.
           fetchData();
-          //retira mensagem de erro
-          setErrorMsg([]);
         } catch (error) {
-          if (error.response) {
-            // O servidor retornou um código de status diferente de 2xx
-            console.error('Erro na resposta: ', error.response.data);
-            setErrorMsg(error.response.data)
-            setServiceCreated(false);
-        } else if (error.request) {
-            // A requisição foi feita, mas não houve resposta
-            console.error('Erro na requisição: ', error.request);
-            setErrorMsg(error.request)
-            setServiceCreated(false);
-        } else {
-            console.error('Erro: ', error.message);
-            setErrorMsg(error.message)
-            setServiceCreated(false);
-        }
+          throw error
         }
     };
 
@@ -89,28 +64,10 @@ export const DataProvider = ({ children }) => {
     const editService = async (id, updatedServiceData) => {
       try {
           const response = await axios.put(`http://localhost:3001/instrutor/registro/2345678901/${id}`, updatedServiceData);
-          setServiceEdited(true);
           console.log('Serviço educacional editado com sucesso:', response.data);
-          //atualiza os dados exibidos depois de editar com sucesso
           fetchData();
-          setErrorMsg([]);
       } catch (error) {
-        if (error.response) {
-          // O servidor retornou um código de status diferente de 2xx
-          setServiceEdited(false);
-          console.error('Erro na resposta:', error.response.data);
-          setErrorMsg(error.response.data); // Defina a mensagem de erro do servidor
-      } else if (error.request) {
-          // A requisição foi feita, mas não houve resposta
-          setServiceEdited(false);
-          console.error('Erro na requisição:', error.request);
-          setErrorMsg('Erro na requisição'); // Defina uma mensagem de erro genérica
-      } else {
-          // Ocorreu um erro ao configurar a solicitação
-          setServiceEdited(false);
-          console.error('Erro:', error.message);
-          setErrorMsg('Erro ao configurar a solicitação'); // Defina uma mensagem de erro genérica
-      }
+        throw error
       }
     };
 
@@ -164,18 +121,13 @@ export const DataProvider = ({ children }) => {
   const value={
     data,
     instrutorData,
-    serviceCreated,
-    serviceEdited,
     serviceTypes,
     filteredData,
-    setServiceCreated,
-    setServiceEdited,
     createEducationalService,
     deleteService,
     editService,
     fetchServiceDetails,
     filterRegister,
-    errorMsg 
   }
 
   return (

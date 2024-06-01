@@ -94,13 +94,7 @@ export const CoordenadorProvider = ({ children }) => {
           );
           console.log('Novo registro de instrutor criado:', response.data);
       } catch (error) {
-          if (error.response) {
-              console.error('Erro na resposta: ', error.response.data);
-          } else if (error.request) {
-              console.error('Erro na requisição: ', error.request);
-          } else {
-              console.error('Erro: ', error.message);
-          }
+        throw error; 
       }
   };
 
@@ -116,16 +110,27 @@ export const CoordenadorProvider = ({ children }) => {
     }
   };
 
-    const value={
-        instructors,
-        coordenadorProfile,
-        fetchInstructorRegisters,
-        fetchInstructorSituation,
-        validateInstructorRegister,
-        partiallyValidateInstructorRegister,
-        createInstructorRegister,
-        fetchServiceDetails
+  const serviceTypesFetch = async (idInstructor) => {
+    try {
+      const response = await axios.get(`http://localhost:3001/instrutor/servicos/${idInstructor}`);
+      console.log(response.data)
+      return response.data
+    } catch (error) {
+      console.error('Erro ao buscar dados do perfil do instrutor:', error);
     }
+  }
+
+  const value={
+    instructors,
+    coordenadorProfile,
+    fetchInstructorRegisters,
+    fetchInstructorSituation,
+    validateInstructorRegister,
+    partiallyValidateInstructorRegister,
+    createInstructorRegister,
+    fetchServiceDetails,
+    serviceTypesFetch
+  }
     
     return (
         <CoordenadorContext.Provider value={value}>

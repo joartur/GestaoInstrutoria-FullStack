@@ -1,21 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faClock } from '@fortawesome/free-solid-svg-icons';
-import Layout from "../../components/layout/Layout"
 import { useParams } from 'react-router-dom';
-import Header from "../../../../components/header/Header";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCoordenadorContext } from "../../services/CoordenadorContext";
+import Header from "../../../../components/header/Header";
+import Layout from "../../components/layout/Layout"
 import useEscapeKeyPress from "../../../../hooks/useEscapeKeyPress";
+import ConfirmationModal from '../../components/modal/ConfirmationModal';
 import * as yup from 'yup';
 import "./createService.css"
 
 function CreateService () {
     const { id } = useParams();
-    const { createInstructorRegister } = useCoordenadorContext();
+    const { createInstructorRegister, serviceTypesFetch } = useCoordenadorContext();
 
     const [inputCount, setInputCount] = useState(0);
+    const [serviceTypes, setServiceTypes] = useState([]);
+
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    const [confirmationMessage, setConfirmationMessage] = useState([]);
+
+    //Fecha o modal ao apertar "ESC"  
+    const closeModal = () => {
+        setShowConfirmationModal(false)
+    };
+    //Chamada de Custom Hook para fechar o modal ao apertar ESC
+    useEscapeKeyPress(closeModal, [showConfirmationModal]);
     
     const schema = yup.object().shape({
         titulo: yup.string().required('O título é obrigatório'),
@@ -37,11 +49,42 @@ function CreateService () {
     const onSubmit = async (data) => {
         data.horaInicio = formatTime(data.horaInicio);
         data.horaFinal = formatTime(data.horaFinal);
-        createInstructorRegister(id, "1234567890", data)
         console.log(data)
-        reset()
-        setInputCount(0)
+
+        try{
+            await createInstructorRegister("1234567890", id, data)
+            reset()
+            setInputCount(0)
+            setConfirmationMessage(["Confirmação", "Serviço educacional cadastrado com sucesso!"]);
+            setShowConfirmationModal(true);
+        }
+        catch (error){
+            if (error.response?.status === 400) {
+                setConfirmationMessage(["Falha", error.response?.data.error]);
+            } else if (error.response?.status === 500) {
+                setConfirmationMessage(["Falha", "Erro interno do servidor"]);
+            } else {
+                setConfirmationMessage(["Falha", "Erro ao validar serviço"]);
+            }
+            setShowConfirmationModal(true);
+            console.error("Erro ao validar o serviço:", error);
+        }
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+          if (id) {
+            try {
+              const data = await serviceTypesFetch(id);
+              setServiceTypes(data.servicos);
+            } catch (error) {
+              console.error('Erro ao buscar dados do perfil do instrutor:', error);
+            }
+          }
+        };
+    
+        fetchData();
+    }, [id, serviceTypesFetch]);
 
     return (
         <Layout>
@@ -111,8 +154,12 @@ function CreateService () {
                         <div>
                             <label htmlFor="FKservico">Tipo de Serviço:</label>
                             <select id="FKservico" name="FKservico" {...register('FKservico')}>
-                                <option value="">Escolha a atividade</option>
-                                <option value="1">Valha</option>
+                            <option value="">Escolha a atividade</option>
+                                {serviceTypes ? (
+                                    serviceTypes.map(service => (
+                                        <option value={service.id} key={service.id}>{service.nome}</option>
+                                ))
+                                ) : (null)}
                             </select>
                             <span className="error-msg">{errors.FKservico && <>{errors.FKservico.message}</>}</span>
                         </div>
@@ -128,12 +175,13 @@ function CreateService () {
                             />
                             <span className="error-msg">{errors.descricao && <>{errors.descricao.message}</>}</span>
                         </div>
-
-                        <div className="error-container">
-                        </div>
                         <button type="submit" className="main-btn medium">Enviar</button>
                         </form>
-
+                        {showConfirmationModal &&
+                        <ConfirmationModal
+                        message={confirmationMessage}
+                        onClose={closeModal}
+                        />}
                     </div>
                 </div>
             </main>
