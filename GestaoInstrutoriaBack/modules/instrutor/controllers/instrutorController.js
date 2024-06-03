@@ -216,7 +216,7 @@ class RegistroServico {
         return horaFormatada;
     }
     
-    static conferirData(data) {
+    static conferirDataFutura(data) {
         const hoje = new Date()
         const dataServico = new Date(`${data}`)
         
@@ -262,7 +262,7 @@ class InstrutorController {
             }
 
             //conferindo se a data corresponde ao período em vigor ou está no futuro
-            if (!RegistroServico.conferirData(dataServico)) {
+            if (!RegistroServico.conferirDataFutura(dataServico)) {
                 return res.status(400).json({ error: "Não é permitido cadastrar registros para datas futuras." });
             }
 
@@ -355,7 +355,7 @@ class InstrutorController {
             }
 
             //conferindo se a data corresponde ao período em vigor ou está no futuro
-            if (!RegistroServico.conferirData(dataServico)) {
+            if (!RegistroServico.conferirDataFutura(dataServico)) {
                 return res.status(400).json({ error: "Não é permitido cadastrar registros para datas futuras." });
             }
 
