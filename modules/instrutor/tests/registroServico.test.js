@@ -1,4 +1,3 @@
-
 const RegistroServico = require('../controllers/instrutorController');
 const Registro = require('../../administrador/models/Registro');
 const SequelizeMock = require('sequelize-mock');
