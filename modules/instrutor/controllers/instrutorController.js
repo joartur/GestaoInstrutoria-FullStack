@@ -507,4 +507,4 @@ class InstrutorController {
     }
 };
 
-module.exports = InstrutorController;
+module.exports = InstrutorController, RegistroServico;
