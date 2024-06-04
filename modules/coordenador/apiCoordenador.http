@@ -6,30 +6,32 @@ GET http://localhost:3001/coordArea/5678901234
 GET http://localhost:3001/coordArea/listarRegistros/2345678901
 
 ###
-GET http://localhost:3001/coordArea/perfil/1234567890
+GET http://localhost:3001/coordArea/verificaSituacao/2345678901
 
 ###
-PUT http://localhost:3001/coordArea/validarRegistro/1234567890/9
+GET http://localhost:3001/coordArea/1234567890
 
 ###
-PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/1234567890/8
+PUT http://localhost:3001/coordArea/validarRegistro/1234567890/4
+
+###
+PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/1234567890/11
 Content-Type: application/json
 
 {
-    "justificativa": "Material insuficiente",
-    "total": "02:30:00"
+    "justificativa": "Está errado!",
+    "total": "00:00:00"
 }
 
 ###
-POST http://localhost:3001/coordArea/registro/2345678901/1234567890
+POST http://localhost:3001/coordArea/registro/1234567890/2345678901
 Content-Type: application/json
 
 {
-    "dataServico": "2024-05-09",
+    "dataServico": "2024-05-10",
     "horaInicio": "10:00:00",
     "horaFinal": "13:00:00",
     "titulo": "Pabbabrte",
     "descricao": "Se coabayguso!!!",
     "FKservico": "2"
 }
-

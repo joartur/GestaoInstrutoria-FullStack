@@ -300,7 +300,7 @@ class RegistroServico {
        const regex = /^(?!.*\b\d{4,}\b)(?!.*\b[A-Za-z]{20,}\b)[a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\']+(?: [a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\']+)*$/;
     
         // verifica o tamanho da descrição
-        return (regex.test(descricao) && descricao.length > 15);
+        return (regex.test(descricao) && descricao.length > 5);
     } 
 
     static conferirDataValida(data) {
@@ -423,14 +423,15 @@ class CoordAreaController {
             if (!RegistroServico.validarDescricao(justificativa)) {
                 return res.status(400).json({ error: "Justificativa inválida." });
             }
-    
+            
+            console.log(total, totalSegundos, totalOriginalSegundos)
             // Determinar o novo status do registro
             let status;
-            if (totalSegundos === 0) {
+            if (totalSegundos == 0) {
                 status = "Recusado";
             } else if (totalSegundos < totalOriginalSegundos) {
                 status = "Parcialmente validado";
-            } else if (totalSegundos === totalOriginalSegundos) {
+            } else if (totalSegundos == totalOriginalSegundos) {
                 status = "Validado";
             } else {
                 return res.status(400).json({ error: "A quantidade de horas foi excedida." });
@@ -482,8 +483,8 @@ class CoordAreaController {
                 return res.status(400).json({ error: "Já existe um registro com horário sobreposto para este instrutor nesta data." });
             }
 
-            // Calcular total de horas
-            const total = RegistroServico.calcularDiferencaHoras(horaInicio, horaFinal);
+            // Calcular total de horas FINAL - INICIAL OU INICIAL - FINAL???
+            const total = RegistroServico.calcularDiferencaHoras(horaFinal, horaInicio);
 
             // Cadastrar novo registro
             await RegistroServico.cadastrarRegistro({

@@ -21,13 +21,13 @@
     }
   ],
   "paths": {
-    "/instrutor/{matriculaInstrutor}": {
+    "/instrutor/{matriculaI}": {
       "get": {
         "tags": ["Instrutor"],
         "summary": "Obter informações para a página inicial do instrutor",
         "parameters": [
           {
-            "name": "matriculaInstrutor",
+            "name": "matriculaI",
             "in": "path",
             "required": true,
             "schema": {
@@ -53,13 +53,13 @@
         }
       }
     },
-    "/instrutor/perfil/{matriculaInstrutor}": {
+    "/instrutor/perfil/{matriculaI}": {
       "get": {
         "tags": ["Instrutor"],
         "summary": "Obter os dados do perfil do instrutor",
         "parameters": [
           {
-            "name": "matriculaIntrutor",
+            "name": "matriculaI",
             "in": "path",
             "required": true,
             "schema": {
@@ -149,7 +149,7 @@
         "summary": "Busca por registros de acordo com os filtros determinados",
         "parameters": [
           {
-            "name": "matriculaInstruto",
+            "name": "matriculaI",
             "in": "path",
             "required": true,
             "schema": {
@@ -309,7 +309,7 @@
         "summary": "Atualizar dados de um registro de serviço educacional do instrutor",
         "parameters": [
           {
-            "name": "matriculaInstruto",
+            "name": "matriculaI",
             "in": "path",
             "required": true,
             "schema": {
@@ -392,7 +392,7 @@
         "summary": "Excluir um registro do instrutor",
         "parameters": [
           {
-            "name": "matriculaInstruto",
+            "name": "matriculaI",
             "in": "path",
             "required": true,
             "schema": {
@@ -520,16 +520,16 @@
     "/coordArea/listarRegistros/{matriculaInstrutor}":{
       "get": {
         "tags": ["Coordenador de área"],
-        "summary": "Obter os registros em análise do instrutor",
+        "summary": "Obter informações para a página inicial do instrutor",
         "parameters": [
           {
-            "name": "matriculaInstrutor",
+            "name": "matriculaI",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string"
             },
-            "description": "Matricula do Instrutor"
+            "description": "Matrícula do instrutor"
           }
         ],
         "responses": {
@@ -721,20 +721,11 @@
         }
       }
     },
-    "/coordArea/registro/{matriculaInstrutor}/{matriculaCoordenador}": {
+    "/coordArea/registro/{matriculaCoordenador}/{matriculaInstrutor}": {
       "post":{
         "tags": ["Instrutor"],
         "summary": "Criar um novo registro de serviço educacional do instrutor",
         "parameters": [
-          {
-            "name": "matriculaInstrutor",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Matrícula do instrutor"
-          },
           {
             "name": "matriculaCoordenador",
             "in": "path",
@@ -743,6 +734,15 @@
               "type": "string"
             },
             "description": "Matrícula do coordenador"
+          },
+          {
+            "name": "matriculaInstrutor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Matrícula do instrutor"
           }
         ],
         "requestBody":{
