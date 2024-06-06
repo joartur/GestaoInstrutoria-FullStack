@@ -487,7 +487,7 @@ class CoordAreaController {
             const total = RegistroServico.calcularDiferencaHoras(horaFinal, horaInicio);
 
             // Cadastrar novo registro
-            await RegistroServico.cadastrarRegistro({
+            const registro = await RegistroServico.cadastrarRegistro({
                 dataServico,
                 horaInicio,
                 horaFinal,
@@ -499,6 +499,8 @@ class CoordAreaController {
                 FKinstrutor,
                 FKcoordenador
             });
+            
+            await RegistroServico.calcularHoras(registro.dataValues.id);
 
             res.status(200).json({ msg: "Registro cadastrado." });
         } catch (error) {
