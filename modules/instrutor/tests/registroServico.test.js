@@ -1,12 +1,14 @@
 const { RegistroServico } = require('../controllers/instrutorController');
 const Registro = require('../../administrador/models/Registro');
+const Instrutor = require('../../instrutor/models/Instrutor');
+const Usuario = require('../../usuario/model/Usuario');
 const SequelizeMock = require('sequelize-mock');
 
 // Mockando a conexão do Sequelize
 const DBConnectionMock = new SequelizeMock();
 
 describe('RegistroServico', () => {
-    let RegistroMock;
+    let RegistroMock, InstrutorMock, UsuarioMock;
 
     beforeAll(() => {
         // Mockando o modelo Registro
@@ -16,19 +18,37 @@ describe('RegistroServico', () => {
             horaInicio: '08:00:00',
             horaFinal: '10:00:00',
             total: '02:00:00',
-            titulo: 'Elaboração de materail',
-            descricao: '',
+            titulo: 'Aula de Matemática',
+            descricao: 'Aula introdutória de Matemática',
             status: 'Em Análise',
             FKinstrutor: '12345',
-            FKservico: 4,
+            FKservico: 1,
         });
-        // Substituindo o modelo Registro pelo mock
+
+        InstrutorMock = DBConnectionMock.define('Instrutor', {
+            FKinstrutor: '12345',
+            horasTrabalhadasPeriodo: '100:00:00',
+            saldoHoras: '20:00:00',
+            unidadeSenac: 'Unidade Teste'
+        });
+
+        UsuarioMock = DBConnectionMock.define('Usuario', {
+            matricula: '12345',
+            nome: 'John Doe',
+            email: 'john.doe@example.com',
+            tipoUsuario: 'instrutor'
+        });
+
+        // Substituindo os métodos pelos mocks
         Registro.create = RegistroMock.create.bind(RegistroMock);
         Registro.update = RegistroMock.update.bind(RegistroMock);
         Registro.destroy = RegistroMock.destroy.bind(RegistroMock);
         Registro.findAll = RegistroMock.findAll.bind(RegistroMock);
         Registro.findOne = RegistroMock.findOne.bind(RegistroMock);
         Registro.sum = RegistroMock.sum.bind(RegistroMock);
+
+        Instrutor.findOne = InstrutorMock.findOne.bind(InstrutorMock);
+        Usuario.findOne = UsuarioMock.findOne.bind(UsuarioMock);
     });
 
     it('Verificar se novos registros podem ser cadastrados ao banco', async () => {
@@ -105,10 +125,14 @@ describe('RegistroServico', () => {
 
     it('Verificar se as horas de serviço podem ser somadas e formatadas corretamente', async () => {
         const matriculaInstrutor = '12345';
-
+    
+        // Mockando o valor de retorno do Registro.sum
+        Registro.sum = jest.fn().mockResolvedValue('473000'); // exemplo de valor retornado em string
+    
         const result = await RegistroServico.calcularHorasServicos(matriculaInstrutor);
-
+    
         expect(result).toMatch(/^\d{2}:\d{2}:\d{2}$/); // Verificando se o formato é hh:mm:ss
+        expect(result).toBe('47:30:00'); // Verificando o valor esperado
     });
 
     it('Verificar a diferença entre horas', () => {
@@ -153,5 +177,40 @@ describe('RegistroServico', () => {
         expect(result).toBe(true); // Verificando se há sobreposição
     });
 
-    // Adicionar mais testes conforme necessário para cobrir todos os métodos
+    it('Verificar se as consultas de saldo de horas e horas trabalhadas retornam em hora', async () => {
+        const matriculaInstrutor = '12345';
+    
+        // Mockando os valores de retorno
+        Instrutor.findOne = jest.fn().mockResolvedValue({
+            horasTrabalhadasPeriodo: '100:00:00',
+            saldoHoras: '20:00:00'
+        });
+    
+        const saldoHoras = await RegistroServico.buscarSaldoHoras(matriculaInstrutor);
+        const horasTrabalhadas = await RegistroServico.buscarHorasTrab(matriculaInstrutor);
+    
+        expect(saldoHoras).toMatch(/^\d{1,3}:\d{2}:\d{2}$/); // Verificando se o formato é hh:mm:ss ou hhh:mm:ss
+        expect(horasTrabalhadas).toMatch(/^\d{1,3}:\d{2}:\d{2}$/); // Verificando se o formato é hh:mm:ss ou hhh:mm:ss
+    });
+
+    it('Verificar se a consulta ao usuário retorna um objeto', async () => {
+        const matriculaInstrutor = '12345';
+
+        const result = await RegistroServico.buscarInstrutor(matriculaInstrutor);
+
+        expect(result).not.toBeNull();
+        expect(result.matricula).toBe(matriculaInstrutor);
+        expect(result).toBeInstanceOf(Object);
+    });
+
+    it('Verificar se a consulta ao conferir registros do mesmo dia fornece um retorno adequado', async () => {
+        const dataServico = '2023-01-01';
+        const FKinstrutor = '12345';
+        const horaInicio = '09:00:00';
+        const horaFinal = '11:00:00';
+
+        const result = await RegistroServico.conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio);
+
+        expect(result).toBe(true); // Verificando se há sobreposição
+    });
 });
