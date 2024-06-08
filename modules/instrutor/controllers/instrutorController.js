@@ -290,7 +290,7 @@ class InstrutorController {
                 FKinstrutor
             });
 
-            res.json({ msg: "Registro cadastrado."});
+            res.status(201).json({ msg: "Registro cadastrado."});
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -489,7 +489,7 @@ class InstrutorController {
                 return res.status(404).json({ error: "Registros não encontrados." });
             }
             
-            res.status(200).json({ msg: "Registros encontrados", data: registros });
+            res.status(200).json({ msg: "Registros encontrados.", data: registros });
         } catch(error){
             res.status(500).json({ error: error.message })
         }

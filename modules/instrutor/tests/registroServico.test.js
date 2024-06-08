@@ -76,9 +76,9 @@ describe('RegistroServico', () => {
         expect(result.status).toBe('Em Análise'); // Verificando se o status padrão é 'Em Análise'
     });
 
-    it('Verificar se o registro estão sendo atualizados no banco de dados', async () => {
+    it('Verificar se o registro está sendo atualizado no banco de dados', async () => {
         const dadosAtualizados = {
-            descricao: 'ELaboração de power point para aulas do mês dee agosto'
+            descricao: 'Elaboração de power point para aulas do mês de agosto'
         };
         const id = 1;
 
