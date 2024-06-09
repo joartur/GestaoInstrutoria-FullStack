@@ -3,7 +3,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Usuarios', {
       matricula: {
-        type: Sequelize.STRING(15),
+        type: Sequelize.STRING,
         primaryKey: true,
         allowNull: false
       },

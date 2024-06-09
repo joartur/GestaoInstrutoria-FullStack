@@ -60,7 +60,6 @@ Usuario.init({
         type: DataTypes.NOW,
         allowNull: false,
         defaultValue: () => moment().tz('America/Recife').format('DD-MM-YYYY HH:mm:ss')
-
     }
 }, {
     sequelize,
