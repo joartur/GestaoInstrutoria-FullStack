@@ -1,11 +1,12 @@
 const { DataTypes, Model } = require('sequelize');
+const moment = require('moment-timezone');
 const sequelize = require('../../../config/connection'); // Certifique-se de importar sua instância do sequelize corretamente
 const Usuario = require('../../usuario/model/Usuario');
 
 class Instrutor extends Model {}
 
 Instrutor.init({
-    id:{        
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -13,19 +14,46 @@ Instrutor.init({
     },
     horasMinimas: {
         type: DataTypes.TIME,
-        defaultValue: '00:00:00'
+        defaultValue: '00:00:00',
+        validate: {
+            is: {
+                args: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/,
+                msg: 'Forneça um tempo válido no formato HH:mm:ss'
+            }
+        }
     },
     horasTrabalhadasPeriodo: {
         type: DataTypes.TIME,
-        defaultValue: '00:00:00'
+        defaultValue: '00:00:00',
+        validate: {
+            is: {
+                args: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/,
+                msg: 'Forneça um tempo válido no formato HH:mm:ss'
+            }
+        }
     },
     saldoHoras: {
         type: DataTypes.TIME,
-        defaultValue: '00:00:00'
+        defaultValue: '00:00:00',
+        validate: {
+            is: {
+                args: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/,
+                msg: 'Forneça um tempo válido no formato HH:mm:ss'
+            }
+        }
     },
-    unidadeSenac:{
+    unidadeSenac: {
         type: DataTypes.STRING(30),
-        allowNull:false
+        allowNull: false,
+        validate: {
+            notNull: {
+                msg: 'A unidade do Senac é obrigatória!'
+            },
+            len: {
+                args: [3, 30],
+                msg: 'A unidade do Senac deve ter entre 3 e 30 caracteres!'
+            }
+        }
     },
     FKinstrutor: {
         type: DataTypes.STRING,
@@ -33,14 +61,33 @@ Instrutor.init({
         references: {
             model: 'Usuario',
             key: 'matricula'
+        },
+        validate: {
+            notNull: {
+                msg: 'A matrícula do instrutor é obrigatória!'
+            },
+            len: {
+                args: [4, 6],
+                msg: 'A matrícula do instrutor deve ter entre 4 e 6 caracteres!'
+            }
         }
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: () => moment().tz('America/Recife').format('YYYY-MM-DD HH:mm:ss')
+    },
+    updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: () => moment().tz('America/Recife').format('YYYY-MM-DD HH:mm:ss')
     }
 }, {
     sequelize,
     modelName: 'Instrutor',
-    timestamps: true
+    timestamps: false
 });
 
-Instrutor.belongsTo(Usuario, {foreignKey : 'FKinstrutor'})
+Instrutor.belongsTo(Usuario, { foreignKey: 'FKinstrutor' });
 
 module.exports = Instrutor;

@@ -24,7 +24,7 @@ module.exports = {
         allowNull: false
       },
       usuarioMatricula: {
-        type: Sequelize.STRING(15),
+        type: Sequelize.STRING,
         allowNull: false,
         references: {
           model: 'Usuarios', // Nome da tabela de usuarios

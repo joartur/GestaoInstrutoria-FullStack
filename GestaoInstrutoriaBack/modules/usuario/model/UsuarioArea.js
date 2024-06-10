@@ -11,7 +11,7 @@ UsuarioArea.init({
         autoIncrement: true
     },
     usuarioMatricula: {
-      type: DataTypes.STRING(15),
+      type: DataTypes.STRING(6),
       allowNull: false,
       references: {
         model: 'Usuario', // Nome da tabela de usuarios

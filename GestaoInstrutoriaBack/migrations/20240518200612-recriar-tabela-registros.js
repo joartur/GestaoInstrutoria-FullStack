@@ -42,7 +42,7 @@ module.exports = {
         allowNull: true
       },
       FKinstrutor: {
-        type: Sequelize.STRING(15),
+        type: Sequelize.STRING,
         allowNull: false,
         references: {
           model: 'Usuarios', // Nome da tabela de usuarios
@@ -58,7 +58,7 @@ module.exports = {
         }
       },
       FKcoordenador: {
-        type: Sequelize.STRING(15),
+        type: Sequelize.STRING,
         allowNull: true,
         references: {
           model: 'Usuarios', // Nome da tabela de usuarios

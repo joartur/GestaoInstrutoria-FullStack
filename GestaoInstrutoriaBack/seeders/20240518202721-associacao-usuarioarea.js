@@ -4,27 +4,27 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert('UsuarioAreas', [
       {
-        UsuarioMatricula: '1234567890',
+        UsuarioMatricula: '1234',
         AreaId: 1, // Assume-se que 'Tecnologia' tem ID 1 
       },
       {
-        UsuarioMatricula: '2345678901',
+        UsuarioMatricula: '2345',
         AreaId: 1,
       },
       {
-        UsuarioMatricula: '5678901234',
+        UsuarioMatricula: '5678',
         AreaId: 2, // Assume-se que 'Marketing' tem ID 2
       },
       {
-        UsuarioMatricula: '6789012345',
+        UsuarioMatricula: '6789',
         AreaId: 1, 
       },
       {
-        UsuarioMatricula: '9012345678',
+        UsuarioMatricula: '9012',
         AreaId: 3, 
       },
       {
-        UsuarioMatricula: '0123456789',
+        UsuarioMatricula: '0123',
         AreaId: 3, 
       }
     ], {});

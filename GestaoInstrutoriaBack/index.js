@@ -5,7 +5,6 @@ const instrutorRouter = require('./modules/instrutor/routes/instrutorRoutes.js')
 const swaggerUi = require('swagger-ui-express');
 const swaggerDoc = require('./swagger');
 const express = require('express');
-const cors = require('cors');
 
 // Importando métricas
 const { register, httpRequestDurationMicroseconds } = require('./metrics');
@@ -14,7 +13,6 @@ const app = express();
 const port = 3001;
 
 // Middleware
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

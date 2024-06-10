@@ -167,6 +167,7 @@ class RegistroServico {
                 area: areaDoCoordenador.nome,
                 instrutores: instrutores
             };
+
         } catch (error) {
             const status = error.status || 500;
             const message = error.message || 'Erro ao listar instrutores por área';
@@ -330,29 +331,38 @@ class RegistroServico {
         return `${diffHoras.toString().padStart(2, '0')}:${diffMinutos.toString().padStart(2, '0')}:${diffSegundos.toString().padStart(2, '0')}`;
     }
 
-    static async conferirRegistros(dataServico, FKinstrutor, horaInicio, horaFinal, registroEditadoId = null) {
-        const whereClause = { FKinstrutor, dataServico };
-
+     static async conferirRegistros(dataServico, FKinstrutor, horaFinal, horaInicio, registroEditadoId = null) {
+        const whereClause = {
+            FKinstrutor: FKinstrutor,
+            dataServico,
+        };
+    
+        // Se o ID do registro editado estiver disponível, exclua esse registro da consulta
         if (registroEditadoId) {
             whereClause.id = { [Op.ne]: registroEditadoId };
         }
-
-        const registrosNoMesmoDia = await Registro.findAll({ where: whereClause });
-
+    
+        const registrosNoMesmoDia = await Registro.findAll({
+            where: whereClause
+        });
+    
         const novoInicio = new Date(`1970-01-01T${horaInicio}`);
         const novoFim = new Date(`1970-01-01T${horaFinal}`);
-
-        return registrosNoMesmoDia.some(registro => {
+    
+        const sobreposicao = registrosNoMesmoDia.some(registro => {
             const registroInicio = new Date(`1970-01-01T${registro.horaInicio}`);
             const registroFim = new Date(`1970-01-01T${registro.horaFinal}`);
-
+    
             return (
                 (novoInicio >= registroInicio && novoInicio < registroFim) ||
                 (novoFim > registroInicio && novoFim <= registroFim) ||
                 (novoInicio <= registroInicio && novoFim >= registroFim)
             );
         });
+    
+        return sobreposicao;
     }
+    
     // Função auxiliar para converter string de tempo (HH:MM:SS) para segundos
     static tempoParaSegundos(tempo) {
         try{
