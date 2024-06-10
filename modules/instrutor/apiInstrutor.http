@@ -10,7 +10,7 @@ POST http://localhost:3001/instrutor/registro/2345
 Content-Type: application/json
 
 {
-    "dataServico": "2024-06-04",
+    "dataServico": "2024-06-09",
     "horaInicio": "08:00",
     "horaFinal": "12:00",
     "titulo": "Material das aulas para turma de banco de dados",
@@ -28,7 +28,7 @@ Content-Type: application/json
 {
     "dataInicioFiltro": "",
     "dataFinalFiltro": "",
-    "FKservico": "1"
+    "FKservico": "4"
 }
 
 ###

@@ -1,7 +1,8 @@
 const { DataTypes, Model } = require('sequelize');
 const Servico = require("./Servico");
 const Usuario = require('../../usuario/model/Usuario');
-const sequelize = require('../../../config/connection'); // Certifique-se de importar sua instância do sequelize corretamente
+const sequelize = require('../../../config/connection'); 
+// Certifique-se de importar sua instância do sequelize corretamente
 
 class Registro extends Model {}
 
@@ -38,10 +39,6 @@ Registro.init({
         validate: {
             notNull: {
                 msg: 'A hora de término é obrigatória!'
-            },
-            isAfter: {
-                args: DataTypes.NOW,
-                msg: 'A hora de término deve ser posterior à hora de início!'
             }
         }
     },
@@ -83,7 +80,7 @@ Registro.init({
         allowNull: false,
         validate: {
             isIn: {
-                args: ['Em Análise', 'Validado', 'Recusado', 'Parcialmente Validado'],
+                args: [['Em Análise', 'Validado', 'Recusado', 'Parcialmente Validado']],
                 msg: 'Forneça um status válido!'
             }
         }
@@ -150,7 +147,6 @@ Registro.init({
     modelName: 'Registro',
     timestamps: true // Desativa o timestamps padrão
 });
-
 
 Registro.belongsTo(Servico, { foreignKey: 'FKservico' });
 Registro.belongsTo(Usuario, { as: 'instrutor', foreignKey: 'FKinstrutor' });
