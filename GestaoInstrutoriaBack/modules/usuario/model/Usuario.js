@@ -55,16 +55,11 @@ Usuario.init({
                 msg: "Valor invalido!"
             }
         }
-    },
-    data_cadastro: {
-        type: DataTypes.NOW,
-        allowNull: false,
-        defaultValue: () => moment().tz('America/Recife').format('DD-MM-YYYY HH:mm:ss')
     }
 }, {
     sequelize,
     modelName: 'Usuario',
-    timestamps: false
+    timestamps: true
 });
 
 // // Definindo as associações
