@@ -1,5 +1,4 @@
 const { DataTypes, Model } = require('sequelize');
-const moment = require('moment-timezone');
 const Servico = require("./Servico");
 const Usuario = require('../../usuario/model/Usuario');
 const sequelize = require('../../../config/connection'); // Certifique-se de importar sua instância do sequelize corretamente
@@ -30,9 +29,6 @@ Registro.init({
         validate: {
             notNull: {
                 msg: 'A hora de início é obrigatória!'
-            },
-            isDate: {
-                msg: 'Forneça uma hora de início válida!'
             }
         }
     },
@@ -42,9 +38,6 @@ Registro.init({
         validate: {
             notNull: {
                 msg: 'A hora de término é obrigatória!'
-            },
-            isDate: {
-                msg: 'Forneça uma hora de término válida!'
             },
             isAfter: {
                 args: DataTypes.NOW,
@@ -58,9 +51,6 @@ Registro.init({
         validate: {
             notNull: {
                 msg: 'O total de horas é obrigatório!'
-            },
-            isDate: {
-                msg: 'Forneça um total de horas válido!'
             }
         }
     },
@@ -73,7 +63,7 @@ Registro.init({
             },
             len: {
                 args: [5, 50],
-                msg: 'O título deve ter no mínimo 1 caractere e no máximo 50 caracteres!'
+                msg: 'O título deve ter no mínimo 5 caracteres e no máximo 50 caracteres!'
             }
         }
     },
@@ -93,7 +83,7 @@ Registro.init({
         allowNull: false,
         validate: {
             isIn: {
-                args: [['Em Análise', 'Validado', 'Recusado', 'Parcialmente Validado']],
+                args: ['Em Análise', 'Validado', 'Recusado', 'Parcialmente Validado'],
                 msg: 'Forneça um status válido!'
             }
         }
@@ -154,27 +144,16 @@ Registro.init({
                 msg: 'A matricula deve ter no mínimo 4 caracteres e no máximo 6'
             }
         }
-    },
-    createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: () => moment().tz('America/Recife').format('YYYY-MM-DD HH:mm:ss')
-    },
-    updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: () => moment().tz('America/Recife').format('YYYY-MM-DD HH:mm:ss')
     }
 }, {
     sequelize,
     modelName: 'Registro',
-    timestamps: false // Desativa o timestamps padrão
+    timestamps: true // Desativa o timestamps padrão
 });
 
+
 Registro.belongsTo(Servico, { foreignKey: 'FKservico' });
-
 Registro.belongsTo(Usuario, { as: 'instrutor', foreignKey: 'FKinstrutor' });
-
 Registro.belongsTo(Usuario, { as: 'coordenador', foreignKey: 'FKcoordenador' });
 
 module.exports = Registro;
