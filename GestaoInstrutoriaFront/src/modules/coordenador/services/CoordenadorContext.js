@@ -21,7 +21,7 @@ export const CoordenadorProvider = ({ children }) => {
     //Busca todos os instrutores de uma área do conhecimento do Senac
     const fetchInstructors = async (id) => {
         try {
-          const response = await axios.get(`http://localhost:3001/coordArea/1234567890`);
+          const response = await axios.get(`http://localhost:3001/coordArea/1234`);
           setInstructors(response.data);
         } catch (error) {
           console.error('Erro ao buscar instrutores:', error);
@@ -76,7 +76,7 @@ export const CoordenadorProvider = ({ children }) => {
     //RECEBER OS DADOS DO PERFIL DO COORDENADOR
     const CoordenadorProfileFetch = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/coordArea/perfil/1234567890');
+            const response = await axios.get('http://localhost:3001/coordArea/perfil/1234');
             setCoordenadorProfile(response.data);
             console.log(coordenadorProfile)
         } catch (error) {

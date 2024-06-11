@@ -14,7 +14,7 @@ export const ProfileProvider = ({ children }) => {
     //RECEBER OS DADOS DO PERFIL DO INSTRUTOR
     const InstrutorProfileFetch = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/instrutor/perfil/2345678901');
+            const response = await axios.get('http://localhost:3001/instrutor/perfil/2345');
             setInstrutorProfile(response.data);
             console.log(instrutorProfile)
         } catch (error) {
