@@ -6,6 +6,7 @@ GET  http://localhost:3001/instrutor/2345
 GET  http://localhost:3001/instrutor/perfil/2345
 
 ###
+<<<<<<< HEAD
 POST http://localhost:3001/instrutor/registro/2345
 Content-Type: application/json
 
@@ -13,29 +14,38 @@ Content-Type: application/json
     "dataServico": "2024-04-30",
     "horaInicio": "08:00:00",
     "horaFinal": "12:00:00",
+=======
+POST http://localhost:3001/instrutor/registro/2345	
+Content-Type: application/json
+
+{
+    "dataServico": "2024-06-09",
+    "horaInicio": "08:00",
+    "horaFinal": "12:00",
+>>>>>>> b4ca1d76dd3e3d15eb600d4b8a434944657db494
     "titulo": "Material das aulas para turma de banco de dados",
     "descricao": "",
     "FKservico": "3"
 }
 
 ###
-GET http://localhost:3001/instrutor/registros/6789012345
+GET http://localhost:3001/instrutor/registros/2345
 
 ###
-POST http://localhost:3001/instrutor/registros/2345678901
+POST http://localhost:3001/instrutor/registros/2345
 Content-Type: application/json
 
 {
     "dataInicioFiltro": "",
     "dataFinalFiltro": "",
-    "FKservico": "1"
+    "FKservico": "4"
 }
 
 ###
-GET http://localhost:3001/instrutor/registro/2345678901/1
+GET http://localhost:3001/instrutor/registro/2345/1
 
 ###
-PUT http://localhost:3001/instrutor/registro/2345678901/1
+PUT http://localhost:3001/instrutor/registro/2345/1
 Content-Type: application/json
 
 {
@@ -48,7 +58,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3001/instrutor/registro/2345678901/2
+DELETE http://localhost:3001/instrutor/registro/2345/2
 
 ###
-GET http://localhost:3001/instrutor/servicos/2345678901
+GET http://localhost:3001/instrutor/servicos/2345

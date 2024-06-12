@@ -9,7 +9,8 @@ module.exports = {
         email: 'joao.silva@example.com',
         senha: 'senha123',
         tipoUsuario: 'coordenador',
-        data_cadastro: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         matricula: '2345',
@@ -17,7 +18,8 @@ module.exports = {
         email: 'maria.souza@example.com',
         senha: 'senha123',
         tipoUsuario: 'instrutor',
-        data_cadastro: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         matricula: '3456',
@@ -25,7 +27,8 @@ module.exports = {
         email: 'carlos.pereira@example.com',
         senha: 'senha123',
         tipoUsuario: 'administrador',
-        data_cadastro: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         matricula: '4567',
@@ -33,7 +36,8 @@ module.exports = {
         email: 'ana.oliveira@example.com',
         senha: 'senha123',
         tipoUsuario: 'superUser',
-        data_cadastro: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         matricula: '5678',
@@ -41,7 +45,8 @@ module.exports = {
         email: 'bruno.costa@example.com',
         senha: 'senha123',
         tipoUsuario: 'coordenador',
-        data_cadastro: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         matricula: '6789',
@@ -49,7 +54,8 @@ module.exports = {
         email: 'carla.nunes@example.com',
         senha: 'senha123',
         tipoUsuario: 'instrutor',
-        data_cadastro: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         matricula: '7890',
@@ -57,7 +63,8 @@ module.exports = {
         email: 'daniel.lima@example.com',
         senha: 'senha123',
         tipoUsuario: 'administrador',
-        data_cadastro: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         matricula: '8901',
@@ -65,7 +72,8 @@ module.exports = {
         email: 'elisa.gomes@example.com',
         senha: 'senha123',
         tipoUsuario: 'superUser',
-        data_cadastro: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         matricula: '9012',
@@ -73,7 +81,8 @@ module.exports = {
         email: 'fabio.rocha@example.com',
         senha: 'senha123',
         tipoUsuario: 'coordenador',
-        data_cadastro: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         matricula: '0123',
@@ -81,7 +90,8 @@ module.exports = {
         email: 'gabriela.martins@example.com',
         senha: 'senha123',
         tipoUsuario: 'instrutor',
-        data_cadastro: new Date()
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ], {});
   },

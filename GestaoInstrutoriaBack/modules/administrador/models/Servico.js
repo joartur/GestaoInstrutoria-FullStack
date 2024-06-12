@@ -35,21 +35,11 @@ Servico.init({
                 msg: 'A descrição do serviço deve ter entre 5 e 500 caracteres!'
             }
         }
-    },
-    createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: () => moment().tz('America/Recife').format('YYYY-MM-DD HH:mm:ss')
-    },
-    updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: () => moment().tz('America/Recife').format('YYYY-MM-DD HH:mm:ss')
     }
 }, {
     sequelize,
     modelName: 'Servico',
-    timestamps: false // Se não precisar de timestamps, pode desativá-los aqui
+    timestamps: true // Se não precisar de timestamps, pode desativá-los aqui
 });
 
 module.exports = Servico;

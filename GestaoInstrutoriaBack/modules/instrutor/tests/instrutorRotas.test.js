@@ -4,7 +4,7 @@ const { app } = require('../../../index'); // Supondo que o app Express está ex
 describe('Instrutor Endpoints', () => {
     it('Deve criar um novo registro do instrutor', async () => {
         const res = await request(app)
-            .post('/instrutor/registro/2345678901')
+            .post('/instrutor/registro/2345')
             .send({
                 dataServico: '2023-01-04',
                 horaInicio: '08:00:00',
@@ -20,7 +20,7 @@ describe('Instrutor Endpoints', () => {
 
     it('Deve atualizar o registro', async () => {
         const res = await request(app)
-            .put('/instrutor/registro/2345678901/7')
+            .put('/instrutor/registro/2345/2')
             .send({
                 dataServico: "2024-05-20",
                 horaInicio: "06:00:00",
@@ -35,7 +35,7 @@ describe('Instrutor Endpoints', () => {
 
     it('Deve consultar os registros com base nas datas e tipos de serviços', async () => {
         const res = await request(app)
-            .post('/instrutor/registro/2345678901')
+            .post('/instrutor/registro/2345')
             .query({ dataInicioFiltro: "", dataFinalFiltro: "", FKservico: "" });
         expect(res.statusCode).toEqual(200);
         expect(res.body.length).toBeGreaterThan(0);
@@ -44,21 +44,21 @@ describe('Instrutor Endpoints', () => {
 
     it('Deve consultar o registro por ID', async () => {
         const res = await request(app)
-            .get('/instrutor/registro/2345678901/7');
+            .get('/instrutor/registro/2345/1');
         expect(res.statusCode).toEqual(200);
         expect(res.body).toHaveProperty('msg', 'Registro encontrado.');
     });
 
     it('Deve deletar o registro', async () => {
         const res = await request(app)
-            .delete('/instrutor/registro/2345678901/6');
+            .delete('/instrutor/registro/2345/1');
         expect(res.statusCode).toEqual(200);
         expect(res.body).toHaveProperty('msg', 'Registro excluído com sucesso.');
     });
 
     it('Deve consultar os detalhes do instrutor', async () => {
         const res = await request(app)
-            .get('/instrutor/2345678901');
+            .get('/instrutor/2345');
         expect(res.statusCode).toEqual(200);
         expect(res.body).toHaveProperty('datasServico');
     });

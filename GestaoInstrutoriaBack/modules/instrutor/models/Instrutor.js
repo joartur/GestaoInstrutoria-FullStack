@@ -71,21 +71,11 @@ Instrutor.init({
                 msg: 'A matrícula do instrutor deve ter entre 4 e 6 caracteres!'
             }
         }
-    },
-    createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: () => moment().tz('America/Recife').format('YYYY-MM-DD HH:mm:ss')
-    },
-    updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: () => moment().tz('America/Recife').format('YYYY-MM-DD HH:mm:ss')
     }
 }, {
     sequelize,
     modelName: 'Instrutor',
-    timestamps: false
+    timestamps: true
 });
 
 Instrutor.belongsTo(Usuario, { foreignKey: 'FKinstrutor' });
