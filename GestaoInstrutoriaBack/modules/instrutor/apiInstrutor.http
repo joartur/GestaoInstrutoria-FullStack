@@ -1,18 +1,18 @@
 # rotas de instrutor
 ###
-GET  http://localhost:3001/instrutor/6789012345
+GET  http://localhost:3001/instrutor/2345
 
 ###
-GET  http://localhost:3001/instrutor/perfil/6789012345
+GET  http://localhost:3001/instrutor/perfil/2345
 
 ###
-POST http://localhost:3001/instrutor/registro/2345678901
+POST http://localhost:3001/instrutor/registro/2345
 Content-Type: application/json
 
 {
     "dataServico": "2024-04-30",
-    "horaInicio": "08:00",
-    "horaFinal": "12:00",
+    "horaInicio": "08:00:00",
+    "horaFinal": "12:00:00",
     "titulo": "Material das aulas para turma de banco de dados",
     "descricao": "",
     "FKservico": "3"
