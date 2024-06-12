@@ -38,7 +38,7 @@ const InstrutoresListTable = ({ instructors }) => {
                                 <Button
                                 title="Adicionar Registro"
                                 size="small"
-                                url={`cordArea/createService/${data.matricula}`}
+                                url={`cordArea/createService/${data.nome}`}
                                 />
                             </td>
                             <td className="status-sphere-td">

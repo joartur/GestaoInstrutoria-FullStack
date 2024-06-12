@@ -31,7 +31,7 @@ const Profile = () => {
                                     <TextInput 
                                         id="fullName" 
                                         name="fullName" 
-                                        value={instrutorProfile ? instrutorProfile.nome : ""} 
+                                        value={instrutorProfile && instrutorProfile.nome ? instrutorProfile.nome : ""} 
                                         disabled={true} 
                                     />
                                 </div>
@@ -40,7 +40,7 @@ const Profile = () => {
                                     <TextInput 
                                         id="position" 
                                         name="position" 
-                                        value={instrutorProfile ? instrutorProfile.tipoUsuario : ""} 
+                                        value={instrutorProfile && instrutorProfile.tipoUsuario ? instrutorProfile.tipoUsuario : ""} 
                                         disabled={true} 
                                     />
                                 </div>
@@ -60,7 +60,7 @@ const Profile = () => {
                                     <TextInput 
                                         id="email" 
                                         name="email" 
-                                        value={instrutorProfile ? instrutorProfile.email : ""} 
+                                        value={instrutorProfile && instrutorProfile.email ? instrutorProfile.email : ""} 
                                         disabled={true} 
                                     />
                                 </div>
@@ -69,7 +69,7 @@ const Profile = () => {
                                     <TextInput 
                                         id="unity" 
                                         name="unity" 
-                                        value={instrutorProfile ? instrutorProfile.unidade : ""} 
+                                        value={instrutorProfile && instrutorProfile.unidade ? instrutorProfile.unidade : ""} 
                                         disabled={true} 
                                     />
                                 </div>

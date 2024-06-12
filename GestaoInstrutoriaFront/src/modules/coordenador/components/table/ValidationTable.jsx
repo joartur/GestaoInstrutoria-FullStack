@@ -85,7 +85,7 @@ const ValidationTable = ({ instructorRegisters, fetchData }) => {
         <div className="table-container">
             {serviceIdToValidate && (
                 <Modal 
-                    title="Tem certeza que deseja validar esse serviço educacional?"
+                    title="Tem certeza que deseja validar esse serviço?"
                     subtitle="Essa ação não pode ser revertida"
                     modalIcon={faCircleCheck}
                     mainButtonTitle="Validar"

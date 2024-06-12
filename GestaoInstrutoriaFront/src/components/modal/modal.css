@@ -1,4 +1,4 @@
-.deleteModal-whrapper{
+.modal-whrapper{
     margin: 0;
     padding: 0;
     display: flex;
@@ -6,12 +6,12 @@
     align-items: center;
 }
 
-.deleteModal-whrapper p{
+.modal-whrapper p{
     margin: 0;
     color: var(--dark-grey);
 }
 
-.deletModal-container{
+.modal-container{
     background-color: var(--white);
     border: 1px solid var(--dark-grey);
     font-size: 15px;
@@ -27,17 +27,31 @@
     transform: translate(-50%, -50%);  
 }
 
+.modal-container h2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px;
+}
+
 .confirm-icon{
     color: var(--dark-green);
     font-size: 142px;
+    margin: 20px;
 }
 
-.deleteModal-buttons{
+.modal-buttons {
+    width: 100%;
     display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 0px;
+    padding: 0px;
 }
 
-.deleteModal-buttons button{
+.modal-buttons button{
     cursor: pointer;
+    margin: 20px;
 }
 
 .confirm-btn{

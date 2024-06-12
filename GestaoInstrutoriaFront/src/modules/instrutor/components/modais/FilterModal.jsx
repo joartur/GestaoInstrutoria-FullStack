@@ -56,7 +56,7 @@ const FilterModal = ({ onClose, applyFilters }) => {
     return (
         <div className="deleteModal-overlay">
             <div className="deleteModal-whrapper">
-                <div className="deletModal-container">
+                <div className="deleteModal-container">
                     <h2>Filtrar Serviços Educacionais</h2>
                     <form onSubmit={handleSubmit} className="filter-form">
                         <div className="type-filter">

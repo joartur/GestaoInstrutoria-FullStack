@@ -1,3 +1,36 @@
+.validate-whrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.validate-container{
+    background-color: var(--white);
+    border: 1px solid var(--dark-grey);
+    font-size: 15px;
+    padding: 30px 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+}
+
+.validate-container h2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.validate-container p{
+    margin: 0px;
+    padding: 0px;
+}
+
 textarea{
     font-family: 'roboto', sans-serif;
 }
@@ -22,4 +55,8 @@ textarea{
 
 .partialValidation-btn:hover{
     background-color: var(--dark-red)
+}
+
+.validationModal-form input, .validationModal-form textarea{
+    margin-top: 15px;
 }

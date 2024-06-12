@@ -30,7 +30,7 @@ const Profile = () => {
                                     <TextInput 
                                         id="fullName" 
                                         name="fullName" 
-                                        value={coordenadorProfile ? coordenadorProfile.nome : ""} 
+                                        value={coordenadorProfile && coordenadorProfile.nome ? coordenadorProfile.nome : ""} 
                                         disabled={true} 
                                     />
                                 </div>
@@ -39,7 +39,7 @@ const Profile = () => {
                                     <TextInput 
                                         id="position" 
                                         name="position" 
-                                        value={coordenadorProfile ? coordenadorProfile.tipoUsuario : ""} 
+                                        value={coordenadorProfile && coordenadorProfile.tipoUsuario ? coordenadorProfile.tipoUsuario : ""} 
                                         disabled={true} 
                                     />
                                 </div>
@@ -59,7 +59,7 @@ const Profile = () => {
                                     <TextInput 
                                         id="email" 
                                         name="email" 
-                                        value={coordenadorProfile ? coordenadorProfile.email : ""} 
+                                        value={coordenadorProfile && coordenadorProfile.email ? coordenadorProfile.email : ""} 
                                         disabled={true} 
                                     />
                                 </div>

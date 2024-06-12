@@ -6,7 +6,6 @@ GET  http://localhost:3001/instrutor/2345
 GET  http://localhost:3001/instrutor/perfil/2345
 
 ###
-<<<<<<< HEAD
 POST http://localhost:3001/instrutor/registro/2345
 Content-Type: application/json
 
@@ -14,15 +13,6 @@ Content-Type: application/json
     "dataServico": "2024-04-30",
     "horaInicio": "08:00:00",
     "horaFinal": "12:00:00",
-=======
-POST http://localhost:3001/instrutor/registro/2345	
-Content-Type: application/json
-
-{
-    "dataServico": "2024-06-09",
-    "horaInicio": "08:00",
-    "horaFinal": "12:00",
->>>>>>> b4ca1d76dd3e3d15eb600d4b8a434944657db494
     "titulo": "Material das aulas para turma de banco de dados",
     "descricao": "",
     "FKservico": "3"

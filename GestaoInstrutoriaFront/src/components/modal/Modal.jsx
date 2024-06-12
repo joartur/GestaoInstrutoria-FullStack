@@ -5,12 +5,12 @@ import "./modal.css"
 const Modal = (props) => {
     return(
         <div className="deleteModal-overlay">
-        <div className="deleteModal-whrapper">
-            <div className="deletModal-container">
+        <div className="modal-whrapper">
+            <div className="modal-container">
                 <h2>{props.title}</h2>
                 <FontAwesomeIcon icon={props.modalIcon} className="confirm-icon"/> 
                 <h2>{props.subtitle}</h2>
-                <div className="deleteModal-buttons">
+                <div className="modal-buttons">
                     <Link to={props.url}>
                         <button className="cancel-btn" onClick={props.onCancel}>
                             Cancelar

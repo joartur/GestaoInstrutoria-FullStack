@@ -20,20 +20,17 @@ const HomePage = () => {
             <Header title="Página Inicial" description="Bem-vindo!" />
             <main>
                 <div className="dashboard-container">
-                    <Link to="/">
                         <Box
                             title="Número de instrutores sem horas registradas"
                             description={instructors?instructors.instrutoresSemHorasTabalhadas:"0"}
                             type="box"
                         />
-                    </Link>
-                    <Link to="/">
+                    
                         <Box
                             title="Número de instrutores excedendo as horas permitidas"
                             description={instructors?instructors.instrutoresSaldoExcedente:"0"}
                             type="box"
                         />
-                    </Link>
                 </div>
                 <div className="filter-container">
                     <input
