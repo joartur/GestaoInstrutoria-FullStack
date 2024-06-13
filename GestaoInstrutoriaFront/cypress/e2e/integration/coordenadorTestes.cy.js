@@ -24,7 +24,7 @@ describe('Testes de Coordenador validar serviços para instrutor', () => {
         //Encontra o botão de rejeitar serviço e clica.
         cy.get('a[title="REJEITAR SERVIÇO EDUCACIONAL"]').first().click();
         // Insere o número 0 no input de total de horas
-        cy.get('input#totalHoras').type('0');
+        cy.get('input#totalHoras').type('00:00');
          // Insere o texto na área de justificativa
         cy.get('textarea#justificativa').type('material insuficiente');
         // Clica no botão de validação

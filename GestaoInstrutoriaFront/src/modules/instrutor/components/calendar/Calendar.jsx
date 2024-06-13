@@ -12,8 +12,6 @@ const Calendario = () => {
     const [date, setDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(currentDate.toLocaleDateString());
     const [filteredData, setFilteredData] = useState([]);
-    
-    
 
     const handleDateChange = (newDate) => {
         setDate(newDate);
