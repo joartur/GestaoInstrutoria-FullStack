@@ -1,18 +1,20 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
-import "./menuItem.css"
+import "./menuItem.css";
 
-const MenuItem = (props) => {
+const MenuItem = ({ title, icon, url, active }) => {
     return (
-        <li className="menuItem-container">
-            <Link to={props.url}>
+        <li className={`menuItem-container ${active ? 'active' : ''}`}>
+            <Link to={url}>
                 <div className="menu-icon">
-                    <FontAwesomeIcon icon={props.icon} className="icon"/>
+                    <FontAwesomeIcon icon={icon} className="icon" />
                 </div>
-                <p>{props.title}</p>
+                <p>{title}</p>
             </Link>
         </li>
-    )
+    );
 }
 
 export default MenuItem;
+

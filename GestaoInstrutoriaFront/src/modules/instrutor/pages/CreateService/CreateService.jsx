@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faClock } from '@fortawesome/free-solid-svg-icons';
 import Layout from "../../components/layout/Layout"
+import TopBar from '../../../../components/topbar/topBar';
 import Header from "../../../../components/header/Header";
 import { useDataContext } from '../../services/DataContext';
 import { useForm } from 'react-hook-form';
@@ -72,6 +73,10 @@ function CreateService () {
 
     return (
         <Layout>
+            <div>
+                <TopBar className="top-bar" />
+                {/* Restante do conteúdo */}
+            </div>
             <Header title="Adicionar Serviço Educacional" description="Preencha os dados e adicione seu registro de serviço educacional"/>
             <main>
                 <div className="createServiceForm-container">

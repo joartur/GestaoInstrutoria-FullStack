@@ -16,22 +16,16 @@ import "./editService.css"
 const EditService = () => {
     const { id } = useParams();
     //importa principais funções e variáveis do context API
-    const { editService, serviceTypes, fetchServiceDetails } = useDataContext();
+    const { editService, errorMsg, serviceEdited, setServiceEdited, serviceTypes, fetchServiceDetails } = useDataContext();
 
     //armazena as informações do serviço educacional que vai ser editado
     const [service, setService] = useState(null);
-    const [inputCount, setInputCount] = useState(0);
 
-    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-    const [confirmationMessage, setConfirmationMessage] = useState([]);
-    const [typeMessage, setTypeMessage ] = useState(null)
-
-    //Fecha o modal ao apertar "ESC"  
+    //Fecha modal ao apertar ESC
     const closeModal = () => {
-    setShowConfirmationModal(false)
+        setServiceEdited(false);
     };
-    //Chamada de Custom Hook para fechar o modal ao apertar ESC
-    useEscapeKeyPress(closeModal, [showConfirmationModal]);
+    useEscapeKeyPress(closeModal, [serviceEdited]);
 
     const schema = yup.object().shape({
         titulo: yup.string().required('O título é obrigatório'),
@@ -67,28 +61,7 @@ const EditService = () => {
     }, [fetchServiceDetails, id, setValue]);
 
     const onSubmit = async (data) => {
-        try{
-            await editService(id, data);
-
-            setConfirmationMessage(["Serviço educacional cadastrado com sucesso!", "Aguarde a confirmação do Coordenador"]);
-            setShowConfirmationModal(true);
-            setTypeMessage(true)
-        }
-        catch (error){
-            setTypeMessage(false)
-            if (error.response?.status === 400) {
-                setConfirmationMessage(["Não foi possível cadastrar o Serviço Educacional!", error.response?.data.error]);
-                setTypeMessage(false)
-            } else if (error.response?.status === 500) {
-                setConfirmationMessage(["Não foi possível cadastrar o Serviço Educacional!", "Erro interno do servidor"]);
-                setTypeMessage(false)
-            } else {
-                setConfirmationMessage(["Não foi possível cadastrar o Serviço Educacional!", "Erro ao validar serviço"]);
-                setTypeMessage(false)
-            }
-            setShowConfirmationModal(true);
-            console.error("Erro ao validar o serviço:", error);
-        }
+        await editService(id, data);
     };
 
     if (!service) {
@@ -110,11 +83,7 @@ const EditService = () => {
                     <div className="createServiceForm-body">
                         <form onSubmit={handleSubmit(onSubmit)}>
                         <div>
-                            <div className="title-label">
-                                <label htmlFor="titulo">Título do Serviço Educacional:</label>
-                                <span><p className={inputCount === 50? "p-red": "p-grey"}>{inputCount}/50</p></span>
-                            </div>
-
+                            <label htmlFor="titulo">Título:</label>
                             <input
                                 id="titulo"
                                 name="titulo"
@@ -122,7 +91,6 @@ const EditService = () => {
                                 className="textInput"
                                 placeholder="Insira o Título do Serviço Educacional"
                                 {...register('titulo')}
-                                onChange={(e) => setInputCount(e.target.value.length)}
                             />
                             <span className="error-msg">{errors.titulo && <>{errors.titulo.message}</>}</span>
                         </div>
@@ -184,13 +152,15 @@ const EditService = () => {
                             <span className="error-msg">{errors.descricao && <>{errors.descricao.message}</>}</span>
                         </div>
 
+                        <div className="error-container">
+                            {errorMsg ? (<span className="error-msg">{errorMsg.error}</span>) : null}
+                        </div>
                         <button type="submit" className="main-btn medium">Enviar</button>
                         </form>
-                        {showConfirmationModal && (
+                        {serviceEdited && (
                             <EditModal
-                                message={confirmationMessage}
-                                icon={typeMessage}
-                                onClose={closeModal}
+                                onCancel={closeModal}
+                                onClick={closeModal}
                             />
                         )}
                     </div>

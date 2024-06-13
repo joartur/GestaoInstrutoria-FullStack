@@ -108,3 +108,18 @@ abbr[title] {
   justify-content: center;
   align-items: center;
 }
+
+@media only screen and (max-width: 768px) {
+  .calendario-container {
+    flex-direction: column;
+    margin: 10px;
+  }
+
+  .calendar {
+    margin-bottom: 20px; 
+  }
+
+  .messages {
+    margin-left: 0; 
+  }
+}

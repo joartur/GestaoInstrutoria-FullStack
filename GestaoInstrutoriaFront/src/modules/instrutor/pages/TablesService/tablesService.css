@@ -19,35 +19,22 @@
     border-radius: 12px;
 }
 
-.filters-container{
+.searchButton-containe {
+    text-align: center; 
+    margin: 0 auto; 
+}
+
+.filters-container {
     display: flex;
     align-items: center;
     justify-content: flex-end;
 }
 
-.filters-container select{
-    margin: 20px 10px 20px 0px;
+.filters-container select {
+    margin: 10px 10px 10px 0;
 }
 
-.notFound-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.notFound-container h1{
-    margin: 0;
-}
-.notFound-container p{
-    font-size: 20px;
-}
-.notFound-container .icon{
-    font-size: 84px;
-    margin-bottom: 25px;
-}
-
-.filterOpen-btn{
+.filterOpen-btn {
     background-color: var(--light-grey);
     color: var(--black);
     font-size: 16px;
@@ -58,28 +45,98 @@
     padding: 15px 50px;
 }
 
-.filterOpen-btn:hover{
-    background-color: var(--light-grey-hover)
+.filterOpen-btn:hover {
+    background-color: var(--light-grey-hover);
+}
+
+.notFound-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.notFound-container h1 {
+    margin: 0;
+}
+
+.notFound-container p {
+    font-size: 20px;
+}
+
+.notFound-container .icon {
+    font-size: 84px;
+    margin-bottom: 25px;
 }
 
 .active-filters {
     margin-bottom: 16px;
 }
-.active-filters h2{
+
+.active-filters h2 {
     margin-bottom: 5px;
 }
+
 .filter-tag {
     display: flex;
     align-items: center;
 }
-.filter-tag strong{
+
+.filter-tag strong {
     margin-right: 5px;
 }
-.filter-tag span{
+
+.filter-tag span {
     margin-right: 5px;
 }
-.active-filters svg{
+
+.active-filters svg {
     font-size: 24px;
     color: var(--main-red);
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .search-container {
+        flex-direction: column;
+        padding: 0 20px;
+    }
+
+    .searchBar-container {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .filters-container {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 50px;
+        gap: 10px;
+    }
+
+    .filters-container select {
+        margin: 10px 0;
+    }
+
+    .filterOpen-btn {
+        padding: 15px 20px;
+    }
+
+    .notFound-container {
+        padding-bottom: 30px;
+    }
+
+    .notFound-container h1, p{
+        padding-left: 20px;
+    }
+
+    .searchButton-containe {
+        width: 100%;
+    }
+
+    .filters-container {
+        flex-direction: row; 
+        justify-content: flex-start; 
+        align-items: center; 
+    }
 }

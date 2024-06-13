@@ -1,8 +1,9 @@
 import Menu from "../../components/menu/Menu"
+import './layout.css';
 
 const Layout = ({ children }) => {
     return (
-      <div style={{ marginLeft: '310px', marginRight: '40px', marginTop: '35px' }}>
+      <div className="layout-menu">
         <Menu />
         {children}
       </div>

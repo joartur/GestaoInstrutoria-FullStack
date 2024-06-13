@@ -54,3 +54,20 @@ hr{
     background-color: var(--grey);
     color: var(--white);
 } */
+
+@media (max-width: 767px) {
+    .notificationIcon-container{
+        display: none;
+    }
+    
+    .notification-icon{
+        display: none;
+    }
+
+    .user-info{
+        display: none;
+    }
+    .info-container{
+        margin: 0px 0px -50px 20px;
+    }
+  }
