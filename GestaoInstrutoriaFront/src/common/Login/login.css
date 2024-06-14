@@ -86,3 +86,10 @@
 .forget-container p:hover{
   color: var(--main-blue);
 }
+
+@media (max-width: 768px) {
+  .login-main {
+      padding: 0px 20px;
+  }
+
+}

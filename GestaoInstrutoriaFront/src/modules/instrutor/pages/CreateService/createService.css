@@ -1,11 +1,11 @@
-.createServiceForm-container{
+.createServiceForm-container {
     padding: 20px 40px;
     margin-bottom: 40px;
     border: 1px solid var(--dark-grey);
     border-radius: 12px;
 }
 
-.createServiceForm-header p{
+.createServiceForm-header p {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,47 +14,74 @@
     font-weight: 600;
 }
 
-.createServiceForm-body label{
+.createServiceForm-body label {
     display: block;
     margin-bottom: 15px;
 }
 
-.createServiceForm-body .icon{
+.createServiceForm-body .icon {
     margin-right: 8px;
 }
 
-.timeInput-container{
+.timeInput-container {
     display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
-.timeInput-container input{
-    margin-right: 30px;
-}
-
-.dateInput-container input{
+.timeInput-container input,
+.dateInput-container input {
+    width: 100%;
     padding: 11px;
+    margin-right: 0;
 }
 
-.createServiceForm-body button{
-    margin: 0px 0px 0px 0px;
+.createServiceForm-body button {
+    margin: 0;
 }
 
-.error-msg{
+.error-msg {
     color: var(--main-red);
     display: block;
-    margin: 20px 20px 20px 0px;
+    margin: 20px 20px 20px 0;
 }
 
-.title-label{
+.title-label {
     display: flex;
     align-items: center;
 }
-.title-label span{
+
+.title-label span {
     margin-bottom: 15px;
     margin-left: 5px;
     color: var(--grey);
 }
 
-.p-red{
+.p-red {
     color: var(--main-red);
+}
+
+@media (max-width: 768px) {
+    .createServiceForm-container {
+        margin: 0 20px 80px 20px;
+    }
+
+    .createServiceForm-header p {
+        margin: -10px -40px -50px -40px;
+    }
+
+    .timeInput-container {
+        flex-direction: column;
+    }
+
+    .dateInput-container {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .timeInput-container input,
+    .dateInput-container input {
+        width: 100%;
+    }
 }

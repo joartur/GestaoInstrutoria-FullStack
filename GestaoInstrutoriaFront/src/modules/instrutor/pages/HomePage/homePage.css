@@ -1,5 +1,33 @@
-.home-container{
+.home-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
+}
+
+hr{
+    display: none;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .top-bar {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .home-container {
+        grid-template-columns: repeat(2, 1fr);
+        margin: 10px;
+    }
+    .home-container h1{
+         font-size: 18px;
+    }
+    .home-container h2{
+        font-size: 14px;
+    }
+    hr{
+        display: block;
+        padding-top: 15px;
+        background: white;
+    }
 }

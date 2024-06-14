@@ -2,6 +2,7 @@ import { useProfileContext } from "../../services/ProfileContext";
 import Header from "../../../../components/header/Header";
 import TextInput from "../../../../components/inputs/TextInput";
 import Layout from "../../components/layout/Layout";
+import TopBar from '../../../../components/topbar/topBar';
 import Loading from "../../../../common/loading/Loading";
 import "./profile.css";
 
@@ -16,6 +17,10 @@ const Profile = () => {
 
     return (
         <Layout>
+            <div>
+            <TopBar />
+            {/* Restante do conteúdo */}
+            </div>
             <Header title="Dados Cadastrados" description="Visualize seus dados cadastrados" />
             <main>
                 <div className="profile-container">
@@ -31,7 +36,7 @@ const Profile = () => {
                                     <TextInput 
                                         id="fullName" 
                                         name="fullName" 
-                                        value={instrutorProfile && instrutorProfile.nome ? instrutorProfile.nome : ""} 
+                                        value={instrutorProfile ? instrutorProfile.nome : ""} 
                                         disabled={true} 
                                     />
                                 </div>
@@ -40,7 +45,7 @@ const Profile = () => {
                                     <TextInput 
                                         id="position" 
                                         name="position" 
-                                        value={instrutorProfile && instrutorProfile.tipoUsuario ? instrutorProfile.tipoUsuario : ""} 
+                                        value={instrutorProfile ? instrutorProfile.tipoUsuario : ""} 
                                         disabled={true} 
                                     />
                                 </div>
@@ -60,7 +65,7 @@ const Profile = () => {
                                     <TextInput 
                                         id="email" 
                                         name="email" 
-                                        value={instrutorProfile && instrutorProfile.email ? instrutorProfile.email : ""} 
+                                        value={instrutorProfile ? instrutorProfile.email : ""} 
                                         disabled={true} 
                                     />
                                 </div>
@@ -69,7 +74,7 @@ const Profile = () => {
                                     <TextInput 
                                         id="unity" 
                                         name="unity" 
-                                        value={instrutorProfile && instrutorProfile.unidade ? instrutorProfile.unidade : ""} 
+                                        value={instrutorProfile ? instrutorProfile.unidade : ""} 
                                         disabled={true} 
                                     />
                                 </div>

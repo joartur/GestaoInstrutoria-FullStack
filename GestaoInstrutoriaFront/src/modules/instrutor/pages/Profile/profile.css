@@ -1,36 +1,83 @@
-.profile-container{
+.profile-container {
     border: 1px solid var(--dark-grey);
     border-radius: 12px;
-    margin-bottom: 40px;
+    margin-bottom: 50px; /* Adicionado para espaçamento inferior */
 }
 
-.profile-header p{
+.profile-header p {
     font-size: 18px;
     font-weight: 600;
     padding: 0px 30px;
 }
 
-.profile-body{
+.profile-body {
     padding: 0px 30px 40px 30px;
 }
 
-.profile-body input{
+.profile-body input {
     margin-right: 15px;
     margin-bottom: 20px;
 }
 
-.profile-top, .profile-bottom{
+.profile-top, .profile-bottom {
     display: flex;
+    flex-wrap: wrap;
 }
 
-.profile-name, .profile-unity{
+.profile-name, .profile-unity {
     flex: 2;
 }
 
-.profile-email{
+.profile-email {
     flex: 3;
 }
 
-.profileButtons-container button{
+.profile-office, .profile-area {
+    flex: 1;
+}
+
+.profileButtons-container button {
     margin: 0px 20px 0px 0px;
+}
+
+@media (max-width: 768px) {
+    main{
+        margin-bottom: 80px;
+    }
+    .profile-container {
+        height: 550px;
+        max-height: 100%;
+        margin: 0 20px; 
+    }
+
+    .profile-header p {
+        margin-bottom: -40px;
+    }
+
+    .profile-top, .profile-bottom {
+        flex-direction: column;
+    }
+
+    .profile-name {
+        flex: 1 1 100%;
+    }
+
+    .profile-area{
+        padding-bottom: -50px;
+    }
+
+    .profile-office, .profile-area, .profile-email, .profile-unity {
+        flex: 1 1 48%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .profile-office, .profile-area {
+        flex: 1 1 48%;
+    }
+
+    .profile-body input {
+        width: 100%;
+        margin-right: 0;
+    }
 }
