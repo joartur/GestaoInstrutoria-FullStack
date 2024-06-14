@@ -12,7 +12,6 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-
 }
 
 .calendario-container .react-calendar__navigation {
@@ -108,18 +107,11 @@ abbr[title] {
   justify-content: center;
   align-items: center;
 }
-
-@media only screen and (max-width: 768px) {
-  .calendario-container {
-    flex-direction: column;
-    margin: 10px;
-  }
-
-  .calendar {
-    margin-bottom: 20px; 
-  }
-
-  .messages {
-    margin-left: 0; 
-  }
+.day-with-event {
+  background-color: var(--main-green)!important;
+  color: white;
+}
+.day-with-event:hover{
+  background-color: var(--dark-green)!important;
+  border: none!important;
 }

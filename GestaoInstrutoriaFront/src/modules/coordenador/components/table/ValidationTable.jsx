@@ -22,6 +22,8 @@ const ValidationTable = ({ instructorRegisters, fetchData }) => {
         setServiceIdToPartialValidate(id);
     };
 
+    console.log(instructorRegisters)
+
     const handleConfirmValidation = async () => {
         if (serviceIdToValidate) {
             try {
