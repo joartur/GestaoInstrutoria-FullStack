@@ -230,19 +230,24 @@ class RegistroServico {
     static conferirHora(hrInicio, hrFinal){
         return ( hrInicio >= hrFinal )
     }
-    
+
     static validarDescricao(descricao){
         if(descricao == ""){
             return true
         }
         /*
-        a expressão regular permite qualquer combinação de letras, números, espaços, vírgulas, pontos, exclamação, interrogação, hífens
-        e caracteres acentuados, incluindo palavras, frases e números decimais simples, mas evita números independentes com quatro ou mais dígitos consecutivos.
+        a expressão regular permite qualquer combinação de letras, números, espaços, vírgulas, pontos,
+        exclamação, interrogação, hífens e caracteres acentuados, incluindo palavras, frases e números decimais simples, 
+        mas evita números independentes com quatro ou mais dígitos consecutivos.
         */
-       const regex = /^(?!.*\b\d{4,}\b)(?!.*\b[A-Za-z]{20,}\b)[a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\']+(?: [a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\']+)*$/;
-    
-        // verifica o tamanho da descrição
-        return (regex.test(descricao) && descricao.length > 15);
+        const regex = /^(?!.*\b\d{4,}\b)(?!.*\b[A-Za-z]{20,}\b)[a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\/()']+(?: [a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\/()']+)*$/;
+        let result = regex.test(descricao)
+
+        if (descricao.length < 15){
+            throw RegistroServico.httpError(400, "Poucos caracteres. O minimo requerido é 15.")
+        } else if(!result){
+            throw RegistroServico.httpError(400, "Caracteres inválidos na descrição. exemplo: #,%,&,*")
+        }
     } 
 };
 
@@ -257,9 +262,7 @@ class InstrutorController {
             }
 
             //validação básica do texto da descrição
-            if (!RegistroServico.validarDescricao(descricao)) {
-                return res.status(400).json({ error: "Descrição inválida." });
-            }
+            RegistroServico.validarDescricao(descricao)
 
             //conferindo se a data corresponde ao período em vigor ou está no futuro
             if (!RegistroServico.conferirDataFutura(dataServico)) {
@@ -350,9 +353,7 @@ class InstrutorController {
             }
 
             //validação básica do texto da descrição
-            if (!RegistroServico.validarDescricao(descricao)) {
-                return res.status(400).json({ error: "Descrição inválida." });
-            }
+            RegistroServico.validarDescricao(descricao)
 
             //conferindo se a data corresponde ao período em vigor ou está no futuro
             if (!RegistroServico.conferirDataFutura(dataServico)) {

@@ -1,30 +1,24 @@
 # Rota coordenador
 ###
-GET http://localhost:3001/coordArea/5678901234
+GET http://localhost:3001/coordArea/listarRegistros/2345
 
 ###
-GET http://localhost:3001/coordArea/listarRegistros/2345678901
+GET http://localhost:3001/coordArea/1234
 
 ###
-GET http://localhost:3001/coordArea/verificaSituacao/2345678901
+PUT http://localhost:3001/coordArea/validarRegistro/1234/4
 
 ###
-GET http://localhost:3001/coordArea/1234567890
-
-###
-PUT http://localhost:3001/coordArea/validarRegistro/1234567890/4
-
-###
-PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/1234567890/11
+PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/1234/5
 Content-Type: application/json
 
 {
-    "justificativa": "Está errado!",
+    "justificativa": "sousenac",
     "total": "00:00:00"
 }
 
 ###
-POST http://localhost:3001/coordArea/registro/1234567890/6789012345
+POST http://localhost:3001/coordArea/registro/1234/2345
 Content-Type: application/json
 
 {
