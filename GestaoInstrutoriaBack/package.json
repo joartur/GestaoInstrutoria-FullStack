@@ -7,7 +7,10 @@
     "dev": "nodemon index.js",
     "test": "jest ",
     "test:watch": "jest --watchAll",
-    "test:coverage": "jest --watchAll --coverage"
+    "test:coverage": "jest --watchAll --coverage",
+    "db:create": "npx sequelize-cli db:create",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:seed": "npx sequelize-cli db:seed:all"
   },
   "keywords": [],
   "author": "",
