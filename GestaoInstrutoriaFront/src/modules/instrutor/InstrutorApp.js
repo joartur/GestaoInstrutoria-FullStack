@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { DataProvider } from './services/DataContext';
+import { ProfileProvider } from './services/ProfileContext';
 import HomePage from './pages/HomePage/HomePage';
 import CreateService from './pages/CreateService/CreateService';
 import TablesService from './pages/TablesService/TablesService';
@@ -7,9 +9,7 @@ import Login from '../../common/Login/Login';
 import Profile from './pages/Profile/Profile';
 import ViewServices from '../../common/ViewServices/ViewServices';
 import EditService from './pages/EditService/EditService';
-import NotFound from './pages/NotFound/NotFound';
-import { DataProvider } from './services/DataContext';
-import { ProfileProvider } from './services/ProfileContext';
+import NotFound from '../../components/NotFound/NotFound';
 
 const InstrutorApp = () => {
   return (

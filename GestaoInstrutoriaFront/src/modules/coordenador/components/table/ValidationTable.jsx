@@ -127,7 +127,10 @@ const ValidationTable = ({ instructorRegisters, fetchData }) => {
                             <td>{register.dataServico}</td>
                             <td>{register.horaInicio}</td>
                             <td>{register.horaFinal}</td>
-                            <td>{register.total} {register.total === 0 || register.total > 1? "Horas":"Hora"}</td>
+                            <td>
+                                {register.total}
+                                {register.total === 0 || register.total > 1? " Horas":" Hora"}
+                            </td>
                             <td>{register.Servico.nome}</td>
                             <td>
                                 <ValidationButtons

@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCoordenadorContext } from "../../services/CoordenadorContext";
+import Loading from '../../../../common/loading/Loading';
 import Header from "../../../../components/header/Header";
 import Layout from "../../components/layout/Layout"
 import useEscapeKeyPress from "../../../../hooks/useEscapeKeyPress";
@@ -85,6 +86,10 @@ function CreateService () {
     
         fetchData();
     }, [id, serviceTypesFetch]);
+
+    if (!id) {
+        return <Loading />
+    }
 
     return (
         <Layout>

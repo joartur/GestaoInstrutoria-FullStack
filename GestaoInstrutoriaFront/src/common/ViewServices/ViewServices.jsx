@@ -22,7 +22,6 @@ const ViewServices = () => {
         fetchData();
     }, [id, fetchServiceDetails]);
     
-
     if (!service) {
         return <Loading />
     }
@@ -31,6 +30,7 @@ const ViewServices = () => {
     let horaInicioFormatada = '';
     let horaFinalFormatada = '';
     let horaTotal = '';
+    let minutoTotal = '';
     
     if (service !== null) {
         const [ano, mes, dia] = service.dataServico.split("-");
@@ -40,6 +40,7 @@ const ViewServices = () => {
         const [horaFim, minutoFim] = service.horaFinal.split(":");
         horaFinalFormatada = `${horaFim}:${minutoFim}`;
         horaTotal = service.total.split(":")[0];
+        minutoTotal = service.total.split(":")[1];
     }
     
 
@@ -63,7 +64,11 @@ const ViewServices = () => {
                     <div className="time-info">
                         <strong>Horário Inincial: </strong><span>{horaInicioFormatada}</span>
                         <strong>Horário Final: </strong><span>{horaFinalFormatada}</span>
-                        <strong>Total de Horas: </strong><span>{horaTotal} {horaTotal > 1 || horaTotal === 0 ? "Horas": "Hora"}</span>
+                        <strong>Total de Horas: </strong>
+                        <span>
+                            {horaTotal} {horaTotal > 1 || horaTotal === 0 ? "Horas e ": "Hora e "}
+                            {minutoTotal} {minutoTotal > 1 || minutoTotal === 0 ? "Minutos": "Minuto"}
+                        </span>
                     </div>
                     <div className="description-info">
                         <h2>Descrição do Serviço Educacional:</h2>

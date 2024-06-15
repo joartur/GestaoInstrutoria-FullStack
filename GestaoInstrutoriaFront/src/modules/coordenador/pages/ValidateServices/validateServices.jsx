@@ -5,6 +5,7 @@ import Layout from "../../components/layout/Layout";
 import ValidationTable from "../../components/table/ValidationTable";
 import { useCoordenadorContext } from "../../services/CoordenadorContext";
 import useFormattedData from '../../../../hooks/useFormattedData';
+import Loading from "../../../../common/loading/Loading";
 
 const ValidateServices = () => {
     const { id } = useParams();
@@ -29,7 +30,12 @@ const ValidateServices = () => {
         fetchData();
     }, [fetchData]);
 
+    if (!instructorRegistersData) {
+        return <Loading />
+    }
+
     return (
+        
         <Layout>
             <Header
             title={`Serviços Educacionais de: ${instructorName}`}
@@ -53,10 +59,10 @@ const ValidateServices = () => {
                 </button>
                 </div>
                 </div>
-                    <ValidationTable
-                        instructorRegisters={formattedServices}
-                        fetchData={fetchData}
-                    />
+                <ValidationTable
+                    instructorRegisters={formattedServices}
+                    fetchData={fetchData}
+                />
             </main>
         </Layout>
     )

@@ -7,6 +7,7 @@ import Login from '../../common/Login/Login';
 import Test from "./pages/Test";
 import CreateService from '../coordenador/pages/createService/CreateService';
 import ViewServices from './pages/ViewService/ViewService';
+import NotFound from '../../components/NotFound/NotFound';
 
 const CoordenadorApp = () => {
     return (
@@ -18,9 +19,9 @@ const CoordenadorApp = () => {
                 <Route path="/viewServices/:id" element={<ViewServices />}/>
                 <Route path="/profile" element={<Profile />}/>
                 <Route path="/login" element={<Login />}/>
-                <Route path="/cordArea/createService/:id" element={<CreateService />}/>
-                <Route path="/viewServices/:id" element={<ViewServices />} />
-
+                <Route path="cordArea/createService/:id" element={<CreateService />}/>
+                <Route path="cordArea/viewServices/:id" element={<ViewServices />} />
+                <Route path="*" element={<NotFound />} />
                 <Route path="/testes" element={<Test />}/>
             </Routes>
         </Router>

@@ -2,13 +2,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import "./actionButton.css"
 import { Link } from 'react-router-dom';
 
-const ActionButton = (props) => {
+const ActionButton = ({url, legenda, icon, status}) => {
+    const isDisabled = ["Validado", "Recusado", "Parcialmente Validado"].includes(status);
+    console.log(isDisabled)
+    
     return (
-        <div className='actionButton-container'>
-            <Link to={props.url} title={props.legenda}>
-            <FontAwesomeIcon icon={props.icon} className="icon"/>
+        <button className='actionButton-container' disabled={isDisabled}>
+            <Link to={url} title={legenda}>
+            <FontAwesomeIcon icon={icon} className="icon"/>
             </Link>
-        </div>
+        </button>
     )
 }
 

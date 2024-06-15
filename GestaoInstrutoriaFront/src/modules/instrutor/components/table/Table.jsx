@@ -74,10 +74,35 @@ const Table = ({formattedData, handleSort, sortDirection, sortBy}) => {
                             <td>{registro.horaInicio}</td>
                             <td>{registro.horaFinal}</td>
                             <td>{registro.Servico ? registro.Servico.nome : 'N/A'}</td>
-                            <td className="situationTd"><TableSituation title={registro.status} url={`/viewServices/${registro.id}`} /></td>
-                            <td onClick={() => handleDelete(registro.id)}><ActionButton legenda="DELETAR SERVIÇO" icon={faTrash} /></td>
-                            <td><ActionButton legenda="EDITAR SERVIÇO" icon={faPenToSquare} url={`/editService/${registro.id}`}/></td>
-                            <td><ActionButton legenda="VISUALIZAR SERVIÇO" icon={faCircleInfo} url={`/viewServices/${registro.id}`} /></td>
+                            <td className="situationTd">
+                                <TableSituation
+                                title={registro.status}
+                                url={`/viewServices/${registro.id}`}
+                                />
+                            </td>
+                            <td onClick={() => handleDelete(registro.id)}>
+                                <ActionButton
+                                legenda="DELETAR SERVIÇO"
+                                icon={faTrash}
+                                status={registro.status}
+                                />
+                            </td>
+                            <td>
+                                <ActionButton
+                                legenda="EDITAR SERVIÇO"
+                                icon={faPenToSquare}
+                                url={`/editService/${registro.id}`}
+                                status={registro.status}
+                                />
+                            </td>
+                            <td>
+                                <ActionButton
+                                legenda="VISUALIZAR SERVIÇO"
+                                icon={faCircleInfo}
+                                url={`/viewServices/${registro.id}`}
+                                status={registro.status}
+                                />
+                            </td>
                         </tr>
                     ))}
                 </tbody>
