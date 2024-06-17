@@ -1,8 +1,23 @@
-.actionButton-container a{
+.actionButton-container {
+    background: none;
+    border: none;
+}
+
+.actionButton-container a {
     background: var(--bg-blue);
     border-radius: 12px;
     padding: 15px 15px;
     border: none;
     cursor: pointer;
+    color: white;
+    text-decoration: none;
 }
 
+.actionButton-container.disabled a {
+    background: gray;
+    cursor: not-allowed;
+}
+
+.actionButton-container.disabled .icon {
+    color: darkgray;
+}

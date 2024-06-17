@@ -1,11 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faExclamation } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import Loading from "../../../../common/loading/Loading";
 import Button from "../../../../components/buttons/Button";
 import "../../../instrutor/components/table/table.css";
 
 
 const InstrutoresListTable = ({ instructors }) => {
+
+    if (!instructors) {
+        return <Loading />
+    }
+    
     return (
         <div className="table-container">
             <table className="table">
@@ -25,7 +31,9 @@ const InstrutoresListTable = ({ instructors }) => {
                             <td>{data.nome? data.nome: ""}</td>
                             <td>
                                 {data.totalHoras? data.totalHoras.split(':')[0]: "00"}
-                                {data.totalHoras === "00:00:00" || data.totalHoras > 1? " Horas": " Hora"}
+                                {data.totalHoras === "00:00:00" || data.totalHoras.split(':')[0] > 1? " Horas e ": " Hora e "}
+                                {data.totalHoras? data.totalHoras.split(':')[1]: "00"}
+                                {data.totalHoras === "00:00:00" || data.totalHoras.split(':')[1] > 1? " Minutos": " Minuto"}
                             </td>
                             <td>
                                 <Button
@@ -38,7 +46,7 @@ const InstrutoresListTable = ({ instructors }) => {
                                 <Button
                                 title="Adicionar Registro"
                                 size="small"
-                                url={`cordArea/createService/${data.nome}`}
+                                url={`cordArea/createService/${data.matricula}`}
                                 />
                             </td>
                             <td className="status-sphere-td">

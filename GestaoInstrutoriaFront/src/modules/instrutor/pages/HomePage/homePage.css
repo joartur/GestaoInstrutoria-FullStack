@@ -4,10 +4,6 @@
     gap: 10px;
 }
 
-hr{
-    display: none;
-}
-
 @media (min-width: 768px) and (max-width: 1024px) {
     .top-bar {
         display: none;

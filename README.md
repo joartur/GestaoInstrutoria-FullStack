@@ -1,7 +1,5 @@
 # Gestão da Carga Horária da Instrutoria
 
-Este é um projeto desenvolvido usando Sequelize e Node.js.
-
 ## Sumário
 - [Descrição do Projeto](#descrição-do-projeto)
 - [Funcionalidades](#funcionalidades)

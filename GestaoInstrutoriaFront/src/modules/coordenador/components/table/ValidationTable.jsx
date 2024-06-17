@@ -6,6 +6,7 @@ import Modal from "../../../../components/modal/Modal";
 import PartialValidationModal from "../modal/partialValidationModal";
 import useEscapeKeyPress from "../../../../hooks/useEscapeKeyPress";
 import ConfirmationModal from "../modal/ConfirmationModal";
+import RegisterNotFound from "../../../../components/NotFound/RegisterNotFound";
 
 const ValidationTable = ({ instructorRegisters, fetchData }) => {
     const { validateInstructorRegister, partiallyValidateInstructorRegister } = useCoordenadorContext();
@@ -21,6 +22,8 @@ const ValidationTable = ({ instructorRegisters, fetchData }) => {
     const handlePartiallyValidate = (id) => {
         setServiceIdToPartialValidate(id);
     };
+
+    console.log(instructorRegisters)
 
     const handleConfirmValidation = async () => {
         if (serviceIdToValidate) {
@@ -119,13 +122,16 @@ const ValidationTable = ({ instructorRegisters, fetchData }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {instructorRegisters && instructorRegisters.length > 0 ? instructorRegisters.map(register => (
+                    {instructorRegisters.map(register => (
                         <tr key={register.id}>
                             <td>{register.titulo}</td>
                             <td>{register.dataServico}</td>
                             <td>{register.horaInicio}</td>
                             <td>{register.horaFinal}</td>
-                            <td>{register.total} {register.total === 0 || register.total > 1? "Horas":"Hora"}</td>
+                            <td>
+                                {register.total}
+                                {register.total === 0 || register.total > 1? " Horas":" Hora"}
+                            </td>
                             <td>{register.Servico.nome}</td>
                             <td>
                                 <ValidationButtons
@@ -152,11 +158,7 @@ const ValidationTable = ({ instructorRegisters, fetchData }) => {
                                 />
                             </td>
                         </tr>
-                    )): 
-                    <tr>
-                        <td colSpan={7}>Nenhum registro encontrado</td>
-                    </tr>
-                    }
+                    ))}
                 </tbody>
             </table>
         </div>

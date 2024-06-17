@@ -49,26 +49,6 @@
     background-color: var(--light-grey-hover);
 }
 
-.notFound-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.notFound-container h1 {
-    margin: 0;
-}
-
-.notFound-container p {
-    font-size: 20px;
-}
-
-.notFound-container .icon {
-    font-size: 84px;
-    margin-bottom: 25px;
-}
-
 .active-filters {
     margin-bottom: 16px;
 }
@@ -120,14 +100,6 @@
 
     .filterOpen-btn {
         padding: 15px 20px;
-    }
-
-    .notFound-container {
-        padding-bottom: 30px;
-    }
-
-    .notFound-container h1, p{
-        padding-left: 20px;
     }
 
     .searchButton-containe {
