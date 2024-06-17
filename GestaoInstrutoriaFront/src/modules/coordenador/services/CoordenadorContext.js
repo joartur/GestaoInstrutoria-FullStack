@@ -19,7 +19,7 @@ export const CoordenadorProvider = ({ children }) => {
   }, []);
 
     //Busca todos os instrutores de uma área do conhecimento do Senac
-    const fetchInstructors = async (id) => {
+    const fetchInstructors = async () => {
         try {
           const response = await axios.get(`http://localhost:3001/coordArea/1234`);
           setInstructors(response.data);

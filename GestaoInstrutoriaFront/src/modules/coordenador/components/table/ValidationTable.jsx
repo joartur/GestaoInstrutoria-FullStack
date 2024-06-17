@@ -25,7 +25,7 @@ const ValidationTable = ({ instructorRegisters, fetchData }) => {
     const handleConfirmValidation = async () => {
         if (serviceIdToValidate) {
             try {
-                await validateInstructorRegister("1234567890", serviceIdToValidate);
+                await validateInstructorRegister("1234", serviceIdToValidate);
                 setServiceIdToValidate(null);
                 setConfirmationMessage(["Confirmação", "Serviço educacional validado com sucesso!"]);
                 setShowConfirmationModal(true);
@@ -50,7 +50,7 @@ const ValidationTable = ({ instructorRegisters, fetchData }) => {
 
         if (serviceIdToPartialValidate) {
             try {
-                await partiallyValidateInstructorRegister("1234567890", serviceIdToPartialValidate, data.justificativa, data.total);
+                await partiallyValidateInstructorRegister("1234", serviceIdToPartialValidate, data.justificativa, data.total);
                 setServiceIdToPartialValidate(null);
                 setConfirmationMessage(["Confirmação", "Serviço educacional validado com sucesso!"]);
                 setShowConfirmationModal(true);
