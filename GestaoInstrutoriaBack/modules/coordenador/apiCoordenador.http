@@ -12,7 +12,7 @@ GET http://localhost:3001/coordArea/verificaSituacao/2345678901
 GET http://localhost:3001/coordArea/1234567890
 
 ###
-PUT http://localhost:3001/coordArea/validarRegistro/1234567890/4
+PUT http://localhost:3001/coordArea/validarRegistro/1234/21
 
 ###
 PUT http://localhost:3001/coordArea/validarParcialmenteRegistro/1234567890/11

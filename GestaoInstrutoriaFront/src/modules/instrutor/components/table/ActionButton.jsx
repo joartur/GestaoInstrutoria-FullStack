@@ -1,9 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./actionButton.css";
-import { Link } from 'react-router-dom';
 
 const ActionButton = ({ url, legenda, icon, status }) => {
-    const isDisabled = legenda !== "VISUALIZAR SERVIÇO" && ["Validado", "Recusado", "Parcialmente Validado"].includes(status);
+    const isDisabled = legenda !== "VISUALIZAR SERVIÇO" && ["Validado", "Parcialmente Validado"].includes(status);
 
     const handleClick = (event) => {
         if (isDisabled) {
