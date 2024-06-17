@@ -53,7 +53,7 @@ function CreateService () {
         console.log(data)
 
         try{
-            await createInstructorRegister("1234567890", id, data)
+            await createInstructorRegister(id, "1234", data)
             reset()
             setInputCount(0)
             setConfirmationMessage(["Confirmação", "Serviço educacional cadastrado com sucesso!"]);

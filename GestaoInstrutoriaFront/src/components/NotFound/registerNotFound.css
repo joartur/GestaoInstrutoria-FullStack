@@ -1,0 +1,30 @@
+.notFound-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 60px 0px;
+}
+
+.notFound-container h1 {
+    margin: 0;
+}
+
+.notFound-container p {
+    font-size: 20px;
+}
+
+.notFound-container .icon {
+    font-size: 84px;
+    margin-bottom: 25px;
+}
+
+@media (max-width: 768px) {
+    .notFound-container {
+        padding-bottom: 30px;
+    }
+
+    .notFound-container h1, p{
+        padding-left: 20px;
+    }
+}

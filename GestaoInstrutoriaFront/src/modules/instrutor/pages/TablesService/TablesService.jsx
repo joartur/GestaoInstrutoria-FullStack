@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useDataContext } from '../../services/DataContext';
 import Layout from "../../components/layout/Layout";
 import Header from "../../../../components/header/Header";
@@ -10,6 +10,7 @@ import TopBar from '../../../../components/topbar/topBar';
 import FilterModal from '../../components/modais/FilterModal';
 import Pagination from '../../../../components/pagination/Pagination';
 import Loading from '../../../../common/loading/Loading';
+import RegisterNotFound from '../../../../components/NotFound/RegisterNotFound';
 import useEscapeKeyPress from "../../../../hooks/useEscapeKeyPress";
 import moment from 'moment';
 import 'moment/locale/pt-br';
@@ -254,16 +255,12 @@ const TablesService = () => {
                         />
                     </div>
                 ) : (
-                    <div className="notFound-container">
-                        <FontAwesomeIcon icon={faMagnifyingGlass} className="icon" />
-                        <h1>Não Há Nenhum Serviço Educacional Cadastrado</h1>
-                        <p>Cadastre novos serviços educacionais e aguarde a validação do coordenador de área!</p>
-                        <Button
-                            title="Cadastrar Serviços Educacionais"
-                            size="medium"
-                            url="/createService"
-                        />
-                    </div>
+                    <RegisterNotFound
+                        title= "Não Há Nenhum Serviço Educacional Cadastrado"
+                        subtitle= "Cadastre novos serviços educacionais e aguarde a validação do coordenador de área!"
+                        buttonTitle= "Cadastrar Serviços Educacionais"
+                        url= "/createService"
+                    />
                 )}
             </main>
         </Layout>
@@ -271,3 +268,6 @@ const TablesService = () => {
 };
 
 export default TablesService;
+
+//
+//

@@ -11,8 +11,8 @@ root.render(
   </React.StrictMode>
 );
 
-//     <CoordenadorApp />
-//
+//<CoordenadorApp />
+//<InstrutorApp />
 
 
 

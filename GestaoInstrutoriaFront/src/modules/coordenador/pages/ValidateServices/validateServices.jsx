@@ -6,6 +6,7 @@ import ValidationTable from "../../components/table/ValidationTable";
 import { useCoordenadorContext } from "../../services/CoordenadorContext";
 import useFormattedData from '../../../../hooks/useFormattedData';
 import Loading from "../../../../common/loading/Loading";
+import RegisterNotFound from "../../../../components/NotFound/RegisterNotFound";
 
 const ValidateServices = () => {
     const { id } = useParams();
@@ -59,10 +60,19 @@ const ValidateServices = () => {
                 </button>
                 </div>
                 </div>
+                {formattedServices && formattedServices.length > 0 ?
                 <ValidationTable
                     instructorRegisters={formattedServices}
                     fetchData={fetchData}
                 />
+                :
+                <RegisterNotFound
+                title= {"Não Há Nenhum Serviço Educacional Deste Instrutor Para Validar!"}
+                subtitle= "Aguarde esse instrutor cadastrar novos serviços educacionais"
+                buttonTitle= "Visualizar lista de instrutores"
+                url= "/"
+                />
+                }
             </main>
         </Layout>
     )
