@@ -45,6 +45,7 @@ const TablesService = () => {
     });
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredData, setFilteredData] = useState(formattedServices);
+
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(6);
 
@@ -60,9 +61,9 @@ const TablesService = () => {
 
         if (term) {
             filteredResults = filteredResults.filter((item) =>
-                item.titulo.toLowerCase().includes(term.toLowerCase())
+                item.titulo.toLowerCase().startsWith(term.toLowerCase())
             );
-        }
+        }        
 
         if (situacao) {
             filteredResults = filteredResults.filter((item) => item.status === situacao);
@@ -248,11 +249,10 @@ const TablesService = () => {
                             sortBy={sortBy}
                         />
                         <Pagination
-                            itemsPerPage={itemsPerPage}
-                            totalItems={filteredData.length}
-                            paginate={paginate}
-                            currentPage={currentPage}
-                        />
+                        items={formattedServices}
+                        itemsPerPage={6}
+                        onPageChange={setFilteredData}
+                    />
                     </div>
                 ) : (
                     <RegisterNotFound

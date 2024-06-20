@@ -1,10 +1,25 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import "./pagination.css"
+import "./pagination.css";
 
-const Pagination = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
+const Pagination = ({ items, itemsPerPage, onPageChange }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalItems = items.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+
+  useEffect(() => {
+    onPageChange(currentItems);
+  }, [currentPage, items]);
+
+  const paginate = (pageNumber) => {
+    if (pageNumber < 1 || pageNumber > totalPages) return;
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div className='pagination-pages'>

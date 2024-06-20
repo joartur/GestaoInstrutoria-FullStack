@@ -67,7 +67,7 @@ const ViewServices = () => {
                         <strong>Total de Horas: </strong>
                         <span>
                             {horaTotal} {horaTotal > 1 || horaTotal === 0 ? "Horas e ": "Hora e "}
-                            {minutoTotal} {minutoTotal > 1 || minutoTotal === 0 ? "Minutos": "Minuto"}
+                            {minutoTotal} {minutoTotal > 1 || minutoTotal === "00" ? "Minutos": "Minuto"}
                         </span>
                     </div>
                     <div className="description-info">

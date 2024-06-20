@@ -108,7 +108,6 @@ const ValidationTable = ({ instructorRegisters, fetchData }) => {
                     onClose={() => setShowConfirmationModal(false)}
                 />
             )}
-            
             <table className="table">
                 <thead>
                     <tr>
