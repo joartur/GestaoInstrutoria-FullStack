@@ -228,14 +228,12 @@ class RegistroServico {
     static async calcularHoras(idRegistro) {
         const registro = await Registro.findOne({ where: { id: idRegistro } });
         if (!registro) {
-            console.log('Registro não encontrado.');
-            return;
+            throw RegistroServico.httpError(404, 'Registro não encontrado');
         }
 
         const instrutor = await Instrutor.findOne({ where: { FKinstrutor: registro.FKinstrutor } });
         if (!instrutor) {
-            console.log('Instrutor não encontrado.');
-            return;
+            throw RegistroServico.httpError(404, 'Instrutor não encontrado');
         }
 
         const hrTrabAtt = RegistroServico.somarHoras(instrutor.horasTrabalhadasPeriodo, registro.total);
@@ -294,14 +292,17 @@ class RegistroServico {
         }
         /*
         a expressão regular permite qualquer combinação de letras, números, espaços, vírgulas, pontos,
-        exclamação, interrogação, hífens
-        e caracteres acentuados, incluindo palavras, frases e números decimais simples, 
+        exclamação, interrogação, hífens e caracteres acentuados, incluindo palavras, frases e números decimais simples, 
         mas evita números independentes com quatro ou mais dígitos consecutivos.
         */
-       const regex = /^(?!.*\b\d{4,}\b)(?!.*\b[A-Za-z]{20,}\b)[a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\']+(?: [a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\']+)*$/;
-    
-        // verifica o tamanho da descrição
-        return (regex.test(descricao) && descricao.length > 5);
+        const regex = /^(?!.*\b\d{4,}\b)(?!.*\b[A-Za-z]{20,}\b)[a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\/()']+(?: [a-zA-Z0-9\s.,À-ÖØ-öø-ÿ\-!?\/()']+)*$/;
+        let result = regex.test(descricao)
+
+        if (descricao.length < 5){
+            throw RegistroServico.httpError(400, "Poucos caracteres. O minimo requerido é 5.")
+        } else if(!result){
+            throw RegistroServico.httpError(400, "Caracteres inválidos na descrição. exemplo: #,%,&,*")
+        }
     } 
 
     static conferirDataValida(data) {
@@ -430,11 +431,8 @@ class CoordAreaController {
             }
     
             // Validar justificativa
-            if (!RegistroServico.validarDescricao(justificativa)) {
-                return res.status(400).json({ error: "Justificativa inválida." });
-            }
+            RegistroServico.validarDescricao(justificativa)
             
-            console.log(total, totalSegundos, totalOriginalSegundos)
             // Determinar o novo status do registro
             let status;
             if (totalSegundos == 0) {
@@ -479,9 +477,7 @@ class CoordAreaController {
             }
 
             //conferindo se a data corresponde ao período em vigor ou está no futuro
-            if (!RegistroServico.conferirDataValida(dataServico)) {
-                return res.status(400).json({ error: "Não é permitido cadastrar registros para datas futuras." });
-            }
+            RegistroServico.conferirDataValida(dataServico)
 
             //conferindo se a hora é válida
             if (RegistroServico.conferirHora(horaInicio, horaFinal)){
